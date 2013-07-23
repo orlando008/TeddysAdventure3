@@ -1,0 +1,6 @@
+D:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventureLibrary\bin\x86\Debug\TeddysAdventureLibrary.dll
+D:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventureLibrary\bin\x86\Debug\TeddysAdventureLibrary.pdb
+D:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventureLibrary\obj\x86\Debug\ResolveAssemblyReference.cache
+D:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventureLibrary\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+D:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventureLibrary\obj\x86\Debug\TeddysAdventureLibrary.dll
+D:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventureLibrary\obj\x86\Debug\TeddysAdventureLibrary.pdb
