@@ -16,7 +16,9 @@ namespace TeddysAdventureLibrary
 
         private string filename;
         private Texture2D sprite;
+        private Texture2D _deathSprite;
         private Vector2 _position;
+        private List<Rectangle> _surfaces;
 
         public static SpriteBatch spriteBatch;
 
@@ -27,6 +29,18 @@ namespace TeddysAdventureLibrary
         {
             get { return sprite; }
             set { sprite = value; }
+        }
+
+        public Texture2D DeathSprite
+        {
+            get { return _deathSprite; }
+            set { _deathSprite = value; }
+        }
+
+        public List<Rectangle> Surfaces
+        {
+            get { return _surfaces; }
+            set { _surfaces = value; }
         }
 
         public Vector2 Position
@@ -41,7 +55,7 @@ namespace TeddysAdventureLibrary
         {
             Position = position;
             Sprite = mystylesheet;
-
+            Surfaces = new List<Rectangle>();
             spriteBatch = new SpriteBatch(Game.GraphicsDevice);
         }
 

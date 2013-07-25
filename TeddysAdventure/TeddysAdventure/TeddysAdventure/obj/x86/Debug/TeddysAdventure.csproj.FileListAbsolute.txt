@@ -8,3 +8,14 @@ D:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x
 D:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\TeddysAdventureLibrary.pdb
 D:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Screens\basementLevelStyleSheet.xnb
 D:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Teddy\TeddyRun.xnb
+C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Screens\basementLevelStyleSheet.xnb
+C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Teddy\TeddyRun.xnb
+C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\TeddysAdventure.exe
+C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\TeddysAdventure.pdb
+C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\TeddysAdventureLibrary.dll
+C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\TeddysAdventureLibrary.pdb
+C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\obj\x86\Debug\TeddysAdventure.exe
+C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\obj\x86\Debug\TeddysAdventure.pdb
+C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Screens\deathScreen.xnb

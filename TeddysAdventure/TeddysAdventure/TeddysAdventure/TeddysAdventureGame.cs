@@ -55,6 +55,13 @@ namespace TeddysAdventure
 
             // TODO: use this.Content to load your game content here
             screen = new Screen(this, new Vector2(0, 0), Content.Load<Texture2D>(System.IO.Path.Combine(@"Screens", "basementLevelStyleSheet")));
+            screen.DeathSprite = Content.Load<Texture2D>(System.IO.Path.Combine(@"Screens", "deathScreen"));
+            screen.Surfaces.Add(new Rectangle(0, 650, 150, 200));
+            screen.Surfaces.Add(new Rectangle(150, 675, 71, 71));
+            screen.Surfaces.Add(new Rectangle(221, 700, 60, 46));
+            screen.Surfaces.Add(new Rectangle(280, 725, 60, 46));
+            screen.Surfaces.Add(new Rectangle(419, 650, 150, 150));
+            screen.Surfaces.Add(new Rectangle(361, 531, 200, 25));
             this.Components.Add(screen);
 
             teddy = new Teddy(this, Content.Load<Texture2D>(System.IO.Path.Combine(@"Teddy", "TeddyRun")), new Vector2(20, 575), new Vector2(50, 75));
@@ -108,8 +115,18 @@ namespace TeddysAdventure
         {
             spriteBatch.Begin();
 
-            Rectangle r = new Rectangle((int)((Screen)Components[0]).Position.X, (int)((Screen)Components[0]).Position.Y, 4096, 746);
+            Rectangle r = new Rectangle((int)((Screen)Components[0]).Position.X, (int)((Screen)Components[0]).Position.Y, ((Screen)Components[0]).Sprite.Width, ((Screen)Components[0]).Sprite.Height);
+
             spriteBatch.Draw(((Screen)Components[0]).Sprite, r, Color.White);
+
+
+            if (((Teddy)Components[1]).Dead)
+            {
+                r = new Rectangle((int)((Screen)Components[0]).Position.X, (int)((Screen)Components[0]).Position.Y, ((Screen)Components[0]).DeathSprite.Width, ((Screen)Components[0]).DeathSprite.Height);
+                spriteBatch.Draw(((Screen)Components[0]).DeathSprite, r, Color.White);
+            }
+            
+            
             spriteBatch.End();
         }
     }

@@ -36,6 +36,13 @@ namespace TeddysAdventureLibrary
         private int _initialBlinkWaitCounter = 500;
         private int _initialBlinkWait = 500;
         private int _blinkPoseLength = 10;
+        private bool _dead = false;
+        private bool _isJumping = false;
+        private int _jumpSpeed = 5;
+        private int _jumpCounter = 0;
+        private bool _jumpIsFalling = false;
+        private int _totalJumpHeight = 125;
+        private int _gravitySpeed = 3;
 
         public void Initialize()
         {
@@ -55,7 +62,11 @@ namespace TeddysAdventureLibrary
         }
 
         #region " Properties "
-
+        public bool Dead
+        {
+            get { return _dead; }
+            set { _dead = value; }
+        }
 
         public int X
         {
@@ -120,6 +131,11 @@ namespace TeddysAdventureLibrary
 
         public override void Update(GameTime gameTime)
         {
+            if (Dead)
+            {
+                return;
+            }
+
             KeyboardState keyState = Keyboard.GetState();
             int speed = walkSpeed;
 
@@ -202,6 +218,29 @@ namespace TeddysAdventureLibrary
                 }
             }
 
+            if (_isJumping == false & _jumpIsFalling == false & keyState.IsKeyDown(Keys.Space))
+            {
+                _isJumping = true;
+            }
+
+            if (_isJumping == true)
+            {
+                if (_jumpIsFalling == false)
+                {
+                    Position = new Vector2(Position.X, Position.Y - _jumpSpeed);
+                }
+             
+                _jumpCounter++;
+
+                if ( _jumpCounter > _totalJumpHeight / _jumpSpeed)
+                {
+                    _jumpCounter = 0;
+                    _isJumping = false;
+                    _jumpIsFalling = true;
+                }
+
+            }
+
             if (keyState.IsKeyUp(Keys.Right) && keyState.IsKeyUp(Keys.Left))
             {
 
@@ -263,6 +302,37 @@ namespace TeddysAdventureLibrary
                     _initialBlinkWaitCounter = _initialBlinkWait;
                 }
 
+            }
+
+            if (_isJumping == false)
+            {
+                applyGravity();
+            }
+            
+            checkForDeath();
+        }
+
+        private void applyGravity()
+        {
+            Position = new Vector2(Position.X, Position.Y + _gravitySpeed);
+
+            Rectangle teddyRect = new Rectangle((int)Position.X, (int)Position.Y, BoxToDraw.Width, BoxToDraw.Height);
+
+            foreach (Rectangle surfaceRect in ((Screen)Game.Components[0]).Surfaces)
+            {
+                if (teddyRect.Intersects(surfaceRect) & (teddyRect.Bottom > surfaceRect.Top))
+                {
+                    Position = new Vector2(Position.X, surfaceRect.Top - BoxToDraw.Height);
+                    _jumpIsFalling = false;
+                }
+            }
+        }
+
+        private void checkForDeath()
+        {
+            if (Position.Y > Game.GraphicsDevice.Viewport.Height)
+            {
+                Dead = true;
             }
         }
 

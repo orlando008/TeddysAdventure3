@@ -1,2 +1,3 @@
 Content\Screens\basementLevelStyleSheet.xnb
 Content\Teddy\TeddyRun.xnb
+Content\Screens\deathScreen.xnb
