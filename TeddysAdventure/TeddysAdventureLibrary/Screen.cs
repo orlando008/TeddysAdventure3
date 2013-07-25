@@ -11,72 +11,43 @@ using Microsoft.Xna.Framework.Media;
 
 namespace TeddysAdventureLibrary
 {
-    public class Screen : IGameComponent
+    public class Screen : DrawableGameComponent
     {
 
         private string filename;
         private Texture2D sprite;
+        private Vector2 _position;
 
-        [ContentSerializerIgnore]
         public static SpriteBatch spriteBatch;
-        
-        /// <summary>
-        /// The filename of the stylesheet used for this screen
-        /// </summary>
-        public string StyleSheet
-        {
-            get { return filename; }
-            set { filename = value; }
-        }
 
         /// <summary>
         /// Sprite
         /// </summary>
-        [ContentSerializerIgnore]
         public Texture2D Sprite
         {
             get { return sprite; }
             set { sprite = value; }
         }
 
-        public Screen()
+        public Vector2 Position
         {
-
+            get { return _position; }
+            set { _position = value; }
         }
 
-        public static void LoadScreen(string screenName, Game g)
+
+        public Screen(Game game, Vector2 position, Texture2D mystylesheet)
+            : base(game)
         {
-            Screen nuScreen = g.Content.Load<Screen>(screenName);
-            g.Components.Add(nuScreen);
+            Position = position;
+            Sprite = mystylesheet;
+
+            spriteBatch = new SpriteBatch(Game.GraphicsDevice);
         }
 
-        #region IGameComponent Members
-
-        void IGameComponent.Initialize()
+        public void MoveX(int speed)
         {
-
-        }
-
-        #endregion
-
-        /// <summary>
-        /// Read a Map object from the content pipeline.
-        /// </summary>
-        public class ScreenReader : ContentTypeReader<Screen>
-        {
-            protected override Screen Read(ContentReader input, Screen existingInstance)
-            {
-                Screen scrn = existingInstance;
-                if (scrn == null)
-                {
-                    scrn = new Screen();
-                }
-
-                scrn.StyleSheet = input.ReadString();
-                scrn.Sprite = input.ContentManager.Load<Texture2D>(System.IO.Path.Combine(@"Screens", scrn.StyleSheet));
-                
-                return scrn;
-            }
+            Position = new Vector2(Position.X + speed, Position.Y);
         }
     }
 }

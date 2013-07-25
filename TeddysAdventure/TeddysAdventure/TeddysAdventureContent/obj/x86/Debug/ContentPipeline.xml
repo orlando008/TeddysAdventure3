@@ -2,31 +2,22 @@
 <XnaContent xmlns:Pipeline="Microsoft.Xna.Framework.Content.Pipeline">
   <Asset Type="Pipeline:BuildItemCollection">
     <Item>
-      <Source>Screens\basementLevel.xml</Source>
-      <Name>Screens\basementLevel</Name>
-      <Importer>XmlImporter</Importer>
-      <Processor>PassThroughProcessor</Processor>
-      <Options>None</Options>
-      <Output>D:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Screens\basementLevel.xnb</Output>
-      <Time>2013-07-22T20:45:23.2821692-04:00</Time>
-    </Item>
-    <Item>
       <Source>Screens\basementLevelStyleSheet.png</Source>
       <Name>Screens\basementLevelStyleSheet</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>D:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Screens\basementLevelStyleSheet.xnb</Output>
-      <Time>2013-07-22T20:39:59.4588106-04:00</Time>
+      <Time>2013-07-24T20:30:48.1097099-04:00</Time>
     </Item>
     <Item>
-      <Source>Teddy\bear.png</Source>
-      <Name>Teddy\bear</Name>
+      <Source>Teddy\TeddyRun.png</Source>
+      <Name>Teddy\TeddyRun</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>D:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Teddy\bear.xnb</Output>
-      <Time>2013-07-17T20:45:00.058-04:00</Time>
+      <Output>D:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Teddy\TeddyRun.xnb</Output>
+      <Time>2013-07-24T20:48:52.8355868-04:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
@@ -42,7 +33,7 @@
     <Assemblies>
       <Assembly>
         <Key>D:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventureLibrary\bin\x86\Debug\TeddysAdventureLibrary.dll</Key>
-        <Value>2013-07-22T20:55:03.99791-04:00</Value>
+        <Value>2013-07-24T21:01:03.8583989-04:00</Value>
       </Assembly>
       <Assembly>
         <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.XImporter.dll</Key>

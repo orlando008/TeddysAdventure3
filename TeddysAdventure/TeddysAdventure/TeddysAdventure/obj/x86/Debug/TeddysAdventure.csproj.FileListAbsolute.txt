@@ -4,8 +4,7 @@ D:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\obj\x
 D:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
 D:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\obj\x86\Debug\TeddysAdventure.exe
 D:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\obj\x86\Debug\TeddysAdventure.pdb
-D:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Screens\basementLevel.xnb
-D:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Teddy\bear.xnb
 D:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\TeddysAdventureLibrary.dll
 D:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\TeddysAdventureLibrary.pdb
 D:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Screens\basementLevelStyleSheet.xnb
+D:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Teddy\TeddyRun.xnb

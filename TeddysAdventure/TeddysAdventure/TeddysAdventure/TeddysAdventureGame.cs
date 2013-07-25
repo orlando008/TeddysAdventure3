@@ -19,6 +19,8 @@ namespace TeddysAdventure
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        private Teddy teddy;
+        private Screen screen;
 
         public TeddysAdventureGame()
         {
@@ -52,6 +54,14 @@ namespace TeddysAdventure
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            screen = new Screen(this, new Vector2(0, 0), Content.Load<Texture2D>(System.IO.Path.Combine(@"Screens", "basementLevelStyleSheet")));
+            this.Components.Add(screen);
+
+            teddy = new Teddy(this, Content.Load<Texture2D>(System.IO.Path.Combine(@"Teddy", "TeddyRun")), new Vector2(20, 575), new Vector2(50, 75));
+
+            this.Components.Add(teddy);
+
+
         }
 
         /// <summary>
@@ -72,16 +82,10 @@ namespace TeddysAdventure
         {
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-                this.Exit();
-
-            Screen nuScreen = Content.Load<Screen>(@"screens\basementLevel");
-            nuScreen.Sprite = Content.Load<Texture2D>(System.IO.Path.Combine(@"Screens", nuScreen.StyleSheet));
-            if (this.Components.Count == 0)
-            {
-                this.Components.Add(nuScreen);
-            }
-            
+                this.Exit();            
             // TODO: Add your update logic here
+
+            teddy.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -96,7 +100,7 @@ namespace TeddysAdventure
 
             // TODO: Add your drawing code here
             DrawScreen(gameTime);
-
+            teddy.Draw(gameTime);
             base.Draw(gameTime);
         }
 
@@ -104,7 +108,7 @@ namespace TeddysAdventure
         {
             spriteBatch.Begin();
 
-            Rectangle r = new Rectangle(0, 0, 4096, 746);
+            Rectangle r = new Rectangle((int)((Screen)Components[0]).Position.X, (int)((Screen)Components[0]).Position.Y, 4096, 746);
             spriteBatch.Draw(((Screen)Components[0]).Sprite, r, Color.White);
             spriteBatch.End();
         }

@@ -13,20 +13,5 @@ using TeddysAdventureLibrary;
 
 namespace TeddysAdventureProcessor
 {
-    /// <summary>
-    /// This class will be instantiated by the XNA Framework Content Pipeline
-    /// to write the specified data type into binary .xnb format.
-    ///
-    /// This should be part of a Content Pipeline Extension Library project.
-    /// </summary>
-    [ContentTypeWriter]
-    public class ScreenWriter : GameWriter<Screen>
-    {
-        protected override void Write(ContentWriter output, Screen value)
-        {
-            // validate the screen first
 
-            output.Write(value.StyleSheet);
-        }
-    }
 }
