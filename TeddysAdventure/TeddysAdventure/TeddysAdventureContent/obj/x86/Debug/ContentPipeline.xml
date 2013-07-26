@@ -8,7 +8,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Screens\basementLevelStyleSheet.xnb</Output>
-      <Time>2013-07-25T12:20:59.6936656-04:00</Time>
+      <Time>2013-07-26T12:04:51.6638696-04:00</Time>
     </Item>
     <Item>
       <Source>Teddy\TeddyRun.png</Source>
@@ -42,7 +42,7 @@
     <Assemblies>
       <Assembly>
         <Key>C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventureLibrary\bin\x86\Debug\TeddysAdventureLibrary.dll</Key>
-        <Value>2013-07-25T12:29:12.1250433-04:00</Value>
+        <Value>2013-07-26T12:33:14.8612806-04:00</Value>
       </Assembly>
       <Assembly>
         <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.XImporter.dll</Key>

@@ -62,6 +62,31 @@ namespace TeddysAdventureLibrary
         public void MoveX(int speed)
         {
             Position = new Vector2(Position.X + speed, Position.Y);
+
+            for (int i = Surfaces.Count - 1; i >= 0 ; i--)
+            {
+                Surfaces[i] = new Rectangle(Surfaces[i].X + speed, Surfaces[i].Y, Surfaces[i].Width, Surfaces[i].Height); 
+            }
+
+        }
+
+        public override void Draw(GameTime gameTime)
+        {
+            spriteBatch.Begin();
+
+            Rectangle r = new Rectangle((int)Position.X, (int)Position.Y, Sprite.Width, Sprite.Height);
+
+            spriteBatch.Draw(Sprite, r, Color.White);
+
+
+            if (((Teddy)Game.Components[1]).Dead)
+            {
+                r = new Rectangle(0, 0, DeathSprite.Width, DeathSprite.Height);
+                spriteBatch.Draw(DeathSprite, r, Color.White);
+            }
+
+
+            spriteBatch.End();
         }
     }
 }

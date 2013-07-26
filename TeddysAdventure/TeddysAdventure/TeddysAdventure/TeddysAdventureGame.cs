@@ -61,7 +61,16 @@ namespace TeddysAdventure
             screen.Surfaces.Add(new Rectangle(221, 700, 60, 46));
             screen.Surfaces.Add(new Rectangle(280, 725, 60, 46));
             screen.Surfaces.Add(new Rectangle(419, 650, 150, 150));
-            screen.Surfaces.Add(new Rectangle(361, 531, 200, 25));
+            screen.Surfaces.Add(new Rectangle(361, 531, 210, 35));
+            screen.Surfaces.Add(new Rectangle(657, 422, 210, 35)); 
+            screen.Surfaces.Add(new Rectangle(953, 313, 210, 35));
+            screen.Surfaces.Add(new Rectangle(1378, 534, 210, 35));
+            screen.Surfaces.Add(new Rectangle(1465, 499, 35, 35));
+            screen.Surfaces.Add(new Rectangle(1674, 425, 210, 35));
+            screen.Surfaces.Add(new Rectangle(1970, 316, 210, 35));
+            screen.Surfaces.Add(new Rectangle(2504, 512, 210, 35));
+            screen.Surfaces.Add(new Rectangle(2800, 403, 210, 35));
+            screen.Surfaces.Add(new Rectangle(3096, 294, 210, 35));
             this.Components.Add(screen);
 
             teddy = new Teddy(this, Content.Load<Texture2D>(System.IO.Path.Combine(@"Teddy", "TeddyRun")), new Vector2(20, 575), new Vector2(50, 75));
@@ -106,28 +115,10 @@ namespace TeddysAdventure
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-            DrawScreen(gameTime);
+            screen.Draw(gameTime);
             teddy.Draw(gameTime);
             base.Draw(gameTime);
         }
 
-        protected void DrawScreen(GameTime gameTime)
-        {
-            spriteBatch.Begin();
-
-            Rectangle r = new Rectangle((int)((Screen)Components[0]).Position.X, (int)((Screen)Components[0]).Position.Y, ((Screen)Components[0]).Sprite.Width, ((Screen)Components[0]).Sprite.Height);
-
-            spriteBatch.Draw(((Screen)Components[0]).Sprite, r, Color.White);
-
-
-            if (((Teddy)Components[1]).Dead)
-            {
-                r = new Rectangle((int)((Screen)Components[0]).Position.X, (int)((Screen)Components[0]).Position.Y, ((Screen)Components[0]).DeathSprite.Width, ((Screen)Components[0]).DeathSprite.Height);
-                spriteBatch.Draw(((Screen)Components[0]).DeathSprite, r, Color.White);
-            }
-            
-            
-            spriteBatch.End();
-        }
     }
 }
