@@ -21,13 +21,14 @@ namespace TeddysAdventure
         SpriteBatch spriteBatch;
         private Teddy teddy;
         private Screen screen;
+        private Fluff fluff;
 
         public TeddysAdventureGame()
         {
             graphics = new GraphicsDeviceManager(this);
             graphics.IsFullScreen = false;
-            graphics.PreferredBackBufferWidth = 1280;
-            graphics.PreferredBackBufferHeight = 746;
+            graphics.PreferredBackBufferWidth = 1250;
+            graphics.PreferredBackBufferHeight = 750;
             Content.RootDirectory = "Content";
         }
 
@@ -54,29 +55,18 @@ namespace TeddysAdventure
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            screen = new Screen(this, new Vector2(0, 0), Content.Load<Texture2D>(System.IO.Path.Combine(@"Screens", "basementLevelStyleSheet")));
+            screen = new Screen(this, "basement1");
             screen.DeathSprite = Content.Load<Texture2D>(System.IO.Path.Combine(@"Screens", "deathScreen"));
-            screen.Surfaces.Add(new Rectangle(0, 650, 150, 200));
-            screen.Surfaces.Add(new Rectangle(150, 675, 71, 71));
-            screen.Surfaces.Add(new Rectangle(221, 700, 60, 46));
-            screen.Surfaces.Add(new Rectangle(280, 725, 60, 46));
-            screen.Surfaces.Add(new Rectangle(419, 650, 150, 150));
-            screen.Surfaces.Add(new Rectangle(361, 531, 210, 35));
-            screen.Surfaces.Add(new Rectangle(657, 422, 210, 35)); 
-            screen.Surfaces.Add(new Rectangle(953, 313, 210, 35));
-            screen.Surfaces.Add(new Rectangle(1378, 534, 210, 35));
-            screen.Surfaces.Add(new Rectangle(1465, 499, 35, 35));
-            screen.Surfaces.Add(new Rectangle(1674, 425, 210, 35));
-            screen.Surfaces.Add(new Rectangle(1970, 316, 210, 35));
-            screen.Surfaces.Add(new Rectangle(2504, 512, 210, 35));
-            screen.Surfaces.Add(new Rectangle(2800, 403, 210, 35));
-            screen.Surfaces.Add(new Rectangle(3096, 294, 210, 35));
+
             this.Components.Add(screen);
 
             teddy = new Teddy(this, Content.Load<Texture2D>(System.IO.Path.Combine(@"Teddy", "TeddyRun")), new Vector2(20, 575), new Vector2(50, 75));
 
             this.Components.Add(teddy);
 
+            fluff = new Fluff(this, new Vector2(200, 200));
+
+            this.Components.Add(fluff);
 
         }
 
@@ -116,6 +106,7 @@ namespace TeddysAdventure
 
             // TODO: Add your drawing code here
             screen.Draw(gameTime);
+            fluff.Draw(gameTime);
             teddy.Draw(gameTime);
             base.Draw(gameTime);
         }

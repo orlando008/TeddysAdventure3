@@ -2,22 +2,13 @@
 <XnaContent xmlns:Pipeline="Microsoft.Xna.Framework.Content.Pipeline">
   <Asset Type="Pipeline:BuildItemCollection">
     <Item>
-      <Source>Screens\basementLevelStyleSheet.png</Source>
-      <Name>Screens\basementLevelStyleSheet</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Screens\basementLevelStyleSheet.xnb</Output>
-      <Time>2013-07-26T12:04:51.6638696-04:00</Time>
-    </Item>
-    <Item>
       <Source>Teddy\TeddyRun.png</Source>
       <Name>Teddy\TeddyRun</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Teddy\TeddyRun.xnb</Output>
-      <Time>2013-07-25T11:05:18.124561-04:00</Time>
+      <Output>D:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Teddy\TeddyRun.xnb</Output>
+      <Time>2013-07-27T14:29:00.8729199-04:00</Time>
     </Item>
     <Item>
       <Source>Screens\deathScreen.png</Source>
@@ -25,8 +16,53 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
-      <Output>C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Screens\deathScreen.xnb</Output>
-      <Time>2013-07-25T12:11:22.6730382-04:00</Time>
+      <Output>D:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Screens\deathScreen.xnb</Output>
+      <Time>2013-07-27T14:29:00.8729199-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Teddy\TeddyJetpack.png</Source>
+      <Name>Teddy\TeddyJetpack</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Teddy\TeddyJetpack.xnb</Output>
+      <Time>2013-07-27T14:29:00.8729199-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Screens\basementLevel1_0.png</Source>
+      <Name>Screens\basementLevel1_0</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Screens\basementLevel1_0.xnb</Output>
+      <Time>2013-07-27T15:24:19.2787218-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Screens\basementLevel1_1.png</Source>
+      <Name>Screens\basementLevel1_1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Screens\basementLevel1_1.xnb</Output>
+      <Time>2013-07-27T15:15:31.7245475-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Objects\Fluff.png</Source>
+      <Name>Objects\Fluff</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Objects\Fluff.xnb</Output>
+      <Time>2013-07-27T21:00:25.9861915-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Screens\basement1.xml</Source>
+      <Name>Screens\basement1</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+      <Options>None</Options>
+      <Output>D:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Screens\basement1.xnb</Output>
+      <Time>2013-07-27T15:37:18.7513051-04:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
@@ -34,15 +70,15 @@
       <TargetProfile>HiDef</TargetProfile>
       <BuildConfiguration>Debug</BuildConfiguration>
       <CompressContent>false</CompressContent>
-      <RootDirectory>C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventureContent\</RootDirectory>
-      <LoggerRootDirectory>C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\</LoggerRootDirectory>
-      <IntermediateDirectory>C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventureContent\obj\x86\Debug\</IntermediateDirectory>
-      <OutputDirectory>C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\</OutputDirectory>
+      <RootDirectory>D:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventureContent\</RootDirectory>
+      <LoggerRootDirectory>D:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\</LoggerRootDirectory>
+      <IntermediateDirectory>D:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventureContent\obj\x86\Debug\</IntermediateDirectory>
+      <OutputDirectory>D:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\</OutputDirectory>
     </Settings>
     <Assemblies>
       <Assembly>
-        <Key>C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventureLibrary\bin\x86\Debug\TeddysAdventureLibrary.dll</Key>
-        <Value>2013-07-26T12:33:14.8612806-04:00</Value>
+        <Key>D:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventureLibrary\bin\x86\Debug\TeddysAdventureLibrary.dll</Key>
+        <Value>2013-07-27T21:06:43.1927665-04:00</Value>
       </Assembly>
       <Assembly>
         <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.XImporter.dll</Key>
@@ -70,7 +106,7 @@
       </Assembly>
       <Assembly>
         <Key>C:\Windows\Microsoft.Net\assembly\GAC_32\Microsoft.Xna.Framework.Content.Pipeline\v4.0_4.0.0.0__842cf8be1de50553\Microsoft.Xna.Framework.Content.Pipeline.dll</Key>
-        <Value>2013-07-25T11:00:25.755561-04:00</Value>
+        <Value>2013-07-22T18:25:14.8550399-04:00</Value>
       </Assembly>
     </Assemblies>
   </Asset>

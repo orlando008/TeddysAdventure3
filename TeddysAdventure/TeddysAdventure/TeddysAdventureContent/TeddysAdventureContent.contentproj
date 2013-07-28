@@ -42,13 +42,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Screens\basementLevelStyleSheet.png">
-      <Name>basementLevelStyleSheet</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\TeddysAdventureLibrary\TeddysAdventureLibrary.csproj">
       <Project>{35188CCA-45B4-4627-8F79-85046C33FA3E}</Project>
       <Name>TeddysAdventureLibrary</Name>
@@ -64,6 +57,39 @@
   <ItemGroup>
     <Compile Include="Screens\deathScreen.png">
       <Name>deathScreen</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Teddy\TeddyJetpack.png">
+      <Name>TeddyJetpack</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Screens\basement1.xml">
+      <Name>basement1</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Screens\basementLevel1_0.png">
+      <Name>basementLevel1_0</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Screens\basementLevel1_1.png">
+      <Name>basementLevel1_1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Objects\Fluff.png">
+      <Name>Fluff</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

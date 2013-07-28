@@ -144,6 +144,8 @@ namespace TeddysAdventureLibrary
                 return;
             }
 
+            int pixelsOver = 0;
+
             KeyboardState keyState = Keyboard.GetState();
             int speed = walkSpeed;
 
@@ -183,12 +185,14 @@ namespace TeddysAdventureLibrary
                     }
                 }
 
-                if (((Screen)Game.Components[0]).Position.X > 0)
+                if (((Screen)Game.Components[0]).GlobalPosition.X > 0)
                 {
-                    ((Screen)Game.Components[0]).Position = new Vector2(0, 0);
+                    ((Screen)Game.Components[0]).GlobalPosition = new Vector2(0, 0);
                 }
 
-                if (((Screen)Game.Components[0]).Position.X >= 0 )
+                //if the global position of the screen is greater than or equal to zero we are the very beginning of the level, so move teddy, not the screen behind him.
+                //OR if we are at the very end of the level, move teddy and not the level behind him
+                if (((Screen)Game.Components[0]).GlobalPosition.X >= 0 || ((Position.X >= Game.GraphicsDevice.Viewport.Width / 2) && ((Screen)Game.Components[0]).TeddyAtLastScreen(ref pixelsOver)))
                 {
                     if (Position.X > 0)
                     {
@@ -218,6 +222,8 @@ namespace TeddysAdventureLibrary
                     }
                 }
             }
+
+
             if (keyState.IsKeyDown(Keys.Right))
             {
                 if (_facing == Direction.Right)
@@ -248,19 +254,43 @@ namespace TeddysAdventureLibrary
                         _facingCounter = 0;
                     }
                 }
-                
-                if (Position.X <= Game.GraphicsDevice.Viewport.Width / 2)
-                {
-                    Position = new Vector2(Position.X + speed, Position.Y);
 
-                    foreach (Rectangle surface in ((Screen)Game.Components[0]).Surfaces)
+
+                //If we are at a position less than half of the view, move teddy 
+                //OR if we are at the very last screen of the level, move teddy
+                //OTHERWISE we move the screen behind teddy
+                if ((Position.X <= Game.GraphicsDevice.Viewport.Width / 2) || ((Screen)Game.Components[0]).TeddyAtLastScreen(ref pixelsOver))
+                {
+                    if (pixelsOver != 0)
                     {
-                        if (surface.Intersects(TeddyRectangle))
+                        ((Screen)Game.Components[0]).MoveX(-pixelsOver);
+
+                        Position = new Vector2(Position.X + speed, Position.Y);
+
+                        if (Position.X + BoxToDraw.Width >= Game.GraphicsDevice.Viewport.Width)
                         {
-                            Position = new Vector2(surface.Left - TeddyRectangle.Width - 1, Position.Y);
-                            break;
+                            Position = new Vector2(Game.GraphicsDevice.Viewport.Width - BoxToDraw.Width, Position.Y);
                         }
                     }
+                    else
+                    {
+                        Position = new Vector2(Position.X + speed, Position.Y);
+
+                        foreach (Rectangle surface in ((Screen)Game.Components[0]).Surfaces)
+                        {
+                            if (surface.Intersects(TeddyRectangle))
+                            {
+                                Position = new Vector2(surface.Left - TeddyRectangle.Width - 1, Position.Y);
+                                break;
+                            }
+                        }
+
+                        if (Position.X + BoxToDraw.Width >= Game.GraphicsDevice.Viewport.Width)
+                        {
+                            Position = new Vector2(Game.GraphicsDevice.Viewport.Width - BoxToDraw.Width, Position.Y);
+                        }
+                    }
+
                 }
                 else
                 {
@@ -277,11 +307,13 @@ namespace TeddysAdventureLibrary
                 }
             }
 
+            //if teddy is not jumping, and he is not falling, and the user hits the space bar, jump
             if (_isJumping == false & _jumpIsFalling == false & keyState.IsKeyDown(Keys.Space))
             {
                 _isJumping = true;
             }
 
+            //perform jump update logic
             if (_isJumping == true)
             {
                 if (_jumpIsFalling == false)
@@ -312,6 +344,7 @@ namespace TeddysAdventureLibrary
 
             }
 
+            //if both right and left keys are up, teddy should be facing forward (he'll blink)
             if (keyState.IsKeyUp(Keys.Right) && keyState.IsKeyUp(Keys.Left))
             {
 
@@ -375,17 +408,20 @@ namespace TeddysAdventureLibrary
 
             }
 
+            //if we are not currently jumping, apply gravity logic
             if (_isJumping == false)
             {
                 applyGravity();
             }
             
+            //check to see if teddy is dead.
             checkForDeath();
         }
 
         private void applyGravity()
         {
             Position = new Vector2(Position.X, Position.Y + _gravitySpeed);
+            _jumpIsFalling = true;
 
             foreach (Rectangle surfaceRect in ((Screen)Game.Components[0]).Surfaces)
             {
@@ -411,20 +447,6 @@ namespace TeddysAdventureLibrary
             spriteBatch.Draw(StyleSheet, Position, BoxToDraw, Color.White);
             spriteBatch.End();
         }
-
-        private void processMovement(KeyboardState keyState)
-        {
-            if (keyState.IsKeyDown(Keys.Up))
-            {
-                
-            }
-        }
-
-        private void move(Direction directionToMove, Screen currentScreen)
-        {
-
-        }
-
 
     }
 }
