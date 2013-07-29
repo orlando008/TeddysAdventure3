@@ -19,6 +19,7 @@ namespace TeddysAdventureLibrary
         private string[] _assets;
         private int[] _positions;
         private List<Rectangle> _surfaces;
+        private List<Vector2> _fluffLocations;
 
         public string[] Assets
         {
@@ -36,6 +37,12 @@ namespace TeddysAdventureLibrary
         {
             get { return _surfaces; }
             set { _surfaces = value; }
+        }
+
+        public List<Vector2> FluffLocations
+        {
+            get { return _fluffLocations; }
+            set { _fluffLocations = value; }
         }
 
         public ScreenHelper()
@@ -66,6 +73,8 @@ namespace TeddysAdventureLibrary
             scrn.Assets = input.ReadObject<string[]>();
             scrn.Positions = input.ReadObject<int[]>();
             scrn.Surfaces = input.ReadObject<List<Rectangle>>();
+            scrn.FluffLocations = input.ReadObject<List<Vector2>>();
+            
             return scrn;
         }
     }

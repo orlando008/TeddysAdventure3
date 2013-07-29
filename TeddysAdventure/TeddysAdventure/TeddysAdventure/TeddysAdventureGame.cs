@@ -63,11 +63,6 @@ namespace TeddysAdventure
             teddy = new Teddy(this, Content.Load<Texture2D>(System.IO.Path.Combine(@"Teddy", "TeddyRun")), new Vector2(20, 575), new Vector2(50, 75));
 
             this.Components.Add(teddy);
-
-            fluff = new Fluff(this, new Vector2(200, 200));
-
-            this.Components.Add(fluff);
-
         }
 
         /// <summary>
@@ -91,7 +86,9 @@ namespace TeddysAdventure
                 this.Exit();            
             // TODO: Add your update logic here
 
+            screen.Update(gameTime);
             teddy.Update(gameTime);
+            
 
             base.Update(gameTime);
         }
@@ -105,8 +102,7 @@ namespace TeddysAdventure
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-            screen.Draw(gameTime);
-            fluff.Draw(gameTime);
+            screen.Draw(gameTime);       
             teddy.Draw(gameTime);
             base.Draw(gameTime);
         }

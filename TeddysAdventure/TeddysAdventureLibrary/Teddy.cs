@@ -408,6 +408,8 @@ namespace TeddysAdventureLibrary
 
             }
 
+            checkForFluffGrabs();
+
             //if we are not currently jumping, apply gravity logic
             if (_isJumping == false)
             {
@@ -429,6 +431,17 @@ namespace TeddysAdventureLibrary
                 {
                     Position = new Vector2(Position.X, surfaceRect.Top - BoxToDraw.Height);
                     _jumpIsFalling = false;
+                }
+            }
+        }
+
+        private void checkForFluffGrabs()
+        {
+            foreach (Fluff f in ((Screen)Game.Components[0]).Fluffs)
+            {
+                if (!f.Destroyed & TeddyRectangle.Intersects(f.CollisionRectangle) == true)
+                {
+                    f.Destroyed = true;
                 }
             }
         }

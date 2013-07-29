@@ -24,5 +24,16 @@
     2800 403 210 35
     3096 294 210 35
   </Surfaces>
+  <FluffLocations>
+    500 50
+    500 150
+    500 250
+    625 50
+    625 150
+    625 250
+    750 50
+    750 150
+    750 250
+  </FluffLocations>
 </Asset>
 </XnaContent>

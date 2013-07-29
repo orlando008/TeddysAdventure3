@@ -21,6 +21,7 @@ namespace TeddysAdventureLibrary
         private List<Texture2D> _sprites;
         private List<Vector2> _positions;
         private int _totalLevelWidth;
+        private List<Fluff> _fluffs;
 
         public static SpriteBatch spriteBatch;
 
@@ -54,6 +55,11 @@ namespace TeddysAdventureLibrary
             set { _globalPosition = value; }
         }
 
+        public List<Fluff> Fluffs
+        {
+            get { return _fluffs; }
+            set { _fluffs = value; }
+        }
 
         public Screen(Game game, string levelName)
             : base(game)
@@ -74,6 +80,12 @@ namespace TeddysAdventureLibrary
                 Positions.Add(new Vector2(i, 0));
             }
             GlobalPosition = new Vector2(Positions[0].X, Positions[0].Y);
+
+            Fluffs = new List<Fluff>();
+            foreach (Vector2 v2 in _screenHelper.FluffLocations)
+            {
+                Fluffs.Add(new Fluff(game, v2));
+            }
 
             Surfaces = _screenHelper.Surfaces;
             spriteBatch = new SpriteBatch(Game.GraphicsDevice);
@@ -121,8 +133,22 @@ namespace TeddysAdventureLibrary
                 Positions[i] = new Vector2(Positions[i].X + speed, Positions[i].Y);
             }
 
+            //move all the fluffs
+            for (int i = 0; i < Fluffs.Count; i++)
+            {
+                Fluffs[i].MoveFluffByX(speed);
+            }
+
             //Set the overall global position
             GlobalPosition = new Vector2(GlobalPosition.X + speed, GlobalPosition.Y);
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            foreach (Fluff f in Fluffs)
+            {
+                f.Update(gameTime);
+            }
         }
 
         public override void Draw(GameTime gameTime)
@@ -146,8 +172,12 @@ namespace TeddysAdventureLibrary
                 spriteBatch.Draw(DeathSprite, r, Color.White);
             }
 
-
             spriteBatch.End();
+
+            foreach (Fluff f in Fluffs)
+            {
+                f.Draw(gameTime);
+            }
         }
     }
 }
