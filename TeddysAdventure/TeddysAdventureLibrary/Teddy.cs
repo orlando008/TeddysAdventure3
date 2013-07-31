@@ -141,6 +141,10 @@ namespace TeddysAdventureLibrary
         {
             if (Dead)
             {
+                if (Position.Y < Game.GraphicsDevice.Viewport.Width)
+                {
+                    Position = new Vector2(Position.X, Position.Y + 3);
+                }
                 return;
             }
 
@@ -451,6 +455,16 @@ namespace TeddysAdventureLibrary
             if (Position.Y > Game.GraphicsDevice.Viewport.Height)
             {
                 Dead = true;
+            }
+
+            foreach (Enemy e in ((Screen)Game.Components[0]).Enemies)
+            {
+                if (TeddyRectangle.Intersects(e.CollisionRectangle))
+                {
+                    BoxToDraw = new Rectangle(150, 75, BoxToDraw.Width, BoxToDraw.Height);
+                    Dead = true;
+                    break;
+                }
             }
         }
 

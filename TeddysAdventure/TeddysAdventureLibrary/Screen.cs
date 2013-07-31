@@ -22,8 +22,8 @@ namespace TeddysAdventureLibrary
         private List<Vector2> _positions;
         private int _totalLevelWidth;
         private List<Fluff> _fluffs;
+        private List<Enemy> _enemies;
         private int _deathScreenCounter = 0;
-        private int _deathScreenFrameCount = 25;
 
         public static SpriteBatch spriteBatch;
 
@@ -57,6 +57,12 @@ namespace TeddysAdventureLibrary
             set { _fluffs = value; }
         }
 
+        public List<Enemy> Enemies
+        {
+            get { return _enemies; }
+            set { _enemies = value; }
+        }
+
         public Screen(Game game, string levelName)
             : base(game)
         {
@@ -84,6 +90,31 @@ namespace TeddysAdventureLibrary
             {
                 Fluffs.Add(new Fluff(game, v2));
             }
+
+            _enemies = new List<Enemy>();
+            _enemies.Add(new BowlingBall(game, new Vector2(500, 50)));
+            _enemies.Add(new BowlingBall(game, new Vector2(450, 50))); 
+            _enemies.Add(new BowlingBall(game, new Vector2(300, 50)));
+            _enemies.Add(new BowlingBall(game, new Vector2(222, -100)));
+            _enemies.Add(new BowlingBall(game, new Vector2(111, 50)));
+            _enemies.Add(new BowlingBall(game, new Vector2(44, 50)));
+            _enemies.Add(new BowlingBall(game, new Vector2(690, 0)));
+
+            _enemies.Add(new BowlingBall(game, new Vector2(800, 0)));
+            _enemies.Add(new BowlingBall(game, new Vector2(820, -40)));
+            _enemies.Add(new BowlingBall(game, new Vector2(840, 0)));
+            _enemies.Add(new BowlingBall(game, new Vector2(850, 0)));
+            _enemies.Add(new BowlingBall(game, new Vector2(860, 0)));
+            _enemies.Add(new BowlingBall(game, new Vector2(870, 0)));
+            _enemies.Add(new BowlingBall(game, new Vector2(880, 0)));
+
+            _enemies.Add(new BowlingBall(game, new Vector2(1000, -1200)));
+            _enemies.Add(new BowlingBall(game, new Vector2(1020, -900)));
+            _enemies.Add(new BowlingBall(game, new Vector2(1040, -300)));
+            _enemies.Add(new BowlingBall(game, new Vector2(-100, -100)));
+            _enemies.Add(new BowlingBall(game, new Vector2(1060, -300)));
+            _enemies.Add(new BowlingBall(game, new Vector2(1070, 0)));
+            _enemies.Add(new BowlingBall(game, new Vector2(1080, -299)));
 
             Surfaces = _screenHelper.Surfaces;
             spriteBatch = new SpriteBatch(Game.GraphicsDevice);
@@ -137,6 +168,12 @@ namespace TeddysAdventureLibrary
                 Fluffs[i].MoveFluffByX(speed);
             }
 
+            //move all the enemies
+            for (int i = 0; i < _enemies.Count; i++)
+            {
+                _enemies[i].MoveByX(speed);
+            }
+
             //Set the overall global position
             GlobalPosition = new Vector2(GlobalPosition.X + speed, GlobalPosition.Y);
         }
@@ -146,6 +183,11 @@ namespace TeddysAdventureLibrary
             foreach (Fluff f in Fluffs)
             {
                 f.Update(gameTime);
+            }
+
+            foreach (BowlingBall bb in _enemies)
+            {
+                bb.Update(gameTime);
             }
         }
 
@@ -169,6 +211,11 @@ namespace TeddysAdventureLibrary
             {
                 f.Draw(gameTime, spriteBatch);
 
+            }
+
+            foreach (BowlingBall bb in _enemies)
+            {
+                bb.Draw(gameTime, spriteBatch);
             }
 
             if (((Teddy)Game.Components[1]).Dead)
