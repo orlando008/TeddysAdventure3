@@ -22,14 +22,10 @@ namespace TeddysAdventureLibrary
         private List<Vector2> _positions;
         private int _totalLevelWidth;
         private List<Fluff> _fluffs;
+        private int _deathScreenCounter = 0;
+        private int _deathScreenFrameCount = 25;
 
         public static SpriteBatch spriteBatch;
-
-        public Texture2D DeathSprite
-        {
-            get { return _deathSprite; }
-            set { _deathSprite = value; }
-        }
 
         public List<Rectangle> Surfaces
         {
@@ -72,6 +68,8 @@ namespace TeddysAdventureLibrary
                 Sprites.Add( game.Content.Load<Texture2D>("Screens\\" + s));
                 _totalLevelWidth += Sprites[Sprites.Count - 1].Width;
             }
+
+            _deathSprite = game.Content.Load<Texture2D>("Screens\\deathScreen");
 
             Positions = new List<Vector2>();
 
@@ -151,8 +149,10 @@ namespace TeddysAdventureLibrary
             }
         }
 
-        public override void Draw(GameTime gameTime)
+        public void Draw(GameTime gameTime)
         {
+
+
             spriteBatch.Begin();
 
             Rectangle r;
@@ -164,20 +164,30 @@ namespace TeddysAdventureLibrary
                 r = new Rectangle((int)Positions[i].X, (int)Positions[i].Y, Sprites[i].Width, Sprites[i].Height);
                 spriteBatch.Draw(Sprites[i], r, Color.White);
             }
-            
+
+            foreach (Fluff f in Fluffs)
+            {
+                f.Draw(gameTime, spriteBatch);
+
+            }
 
             if (((Teddy)Game.Components[1]).Dead)
             {
-                r = new Rectangle(0, 0, DeathSprite.Width, DeathSprite.Height);
-                spriteBatch.Draw(DeathSprite, r, Color.White);
+                Color c = new Color(255, 255, 255, _deathScreenCounter);
+
+                r = new Rectangle(0, 0, _deathSprite.Width, _deathSprite.Height);
+                spriteBatch.Draw(_deathSprite, r, c);
+
+                if (_deathScreenCounter < 255)
+                {
+                    _deathScreenCounter++;
+                }
+
             }
 
             spriteBatch.End();
 
-            foreach (Fluff f in Fluffs)
-            {
-                f.Draw(gameTime);
-            }
+
         }
     }
 }

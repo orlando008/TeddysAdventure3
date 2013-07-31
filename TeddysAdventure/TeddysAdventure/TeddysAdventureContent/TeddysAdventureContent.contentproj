@@ -55,13 +55,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Screens\deathScreen.png">
-      <Name>deathScreen</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Teddy\TeddyJetpack.png">
       <Name>TeddyJetpack</Name>
       <Importer>TextureImporter</Importer>
@@ -90,6 +83,13 @@
   <ItemGroup>
     <Compile Include="Objects\Fluff.png">
       <Name>Fluff</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Screens\deathScreen.png">
+      <Name>deathScreen</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

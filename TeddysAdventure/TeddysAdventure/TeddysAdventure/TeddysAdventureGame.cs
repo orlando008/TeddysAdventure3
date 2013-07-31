@@ -21,7 +21,6 @@ namespace TeddysAdventure
         SpriteBatch spriteBatch;
         private Teddy teddy;
         private Screen screen;
-        private Fluff fluff;
 
         public TeddysAdventureGame()
         {
@@ -56,8 +55,7 @@ namespace TeddysAdventure
 
             // TODO: use this.Content to load your game content here
             screen = new Screen(this, "basement1");
-            screen.DeathSprite = Content.Load<Texture2D>(System.IO.Path.Combine(@"Screens", "deathScreen"));
-
+  
             this.Components.Add(screen);
 
             teddy = new Teddy(this, Content.Load<Texture2D>(System.IO.Path.Combine(@"Teddy", "TeddyRun")), new Vector2(20, 575), new Vector2(50, 75));
@@ -100,11 +98,13 @@ namespace TeddysAdventure
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
+            spriteBatch.Begin();
 
             // TODO: Add your drawing code here
             screen.Draw(gameTime);       
             teddy.Draw(gameTime);
             base.Draw(gameTime);
+            spriteBatch.End();
         }
 
     }

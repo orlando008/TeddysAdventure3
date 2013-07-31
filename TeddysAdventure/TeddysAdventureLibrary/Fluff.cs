@@ -9,7 +9,6 @@ namespace TeddysAdventureLibrary
 {
     public class Fluff : DrawableGameComponent
     {
-        public static SpriteBatch spriteBatch;
         private Texture2D _styleSheet;
         private Game _game;
         private Vector2 _position;
@@ -72,21 +71,19 @@ namespace TeddysAdventureLibrary
         public Fluff(Game game, Vector2 position)
             : base(game)
         {
-            spriteBatch = new SpriteBatch(Game.GraphicsDevice);
             StyleSheet = game.Content.Load<Texture2D>("Objects\\Fluff");
+          
             Position = position;
             _centerLine = (int)position.X;
             BoxToDraw = new Rectangle(0, 0, StyleSheet.Width, StyleSheet.Height);
             Destroyed = false;
         }
 
-        public override void Draw(GameTime gameTime)
+        public void Draw(GameTime gameTime, SpriteBatch sp)
         {
             if (!_destroyed)
             {
-                spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend);
-                spriteBatch.Draw(StyleSheet, Position, BoxToDraw, Color.White);
-                spriteBatch.End();
+                sp.Draw(StyleSheet, Position, BoxToDraw, Color.White);
             }
         }
 
