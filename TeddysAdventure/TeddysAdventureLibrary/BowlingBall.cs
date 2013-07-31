@@ -12,6 +12,7 @@ namespace TeddysAdventureLibrary
         private int _frameCount;
         private int _lengthOfPose = 12;
         private int _gravitySpeed = 3;
+        private int _xVelocity = 1;
 
         public BowlingBall(Game game, Vector2 position)
             : base(game)
@@ -63,13 +64,21 @@ namespace TeddysAdventureLibrary
                 return;
             }
 
-            MoveByX(1);
+            MoveByX(_xVelocity);
 
             foreach (Rectangle surface in ((Screen)Game.Components[0]).Surfaces)
             {
                 if (surface.Intersects(CollisionRectangle))
                 {
-                    Position = new Vector2(surface.Left - CollisionRectangle.Width - 1, Position.Y);
+                    //We must figure out which surface we are hitting to know if we should change direction and which way to shift 
+                    if( Math.Abs( surface.Left - CollisionRectangle.Left) > Math.Abs(surface.Left - CollisionRectangle.Right )) {
+                        Position = new Vector2(surface.Left - CollisionRectangle.Width - 1,   Position.Y);
+                        _xVelocity = -1;
+                    }else {
+                        Position = new Vector2(surface.Right + 1,   Position.Y);
+                        _xVelocity = 1;
+                    }
+
                     break;
                 }
             }
