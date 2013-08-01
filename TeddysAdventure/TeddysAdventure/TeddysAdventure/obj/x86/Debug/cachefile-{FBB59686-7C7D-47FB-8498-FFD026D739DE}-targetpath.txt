@@ -1,9 +1,0 @@
-Content\Teddy\TeddyRun.xnb
-Content\Teddy\TeddyJetpack.xnb
-Content\Screens\basementLevel1_0.xnb
-Content\Screens\basementLevel1_1.xnb
-Content\Objects\Fluff.xnb
-Content\Screens\deathScreen.xnb
-Content\Enemies\BowlingBall.xnb
-Content\Screens\startMenuTest.xnb
-Content\Screens\basement1.xnb
