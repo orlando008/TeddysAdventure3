@@ -97,7 +97,7 @@ namespace TeddysAdventureLibrary
             _enemies.Add(new BowlingBall(game, new Vector2(300, 50)));
             _enemies.Add(new BowlingBall(game, new Vector2(222, -100)));
             _enemies.Add(new BowlingBall(game, new Vector2(111, 50)));
-            _enemies.Add(new BowlingBall(game, new Vector2(44, 50)));
+           _enemies.Add(new BowlingBall(game, new Vector2(44, 50)));
             _enemies.Add(new BowlingBall(game, new Vector2(690, 0)));
 
             _enemies.Add(new BowlingBall(game, new Vector2(800, 0)));
@@ -111,7 +111,7 @@ namespace TeddysAdventureLibrary
             _enemies.Add(new BowlingBall(game, new Vector2(1000, -1200)));
             _enemies.Add(new BowlingBall(game, new Vector2(1020, -900)));
             _enemies.Add(new BowlingBall(game, new Vector2(1040, -300)));
-            _enemies.Add(new BowlingBall(game, new Vector2(-100, -100)));
+          //  _enemies.Add(new BowlingBall(game, new Vector2(-100, -100)));
             _enemies.Add(new BowlingBall(game, new Vector2(1060, -300)));
             _enemies.Add(new BowlingBall(game, new Vector2(1070, 0)));
             _enemies.Add(new BowlingBall(game, new Vector2(1080, -299)));

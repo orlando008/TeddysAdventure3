@@ -21,7 +21,7 @@ namespace TeddysAdventureLibrary
             Position = position;
             BoxToDraw = new Rectangle(0, 0, StyleSheet.Width, StyleSheet.Height);
             Destroyed = false;
-            this._collisionDampingFactor = .4f;
+            this._collisionDampingFactor = .3f;
         }
 
         public override void DrawEnemy(GameTime gameTime, SpriteBatch sp)
@@ -52,8 +52,9 @@ namespace TeddysAdventureLibrary
 
                 sp.Draw(StyleSheet, Position, BoxToDraw, Color.White);
 
-                _frameCount++;
-                
+                if ( this._velocity.X != 0 ) {
+                 _frameCount++;
+                }
             }
         }
 

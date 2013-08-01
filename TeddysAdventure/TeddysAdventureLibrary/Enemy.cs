@@ -16,9 +16,8 @@ namespace TeddysAdventureLibrary
         private bool _destroyed;
         private bool _canJumpOnToKill;
 
-        private float _gravity = .8f; //m/s2
-        //private int _xVelocity = 1;
-        private Vector2 _velocity = new Vector2(1, -3);
+        private float _gravity = .3f; //m/s2
+        protected Vector2 _velocity = new Vector2(1, -3);
         protected float _collisionDampingFactor = .6f;
 
         public Texture2D StyleSheet
@@ -129,6 +128,8 @@ namespace TeddysAdventureLibrary
                             _velocity.X *=  - _collisionDampingFactor;
                     }
 
+                    if (Math.Abs(_velocity.X) < 1)
+                        _velocity.X = 0f;
                     break;
                 }
             }
@@ -149,6 +150,10 @@ namespace TeddysAdventureLibrary
                 {
                     Position = new Vector2(Position.X, surfaceRect.Top - BoxToDraw.Height);
                     _velocity.Y *= -_collisionDampingFactor;
+
+                    if (Math.Abs(_velocity.Y) < 1)
+                        _velocity.Y = 0f;
+
                     break;
                 }
             }
