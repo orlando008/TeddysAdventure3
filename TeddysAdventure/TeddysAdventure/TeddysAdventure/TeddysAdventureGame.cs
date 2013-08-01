@@ -21,6 +21,10 @@ namespace TeddysAdventure
         SpriteBatch spriteBatch;
         private Teddy teddy;
         private Screen screen;
+        private StartMenu startMenu;
+
+        private Boolean _started = false;
+        private Boolean _levelLoaded = false;
 
         public TeddysAdventureGame()
         {
@@ -53,14 +57,45 @@ namespace TeddysAdventure
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            LoadStartMenu();
+
             // TODO: use this.Content to load your game content here
-            screen = new Screen(this, "basement1");
+            //screen = new Screen(this, "basement1");
   
+            //this.Components.Add(screen);
+
+            //teddy = new Teddy(this, Content.Load<Texture2D>(System.IO.Path.Combine(@"Teddy", "TeddyRun")), new Vector2(20, 575), new Vector2(50, 75));
+
+            //this.Components.Add(teddy);
+        }
+
+        private void LoadStartMenu()
+        {
+            // Calling just in case to clear everything
+            this.Components.Clear();
+
+            //spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            startMenu = new StartMenu(this, new Vector2(0, 0), Content.Load<Texture2D>(System.IO.Path.Combine(@"Screens", "startMenuTest")));//, Content.Load<Texture2D>(System.IO.Path.Combine(@"Screens", "startMenuIcon")), new Vector2(200, 1000));
+            this.Components.Add(screen);
+        }
+
+        // should probably changed to take a level name, possibly
+        private void LoadLevel()
+        {
+            this.Components.Clear();
+
+            _levelLoaded = false;
+
+            screen = new Screen(this, "basement1");
+
             this.Components.Add(screen);
 
             teddy = new Teddy(this, Content.Load<Texture2D>(System.IO.Path.Combine(@"Teddy", "TeddyRun")), new Vector2(20, 575), new Vector2(50, 75));
 
             this.Components.Add(teddy);
+
+            _levelLoaded = true;
         }
 
         /// <summary>
@@ -84,9 +119,21 @@ namespace TeddysAdventure
                 this.Exit();            
             // TODO: Add your update logic here
 
-            screen.Update(gameTime);
-            teddy.Update(gameTime);
-            
+            if (!_started)
+            {
+                startMenu.Update(gameTime);
+                _started = startMenu.Started;
+            }
+            else
+            {
+                if (_levelLoaded)
+                {
+                    screen.Update(gameTime);
+                    teddy.Update(gameTime);
+                }
+                else
+                    LoadLevel();
+            }            
 
             base.Update(gameTime);
         }
@@ -101,8 +148,17 @@ namespace TeddysAdventure
             spriteBatch.Begin();
 
             // TODO: Add your drawing code here
-            screen.Draw(gameTime);       
-            teddy.Draw(gameTime);
+            if (!_started)
+                startMenu.Draw(gameTime);
+            else
+            {
+                if (_levelLoaded)
+                {
+                    screen.Draw(gameTime);
+                    teddy.Draw(gameTime);
+                }
+            }
+
             base.Draw(gameTime);
             spriteBatch.End();
         }

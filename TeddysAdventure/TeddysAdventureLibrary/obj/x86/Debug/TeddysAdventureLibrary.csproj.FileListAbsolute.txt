@@ -10,3 +10,9 @@ C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventu
 C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventureLibrary\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
 C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventureLibrary\obj\x86\Debug\TeddysAdventureLibrary.dll
 C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventureLibrary\obj\x86\Debug\TeddysAdventureLibrary.pdb
+E:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventureLibrary\bin\x86\Debug\TeddysAdventureLibrary.dll
+E:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventureLibrary\bin\x86\Debug\TeddysAdventureLibrary.pdb
+E:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventureLibrary\obj\x86\Debug\ResolveAssemblyReference.cache
+E:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventureLibrary\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+E:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventureLibrary\obj\x86\Debug\TeddysAdventureLibrary.dll
+E:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventureLibrary\obj\x86\Debug\TeddysAdventureLibrary.pdb

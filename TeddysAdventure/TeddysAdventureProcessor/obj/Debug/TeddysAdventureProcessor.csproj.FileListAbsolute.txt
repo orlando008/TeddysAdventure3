@@ -12,3 +12,10 @@ C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventu
 C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventureProcessor\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventureProcessor\obj\Debug\TeddysAdventureProcessor.dll
 C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventureProcessor\obj\Debug\TeddysAdventureProcessor.pdb
+E:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventureProcessor\bin\Debug\TeddysAdventureProcessor.dll
+E:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventureProcessor\bin\Debug\TeddysAdventureProcessor.pdb
+E:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventureProcessor\bin\Debug\TeddysAdventureLibrary.dll
+E:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventureProcessor\bin\Debug\TeddysAdventureLibrary.pdb
+E:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventureProcessor\obj\Debug\ResolveAssemblyReference.cache
+E:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventureProcessor\obj\Debug\TeddysAdventureProcessor.dll
+E:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventureProcessor\obj\Debug\TeddysAdventureProcessor.pdb
