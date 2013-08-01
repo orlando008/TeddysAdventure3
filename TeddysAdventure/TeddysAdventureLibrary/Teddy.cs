@@ -459,16 +459,21 @@ namespace TeddysAdventureLibrary
 
             foreach (Enemy e in ((Screen)Game.Components[0]).Enemies)
             {
-                if ((TeddyRectangle.Intersects(e.CollisionRectangle)) & (TeddyRectangle.Bottom > e.CollisionRectangle.Top))
+                if (e.CanJumpOnToKill && e.Destroyed == false)
                 {
-                    e.Destroyed = true;
+                    if ((TeddyRectangle.Intersects(e.CollisionRectangle)) & (TeddyRectangle.Bottom - _gravitySpeed <= e.CollisionRectangle.Top))
+                    {
+                        e.Destroyed = true;
+                    }
                 }
-                else if (TeddyRectangle.Intersects(e.CollisionRectangle))
+
+                if (e.Destroyed == false & (TeddyRectangle.Intersects(e.CollisionRectangle)))
                 {
                     BoxToDraw = new Rectangle(150, 75, BoxToDraw.Width, BoxToDraw.Height);
                     Dead = true;
                     break;
                 }
+
             }
         }
 

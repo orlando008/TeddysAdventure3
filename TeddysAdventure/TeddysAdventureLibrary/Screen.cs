@@ -116,6 +116,8 @@ namespace TeddysAdventureLibrary
             _enemies.Add(new BowlingBall(game, new Vector2(1070, 0)));
             _enemies.Add(new BowlingBall(game, new Vector2(1080, -299)));
 
+            _enemies.Add(new MatchBoxCar(game, new Vector2(1000,200)));
+
             Surfaces = _screenHelper.Surfaces;
             spriteBatch = new SpriteBatch(Game.GraphicsDevice);
         }
@@ -185,7 +187,7 @@ namespace TeddysAdventureLibrary
                 f.Update(gameTime);
             }
 
-            foreach (BowlingBall bb in _enemies)
+            foreach (Enemy bb in _enemies)
             {
                 bb.Update(gameTime);
             }
@@ -213,9 +215,9 @@ namespace TeddysAdventureLibrary
 
             }
 
-            foreach (BowlingBall bb in _enemies)
+            foreach (Enemy bb in _enemies)
             {
-                bb.Draw(gameTime, spriteBatch);
+                bb.DrawEnemy(gameTime, spriteBatch);
             }
 
             if (((Teddy)Game.Components[1]).Dead)

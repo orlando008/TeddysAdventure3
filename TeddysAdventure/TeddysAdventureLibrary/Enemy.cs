@@ -14,6 +14,7 @@ namespace TeddysAdventureLibrary
         private Rectangle _boxToDraw;
         private Vector2 _frameSize;
         private bool _destroyed;
+        private bool _canJumpOnToKill;
 
         public Texture2D StyleSheet
         {
@@ -63,6 +64,15 @@ namespace TeddysAdventureLibrary
             }
         }
 
+        public bool CanJumpOnToKill
+        {
+            get { return _canJumpOnToKill; }
+            set
+            {
+                _canJumpOnToKill = value;
+            }
+        }
+
         public Enemy(Game game)
             : base(game)
         {
@@ -73,5 +83,11 @@ namespace TeddysAdventureLibrary
         {
             this.Position = new Vector2((int)Position.X + x, (int)Position.Y);
         }
+
+        public virtual void DrawEnemy(GameTime gameTime, SpriteBatch sp)
+        {
+            base.Draw(gameTime);
+        }
+
     }
 }

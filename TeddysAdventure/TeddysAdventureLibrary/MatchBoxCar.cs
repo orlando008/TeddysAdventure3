@@ -7,24 +7,24 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace TeddysAdventureLibrary
 {
-    public class BowlingBall:Enemy
+    public class MatchBoxCar : Enemy
     {
         private int _frameCount;
         private int _lengthOfPose = 12;
         private int _gravitySpeed = 3;
-        private int _xVelocity = 1;
+        private int _xVelocity = -1;
 
-        public BowlingBall(Game game, Vector2 position)
+        public MatchBoxCar(Game game, Vector2 position)
             : base(game)
         {
-            StyleSheet = game.Content.Load<Texture2D>("Enemies\\BowlingBall");
-          
+            StyleSheet = game.Content.Load<Texture2D>("Enemies\\MatchBoxCar");
+
             Position = position;
             BoxToDraw = new Rectangle(0, 0, StyleSheet.Width, StyleSheet.Height);
             Destroyed = false;
         }
 
-        public override void DrawEnemy(GameTime gameTime, SpriteBatch sp)
+        public void Draw(GameTime gameTime, SpriteBatch sp)
         {
             if (!Destroyed)
             {
@@ -53,7 +53,7 @@ namespace TeddysAdventureLibrary
                 sp.Draw(StyleSheet, Position, BoxToDraw, Color.White);
 
                 _frameCount++;
-                
+
             }
         }
 
@@ -71,11 +71,14 @@ namespace TeddysAdventureLibrary
                 if (surface.Intersects(CollisionRectangle))
                 {
                     //We must figure out which surface we are hitting to know if we should change direction and which way to shift 
-                    if( Math.Abs( surface.Left - CollisionRectangle.Left) > Math.Abs(surface.Left - CollisionRectangle.Right )) {
-                        Position = new Vector2(surface.Left - CollisionRectangle.Width - 1,   Position.Y);
+                    if (Math.Abs(surface.Left - CollisionRectangle.Left) > Math.Abs(surface.Left - CollisionRectangle.Right))
+                    {
+                        Position = new Vector2(surface.Left - CollisionRectangle.Width - 1, Position.Y);
                         _xVelocity = -1;
-                    }else {
-                        Position = new Vector2(surface.Right + 1,   Position.Y);
+                    }
+                    else
+                    {
+                        Position = new Vector2(surface.Right + 1, Position.Y);
                         _xVelocity = 1;
                     }
 
@@ -97,6 +100,39 @@ namespace TeddysAdventureLibrary
                 {
                     Position = new Vector2(Position.X, surfaceRect.Top - BoxToDraw.Height);
                 }
+            }
+        }
+
+        public override void DrawEnemy(GameTime gameTime, SpriteBatch sp)
+        {
+            if (!Destroyed)
+            {
+                if (_frameCount < _lengthOfPose * 1)
+                {
+                    BoxToDraw = new Rectangle(0, 0, 67, BoxToDraw.Height);
+                }
+                else if (_frameCount < _lengthOfPose * 2)
+                {
+                    BoxToDraw = new Rectangle(67, 0, 67, BoxToDraw.Height);
+                }
+                else
+                {
+                    BoxToDraw = new Rectangle(0, 0, 67, BoxToDraw.Height);
+                    _frameCount = 0;
+                }
+
+                if (_xVelocity > 0)
+                {
+                    sp.Draw(StyleSheet, CollisionRectangle, BoxToDraw, Color.White,0,new Vector2(0,0), SpriteEffects.FlipHorizontally, 0);
+                }
+                else
+                {
+                    sp.Draw(StyleSheet, Position, BoxToDraw, Color.White);
+                }
+                
+
+                _frameCount++;
+
             }
         }
 
