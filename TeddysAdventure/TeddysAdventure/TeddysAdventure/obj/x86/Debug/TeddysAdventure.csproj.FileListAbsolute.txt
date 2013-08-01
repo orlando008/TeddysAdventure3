@@ -29,6 +29,7 @@ C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventu
 C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Screens\basement1.xnb
 D:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Screens\deathScreen.xnb
 C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Enemies\BowlingBall.xnb
+<<<<<<< HEAD
 D:\Source\Projects\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Teddy\TeddyRun.xnb
 D:\Source\Projects\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Teddy\TeddyJetpack.xnb
 D:\Source\Projects\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Screens\basementLevel1_0.xnb
@@ -45,3 +46,22 @@ D:\Source\Projects\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdvent
 D:\Source\Projects\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
 D:\Source\Projects\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\obj\x86\Debug\TeddysAdventure.exe
 D:\Source\Projects\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\obj\x86\Debug\TeddysAdventure.pdb
+=======
+E:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Teddy\TeddyRun.xnb
+E:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Teddy\TeddyJetpack.xnb
+E:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Screens\basementLevel1_0.xnb
+E:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Screens\basementLevel1_1.xnb
+E:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Objects\Fluff.xnb
+E:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Screens\deathScreen.xnb
+E:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Enemies\BowlingBall.xnb
+E:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Screens\startMenuTest.xnb
+E:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Screens\basement1.xnb
+E:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\TeddysAdventure.exe
+E:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\TeddysAdventure.pdb
+E:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\TeddysAdventureLibrary.dll
+E:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\TeddysAdventureLibrary.pdb
+E:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\obj\x86\Debug\ResolveAssemblyReference.cache
+E:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+E:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\obj\x86\Debug\TeddysAdventure.exe
+E:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\obj\x86\Debug\TeddysAdventure.pdb
+>>>>>>> 3d773240b7af8a727fd7d1cb4818a5617319814f
