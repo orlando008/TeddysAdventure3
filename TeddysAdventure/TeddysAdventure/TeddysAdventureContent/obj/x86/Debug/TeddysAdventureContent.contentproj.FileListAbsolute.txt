@@ -1,2 +1,3 @@
 D:\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventureContent\obj\x86\Debug\ResolveAssemblyReference.cache
 C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventureContent\obj\x86\Debug\ResolveAssemblyReference.cache
+D:\Source\Projects\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventureContent\obj\x86\Debug\TeddysAdventureContent.contentprojResolveAssemblyReference.cache

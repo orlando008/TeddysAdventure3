@@ -93,7 +93,7 @@ namespace TeddysAdventureLibrary
 
             _enemies = new List<Enemy>();
             _enemies.Add(new BowlingBall(game, new Vector2(500, 50)));
-            _enemies.Add(new BowlingBall(game, new Vector2(450, 50))); 
+            _enemies.Add(new BowlingBall(game, new Vector2(450, 50)));
             _enemies.Add(new BowlingBall(game, new Vector2(300, 50)));
             _enemies.Add(new BowlingBall(game, new Vector2(222, -100)));
             _enemies.Add(new BowlingBall(game, new Vector2(111, 50)));
