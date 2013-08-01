@@ -16,6 +16,11 @@ namespace TeddysAdventureLibrary
         private bool _destroyed;
         private bool _canJumpOnToKill;
 
+        private float _gravity = .8f; //m/s2
+        //private int _xVelocity = 1;
+        private Vector2 _velocity = new Vector2(1, -3);
+        protected float _collisionDampingFactor = .6f;
+
         public Texture2D StyleSheet
         {
             get { return _styleSheet; }
@@ -84,9 +89,69 @@ namespace TeddysAdventureLibrary
             this.Position = new Vector2((int)Position.X + x, (int)Position.Y);
         }
 
+        public void MoveByY(int y)
+        {
+            this.Position = new Vector2((int)Position.X, (int)Position.Y + y);
+        }
+
         public virtual void DrawEnemy(GameTime gameTime, SpriteBatch sp)
         {
             base.Draw(gameTime);
+        }
+
+
+        public override void Update(GameTime gameTime)
+        {
+            if (Destroyed)
+            {
+                return;
+            }
+
+            MoveByX((int) _velocity.X);
+
+            
+            foreach (Rectangle surface in ((Screen)Game.Components[0]).Surfaces)
+            {
+
+                if (surface.Intersects(CollisionRectangle))
+                {
+                    //We must figure out which surface we are hitting to know if we should change direction and which way to shift 
+                    if (Math.Abs(surface.Left - CollisionRectangle.Left) > Math.Abs(surface.Left - CollisionRectangle.Right))
+                    {
+                        Position = new Vector2(surface.Left - CollisionRectangle.Width - 1, Position.Y);
+                        if (_velocity.X > 0 ) 
+                             _velocity.X *= - _collisionDampingFactor;
+                    }
+                    else
+                    {
+                        Position = new Vector2(surface.Right + 1, Position.Y);
+                        if (_velocity.X < 0)
+                            _velocity.X *=  - _collisionDampingFactor;
+                    }
+
+                    break;
+                }
+            }
+
+
+            applyGravity();
+        }
+
+        private void applyGravity()
+        {
+
+            MoveByY((int)_velocity.Y);
+            _velocity.Y += _gravity; //Down is positive
+
+            foreach (Rectangle surfaceRect in ((Screen)Game.Components[0]).Surfaces)
+            {
+                if (CollisionRectangle.Intersects(surfaceRect) & (CollisionRectangle.Bottom > surfaceRect.Top))
+                {
+                    Position = new Vector2(Position.X, surfaceRect.Top - BoxToDraw.Height);
+                    _velocity.Y *= -_collisionDampingFactor;
+                    break;
+                }
+            }
         }
 
     }
