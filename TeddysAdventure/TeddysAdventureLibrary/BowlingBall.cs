@@ -10,9 +10,9 @@ namespace TeddysAdventureLibrary
     public class BowlingBall:Enemy
     {
         private int _frameCount;
-        private int _lengthOfPose = 12;
-
-
+        private int _framesForCompleteRotation = 48;
+        private float _rotationAngle;
+       
         public BowlingBall(Game game, Vector2 position)
             : base(game)
         {
@@ -28,33 +28,19 @@ namespace TeddysAdventureLibrary
         {
             if (!Destroyed)
             {
-                if (_frameCount < _lengthOfPose * 1)
-                {
-                    BoxToDraw = new Rectangle(0, 0, 50, BoxToDraw.Height);
-                }
-                else if (_frameCount < _lengthOfPose * 2)
-                {
-                    BoxToDraw = new Rectangle(50, 0, 50, BoxToDraw.Height);
-                }
-                else if (_frameCount < _lengthOfPose * 2)
-                {
-                    BoxToDraw = new Rectangle(100, 0, 50, BoxToDraw.Height);
-                }
-                else if (_frameCount < _lengthOfPose * 2)
-                {
-                    BoxToDraw = new Rectangle(150, 0, 50, BoxToDraw.Height);
-                }
-                else
-                {
-                    BoxToDraw = new Rectangle(0, 0, 50, BoxToDraw.Height);
-                    _frameCount = 0;
-                }
 
-                sp.Draw(StyleSheet, Position, BoxToDraw, Color.White);
+                //todo: make this work based on current velocity, so they roll faster when they are moving faster.
+                _rotationAngle = ((float)_frameCount / _framesForCompleteRotation) * 2 * (float)Math.PI;
+                this.BoxToDraw = new Rectangle(0, 0, 50, BoxToDraw.Height);
+                var origin = new Vector2(this.BoxToDraw.Height/2, this.BoxToDraw.Width/2);
 
-                if ( this._velocity.X != 0 ) {
-                 _frameCount++;
-                }
+                sp.Draw(this.StyleSheet, this.DestinationBoxToDraw, this.BoxToDraw, Color.White, _rotationAngle, origin, SpriteEffects.None, _layerDepth);
+
+                if (this._velocity.X > 0)
+                    _frameCount++;
+                else if (this._velocity.X < 0)
+                    _frameCount--;
+
             }
         }
 

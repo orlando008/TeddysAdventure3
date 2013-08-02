@@ -20,6 +20,8 @@ namespace TeddysAdventureLibrary
         protected Vector2 _velocity = new Vector2(1, -3);
         protected float _collisionDampingFactor = .6f;
 
+        protected float _layerDepth = 0;   //0 = front of screen, 1 = back  
+
         public Texture2D StyleSheet
         {
             get { return _styleSheet; }
@@ -45,6 +47,14 @@ namespace TeddysAdventureLibrary
         {
             get { return _boxToDraw; }
             set { _boxToDraw = value; }
+        }
+
+        public Rectangle DestinationBoxToDraw
+        {
+            get
+            {
+                return new Rectangle( (int)_position.X, (int)_position.Y + _boxToDraw.Height/2, (int)_boxToDraw.Width, (int)_boxToDraw.Height);
+            }
         }
 
         public Rectangle CollisionRectangle
