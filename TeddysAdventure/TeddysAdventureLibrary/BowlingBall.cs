@@ -13,7 +13,7 @@ namespace TeddysAdventureLibrary
         private int _framesForCompleteRotation = 48;
         private float _rotationAngle;
        
-        public BowlingBall(Game game, Vector2 position)
+        public BowlingBall(Game game, Vector2 position, Vector2 velocity)
             : base(game)
         {
             StyleSheet = game.Content.Load<Texture2D>("Enemies\\BowlingBall");
@@ -21,7 +21,9 @@ namespace TeddysAdventureLibrary
             Position = position;
             BoxToDraw = new Rectangle(0, 0, StyleSheet.Width, StyleSheet.Height);
             Destroyed = false;
+            base.Velocity = velocity;
             this._collisionDampingFactor = .3f;
+            CanJumpOnToKill = true;
         }
 
         public override void DrawEnemy(GameTime gameTime, SpriteBatch sp)

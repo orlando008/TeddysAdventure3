@@ -48,6 +48,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Screens\basement1.xml">
+      <Name>basement1</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+    </Compile>
     <Compile Include="Teddy\TeddyRun.png">
       <Name>TeddyRun</Name>
       <Importer>TextureImporter</Importer>
@@ -59,13 +64,6 @@
       <Name>TeddyJetpack</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Screens\basement1.xml">
-      <Name>basement1</Name>
-      <Importer>XmlImporter</Importer>
-      <Processor>PassThroughProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -104,6 +102,13 @@
   <ItemGroup>
     <Compile Include="Screens\startMenuTest.png">
       <Name>startMenuTest</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Enemies\MatchBoxCar.png">
+      <Name>MatchBoxCar</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

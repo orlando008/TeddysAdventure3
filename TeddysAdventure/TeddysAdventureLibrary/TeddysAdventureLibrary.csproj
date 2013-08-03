@@ -94,6 +94,7 @@
   <ItemGroup>
     <Compile Include="BowlingBall.cs" />
     <Compile Include="Enemy.cs" />
+    <Compile Include="EnemyHelper.cs" />
     <Compile Include="Fluff.cs" />
     <Compile Include="MatchBoxCar.cs" />
     <Compile Include="Screen.cs" />

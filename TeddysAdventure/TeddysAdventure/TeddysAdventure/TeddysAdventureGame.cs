@@ -128,8 +128,18 @@ namespace TeddysAdventure
             {
                 if (_levelLoaded)
                 {
-                    screen.Update(gameTime);
-                    teddy.Update(gameTime);
+                    if (screen.GoBackToStartScreen)
+                    {
+                        _started = false;
+                        _levelLoaded = false;
+                        startMenu.Started = false;
+                    }
+                    else
+                    {
+                        screen.Update(gameTime);
+                        teddy.Update(gameTime);
+                    }
+
                 }
                 else
                     LoadLevel();

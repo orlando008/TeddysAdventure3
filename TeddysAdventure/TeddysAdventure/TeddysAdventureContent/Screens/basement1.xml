@@ -35,5 +35,65 @@
     750 150
     750 250
   </FluffLocations>
+  <ListOfEnemies>
+    <Item>
+      <Type>BowlingBall</Type>
+      <Position>100 50</Position>
+      <Velocity>1 0</Velocity>
+    </Item>
+    <Item>
+      <Type>BowlingBall</Type>
+      <Position>222 50</Position>
+      <Velocity>1 0</Velocity>
+    </Item>
+    <Item>
+      <Type>BowlingBall</Type>
+      <Position>333 50</Position>
+      <Velocity>1 0</Velocity>
+    </Item>
+    <Item>
+      <Type>BowlingBall</Type>
+      <Position>444 50</Position>
+      <Velocity>1 0</Velocity>
+    </Item>
+    <Item>
+      <Type>BowlingBall</Type>
+      <Position>555 50</Position>
+      <Velocity>1 0</Velocity>
+    </Item>
+    <Item>
+      <Type>BowlingBall</Type>
+      <Position>666 50</Position>
+      <Velocity>1 0</Velocity>
+    </Item>
+    <Item>
+      <Type>BowlingBall</Type>
+      <Position>777 50</Position>
+      <Velocity>0 0</Velocity>
+    </Item>
+    <Item>
+      <Type>MatchBoxCar</Type>
+      <Position>400 50</Position>
+      <Velocity>1 0</Velocity>
+    </Item>
+    <Item>
+      <Type>MatchBoxCar</Type>
+      <Position>800 50</Position>
+      <Velocity>1 0</Velocity>
+    </Item>
+    <Item>
+      <Type>MatchBoxCar</Type>
+      <Position>1000 50</Position>
+      <Velocity>1 0</Velocity>
+    </Item>
+    <Item>
+      <Type>MatchBoxCar</Type>
+      <Position>1300 50</Position>
+      <Velocity>1 0</Velocity>
+    </Item>
+  </ListOfEnemies>
+  <LevelType>
+    Normal
+  </LevelType>
 </Asset>
 </XnaContent>

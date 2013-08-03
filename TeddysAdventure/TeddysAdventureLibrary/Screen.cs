@@ -13,6 +13,13 @@ namespace TeddysAdventureLibrary
 {
     public class Screen : DrawableGameComponent
     {
+        public enum LevelType
+        {
+            Normal = 0,
+            Jetpack = 1,
+            UnderWater = 2,
+            Falling = 3
+        }
 
         private Texture2D _deathSprite;
         private Vector2 _globalPosition;
@@ -24,6 +31,9 @@ namespace TeddysAdventureLibrary
         private List<Fluff> _fluffs;
         private List<Enemy> _enemies;
         private int _deathScreenCounter = 0;
+        private bool _goBackToStartScreen = false;
+        private bool _userPressedEnterToGoBack = false;
+        private LevelType _levelType = LevelType.Normal;
 
         public static SpriteBatch spriteBatch;
 
@@ -63,6 +73,12 @@ namespace TeddysAdventureLibrary
             set { _enemies = value; }
         }
 
+        public bool GoBackToStartScreen
+        {
+            get { return _goBackToStartScreen; }
+            set { _goBackToStartScreen = value; }
+        }
+
         public Screen(Game game, string levelName)
             : base(game)
         {
@@ -92,31 +108,39 @@ namespace TeddysAdventureLibrary
             }
 
             _enemies = new List<Enemy>();
-            _enemies.Add(new BowlingBall(game, new Vector2(500, 50)));
-            _enemies.Add(new BowlingBall(game, new Vector2(450, 50)));
-            _enemies.Add(new BowlingBall(game, new Vector2(300, 50)));
-            _enemies.Add(new BowlingBall(game, new Vector2(222, -100)));
-            _enemies.Add(new BowlingBall(game, new Vector2(111, 50)));
-            _enemies.Add(new BowlingBall(game, new Vector2(44, 50)));
-            _enemies.Add(new BowlingBall(game, new Vector2(690, 0)));
 
-            _enemies.Add(new BowlingBall(game, new Vector2(800, 0)));
-            _enemies.Add(new BowlingBall(game, new Vector2(820, -40)));
-            _enemies.Add(new BowlingBall(game, new Vector2(840, 0)));
-            _enemies.Add(new BowlingBall(game, new Vector2(850, 0)));
-            _enemies.Add(new BowlingBall(game, new Vector2(860, 0)));
-            _enemies.Add(new BowlingBall(game, new Vector2(870, 0)));
-            _enemies.Add(new BowlingBall(game, new Vector2(880, 0)));
+            foreach (EnemyHelper eh in _screenHelper.ListOfEnemies)
+            {
+                switch (eh.Type)
+                {
+                    case "BowlingBall":
+                        _enemies.Add(new BowlingBall(game, eh.Position, eh.Velocity));
+                        break;
+                    case "MatchBoxCar":
+                        _enemies.Add(new MatchBoxCar(game, eh.Position, eh.Velocity));
+                        break;
+                }
+            }
 
-            _enemies.Add(new BowlingBall(game, new Vector2(1000, -1200)));
-            _enemies.Add(new BowlingBall(game, new Vector2(1020, -900)));
-            _enemies.Add(new BowlingBall(game, new Vector2(1040, -300)));
-            //  _enemies.Add(new BowlingBall(game, new Vector2(-100, -100)));
-            _enemies.Add(new BowlingBall(game, new Vector2(1060, -300)));
-            _enemies.Add(new BowlingBall(game, new Vector2(1070, 0)));
-            _enemies.Add(new BowlingBall(game, new Vector2(1080, -299)));
 
-            _enemies.Add(new MatchBoxCar(game, new Vector2(1000, 200)));
+            switch (_screenHelper.LevelType)
+            {
+                case "Normal":
+                    _levelType = LevelType.Normal;
+                    break;
+                case "Jetpack":
+                    _levelType = LevelType.Jetpack;
+                    break;
+                case "Falling":
+                    _levelType = LevelType.Falling;
+                    break;
+                case "UnderWater":
+                    _levelType = LevelType.UnderWater;
+                    break;
+                default:
+                    _levelType = LevelType.Normal;
+                    break;
+            }
 
             Surfaces = _screenHelper.Surfaces;
             spriteBatch = new SpriteBatch(Game.GraphicsDevice);
@@ -182,6 +206,25 @@ namespace TeddysAdventureLibrary
 
         public override void Update(GameTime gameTime)
         {
+            if (((Teddy)Game.Components[1]).Dead)
+            {
+                KeyboardState keyState = Keyboard.GetState();
+
+                if (keyState.IsKeyDown(Keys.Enter))
+                {
+                    _userPressedEnterToGoBack = true;
+                }
+
+                if (_userPressedEnterToGoBack)
+                {
+                    if (keyState.IsKeyUp(Keys.Enter))
+                    {
+                        _goBackToStartScreen = true;
+                    }
+                }
+            }
+
+
             foreach (Fluff f in Fluffs)
             {
                 f.Update(gameTime);
@@ -191,6 +234,7 @@ namespace TeddysAdventureLibrary
             {
                 bb.Update(gameTime);
             }
+
         }
 
         public void Draw(GameTime gameTime)
@@ -229,7 +273,7 @@ namespace TeddysAdventureLibrary
 
                 if (_deathScreenCounter < 255)
                 {
-                    _deathScreenCounter++;
+                    _deathScreenCounter+=3;
                 }
 
             }

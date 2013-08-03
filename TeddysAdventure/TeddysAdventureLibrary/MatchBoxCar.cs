@@ -7,14 +7,17 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace TeddysAdventureLibrary
 {
+    /// <summary>
+    /// This is a simple enemy that moves back and forth on a platform
+    /// </summary>
     public class MatchBoxCar : Enemy
     {
         private int _frameCount;
         private int _lengthOfPose = 12;
         private int _gravitySpeed = 3;
-        private int _xVelocity = -1;
+        private Rectangle _mySurface;
 
-        public MatchBoxCar(Game game, Vector2 position)
+        public MatchBoxCar(Game game, Vector2 position, Vector2 velocity)
             : base(game)
         {
             StyleSheet = game.Content.Load<Texture2D>("Enemies\\MatchBoxCar");
@@ -22,6 +25,8 @@ namespace TeddysAdventureLibrary
             Position = position;
             BoxToDraw = new Rectangle(0, 0, StyleSheet.Width, StyleSheet.Height);
             Destroyed = false;
+            base.Velocity = velocity;
+            CanJumpOnToKill = true;
         }
 
         public void Draw(GameTime gameTime, SpriteBatch sp)
@@ -64,8 +69,18 @@ namespace TeddysAdventureLibrary
                 return;
             }
 
-            MoveByX(_xVelocity);
+            MoveByX((int)Velocity.X);
 
+            //wait till this car lands on a surface, then you only need to check against that surface (for whether or not you hit the end of the surface)
+            if (_mySurface != null)
+            {
+                if (_mySurface.Left > CollisionRectangle.Left | _mySurface.Right < CollisionRectangle.Right)
+                {
+                    Velocity = new Vector2(-Velocity.X, Velocity.Y);
+                }
+            }
+
+            //check for bumping into other surfaces that are laying on top of the main surface
             foreach (Rectangle surface in ((Screen)Game.Components[0]).Surfaces)
             {
                 if (surface.Intersects(CollisionRectangle))
@@ -74,16 +89,17 @@ namespace TeddysAdventureLibrary
                     if (Math.Abs(surface.Left - CollisionRectangle.Left) > Math.Abs(surface.Left - CollisionRectangle.Right))
                     {
                         Position = new Vector2(surface.Left - CollisionRectangle.Width - 1, Position.Y);
-                        _xVelocity = -1;
+                        Velocity = new Vector2(-Velocity.X, Velocity.Y);
                     }
                     else
                     {
                         Position = new Vector2(surface.Right + 1, Position.Y);
-                        _xVelocity = 1;
+                        Velocity = new Vector2(-Velocity.X, Velocity.Y);
                     }
 
                     break;
                 }
+
             }
 
 
@@ -98,6 +114,8 @@ namespace TeddysAdventureLibrary
             {
                 if (CollisionRectangle.Intersects(surfaceRect) & (CollisionRectangle.Bottom > surfaceRect.Top))
                 {
+                    //once it hits a base surface for the first time, claim that surface as "_mySurface", stop applying gravity
+                    _mySurface = surfaceRect;
                     Position = new Vector2(Position.X, surfaceRect.Top - BoxToDraw.Height);
                 }
             }
@@ -121,7 +139,7 @@ namespace TeddysAdventureLibrary
                     _frameCount = 0;
                 }
 
-                if (_xVelocity > 0)
+                if (Velocity.X > 0)
                 {
                     sp.Draw(StyleSheet, CollisionRectangle, BoxToDraw, Color.White,0,new Vector2(0,0), SpriteEffects.FlipHorizontally, 0);
                 }
