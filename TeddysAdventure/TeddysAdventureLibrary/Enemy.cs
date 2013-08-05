@@ -59,7 +59,7 @@ namespace TeddysAdventureLibrary
         {
             get
             {
-                return new Rectangle( (int)_position.X, (int)_position.Y + _boxToDraw.Height/2, (int)_boxToDraw.Width, (int)_boxToDraw.Height);
+                return new Rectangle((int)_position.X + _boxToDraw.Width / 2, (int)_position.Y + _boxToDraw.Height / 2, (int)_boxToDraw.Width, (int)_boxToDraw.Height);
             }
         }
 

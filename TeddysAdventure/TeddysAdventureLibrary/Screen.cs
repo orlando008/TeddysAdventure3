@@ -34,6 +34,8 @@ namespace TeddysAdventureLibrary
         private bool _goBackToStartScreen = false;
         private bool _userPressedEnterToGoBack = false;
         private LevelType _levelType = LevelType.Normal;
+        private SpriteFont _deathFont;
+        private SpriteFont _hudFont;
 
         public static SpriteBatch spriteBatch;
 
@@ -83,7 +85,7 @@ namespace TeddysAdventureLibrary
             : base(game)
         {
             _screenHelper = game.Content.Load<ScreenHelper>("Screens\\" + levelName);
-
+            
             Sprites = new List<Texture2D>();
             foreach (string s in _screenHelper.Assets)
             {
@@ -92,6 +94,8 @@ namespace TeddysAdventureLibrary
             }
 
             _deathSprite = game.Content.Load<Texture2D>("Screens\\deathScreen");
+            _deathFont = game.Content.Load<SpriteFont>("Fonts\\DeathScreenFont");
+            _hudFont = game.Content.Load<SpriteFont>("Fonts\\HudFont");
 
             Positions = new List<Vector2>();
 
@@ -264,12 +268,18 @@ namespace TeddysAdventureLibrary
                 bb.DrawEnemy(gameTime, spriteBatch);
             }
 
+            spriteBatch.DrawString(_hudFont, "Fluff Count: " + ((Teddy)Game.Components[1]).CurrentFluff.ToString(), new Vector2(25, 700), Color.LightBlue);
+            spriteBatch.DrawString(_hudFont, "Enemies Destroyed: " + ((Teddy)Game.Components[1]).EnemiesDestroyed.ToString(), new Vector2(25, 725), Color.LightBlue);
+
+
             if (((Teddy)Game.Components[1]).Dead)
             {
                 Color c = new Color(255, 255, 255, _deathScreenCounter);
 
                 r = new Rectangle(0, 0, _deathSprite.Width, _deathSprite.Height);
                 spriteBatch.Draw(_deathSprite, r, c);
+
+                spriteBatch.DrawString(_deathFont, "Press Enter To Continue", new Vector2(625, 500), Color.White);
 
                 if (_deathScreenCounter < 255)
                 {

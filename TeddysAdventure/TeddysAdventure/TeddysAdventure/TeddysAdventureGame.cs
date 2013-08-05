@@ -77,13 +77,14 @@ namespace TeddysAdventure
             //spriteBatch = new SpriteBatch(GraphicsDevice);
 
             startMenu = new StartMenu(this, new Vector2(0, 0), Content.Load<Texture2D>(System.IO.Path.Combine(@"Screens", "startMenuTest")));//, Content.Load<Texture2D>(System.IO.Path.Combine(@"Screens", "startMenuIcon")), new Vector2(200, 1000));
-            this.Components.Add(screen);
+            this.Components.Add(startMenu);
         }
 
         // should probably changed to take a level name, possibly
         private void LoadLevel()
         {
             this.Components.Clear();
+            
 
             _levelLoaded = false;
 
@@ -133,6 +134,8 @@ namespace TeddysAdventure
                         _started = false;
                         _levelLoaded = false;
                         startMenu.Started = false;
+                        this.Content.Unload();
+                        this.LoadContent();
                     }
                     else
                     {

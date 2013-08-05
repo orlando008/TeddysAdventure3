@@ -41,8 +41,10 @@ namespace TeddysAdventureLibrary
         private int _jumpSpeed = 5;
         private int _jumpCounter = 0;
         private bool _jumpIsFalling = false;
-        private int _totalJumpHeight = 350;
-        private int _gravitySpeed = 3;
+        private int _totalJumpHeight = 175;
+        private int _gravitySpeed = 5;
+        private int _currentFluff = 0;
+        private int _enemiesDestroyed = 0;
 
         public void Initialize()
         {
@@ -67,6 +69,19 @@ namespace TeddysAdventureLibrary
             get { return _dead; }
             set { _dead = value; }
         }
+
+        public int CurrentFluff
+        {
+            get { return _currentFluff; }
+            set { _currentFluff = value; }
+        }
+
+        public int EnemiesDestroyed
+        {
+            get { return _enemiesDestroyed; }
+            set { _enemiesDestroyed = value; }
+        }
+
 
         public int X
         {
@@ -445,6 +460,7 @@ namespace TeddysAdventureLibrary
             {
                 if (!f.Destroyed & TeddyRectangle.Intersects(f.CollisionRectangle) == true)
                 {
+                    _currentFluff++;
                     f.Destroyed = true;
                 }
             }
@@ -463,6 +479,7 @@ namespace TeddysAdventureLibrary
                 {
                     if ((TeddyRectangle.Intersects(e.CollisionRectangle)) & (TeddyRectangle.Bottom - _gravitySpeed <= e.CollisionRectangle.Top))
                     {
+                        _enemiesDestroyed++;
                         e.Destroyed = true;
                     }
                 }
