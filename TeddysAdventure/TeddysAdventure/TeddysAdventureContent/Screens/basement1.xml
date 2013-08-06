@@ -91,6 +91,11 @@
       <Position>1300 50</Position>
       <Velocity>1 0</Velocity>
     </Item>
+    <Item>
+      <Type>FlyingBook</Type>
+      <Position>0 50</Position>
+      <Velocity>1 0</Velocity>
+    </Item>
   </ListOfEnemies>
   <LevelType>
     Normal

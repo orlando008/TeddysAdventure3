@@ -92,10 +92,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ABomb.cs" />
     <Compile Include="BowlingBall.cs" />
     <Compile Include="Enemy.cs" />
     <Compile Include="EnemyHelper.cs" />
     <Compile Include="Fluff.cs" />
+    <Compile Include="FlyingBook.cs" />
     <Compile Include="MatchBoxCar.cs" />
     <Compile Include="Screen.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

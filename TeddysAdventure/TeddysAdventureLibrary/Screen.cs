@@ -123,6 +123,9 @@ namespace TeddysAdventureLibrary
                     case "MatchBoxCar":
                         _enemies.Add(new MatchBoxCar(game, eh.Position, eh.Velocity));
                         break;
+                    case "FlyingBook":
+                        _enemies.Add(new FlyingBook(game, eh.Position, eh.Velocity));
+                        break;
                 }
             }
 
