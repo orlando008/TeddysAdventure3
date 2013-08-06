@@ -20,7 +20,6 @@ namespace TeddysAdventureLibrary
           
             Position = position;
             BoxToDraw = new Rectangle(0, 0, StyleSheet.Width, StyleSheet.Height);
-            Destroyed = false;
             base.Velocity = velocity;
             this._collisionDampingFactor = .3f;
             CanJumpOnToKill = true;
@@ -28,6 +27,8 @@ namespace TeddysAdventureLibrary
 
         public override void DrawEnemy(GameTime gameTime, SpriteBatch sp)
         {
+            base.DrawEnemy(gameTime, sp);
+
             if (!Destroyed)
             {
 
@@ -44,6 +45,8 @@ namespace TeddysAdventureLibrary
                     _frameCount--;
 
             }
+
+
         }
 
 

@@ -13,14 +13,25 @@ namespace TeddysAdventureLibrary
         private Vector2 _position;
         private Rectangle _boxToDraw;
         private Vector2 _frameSize;
-        private bool _destroyed;
-        private bool _canJumpOnToKill;
 
-        private float _gravity = .3f; //m/s2
-        protected Vector2 _velocity = new Vector2(1, -3);
-        protected float _collisionDampingFactor = .6f;
-
+        //Drawing Animations
+        protected int _frameCount = 0;
+        protected int _deathFrameCount = 0;
+        protected int _deathFrames = 12;
         protected float _layerDepth = 0;   //0 = front of screen, 1 = back  
+                
+        //Enemy State
+        private bool _dying = false;
+        private bool _destroyed = false;
+        protected Vector2 _velocity = new Vector2(1, -3);     
+        private Rectangle _mySurface; 
+
+        //Enemy Characteristics
+        private bool _canJumpOnToKill;
+        private float _gravity = .3f; //m/s2
+        protected float _collisionDampingFactor = .6f;
+        protected bool _fallsOffSurface = true;
+
 
         public Texture2D StyleSheet
         {
@@ -71,17 +82,19 @@ namespace TeddysAdventureLibrary
             }
         }
 
-        public bool Destroyed
+                public  bool Dying
+        {
+            get { return _dying; }
+        }
+
+        public  bool Destroyed
         {
             get { return _destroyed; }
-            set
-            {
-                _destroyed = value;
-                if (value == true)
-                {
-                    Position = new Vector2(-100, -100);
-                }
-            }
+        }
+
+        public  bool CanInteractWithPlayer
+        {
+            get { return !(_destroyed || _dying); }
         }
 
         public bool CanJumpOnToKill
@@ -99,6 +112,15 @@ namespace TeddysAdventureLibrary
 
         }
 
+
+        public void Kill()
+        {
+            _destroyed = false;
+            _dying = true;
+            _deathFrameCount = 0;
+        }
+
+
         public void MoveByX(int x)
         {
             this.Position = new Vector2((int)Position.X + x, (int)Position.Y);
@@ -111,20 +133,50 @@ namespace TeddysAdventureLibrary
 
         public virtual void DrawEnemy(GameTime gameTime, SpriteBatch sp)
         {
-            base.Draw(gameTime);
+            if (_dying) { 
+                _deathFrameCount += 1; 
+
+
+            }
         }
 
 
         public override void Update(GameTime gameTime)
         {
-            if (Destroyed)
+
+            if (_dying)
+            {
+                if (_deathFrameCount > _deathFrames)
+                {
+                    //Enemy is done dying.  Remove.
+                    _dying = false;
+                    _destroyed = true;
+                    _position = new Vector2(-100, -100);
+                }
+                return;
+
+            }else if (_destroyed)
             {
                 return;
             }
 
+
+
+
             MoveByX((int) _velocity.X);
 
-            
+            //wait till this car lands on a surface, then you only need to check against that surface (for whether or not you hit the end of the surface)
+            if (!_fallsOffSurface)
+            {
+                if (_mySurface != null)
+                {
+                    if (_mySurface.Left > CollisionRectangle.Left | _mySurface.Right < CollisionRectangle.Right)
+                    {
+                        _velocity = new Vector2(-Velocity.X, Velocity.Y);
+                    }
+                }
+            }
+
             foreach (Rectangle surface in ((Screen)Game.Components[0]).Surfaces)
             {
 
@@ -166,6 +218,9 @@ namespace TeddysAdventureLibrary
                 {
                     Position = new Vector2(Position.X, surfaceRect.Top - BoxToDraw.Height);
                     _velocity.Y *= -_collisionDampingFactor;
+
+                    //once it hits a base surface for the first time, claim that surface as "_mySurface", stop applying gravity
+                    if (!_fallsOffSurface) { _mySurface = surfaceRect; }
 
                     if (Math.Abs(_velocity.Y) < 1)
                         _velocity.Y = 0f;

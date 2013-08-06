@@ -263,7 +263,6 @@ namespace TeddysAdventureLibrary
             foreach (Fluff f in Fluffs)
             {
                 f.Draw(gameTime, spriteBatch);
-
             }
 
             foreach (Enemy bb in _enemies)
