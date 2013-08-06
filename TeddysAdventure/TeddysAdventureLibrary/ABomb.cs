@@ -19,7 +19,6 @@ namespace TeddysAdventureLibrary
 
             Position = position;
             BoxToDraw = new Rectangle(0, 0, StyleSheet.Width, StyleSheet.Height);
-            Destroyed = false;
             base.Velocity = velocity;
             CanJumpOnToKill = false;
         }

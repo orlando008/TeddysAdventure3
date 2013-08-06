@@ -82,7 +82,7 @@ namespace TeddysAdventureLibrary
             }
         }
 
-                public  bool Dying
+        public  bool Dying
         {
             get { return _dying; }
         }

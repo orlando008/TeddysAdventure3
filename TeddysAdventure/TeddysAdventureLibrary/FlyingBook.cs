@@ -22,7 +22,6 @@ namespace TeddysAdventureLibrary
             _hudFont = game.Content.Load<SpriteFont>("Fonts\\HudFont");
             Position = position;
             BoxToDraw = new Rectangle(0, 0, 103, StyleSheet.Height);
-            Destroyed = false;
             base.Velocity = velocity;
             CanJumpOnToKill = true;
 
