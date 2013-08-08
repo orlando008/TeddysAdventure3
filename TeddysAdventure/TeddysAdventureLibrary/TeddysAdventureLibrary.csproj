@@ -99,6 +99,7 @@
     <Compile Include="Fluff.cs" />
     <Compile Include="FlyingBook.cs" />
     <Compile Include="MatchBoxCar.cs" />
+    <Compile Include="Plane.cs" />
     <Compile Include="Screen.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScreenHelper.cs" />

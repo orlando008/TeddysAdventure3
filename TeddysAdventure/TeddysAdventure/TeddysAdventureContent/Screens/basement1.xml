@@ -37,6 +37,12 @@
   </FluffLocations>
   <ListOfEnemies>
     <Item>
+      <Type>Plane</Type>
+      <Position>500 600</Position>
+      <Velocity>-1 0</Velocity>
+    </Item>
+    
+    <Item>
       <Type>BowlingBall</Type>
       <Position>100 50</Position>
       <Velocity>1 0</Velocity>

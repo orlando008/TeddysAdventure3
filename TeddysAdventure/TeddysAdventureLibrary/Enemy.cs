@@ -27,10 +27,11 @@ namespace TeddysAdventureLibrary
         private Rectangle _mySurface; 
 
         //Enemy Characteristics
-        private bool _canJumpOnToKill;
-        private float _gravity = .3f; //m/s2
+        protected bool _canJumpOnToKill;
+        protected float _gravity = .3f; //m/s2
         protected float _collisionDampingFactor = .6f;
         protected bool _fallsOffSurface = true;
+        protected bool _playerCanRide = false;
 
 
         public Texture2D StyleSheet
@@ -95,6 +96,11 @@ namespace TeddysAdventureLibrary
         public  bool CanInteractWithPlayer
         {
             get { return !(_destroyed || _dying); }
+        }
+
+        public bool PlayerCanRide
+        {
+            get { return _playerCanRide; } 
         }
 
         public bool CanJumpOnToKill

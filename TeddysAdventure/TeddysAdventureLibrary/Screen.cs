@@ -126,6 +126,9 @@ namespace TeddysAdventureLibrary
                     case "FlyingBook":
                         _enemies.Add(new FlyingBook(game, eh.Position, eh.Velocity));
                         break;
+                    case "Plane":
+                        _enemies.Add(new PlaneEnemy(game, eh.Position, eh.Velocity));
+                        break;
                 }
             }
 
@@ -295,4 +298,12 @@ namespace TeddysAdventureLibrary
 
         }
     }
+
+    public interface ISurfaceInterface
+    {
+        Rectangle SurfaceBounds();
+         Vector2 SurfaceVelocity();
+               
+    }
+
 }
