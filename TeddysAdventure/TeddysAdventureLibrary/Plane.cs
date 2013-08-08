@@ -10,7 +10,7 @@ namespace TeddysAdventureLibrary
     public class PlaneEnemy : Enemy, ISurfaceInterface
     {
 
-        private int _lengthOfPose = 12;
+        private int _lengthOfPose = 5;
 
         public PlaneEnemy(Game game, Vector2 position, Vector2 velocity)
             : base(game) 
@@ -55,7 +55,7 @@ namespace TeddysAdventureLibrary
                 }
                 else if (_frameCount < _lengthOfPose * 2)
                 {
-                    BoxToDraw = new Rectangle(67, 0, 67, BoxToDraw.Height);
+                    BoxToDraw = new Rectangle(75, 0, 67, BoxToDraw.Height);
                 }
                 else
                 {
@@ -67,17 +67,15 @@ namespace TeddysAdventureLibrary
 
                 if (this._velocity.X > 0)
                 {
-                    _frameCount++;
                     sp.Draw(this.StyleSheet, this.DestinationBoxToDraw, this.BoxToDraw, Color.White, 0, origin, SpriteEffects.FlipHorizontally, _layerDepth);
                 }
                 else if (this._velocity.X < 0)
                 {
-                    _frameCount--;
                     sp.Draw(this.StyleSheet, this.DestinationBoxToDraw, this.BoxToDraw, Color.White, 0, origin, SpriteEffects.None, _layerDepth);
 
                 }
 
-
+                _frameCount++;
             }
 
 
