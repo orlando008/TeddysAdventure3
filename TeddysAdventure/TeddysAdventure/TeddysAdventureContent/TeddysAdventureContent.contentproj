@@ -141,8 +141,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Enemies\Plane.png">
-      <Name>Plane</Name>
+    <Compile Include="Enemies\Airplane.png">
+      <Name>Airplane</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

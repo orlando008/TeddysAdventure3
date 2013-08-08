@@ -10,10 +10,12 @@ namespace TeddysAdventureLibrary
     public class PlaneEnemy : Enemy, ISurfaceInterface
     {
 
+        private int _lengthOfPose = 12;
+
         public PlaneEnemy(Game game, Vector2 position, Vector2 velocity)
             : base(game) 
         {
-            StyleSheet = game.Content.Load<Texture2D>("Enemies\\Plane");
+            StyleSheet = game.Content.Load<Texture2D>("Enemies\\AirPlane");
 
             Position = position;
             BoxToDraw = new Rectangle(0, 0, StyleSheet.Width, StyleSheet.Height);
@@ -45,6 +47,21 @@ namespace TeddysAdventureLibrary
 
             if (!Destroyed)
             {
+
+
+                if (_frameCount < _lengthOfPose * 1)
+                {
+                    BoxToDraw = new Rectangle(0, 0, 67, BoxToDraw.Height);
+                }
+                else if (_frameCount < _lengthOfPose * 2)
+                {
+                    BoxToDraw = new Rectangle(67, 0, 67, BoxToDraw.Height);
+                }
+                else
+                {
+                    BoxToDraw = new Rectangle(0, 0, 67, BoxToDraw.Height);
+                    _frameCount = 0;
+                }
 
                 var origin = new Vector2(this.BoxToDraw.Height / 2, this.BoxToDraw.Width / 2);
 
