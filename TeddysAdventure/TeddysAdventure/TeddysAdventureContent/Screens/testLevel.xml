@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?><XnaContent>
+<Asset Type="TeddysAdventureLibrary.ScreenHelper">
+  <Assets>
+    <Item>testLevel_0</Item>
+    <Item>testLevel_1</Item>
+    <Item>testLevel_2</Item>
+  </Assets>
+  <Positions>
+    0 1250 2300
+  </Positions>
+  <Surfaces>
+    0 547 1003 500
+    1148 547 1003 500
+    2151 547 1003 500
+  </Surfaces>
+  <FluffLocations>
+    500 50
+    500 150
+    500 250
+    625 50
+    625 150
+    625 250
+    750 50
+    750 150
+    750 250
+  </FluffLocations>
+  <ListOfEnemies>
+  
+  </ListOfEnemies>
+  <LevelType>
+    Normal
+  </LevelType>
+</Asset>
+</XnaContent>

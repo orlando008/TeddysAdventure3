@@ -88,11 +88,11 @@ namespace TeddysAdventure
 
             _levelLoaded = false;
 
-            screen = new Screen(this, "basement1");
+            screen = new Screen(this, "testLevel");
 
             this.Components.Add(screen);
 
-            teddy = new Teddy(this, Content.Load<Texture2D>(System.IO.Path.Combine(@"Teddy", "TeddyRun")), new Vector2(20, 575), new Vector2(50, 75));
+            teddy = new Teddy(this, Content.Load<Texture2D>(System.IO.Path.Combine(@"Teddy", "TeddyRun")), new Vector2(20, 200), new Vector2(50, 75));
 
             this.Components.Add(teddy);
 

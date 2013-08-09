@@ -63,15 +63,15 @@ namespace TeddysAdventureLibrary
                     _frameCount = 0;
                 }
 
-                var origin = new Vector2(this.BoxToDraw.Height / 2, this.BoxToDraw.Width / 2);
+                var origin = new Vector2(0,0);
 
                 if (this._velocity.X > 0)
                 {
-                    sp.Draw(this.StyleSheet, this.DestinationBoxToDraw, this.BoxToDraw, Color.White, 0, origin, SpriteEffects.FlipHorizontally, _layerDepth);
+                    sp.Draw(this.StyleSheet, this.CollisionRectangle, this.BoxToDraw, Color.White, 0, origin, SpriteEffects.FlipHorizontally, _layerDepth);
                 }
                 else if (this._velocity.X < 0)
                 {
-                    sp.Draw(this.StyleSheet, this.DestinationBoxToDraw, this.BoxToDraw, Color.White, 0, origin, SpriteEffects.None, _layerDepth);
+                    sp.Draw(this.StyleSheet, this.CollisionRectangle, this.BoxToDraw, Color.White, 0, origin, SpriteEffects.None, _layerDepth);
 
                 }
 

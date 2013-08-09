@@ -32,6 +32,9 @@ namespace TeddysAdventureLibrary
         protected float _collisionDampingFactor = .6f;
         protected bool _fallsOffSurface = true;
         protected bool _playerCanRide = false;
+        protected bool _playerCanPassThrough = false;
+
+        private List<Enemy> _childrenEnemies;
 
 
         public Texture2D StyleSheet
@@ -95,7 +98,7 @@ namespace TeddysAdventureLibrary
 
         public  bool CanInteractWithPlayer
         {
-            get { return !(_destroyed || _dying); }
+            get { return !(_destroyed || _dying || _playerCanPassThrough); }
         }
 
         public bool PlayerCanRide
@@ -112,6 +115,18 @@ namespace TeddysAdventureLibrary
             }
         }
 
+        public List<Enemy> ChildrenEnemies
+        {
+            get 
+            { 
+                return _childrenEnemies; 
+            }
+            set
+            {
+                _childrenEnemies = value;
+            }
+        }
+
         public Enemy(Game game)
             : base(game)
         {
@@ -123,6 +138,13 @@ namespace TeddysAdventureLibrary
         {
             _destroyed = false;
             _dying = true;
+            _deathFrameCount = 0;
+        }
+
+        public void BringToLife()
+        {
+            _destroyed = false;
+            _dying = false;
             _deathFrameCount = 0;
         }
 

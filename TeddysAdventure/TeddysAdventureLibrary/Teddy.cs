@@ -526,32 +526,46 @@ namespace TeddysAdventureLibrary
 
             foreach (Enemy e in ((Screen)Game.Components[0]).Enemies)
             {
-                if ((e.CanJumpOnToKill || e.PlayerCanRide  ) && e.CanInteractWithPlayer )
-                {
-                    if ((TeddyRectangle.Intersects(e.CollisionRectangle)) & (TeddyRectangle.Bottom - _gravitySpeed <= e.CollisionRectangle.Top))
-                    {
-                        if (e.CanJumpOnToKill)
-                        {
-                            _enemiesDestroyed++;
-                            e.Kill();
-                        }
-                        else if (e.PlayerCanRide)
-                        {
-                            _ridingSurface = (ISurfaceInterface)e;
-                            _position.Y = _ridingSurface.SurfaceBounds().Top - TeddyRectangle.Height - 1;
-                        }
+                checkEnemyInducedDeath(e);
 
+                if (e.ChildrenEnemies != null)
+                {
+                    foreach (Enemy e2 in e.ChildrenEnemies)
+                    {
+                        checkEnemyInducedDeath(e2);
                     }
                 }
 
-                if (e.CanInteractWithPlayer & (TeddyRectangle.Intersects(e.CollisionRectangle))  && (e != _ridingSurface) )
-                {
-                    BoxToDraw = new Rectangle(150, 75, BoxToDraw.Width, BoxToDraw.Height);
-                    Dead = true;
-                    break;
-                }
-
             }
+        }
+
+        private void checkEnemyInducedDeath(Enemy e)
+        {
+            if ((e.CanJumpOnToKill || e.PlayerCanRide) && e.CanInteractWithPlayer)
+            {
+                if ((TeddyRectangle.Intersects(e.CollisionRectangle)) & (TeddyRectangle.Bottom - _gravitySpeed <= e.CollisionRectangle.Top))
+                {
+                    if (e.CanJumpOnToKill)
+                    {
+                        _enemiesDestroyed++;
+                        e.Kill();
+                    }
+                    else if (e.PlayerCanRide)
+                    {
+                        _ridingSurface = (ISurfaceInterface)e;
+                        _position.Y = _ridingSurface.SurfaceBounds().Top - TeddyRectangle.Height - 1;
+                    }
+
+                }
+            }
+
+            if (e.CanInteractWithPlayer & (TeddyRectangle.Intersects(e.CollisionRectangle)) && (e != _ridingSurface))
+            {
+                BoxToDraw = new Rectangle(150, 75, BoxToDraw.Width, BoxToDraw.Height);
+                Dead = true;
+                e.Kill();
+            }
+
         }
 
         public override void Draw(GameTime gameTime)

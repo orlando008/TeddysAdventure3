@@ -48,11 +48,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Screens\basement1.xml">
-      <Name>basement1</Name>
-      <Importer>XmlImporter</Importer>
-      <Processor>PassThroughProcessor</Processor>
-    </Compile>
     <Compile Include="Teddy\TeddyRun.png">
       <Name>TeddyRun</Name>
       <Importer>TextureImporter</Importer>
@@ -143,6 +138,30 @@
   <ItemGroup>
     <Compile Include="Enemies\Airplane.png">
       <Name>Airplane</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Screens\testLevel.xml">
+      <Name>testLevel</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Screens\testLevel_0.png">
+      <Name>testLevel_0</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Screens\testLevel_1.png">
+      <Name>testLevel_1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Screens\testLevel_2.png">
+      <Name>testLevel_2</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
