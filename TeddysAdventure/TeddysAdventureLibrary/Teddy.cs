@@ -17,16 +17,6 @@ namespace TeddysAdventureLibrary
             Up = 0, Down, Left, Right
         }
 
-        public enum JumpState
-        {
-            NotJumping = 0,
-            JumpingKeyDown = 1,
-            JumpingKeyUp = 2,
-            LandedKeyDown = 3
-        }
-
-
-
         private int _x;
         private int _y;
         private int _height;
@@ -48,7 +38,7 @@ namespace TeddysAdventureLibrary
         private bool _dead = false;
 
         private bool _isJumping = false;
-        private float _initialJumpVelocity = 9;
+        private float _initialJumpVelocity = 10;
         private float _gravity = .25f;
         private float _yVelocity = 0.0f;
         
