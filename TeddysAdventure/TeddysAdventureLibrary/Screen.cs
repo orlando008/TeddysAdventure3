@@ -36,6 +36,7 @@ namespace TeddysAdventureLibrary
         private LevelType _levelType = LevelType.Normal;
         private SpriteFont _deathFont;
         private SpriteFont _hudFont;
+        private Texture2D _surfaceTexture;
 
         public static SpriteBatch spriteBatch;
 
@@ -96,6 +97,8 @@ namespace TeddysAdventureLibrary
             _deathSprite = game.Content.Load<Texture2D>("Screens\\deathScreen");
             _deathFont = game.Content.Load<SpriteFont>("Fonts\\DeathScreenFont");
             _hudFont = game.Content.Load<SpriteFont>("Fonts\\HudFont");
+
+            _surfaceTexture = game.Content.Load<Texture2D>(System.IO.Path.Combine(@"Objects", "SurfaceTexture1"));
 
             Positions = new List<Vector2>();
 
@@ -247,6 +250,24 @@ namespace TeddysAdventureLibrary
 
         }
 
+        private void DrawSurface(int x, int y, float totalWidth, float totalHeight, Texture2D surfaceTexture)
+        {
+            totalHeight = totalHeight / surfaceTexture.Height;
+            totalWidth = totalWidth / surfaceTexture.Width;
+
+            for (int i = 0; i < totalWidth; i++)
+            {
+                for (int j = 0; j < totalHeight; j++)
+                {
+                    if ((surfaceTexture.Width * i) + x < Game.GraphicsDevice.Viewport.Width && (surfaceTexture.Width * i) + x > -surfaceTexture.Width)
+                    {
+                        spriteBatch.Draw(surfaceTexture, new Rectangle((surfaceTexture.Width * i) + x, (surfaceTexture.Height * j) + y, surfaceTexture.Width, surfaceTexture.Height), Color.White);
+                    }
+                    
+                }
+            }
+        }
+
         public void Draw(GameTime gameTime)
         {
 
@@ -254,13 +275,10 @@ namespace TeddysAdventureLibrary
             spriteBatch.Begin();
 
             Rectangle r;
-            
-            //Draw each of the screens of the level
-            //The Positions list should be in one to one correspondence with Sprites list
-            for (int i = 0; i < Sprites.Count; i++)
+
+            foreach (Rectangle sur in Surfaces)
             {
-                r = new Rectangle((int)Positions[i].X, (int)Positions[i].Y, Sprites[i].Width, Sprites[i].Height);
-                spriteBatch.Draw(Sprites[i], r, Color.White);
+                DrawSurface(sur.X, sur.Y, sur.Width, sur.Height, _surfaceTexture);
             }
 
             foreach (Fluff f in Fluffs)
