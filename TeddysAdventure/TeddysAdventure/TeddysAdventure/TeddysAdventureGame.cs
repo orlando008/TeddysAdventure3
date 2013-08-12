@@ -88,7 +88,7 @@ namespace TeddysAdventure
 
             _levelLoaded = false;
 
-            screen = new Screen(this, "testLevel");
+            screen = new Screen(this, "basement1");
 
             this.Components.Add(screen);
 

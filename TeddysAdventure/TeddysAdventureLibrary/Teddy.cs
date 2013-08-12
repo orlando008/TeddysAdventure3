@@ -17,7 +17,16 @@ namespace TeddysAdventureLibrary
             Up = 0, Down, Left, Right
         }
 
-        
+        public enum JumpState
+        {
+            NotJumping = 0,
+            JumpingKeyDown = 1,
+            JumpingKeyUp = 2,
+            LandedKeyDown = 3
+        }
+
+
+
         private int _x;
         private int _y;
         private int _height;
@@ -37,12 +46,12 @@ namespace TeddysAdventureLibrary
         private int _initialBlinkWait = 500;
         private int _blinkPoseLength = 10;
         private bool _dead = false;
+
         private bool _isJumping = false;
-        private int _jumpSpeed = 5;
-        private int _jumpCounter = 0;
-        private bool _jumpIsFalling = false;
-        private int _totalJumpHeight = 175;
-        private int _gravitySpeed = 5;
+        private float _initialJumpVelocity = 9;
+        private float _gravity = .25f;
+        private float _yVelocity = 0.0f;
+        
         private int _currentFluff = 0;
         private int _enemiesDestroyed = 0;
         private ISurfaceInterface _ridingSurface = null;
@@ -189,7 +198,6 @@ namespace TeddysAdventureLibrary
                     {
                         _facingCounter++;
                     }
-                    
                 }
                 else
                 {
@@ -216,9 +224,7 @@ namespace TeddysAdventureLibrary
                     ((Screen)Game.Components[0]).GlobalPosition = new Vector2(0, 0);
                 }
 
-
                 playerOverallVelocity.X = -speed;
-
             }
 
 
@@ -260,41 +266,13 @@ namespace TeddysAdventureLibrary
             movePlayer(playerOverallVelocity);
 
             //if teddy is not jumping, and he is not falling, and the user hits the space bar, jump
-            if (_isJumping == false & _jumpIsFalling == false & keyState.IsKeyDown(Keys.Space))
+            if ( keyState.IsKeyDown(Keys.Space) && _isJumping == false && _yVelocity == 0.0f)
             {
                 _isJumping = true;
+                _yVelocity = -_initialJumpVelocity;
             }
 
-            //perform jump update logic
-            if (_isJumping == true)
-            {
-                if (_jumpIsFalling == false)
-                {
-                    Position = new Vector2(Position.X, Position.Y - _jumpSpeed);
 
-                    foreach (Rectangle surface in ((Screen)Game.Components[0]).Surfaces)
-                    {
-                        if (surface.Intersects(TeddyRectangle))
-                        {
-                            Position = new Vector2(Position.X, surface.Bottom + 1);
-                            _jumpCounter = 0;
-                            _isJumping = false;
-                            _jumpIsFalling = true;
-                            break;
-                        }
-                    }
-                }
-             
-                _jumpCounter++;
-
-                if ( _jumpCounter > _totalJumpHeight / _jumpSpeed)
-                {
-                    _jumpCounter = 0;
-                    _isJumping = false;
-                    _jumpIsFalling = true;
-                }
-
-            }
 
             //if both right and left keys are up, teddy should be facing forward (he'll blink)
             if (keyState.IsKeyUp(Keys.Right) && keyState.IsKeyUp(Keys.Left))
@@ -362,14 +340,10 @@ namespace TeddysAdventureLibrary
 
             checkForFluffGrabs();
 
-            //if we are not currently jumping, apply gravity logic
-            if (_isJumping == false)
-            {
-                applyGravity();
-            }
+            applyGravity(keyState);
             
             //check to see if teddy is dead.
-            checkForDeath();
+            checkForDeath(keyState);
         }
 
         private void movePlayer(Vector2 overallVelocity)
@@ -474,10 +448,11 @@ namespace TeddysAdventureLibrary
         }
 
 
-        private void applyGravity()
+        private void applyGravity( KeyboardState keyState)
         {
-            Position = new Vector2(Position.X, Position.Y + _gravitySpeed);
-            _jumpIsFalling = true;
+            _yVelocity += _gravity;
+
+            Position = new Vector2(Position.X, Position.Y + _yVelocity);
 
             if (_ridingSurface != null)
             {
@@ -486,7 +461,7 @@ namespace TeddysAdventureLibrary
                 {
                     //Still Riding on surface
                     _position.Y = _ridingSurface.SurfaceBounds().Top - TeddyRectangle.Height - 1;
-                    _jumpIsFalling = false;
+                    _isJumping = false;
                 }else {
                     //Either Teddy fell off, or jumped off.  Either way, we are no longer riding.
                     _ridingSurface = null;
@@ -500,7 +475,8 @@ namespace TeddysAdventureLibrary
                 if (TeddyRectangle.Intersects(surfaceRect) & (TeddyRectangle.Bottom > surfaceRect.Top))
                 {
                     Position = new Vector2(Position.X, surfaceRect.Top - BoxToDraw.Height);
-                    _jumpIsFalling = false;
+                    _yVelocity = 0.0f;
+                    _isJumping = false;
                 }
             }
         }
@@ -517,7 +493,7 @@ namespace TeddysAdventureLibrary
             }
         }
 
-        private void checkForDeath()
+        private void checkForDeath(KeyboardState keyState)
         {
             if (Position.Y > Game.GraphicsDevice.Viewport.Height)
             {
@@ -526,29 +502,41 @@ namespace TeddysAdventureLibrary
 
             foreach (Enemy e in ((Screen)Game.Components[0]).Enemies)
             {
-                checkEnemyInducedDeath(e);
+                checkEnemyInducedDeath(e, keyState);
 
                 if (e.ChildrenEnemies != null)
                 {
                     foreach (Enemy e2 in e.ChildrenEnemies)
                     {
-                        checkEnemyInducedDeath(e2);
+                        checkEnemyInducedDeath(e2, keyState);
                     }
                 }
 
             }
         }
 
-        private void checkEnemyInducedDeath(Enemy e)
+        private void checkEnemyInducedDeath(Enemy e, KeyboardState keyState)
         {
             if ((e.CanJumpOnToKill || e.PlayerCanRide) && e.CanInteractWithPlayer)
             {
-                if ((TeddyRectangle.Intersects(e.CollisionRectangle)) & (TeddyRectangle.Bottom - _gravitySpeed <= e.CollisionRectangle.Top))
+                if ((TeddyRectangle.Intersects(e.CollisionRectangle)) & (TeddyRectangle.Bottom - _yVelocity <= e.CollisionRectangle.Top))
                 {
                     if (e.CanJumpOnToKill)
                     {
                         _enemiesDestroyed++;
                         e.Kill();
+                        if (keyState.IsKeyDown(Keys.Space))
+                        {
+                            //Can get extra boost jumping off of enemy
+                            _yVelocity = -_initialJumpVelocity - 3;
+                            _isJumping = true;
+                        }
+                        else
+                        {
+                            //If we are not jumping then just give teddy a little boost
+                            _yVelocity = -3;
+                        }
+                       
                     }
                     else if (e.PlayerCanRide)
                     {
