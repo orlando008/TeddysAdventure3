@@ -16,5 +16,9 @@ namespace TeddyMapEditor
           set { _surfaceTexture = value; }
         }
 
+        public Surface()
+        {
+            _surfaceTexture = "";
+        }
     }
 }

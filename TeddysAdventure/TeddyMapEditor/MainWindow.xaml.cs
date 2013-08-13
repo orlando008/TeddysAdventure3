@@ -38,8 +38,11 @@ namespace TeddyMapEditor
         private SolidColorBrush _surfaceSelectedBrush;
         private SolidColorBrush _surfaceSelectedOutline;
 
-        private SolidColorBrush _buttonSelectionColor = Brushes.Purple;
-        private SolidColorBrush _buttonUnselectedColor = Brushes.Black;
+        private SolidColorBrush _buttonSelectionTextColor = Brushes.Navy;
+        private SolidColorBrush _buttonUnselectedTextColor = Brushes.Black;
+
+        private SolidColorBrush _buttonSelectionBackColor = Brushes.LightBlue;
+        private SolidColorBrush _buttonUnselectedBackColor = Brushes.LightGray;
 
         private bool _surfaceDraggingStarted = false;
         private Rectangle _currentSurface;
@@ -65,6 +68,8 @@ namespace TeddyMapEditor
             c = Colors.Navy;
             c.A = 250;
             _surfaceSelectedOutline = new SolidColorBrush(c);
+
+            spSurfaces.Visibility = Visibility.Hidden;
         }
 
         private void txtLevelWidth_LostFocus(object sender, RoutedEventArgs e)
@@ -173,20 +178,25 @@ namespace TeddyMapEditor
                 }
 
                 _clickEnd = p2;
+                UnselectAllSurfaces();
 
                 Rectangle r = new Rectangle();
                 r.Width = Math.Abs(_clickEnd.X - _clickStart.X);
                 r.Height = Math.Abs(_clickEnd.Y - _clickStart.Y);
-                r.Stroke = _surfaceBrushOutline;
+                r.Stroke = _surfaceSelectedOutline;
                 r.StrokeThickness = .5;
-                r.Fill = _surfaceBrush;
+                r.Fill = _surfaceSelectedBrush;
+                r.Tag = new Surface();
                
                 r.MouseDown += new MouseButtonEventHandler(surface_MouseDown);
                 cnvsMap.Children.Add(r);
 
                 cnvsMap.Children[cnvsMap.Children.Count - 1].SetValue(Canvas.LeftProperty, _clickStart.X);
                 cnvsMap.Children[cnvsMap.Children.Count - 1].SetValue(Canvas.TopProperty, _clickStart.Y);
+
+                
                 _surfaceDraggingStarted = false;
+                _currentSurface = r;
             }
         }
 
@@ -253,6 +263,7 @@ namespace TeddyMapEditor
                 ((Rectangle)sender).Fill = _surfaceSelectedBrush;
 
                 _currentSurface = ((Rectangle)sender);
+                spSurfaces.Visibility = Visibility.Visible;
             }
 
         }
@@ -272,81 +283,154 @@ namespace TeddyMapEditor
 
         private void btnSelectionMode_Click(object sender, RoutedEventArgs e)
         {
-            if (btnSelectionMode.Foreground == _buttonSelectionColor)
+            
+            if (btnSelectionMode.Foreground == _buttonSelectionTextColor)
             {
-                _currentEditMode = EditMode.none;
-                btnSelectionMode.Foreground = _buttonUnselectedColor;
+                SetButtonUnselected(ref btnSelectionMode);
             }
             else
             {
                 UnselectAllButtons();
                 _currentEditMode = EditMode.selection;
-                btnSelectionMode.Foreground = _buttonSelectionColor;
+                btnSelectionMode.Foreground = _buttonSelectionTextColor;
+                btnSelectionMode.Background = _buttonSelectionBackColor;
+                this.Cursor = Cursors.Hand;
+                spSurfaces.Visibility = Visibility.Hidden;
             }
 
             
         }
 
-        private void UnselectAllButtons()
-        {
-            btnSelectionMode.Foreground = _buttonUnselectedColor;
-            btnSurfacesMode.Foreground = _buttonUnselectedColor;
-        }
-
         private void btnSurfacesMode_Click(object sender, RoutedEventArgs e)
         {
-            if (btnSurfacesMode.Foreground == _buttonSelectionColor)
+            if (btnSurfacesMode.Foreground == _buttonSelectionTextColor)
             {
-                _currentEditMode = EditMode.none;
-                btnSurfacesMode.Foreground = _buttonUnselectedColor;
+                SetButtonUnselected(ref btnSurfacesMode);
+                spSurfaces.Visibility = Visibility.Hidden;
             }
             else
             {
                 UnselectAllButtons();
                 _currentEditMode = EditMode.surfaces;
-                btnSurfacesMode.Foreground = _buttonSelectionColor;
+                btnSurfacesMode.Foreground = _buttonSelectionTextColor;
+                btnSurfacesMode.Background = _buttonSelectionBackColor;
+                this.Cursor = Cursors.Cross;
+                UnselectAllSurfaces();
+                _currentSurface = null;
+                spSurfaces.Visibility = Visibility.Visible;
             }
         }
 
+
+        private void btnEnemyMode_Click(object sender, RoutedEventArgs e)
+        {
+            if (btnEnemyMode.Foreground == _buttonSelectionTextColor)
+            {
+                SetButtonUnselected(ref btnEnemyMode);
+            }
+            else
+            {
+                UnselectAllButtons();
+                _currentEditMode = EditMode.enemies;
+                btnEnemyMode.Foreground = _buttonSelectionTextColor;
+                btnEnemyMode.Background = _buttonSelectionBackColor;
+                this.Cursor = Cursors.Pen;
+                UnselectAllSurfaces();
+                _currentSurface = null;
+            }
+        }
+
+        private void btnObjects_Click(object sender, RoutedEventArgs e)
+        {
+            if (btnObjects.Foreground == _buttonSelectionTextColor)
+            {
+                SetButtonUnselected(ref btnObjects);
+            }
+            else
+            {
+                UnselectAllButtons();
+                _currentEditMode = EditMode.objects;
+                btnObjects.Foreground = _buttonSelectionTextColor;
+                btnObjects.Background = _buttonSelectionBackColor;
+                this.Cursor = Cursors.SizeAll;
+                UnselectAllSurfaces();
+                _currentSurface = null;
+            }
+        }
+
+        private void SetButtonUnselected(ref Button b)
+        {
+            _currentEditMode = EditMode.none;
+            b.Foreground = _buttonUnselectedTextColor;
+            b.Background = _buttonUnselectedBackColor;
+            this.Cursor = Cursors.Arrow;
+        }
+
+        private void UnselectAllButtons()
+        {
+            btnSelectionMode.Foreground = _buttonUnselectedTextColor;
+            btnSelectionMode.Background = _buttonUnselectedBackColor;
+
+            btnSurfacesMode.Foreground = _buttonUnselectedTextColor;
+            btnSurfacesMode.Background = _buttonUnselectedBackColor;
+
+            btnObjects.Foreground = _buttonUnselectedTextColor;
+            btnObjects.Background = _buttonUnselectedBackColor;
+
+            btnEnemyMode.Foreground = _buttonUnselectedTextColor;
+            btnEnemyMode.Background = _buttonUnselectedBackColor;
+        }
+
+
+
         private void btnIncreaseWidth_Click(object sender, RoutedEventArgs e)
         {
-            _currentSurface.Width += BASIC_UNIT;
+            if(_currentSurface != null)
+                _currentSurface.Width += BASIC_UNIT;
         }
 
         private void btnDecreaseWidth_Click(object sender, RoutedEventArgs e)
         {
-            _currentSurface.Width -= BASIC_UNIT;
+            if (_currentSurface != null)
+                _currentSurface.Width -= BASIC_UNIT;
         }
 
         private void btnIncreaseHeight_Click(object sender, RoutedEventArgs e)
         {
-            _currentSurface.Height += BASIC_UNIT;
+            if (_currentSurface != null)
+                _currentSurface.Height += BASIC_UNIT;
         }
 
         private void btnDecreaseHeight_Click(object sender, RoutedEventArgs e)
         {
-            _currentSurface.Height -= BASIC_UNIT;
+            if (_currentSurface != null)
+                _currentSurface.Height -= BASIC_UNIT;
         }
 
         private void btnIncreaseX_Click(object sender, RoutedEventArgs e)
         {
-            _currentSurface.SetValue(Canvas.LeftProperty, Convert.ToDouble(_currentSurface.GetValue(Canvas.LeftProperty)) + (double)BASIC_UNIT);
+            if (_currentSurface != null)
+                _currentSurface.SetValue(Canvas.LeftProperty, Convert.ToDouble(_currentSurface.GetValue(Canvas.LeftProperty)) + (double)BASIC_UNIT);
         }
 
         private void btnDecreaseX_Click(object sender, RoutedEventArgs e)
         {
-            _currentSurface.SetValue(Canvas.LeftProperty, Convert.ToDouble(_currentSurface.GetValue(Canvas.LeftProperty)) - (double)BASIC_UNIT);
+            if (_currentSurface != null)
+                _currentSurface.SetValue(Canvas.LeftProperty, Convert.ToDouble(_currentSurface.GetValue(Canvas.LeftProperty)) - (double)BASIC_UNIT);
         }
 
         private void btnDecreaseY_Click(object sender, RoutedEventArgs e)
         {
-            _currentSurface.SetValue(Canvas.TopProperty, Convert.ToDouble(_currentSurface.GetValue(Canvas.TopProperty)) - (double)BASIC_UNIT);
+            if (_currentSurface != null)
+                _currentSurface.SetValue(Canvas.TopProperty, Convert.ToDouble(_currentSurface.GetValue(Canvas.TopProperty)) - (double)BASIC_UNIT);
         }
 
         private void btnIncreaseY_Click(object sender, RoutedEventArgs e)
         {
-            _currentSurface.SetValue(Canvas.TopProperty, Convert.ToDouble(_currentSurface.GetValue(Canvas.TopProperty)) + (double)BASIC_UNIT);
+            if (_currentSurface != null)
+                _currentSurface.SetValue(Canvas.TopProperty, Convert.ToDouble(_currentSurface.GetValue(Canvas.TopProperty)) + (double)BASIC_UNIT);
         }
+
 
     }
 }

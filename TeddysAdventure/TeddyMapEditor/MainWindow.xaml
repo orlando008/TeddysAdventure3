@@ -4,7 +4,7 @@
         Title="MainWindow" WindowStartupLocation="CenterScreen" WindowState="Maximized" Loaded="Window_Loaded">
     
     <DockPanel LastChildFill="True">
-        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Background="LightGoldenrodYellow" Height="85">
             <StackPanel Orientation="Vertical">
                 <StackPanel Orientation="Horizontal">
                     <Label>Level Name:</Label>
@@ -21,19 +21,51 @@
                     <TextBox Name="txtLevelHeight" Width="150" Height="20" LostFocus="txtLevelHeight_LostFocus">750</TextBox>
                 </StackPanel>
             </StackPanel>
-            <Button Name="btnSelectionMode" Click="btnSelectionMode_Click" FontSize="18" Margin="3">Selection Mode</Button>
-            <Button Name="btnSurfacesMode" FontSize="18" Margin="3" Click="btnSurfacesMode_Click">Surfaces Mode</Button>
-            <Label>Surface width</Label>
-            <Button Name="btnIncreaseWidth" Click="btnIncreaseWidth_Click">++</Button>
-            <Button Name="btnDecreaseWidth" Click="btnDecreaseWidth_Click">--</Button>
-            <Label>Surface height</Label>
-            <Button Name="btnIncreaseHeight" Click="btnIncreaseHeight_Click">++</Button>
-            <Button Name="btnDecreaseHeight" Click="btnDecreaseHeight_Click">--</Button>
-            <Label>Surface Location</Label>
-            <Button Name="btnIncreaseX" Click="btnIncreaseX_Click">Right</Button>
-            <Button Name="btnDecreaseX" Click="btnDecreaseX_Click">Left</Button>
-            <Button Name="btnDecreaseY" Click="btnDecreaseY_Click">Up</Button>
-            <Button Name="btnIncreaseY" Click="btnIncreaseY_Click">Down</Button>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Button Grid.Column="0" Grid.Row="0" Name="btnSelectionMode" Click="btnSelectionMode_Click"  Width="50" Height="20">Selection</Button>
+                <Button Grid.Column="0" Grid.Row="1" Name="btnSurfacesMode" Width="50" Height="20" Click="btnSurfacesMode_Click">Surfaces</Button>
+                <Button Grid.Column="1" Grid.Row="0" Name="btnEnemyMode" Width="50" Height="20" Click="btnEnemyMode_Click">Enemies</Button>
+                <Button Grid.Column="1" Grid.Row="1" Name="btnObjects" Width="50" Height="20" Click="btnObjects_Click" >Objects</Button>
+            </Grid>
+
+            <StackPanel x:Name="spSurfaces" Orientation="Horizontal">
+                <StackPanel.Resources>
+                    <Style x:Key="SurfaceButton" TargetType="{x:Type Button}">
+                        <Style.Setters>
+                            <Setter Property="Width" Value="35"/>
+                            <Setter Property="Height" Value="35"/>
+                            <Setter Property="Margin" Value="3"/>
+                            <Setter Property="VerticalAlignment" Value="Top" />
+                        </Style.Setters>
+                    </Style>
+                </StackPanel.Resources>
+                
+                <Label>Surface width</Label>
+                <Button Name="btnIncreaseWidth" Click="btnIncreaseWidth_Click" Style="{StaticResource ResourceKey=SurfaceButton}">++</Button>
+                <Button Name="btnDecreaseWidth" Click="btnDecreaseWidth_Click" Style="{StaticResource ResourceKey=SurfaceButton}">--</Button>
+                <Label>Surface height</Label>
+                <Button Name="btnIncreaseHeight" Click="btnIncreaseHeight_Click" Style="{StaticResource ResourceKey=SurfaceButton}">++</Button>
+                <Button Name="btnDecreaseHeight" Click="btnDecreaseHeight_Click" Style="{StaticResource ResourceKey=SurfaceButton}">--</Button>
+                <Label>Surface Location</Label>
+                <Button Name="btnIncreaseX" Click="btnIncreaseX_Click" Style="{StaticResource ResourceKey=SurfaceButton}">Right</Button>
+                <Button Name="btnDecreaseX" Click="btnDecreaseX_Click" Style="{StaticResource ResourceKey=SurfaceButton}">Left</Button>
+                <Button Name="btnDecreaseY" Click="btnDecreaseY_Click" Style="{StaticResource ResourceKey=SurfaceButton}">Up</Button>
+                <Button Name="btnIncreaseY" Click="btnIncreaseY_Click" Style="{StaticResource ResourceKey=SurfaceButton}">Down</Button>
+
+                <Label VerticalAlignment="Top" VerticalContentAlignment="Top">Surface Texture</Label>
+                <TextBox Name="txtSurfaceTexture" Width="150" Height="24" VerticalAlignment="Top" Margin="3"></TextBox>
+            </StackPanel>
+
         </StackPanel>
 
         <ScrollViewer Width="1250" Height="750" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
