@@ -21,7 +21,19 @@
                     <TextBox Name="txtLevelHeight" Width="150" Height="20" LostFocus="txtLevelHeight_LostFocus">750</TextBox>
                 </StackPanel>
             </StackPanel>
-
+            <Button Name="btnSelectionMode" Click="btnSelectionMode_Click" FontSize="18" Margin="3">Selection Mode</Button>
+            <Button Name="btnSurfacesMode" FontSize="18" Margin="3" Click="btnSurfacesMode_Click">Surfaces Mode</Button>
+            <Label>Surface width</Label>
+            <Button Name="btnIncreaseWidth" Click="btnIncreaseWidth_Click">++</Button>
+            <Button Name="btnDecreaseWidth" Click="btnDecreaseWidth_Click">--</Button>
+            <Label>Surface height</Label>
+            <Button Name="btnIncreaseHeight" Click="btnIncreaseHeight_Click">++</Button>
+            <Button Name="btnDecreaseHeight" Click="btnDecreaseHeight_Click">--</Button>
+            <Label>Surface Location</Label>
+            <Button Name="btnIncreaseX" Click="btnIncreaseX_Click">Right</Button>
+            <Button Name="btnDecreaseX" Click="btnDecreaseX_Click">Left</Button>
+            <Button Name="btnDecreaseY" Click="btnDecreaseY_Click">Up</Button>
+            <Button Name="btnIncreaseY" Click="btnIncreaseY_Click">Down</Button>
         </StackPanel>
 
         <ScrollViewer Width="1250" Height="750" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
