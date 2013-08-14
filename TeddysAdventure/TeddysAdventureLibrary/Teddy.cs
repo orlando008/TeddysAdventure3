@@ -147,11 +147,11 @@ namespace TeddysAdventureLibrary
             set { _boxToDraw = value; }
         }
 
-        public Rectangle TeddyRectangle
+        private GeometryMethods.RectangleF TeddyRectangle
         {
             get 
             {
-                return new Rectangle((int)Position.X, (int)Position.Y, BoxToDraw.Width, BoxToDraw.Height); 
+                return new GeometryMethods.RectangleF(Position.X, Position.Y,  BoxToDraw.Width, BoxToDraw.Height); 
             }
         }
         #endregion
@@ -268,12 +268,12 @@ namespace TeddysAdventureLibrary
 
             }
 
-            movePlayer(playerOverallVelocity);
+            movePlayerX(playerOverallVelocity);
 
             //if teddy is not jumping, and he is not falling, and the user hits the space bar, jump
             if ( keyState.IsKeyDown(Keys.Space) && _isJumping == false && _yVelocity == 0.0f)
             {
-                _isJumping = true;
+                  _isJumping = true;
                 _yVelocity = -_initialJumpVelocity;
             }
 
@@ -345,15 +345,14 @@ namespace TeddysAdventureLibrary
 
             checkForFluffGrabs();
 
-            applyGravity(keyState);
+            movePlayerY(keyState);
             
             //check to see if teddy is dead.
             checkForDeath(keyState);
         }
 
-        private void movePlayer(Vector2 overallVelocity)
+        private void movePlayerX(Vector2 overallVelocity)
         {
-
 
             int pixelsOver = 0;
 
@@ -371,7 +370,7 @@ namespace TeddysAdventureLibrary
 
                         foreach (Rectangle surface in ((Screen)Game.Components[0]).Surfaces)
                         {
-                            if (surface.Intersects(TeddyRectangle))
+                            if (TeddyRectangle.Intersects(surface) )
                             {
                                 Position = new Vector2(surface.Right + 1, Position.Y);
                                 break;
@@ -386,9 +385,9 @@ namespace TeddysAdventureLibrary
 
                     foreach (Rectangle surface in ((Screen)Game.Components[0]).Surfaces)
                     {
-                        if (surface.Intersects(TeddyRectangle))
+                        if (TeddyRectangle.Intersects(surface))
                         {
-                            ((Screen)Game.Components[0]).MoveX(-(surface.Right - TeddyRectangle.X));
+                            ((Screen)Game.Components[0]).MoveX(-(surface.Right - (int)this.Position.X));
                             break;
                         }
                     }
@@ -421,9 +420,9 @@ namespace TeddysAdventureLibrary
 
                         foreach (Rectangle surface in ((Screen)Game.Components[0]).Surfaces)
                         {
-                            if (surface.Intersects(TeddyRectangle))
+                            if (TeddyRectangle.Intersects(surface))
                             {
-                                Position = new Vector2(surface.Left - TeddyRectangle.Width - 1, Position.Y);
+                                Position = new Vector2(surface.Left - (int)TeddyRectangle.Width  , Position.Y);
                                 break;
                             }
                         }
@@ -441,9 +440,9 @@ namespace TeddysAdventureLibrary
 
                     foreach (Rectangle surface in ((Screen)Game.Components[0]).Surfaces)
                     {
-                        if (surface.Intersects(TeddyRectangle))
+                        if (TeddyRectangle.Intersects(surface))
                         {
-                            ((Screen)Game.Components[0]).MoveX(-(surface.Left - TeddyRectangle.X - TeddyRectangle.Width));
+                            ((Screen)Game.Components[0]).MoveX(-(surface.Left - (int)this.Position.X - (int)TeddyRectangle.Width));
                             break;
                         }
                     }
@@ -451,9 +450,8 @@ namespace TeddysAdventureLibrary
 
             }
         }
-
-
-        private void applyGravity( KeyboardState keyState)
+        
+        private void movePlayerY( KeyboardState keyState)
         {
             _yVelocity += _gravity;
 
@@ -462,27 +460,45 @@ namespace TeddysAdventureLibrary
             if (_ridingSurface != null)
             {
                 //Check if teddy is still riding on this surface
-                if (TeddyRectangle.Intersects(_ridingSurface.SurfaceBounds()) && (TeddyRectangle.Bottom > _ridingSurface.SurfaceBounds().Top))
+                if (TeddyRectangle.Intersects(_ridingSurface.SurfaceBounds()) && (TeddyRectangle.Bottom >= _ridingSurface.SurfaceBounds().Top))
                 {
                     //Still Riding on surface
-                    _position.Y = _ridingSurface.SurfaceBounds().Top - TeddyRectangle.Height - 1;
+                    _position.Y = _ridingSurface.SurfaceBounds().Top - TeddyRectangle.Height;
+                    _yVelocity = 0.0f;
                     _isJumping = false;
                 }else {
                     //Either Teddy fell off, or jumped off.  Either way, we are no longer riding.
                     _ridingSurface = null;
                 }
-
             }
 
 
             foreach (Rectangle surfaceRect in ((Screen)Game.Components[0]).Surfaces)
             {
-                if (TeddyRectangle.Intersects(surfaceRect) & (TeddyRectangle.Bottom > surfaceRect.Top))
+                //Negative velocity is up (so teddy is jumping)
+                if (_yVelocity < 0)
                 {
-                    Position = new Vector2(Position.X, surfaceRect.Top - BoxToDraw.Height);
-                    _yVelocity = 0.0f;
-                    _isJumping = false;
+                    //Check for surfaces above (Teddy hit his head)
+                    if (TeddyRectangle.Intersects(surfaceRect) & (TeddyRectangle.Top < surfaceRect.Bottom))
+                    {
+                        //todo: if teddy is really close to one of the edge (only 1 pixel is touching the above surface, then move him over.  I'm pretty sure  Mario does that.
+
+                          Position = new Vector2(Position.X, surfaceRect.Bottom + 1 );
+                        _yVelocity = 0.0f;
+                    }
                 }
+                else
+                {
+                    //Check for surfaces below
+                    if (TeddyRectangle.Intersects(surfaceRect) & (TeddyRectangle.Bottom > surfaceRect.Top))
+                    {
+                        Position = new Vector2(Position.X, surfaceRect.Top - BoxToDraw.Height );
+                        _yVelocity = 0.0f;
+                        _isJumping = false;
+                    }
+                }
+
+
             }
         }
 
