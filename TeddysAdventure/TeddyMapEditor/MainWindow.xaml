@@ -7,19 +7,22 @@
         <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Background="LightGoldenrodYellow" Height="85">
             <StackPanel Orientation="Vertical">
                 <StackPanel Orientation="Horizontal">
-                    <Label>Level Name:</Label>
-                    <TextBox Name="txtLevelName" Width="150" Height="20"></TextBox>
+                    <Label Margin="0,0,6,0" Width="100">Level Name:</Label>
+                    <TextBox Name="txtLevelName" Width="100" Height="20"></TextBox>
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal">
-                    <Label>Level Width:</Label>
-                    <TextBox Name="txtLevelWidth" Width="150" Height="20" LostFocus="txtLevelWidth_LostFocus">1250</TextBox>
+                    <Label Margin="0,0,6,0" Width="100">Level Width:</Label>
+                    <TextBox Name="txtLevelWidth" Width="100" Height="20">1250</TextBox>
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal">
-                    <Label>Level Height:</Label>
-                    <TextBox Name="txtLevelHeight" Width="150" Height="20" LostFocus="txtLevelHeight_LostFocus">750</TextBox>
+                    <Label Margin="0,0,6,0" Width="100">Level Height:</Label>
+                    <TextBox Name="txtLevelHeight" Width="100" Height="20">750</TextBox>
+                    <Button Name="btnRender" Width="24" Height="24" Margin="3" Click="btnRender_Click">Go</Button>
                 </StackPanel>
+                
+                
             </StackPanel>
             <Grid>
                 <Grid.RowDefinitions>
@@ -32,13 +35,21 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
 
-                <Button Grid.Column="0" Grid.Row="0" Name="btnSelectionMode" Click="btnSelectionMode_Click"  Width="50" Height="20">Selection</Button>
-                <Button Grid.Column="0" Grid.Row="1" Name="btnSurfacesMode" Width="50" Height="20" Click="btnSurfacesMode_Click">Surfaces</Button>
-                <Button Grid.Column="1" Grid.Row="0" Name="btnEnemyMode" Width="50" Height="20" Click="btnEnemyMode_Click">Enemies</Button>
-                <Button Grid.Column="1" Grid.Row="1" Name="btnObjects" Width="50" Height="20" Click="btnObjects_Click" >Objects</Button>
+                <Button Grid.Column="0" Grid.Row="0" Name="btnSelectionMode"  Width="24" Height="24" Click="btnSelectionMode_Click" Margin="3,0,3,0">
+                    <Image Source="/TeddyMapEditor;component/Images/SelectionMode.png"></Image>
+                </Button>
+                <Button Grid.Column="0" Grid.Row="1" Name="btnSurfacesMode" Width="24" Height="24" Click="btnSurfacesMode_Click" Margin="3,0,3,0"> 
+                    <Image Source="/TeddyMapEditor;component/Images/SurfaceMode.png"></Image>
+                </Button>
+                <Button Grid.Column="1" Grid.Row="0" Name="btnEnemyMode" Width="24" Height="24" Click="btnEnemyMode_Click" Margin="3,0,3,0">
+                    <Image Source="/TeddyMapEditor;component/Images/EnemyMode.png"></Image>
+                </Button>
+                <Button Grid.Column="1" Grid.Row="1" Name="btnObjects" Width="24" Height="24" Click="btnObjects_Click"  Margin="3,0,3,0">
+                    <Image Source="/TeddyMapEditor;component/Images/ObjectMode.png"></Image>
+                </Button>
             </Grid>
 
-            <StackPanel x:Name="spSurfaces" Orientation="Horizontal">
+            <StackPanel x:Name="spSurfaces" Orientation="Horizontal" Visibility="Collapsed">
                 <StackPanel.Resources>
                     <Style x:Key="SurfaceButton" TargetType="{x:Type Button}">
                         <Style.Setters>
@@ -63,9 +74,35 @@
                 <Button Name="btnIncreaseY" Click="btnIncreaseY_Click" Style="{StaticResource ResourceKey=SurfaceButton}">Down</Button>
 
                 <Label VerticalAlignment="Top" VerticalContentAlignment="Top">Surface Texture</Label>
-                <TextBox Name="txtSurfaceTexture" Width="150" Height="24" VerticalAlignment="Top" Margin="3"></TextBox>
+                <TextBox Name="txtSurfaceTexture" Width="150" Height="24" VerticalAlignment="Top" Margin="3">SurfaceTexture1</TextBox>
             </StackPanel>
+            
+            <StackPanel Name="spEnemies">
+                <StackPanel Orientation="Horizontal">
+                    <Label>Enemy Type</Label>
+                    <ComboBox Width="100">
+                        <ComboBox.Items>
+                            <ComboBoxItem>BowlingBall</ComboBoxItem>
+                            <ComboBoxItem>Plane</ComboBoxItem>
+                            <ComboBoxItem>MatchBoxCar</ComboBoxItem>
+                        </ComboBox.Items>
+                    </ComboBox>
 
+                    <Label>Velocity X</Label>
+                    <TextBox Width="25"></TextBox>
+
+                    <Label>Velocity Y</Label>
+                    <TextBox Width="25"></TextBox>
+
+                    <Label>Start X</Label>
+                    <TextBox Width="50"></TextBox>
+
+                    <Label>Start Y</Label>
+                    <TextBox Width="50"></TextBox>
+                </StackPanel>
+
+
+            </StackPanel>
         </StackPanel>
 
         <ScrollViewer Width="1250" Height="750" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">

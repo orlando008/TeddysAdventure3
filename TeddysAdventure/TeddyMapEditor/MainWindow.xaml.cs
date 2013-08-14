@@ -186,7 +186,7 @@ namespace TeddyMapEditor
                 r.Stroke = _surfaceSelectedOutline;
                 r.StrokeThickness = .5;
                 r.Fill = _surfaceSelectedBrush;
-                r.Tag = new Surface();
+                r.Tag = new Surface() { SurfaceTexture = txtSurfaceTexture.Text };
                
                 r.MouseDown += new MouseButtonEventHandler(surface_MouseDown);
                 cnvsMap.Children.Add(r);
@@ -429,6 +429,13 @@ namespace TeddyMapEditor
         {
             if (_currentSurface != null)
                 _currentSurface.SetValue(Canvas.TopProperty, Convert.ToDouble(_currentSurface.GetValue(Canvas.TopProperty)) + (double)BASIC_UNIT);
+        }
+
+        private void btnRender_Click(object sender, RoutedEventArgs e)
+        {
+            cnvsMap.Width = Convert.ToInt32(txtLevelWidth.Text);
+            cnvsMap.Height = Convert.ToInt32(txtLevelHeight.Text);
+            DrawGrid();
         }
 
 
