@@ -55,6 +55,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Enemy.cs" />
+    <Compile Include="Object.cs" />
     <Compile Include="Surface.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -98,6 +100,10 @@
     <Resource Include="Images\ObjectMode.png" />
     <Resource Include="Images\SelectionMode.png" />
     <Resource Include="Images\SurfaceMode.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Images\Fluff.png" />
+    <Resource Include="Images\SurfaceTexture1.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

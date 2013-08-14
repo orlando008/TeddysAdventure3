@@ -28,15 +28,35 @@ namespace TeddyMapEditor
             none = 4
         }
 
-        private const int BASIC_UNIT = 32;
+        private const int BASIC_UNIT = 25;
         private bool _clickCaptured = false;
         private Point _clickStart;
         private Point _clickEnd;
         private EditMode _currentEditMode;
-        private SolidColorBrush _surfaceBrush;
+        private float _selectionOpacity = 0.5f;
+
+        public EditMode CurrentEditMode
+        {
+            get { return _currentEditMode; }
+            set 
+            {
+                UnselectAllElements();
+                spEnemies.Width = 0;
+                spObjects.Width = 0;
+                spSurfaces.Width = 0;
+                _currentEditMode = value; 
+            }
+        }
+
+        //private SolidColorBrush _surfaceBrush;
         private SolidColorBrush _surfaceBrushOutline;
-        private SolidColorBrush _surfaceSelectedBrush;
+        //private SolidColorBrush _surfaceSelectedBrush;
         private SolidColorBrush _surfaceSelectedOutline;
+
+        private SolidColorBrush _enemyBrush;
+        private SolidColorBrush _enemyBrushOutline;
+        private SolidColorBrush _enemySelectedBrush;
+        private SolidColorBrush _enemySelectedOutline;
 
         private SolidColorBrush _buttonSelectionTextColor = Brushes.Navy;
         private SolidColorBrush _buttonUnselectedTextColor = Brushes.Black;
@@ -46,16 +66,18 @@ namespace TeddyMapEditor
 
         private bool _surfaceDraggingStarted = false;
         private Rectangle _currentSurface;
+        private Rectangle _currentEnemy;
+        private Rectangle _currentObject;
 
         public MainWindow()
         {
             InitializeComponent();
-            _currentEditMode = EditMode.none;
+            CurrentEditMode = EditMode.none;
 
             Color c = new Color();
             c = Colors.Gray;
             c.A = 50;
-            _surfaceBrush = new SolidColorBrush(c);
+            //_surfaceBrush = new SolidColorBrush(c);
 
             c = Colors.DarkGray;
             c.A = 250;
@@ -63,13 +85,11 @@ namespace TeddyMapEditor
 
             c = Colors.LightBlue;
             c.A = 150;
-            _surfaceSelectedBrush = new SolidColorBrush(c);
+            //_surfaceSelectedBrush = new SolidColorBrush(c);
 
             c = Colors.Navy;
             c.A = 250;
             _surfaceSelectedOutline = new SolidColorBrush(c);
-
-            spSurfaces.Visibility = Visibility.Hidden;
         }
 
         private void txtLevelWidth_LostFocus(object sender, RoutedEventArgs e)
@@ -145,6 +165,12 @@ namespace TeddyMapEditor
                 case EditMode.surfaces:
                     SurfaceModeMouseUp(e);
                     break;
+                case EditMode.enemies:
+                    EnemyModeMouseUp(e);
+                    break;
+                case EditMode.objects:
+                    ObjectModeMouseUp(e);
+                    break;
             }
 
             _clickCaptured = false;
@@ -159,6 +185,91 @@ namespace TeddyMapEditor
                     break;
             }
 
+        }
+
+        private void EnemyModeMouseUp(MouseEventArgs e)
+        {
+            Point p = e.MouseDevice.GetPosition(cnvsMap);
+            Rectangle r = new Rectangle();
+            int width =0;
+            int height =0;
+            GetCurrentEnemysSize(ref width, ref height);
+            r.Width = width;
+            r.Height = height;
+            r.Stroke = _surfaceSelectedOutline;
+            r.StrokeThickness = .5;
+            r.Fill = Brushes.Beige;
+            r.Tag = new Enemy(cboEnemies.Text, p, 0, 0);
+
+            ImageBrush ib = new ImageBrush();
+            ib.ImageSource = new BitmapImage(new Uri("..\\..\\Images\\" + cboEnemies.Text + ".png", UriKind.Relative));
+            r.Fill = ib;
+
+            r.MouseDown += new MouseButtonEventHandler(enemy_MouseDown);
+
+            cnvsMap.Children.Add(r);
+
+            cnvsMap.Children[cnvsMap.Children.Count - 1].SetValue(Canvas.LeftProperty, p.X);
+            cnvsMap.Children[cnvsMap.Children.Count - 1].SetValue(Canvas.TopProperty, p.Y);
+        }
+
+        private void ObjectModeMouseUp(MouseEventArgs e)
+        {
+            Point p = e.MouseDevice.GetPosition(cnvsMap);
+            Rectangle r = new Rectangle();
+            int width = 0;
+            int height = 0;
+            GetCurrentObjectSize(ref width, ref height);
+            r.Width = width;
+            r.Height = height;
+            r.Stroke = _surfaceSelectedOutline;
+            r.StrokeThickness = .5;
+            r.Fill = Brushes.GhostWhite;
+            r.Tag = new GameObject(cboObjects.Text, p);
+
+            ImageBrush ib = new ImageBrush();
+            ib.ImageSource = new BitmapImage(new Uri("..\\..\\Images\\" + cboObjects.Text + ".png", UriKind.Relative));
+            r.Fill = ib;
+
+            r.MouseDown += new MouseButtonEventHandler(object_MouseDown);
+            cnvsMap.Children.Add(r);
+
+            cnvsMap.Children[cnvsMap.Children.Count - 1].SetValue(Canvas.LeftProperty, p.X);
+            cnvsMap.Children[cnvsMap.Children.Count - 1].SetValue(Canvas.TopProperty, p.Y);
+        }
+
+        private void GetCurrentEnemysSize(ref int width, ref int height)
+        {
+            switch (cboEnemies.Text.ToString())
+            {
+                case "BowlingBall":
+                    width = 50;
+                    height = 50;
+                    break;
+                case "FlyingBook":
+                    width = 150;
+                    height = 68;
+                    break;
+                case "MatchBoxCar":
+                    width = 67;
+                    height = 25;
+                    break;
+                case "Airplane":
+                    width = 75;
+                    height = 36;
+                    break;
+            }
+        }
+
+        private void GetCurrentObjectSize(ref int width, ref int height)
+        {
+            switch (cboObjects.Text)
+            {
+                case "Fluff":
+                    width = 25;
+                    height = 25;
+                    break;
+            }
         }
 
         private void SurfaceModeMouseUp(MouseEventArgs e)
@@ -178,16 +289,23 @@ namespace TeddyMapEditor
                 }
 
                 _clickEnd = p2;
-                UnselectAllSurfaces();
+                UnselectAllElements();
 
                 Rectangle r = new Rectangle();
                 r.Width = Math.Abs(_clickEnd.X - _clickStart.X);
                 r.Height = Math.Abs(_clickEnd.Y - _clickStart.Y);
                 r.Stroke = _surfaceSelectedOutline;
                 r.StrokeThickness = .5;
-                r.Fill = _surfaceSelectedBrush;
+
                 r.Tag = new Surface() { SurfaceTexture = txtSurfaceTexture.Text };
-               
+
+
+                ImageBrush ib = new ImageBrush();
+                ib.ImageSource = new BitmapImage(new Uri("..\\..\\Images\\" + txtSurfaceTexture.Text  + ".png", UriKind.Relative));
+                ib.TileMode = TileMode.Tile;
+                ib.Viewport = new Rect(0, 0, ib.ImageSource.Width/r.Width, ib.ImageSource.Height/r.Height);
+                r.Fill = ib;
+                r.Opacity = _selectionOpacity;
                 r.MouseDown += new MouseButtonEventHandler(surface_MouseDown);
                 cnvsMap.Children.Add(r);
 
@@ -225,7 +343,7 @@ namespace TeddyMapEditor
                 r.Height = Math.Abs(_clickEnd.Y - _clickStart.Y);
                 r.Stroke = _surfaceBrushOutline;
                 r.StrokeThickness = .5;
-                r.Fill = _surfaceBrush;
+                //r.Fill = _surfaceBrush;
                 cnvsMap.Children.Add(r);
 
                 double startX;
@@ -257,25 +375,55 @@ namespace TeddyMapEditor
         {
             if (_currentEditMode == EditMode.selection)
             {
-                UnselectAllSurfaces();
+                UnselectAllElements();
 
-                ((Rectangle)sender).Stroke = _surfaceSelectedOutline;
-                ((Rectangle)sender).Fill = _surfaceSelectedBrush;
-
+                ((Rectangle)sender).Opacity = _selectionOpacity;
                 _currentSurface = ((Rectangle)sender);
-                spSurfaces.Visibility = Visibility.Visible;
+                spSurfaces.Width = 1000;
             }
 
         }
 
-        private void UnselectAllSurfaces()
+        private void enemy_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (_currentEditMode == EditMode.selection)
+            {
+                UnselectAllElements();
+
+                ((Rectangle)sender).Stroke = _surfaceSelectedOutline;
+                ((Rectangle)sender).Opacity = _selectionOpacity;
+
+                _currentEnemy = ((Rectangle)sender);
+                spEnemies.Width = 1000;
+            }
+
+        }
+
+        private void object_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (_currentEditMode == EditMode.selection)
+            {
+                UnselectAllElements();
+
+                ((Rectangle)sender).Stroke = _surfaceSelectedOutline;
+                ((Rectangle)sender).Opacity = _selectionOpacity;
+
+                _currentObject = ((Rectangle)sender);
+                spObjects.Width = 1000;
+            }
+
+        }
+
+
+
+        private void UnselectAllElements()
         {
             foreach (UIElement item in cnvsMap.Children)
             {
                 if (item.GetType() == typeof(Rectangle))
                 {
-                    ((Rectangle)item).Stroke = _surfaceBrushOutline;
-                    ((Rectangle)item).Fill = _surfaceBrush;
+                    ((Rectangle)item).Opacity = 1;
+
                 }
 
             }
@@ -291,11 +439,10 @@ namespace TeddyMapEditor
             else
             {
                 UnselectAllButtons();
-                _currentEditMode = EditMode.selection;
+                CurrentEditMode = EditMode.selection;
                 btnSelectionMode.Foreground = _buttonSelectionTextColor;
                 btnSelectionMode.Background = _buttonSelectionBackColor;
                 this.Cursor = Cursors.Hand;
-                spSurfaces.Visibility = Visibility.Hidden;
             }
 
             
@@ -306,18 +453,17 @@ namespace TeddyMapEditor
             if (btnSurfacesMode.Foreground == _buttonSelectionTextColor)
             {
                 SetButtonUnselected(ref btnSurfacesMode);
-                spSurfaces.Visibility = Visibility.Hidden;
             }
             else
             {
                 UnselectAllButtons();
-                _currentEditMode = EditMode.surfaces;
+                CurrentEditMode = EditMode.surfaces;
                 btnSurfacesMode.Foreground = _buttonSelectionTextColor;
                 btnSurfacesMode.Background = _buttonSelectionBackColor;
                 this.Cursor = Cursors.Cross;
-                UnselectAllSurfaces();
-                _currentSurface = null;
-                spSurfaces.Visibility = Visibility.Visible;
+                UnselectAllElements();
+                SetAllCurrentObjectsToNull();
+                spSurfaces.Width = 1000;
             }
         }
 
@@ -331,12 +477,13 @@ namespace TeddyMapEditor
             else
             {
                 UnselectAllButtons();
-                _currentEditMode = EditMode.enemies;
+                CurrentEditMode = EditMode.enemies;
                 btnEnemyMode.Foreground = _buttonSelectionTextColor;
                 btnEnemyMode.Background = _buttonSelectionBackColor;
                 this.Cursor = Cursors.Pen;
-                UnselectAllSurfaces();
-                _currentSurface = null;
+                UnselectAllElements();
+                SetAllCurrentObjectsToNull();
+                spEnemies.Width = 1000;
             }
         }
 
@@ -349,18 +496,26 @@ namespace TeddyMapEditor
             else
             {
                 UnselectAllButtons();
-                _currentEditMode = EditMode.objects;
+                CurrentEditMode = EditMode.objects;
                 btnObjects.Foreground = _buttonSelectionTextColor;
                 btnObjects.Background = _buttonSelectionBackColor;
                 this.Cursor = Cursors.SizeAll;
-                UnselectAllSurfaces();
-                _currentSurface = null;
+                UnselectAllElements();
+                SetAllCurrentObjectsToNull();
+                spObjects.Width = 1000;
             }
+        }
+
+        private void SetAllCurrentObjectsToNull()
+        {
+            _currentSurface = null;
+            _currentEnemy = null;
+            _currentObject = null;
         }
 
         private void SetButtonUnselected(ref Button b)
         {
-            _currentEditMode = EditMode.none;
+            CurrentEditMode = EditMode.none;
             b.Foreground = _buttonUnselectedTextColor;
             b.Background = _buttonUnselectedBackColor;
             this.Cursor = Cursors.Arrow;
@@ -379,6 +534,9 @@ namespace TeddyMapEditor
 
             btnEnemyMode.Foreground = _buttonUnselectedTextColor;
             btnEnemyMode.Background = _buttonUnselectedBackColor;
+
+            spEnemies.Width = 0;
+            spSurfaces.Width = 0;
         }
 
 

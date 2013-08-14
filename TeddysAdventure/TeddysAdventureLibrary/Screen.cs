@@ -250,7 +250,7 @@ namespace TeddysAdventureLibrary
 
         }
 
-        private void DrawSurface(int x, int y, float totalWidth, float totalHeight, Texture2D surfaceTexture)
+        private void DrawSurface(int x, int y, int totalWidth, int totalHeight, Texture2D surfaceTexture)
         {
             totalHeight = totalHeight / surfaceTexture.Height;
             totalWidth = totalWidth / surfaceTexture.Width;

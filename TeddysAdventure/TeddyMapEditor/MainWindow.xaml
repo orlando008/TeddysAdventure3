@@ -49,7 +49,7 @@
                 </Button>
             </Grid>
 
-            <StackPanel x:Name="spSurfaces" Orientation="Horizontal" Visibility="Collapsed">
+            <StackPanel x:Name="spSurfaces" Orientation="Horizontal" Width="0">
                 <StackPanel.Resources>
                     <Style x:Key="SurfaceButton" TargetType="{x:Type Button}">
                         <Style.Setters>
@@ -76,15 +76,16 @@
                 <Label VerticalAlignment="Top" VerticalContentAlignment="Top">Surface Texture</Label>
                 <TextBox Name="txtSurfaceTexture" Width="150" Height="24" VerticalAlignment="Top" Margin="3">SurfaceTexture1</TextBox>
             </StackPanel>
-            
-            <StackPanel Name="spEnemies">
+
+            <StackPanel Name="spEnemies"  Width="0">
                 <StackPanel Orientation="Horizontal">
                     <Label>Enemy Type</Label>
-                    <ComboBox Width="100">
+                    <ComboBox Name="cboEnemies" Width="100">
                         <ComboBox.Items>
                             <ComboBoxItem>BowlingBall</ComboBoxItem>
-                            <ComboBoxItem>Plane</ComboBoxItem>
+                            <ComboBoxItem>Airplane</ComboBoxItem>
                             <ComboBoxItem>MatchBoxCar</ComboBoxItem>
+                            <ComboBoxItem>FlyingBook</ComboBoxItem>
                         </ComboBox.Items>
                     </ComboBox>
 
@@ -93,6 +94,25 @@
 
                     <Label>Velocity Y</Label>
                     <TextBox Width="25"></TextBox>
+
+                    <Label>Start X</Label>
+                    <TextBox Width="50"></TextBox>
+
+                    <Label>Start Y</Label>
+                    <TextBox Width="50"></TextBox>
+                </StackPanel>
+
+
+            </StackPanel>
+
+            <StackPanel Name="spObjects"  Width="0">
+                <StackPanel Orientation="Horizontal">
+                    <Label>Enemy Type</Label>
+                    <ComboBox Name="cboObjects" Width="100">
+                        <ComboBox.Items>
+                            <ComboBoxItem>Fluff</ComboBoxItem>
+                        </ComboBox.Items>
+                    </ComboBox>
 
                     <Label>Start X</Label>
                     <TextBox Width="50"></TextBox>
