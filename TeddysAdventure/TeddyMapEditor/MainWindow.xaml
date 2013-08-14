@@ -96,10 +96,10 @@
                     <TextBox Width="25"></TextBox>
 
                     <Label>Start X</Label>
-                    <TextBox Width="50"></TextBox>
+                    <TextBox Width="50" Name="txtEnemyXLocation" ></TextBox>
 
                     <Label>Start Y</Label>
-                    <TextBox Width="50"></TextBox>
+                    <TextBox Width="50" Name="txtEnemyYLocation"></TextBox>
                 </StackPanel>
 
 
@@ -115,10 +115,10 @@
                     </ComboBox>
 
                     <Label>Start X</Label>
-                    <TextBox Width="50"></TextBox>
+                    <TextBox Width="50" Name="txtObjectXLocation"></TextBox>
 
                     <Label>Start Y</Label>
-                    <TextBox Width="50"></TextBox>
+                    <TextBox Width="50" Name="txtObjectYLocation"></TextBox>
                 </StackPanel>
 
 

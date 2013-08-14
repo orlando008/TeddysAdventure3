@@ -34,6 +34,22 @@ namespace TeddyMapEditor
 
         private Point _location;
 
+        public Point Location
+        {
+            get { return _location; }
+            set 
+            {
+                EventHandler handler = SomethingChanged;
+                _location = value;
+                if (handler != null)
+                {
+                    handler(this, null);
+                }
+            }
+        }
+
+        public event EventHandler SomethingChanged;
+
         public Enemy(string name, Point location, float velocityX, float velocityY)
         {
             _name = name;

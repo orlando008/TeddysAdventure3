@@ -66,8 +66,28 @@ namespace TeddyMapEditor
 
         private bool _surfaceDraggingStarted = false;
         private Rectangle _currentSurface;
+
+        public Rectangle CurrentSurface
+        {
+            get { return _currentSurface; }
+            set { _currentSurface = value; }
+        }
+
         private Rectangle _currentEnemy;
+
+        public Rectangle CurrentEnemy
+        {
+            get { return _currentEnemy; }
+            set { _currentEnemy = value; }
+        }
+
         private Rectangle _currentObject;
+
+        public Rectangle CurrentObject
+        {
+            get { return _currentObject; }
+            set { _currentObject = value; }
+        }
 
         public MainWindow()
         {
@@ -206,11 +226,16 @@ namespace TeddyMapEditor
             r.Fill = ib;
 
             r.MouseDown += new MouseButtonEventHandler(enemy_MouseDown);
+            r.MouseMove += new MouseEventHandler(enemy_MouseMove);
+            r.MouseUp += new MouseButtonEventHandler(enemy_MouseUp);
 
+            ((Enemy)r.Tag).SomethingChanged += new EventHandler(Enemy_SomethingChanged);
             cnvsMap.Children.Add(r);
 
             cnvsMap.Children[cnvsMap.Children.Count - 1].SetValue(Canvas.LeftProperty, p.X);
             cnvsMap.Children[cnvsMap.Children.Count - 1].SetValue(Canvas.TopProperty, p.Y);
+
+            CurrentEnemy = r;
         }
 
         private void ObjectModeMouseUp(MouseEventArgs e)
@@ -232,10 +257,28 @@ namespace TeddyMapEditor
             r.Fill = ib;
 
             r.MouseDown += new MouseButtonEventHandler(object_MouseDown);
+            r.MouseMove += new MouseEventHandler(object_MouseMove);
+            r.MouseUp += new MouseButtonEventHandler(object_MouseUp);
+
+            ((GameObject)r.Tag).SomethingChanged += new EventHandler(Object_SomethingChanged);
             cnvsMap.Children.Add(r);
 
             cnvsMap.Children[cnvsMap.Children.Count - 1].SetValue(Canvas.LeftProperty, p.X);
             cnvsMap.Children[cnvsMap.Children.Count - 1].SetValue(Canvas.TopProperty, p.Y);
+
+            CurrentObject = r;
+        }
+
+        private void Object_SomethingChanged(Object sender, EventArgs e)
+        {
+            txtObjectXLocation.Text = ((GameObject)sender).Location.X.ToString();
+            txtObjectYLocation.Text = ((GameObject)sender).Location.Y.ToString();
+        }
+
+        private void Enemy_SomethingChanged(Object sender, EventArgs e)
+        {
+            txtEnemyXLocation.Text = ((Enemy)sender).Location.X.ToString();
+            txtEnemyYLocation.Text = ((Enemy)sender).Location.Y.ToString();
         }
 
         private void GetCurrentEnemysSize(ref int width, ref int height)
@@ -307,6 +350,8 @@ namespace TeddyMapEditor
                 r.Fill = ib;
                 r.Opacity = _selectionOpacity;
                 r.MouseDown += new MouseButtonEventHandler(surface_MouseDown);
+                r.MouseMove += new MouseEventHandler(surface_MouseMove);
+                r.MouseUp += new MouseButtonEventHandler(surface_MouseUp);
                 cnvsMap.Children.Add(r);
 
                 cnvsMap.Children[cnvsMap.Children.Count - 1].SetValue(Canvas.LeftProperty, _clickStart.X);
@@ -314,7 +359,7 @@ namespace TeddyMapEditor
 
                 
                 _surfaceDraggingStarted = false;
-                _currentSurface = r;
+                CurrentSurface = r;
             }
         }
 
@@ -378,10 +423,31 @@ namespace TeddyMapEditor
                 UnselectAllElements();
 
                 ((Rectangle)sender).Opacity = _selectionOpacity;
-                _currentSurface = ((Rectangle)sender);
+                CurrentSurface = ((Rectangle)sender);
                 spSurfaces.Width = 1000;
+                _clickCaptured = true;
+                _clickStart = e.GetPosition(cnvsMap);
             }
 
+        }
+
+        private void surface_MouseUp(object sender, MouseEventArgs e)
+        {
+            _clickCaptured = false;
+        }
+
+        private void surface_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (_clickCaptured && CurrentSurface != null)
+            {
+                Point p = e.GetPosition(cnvsMap);
+                double xDiff = p.X - _clickStart.X;
+                double yDiff = p.Y - _clickStart.Y;
+                _clickStart = p;
+
+                CurrentSurface.SetValue(Canvas.LeftProperty, Convert.ToDouble(CurrentSurface.GetValue(Canvas.LeftProperty)) + xDiff);
+                CurrentSurface.SetValue(Canvas.TopProperty, Convert.ToDouble(CurrentSurface.GetValue(Canvas.TopProperty)) + yDiff);
+            }
         }
 
         private void enemy_MouseDown(object sender, MouseEventArgs e)
@@ -393,10 +459,32 @@ namespace TeddyMapEditor
                 ((Rectangle)sender).Stroke = _surfaceSelectedOutline;
                 ((Rectangle)sender).Opacity = _selectionOpacity;
 
-                _currentEnemy = ((Rectangle)sender);
+                CurrentEnemy = ((Rectangle)sender);
                 spEnemies.Width = 1000;
+                _clickCaptured = true;
             }
 
+        }
+
+        private void enemy_MouseUp(object sender, MouseEventArgs e)
+        {
+            _clickCaptured = false;
+        }
+
+        private void enemy_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (_clickCaptured && CurrentEnemy != null)
+            {
+                Point p = e.GetPosition(cnvsMap);
+                double xDiff = p.X - _clickStart.X;
+                double yDiff = p.Y - _clickStart.Y;
+                _clickStart = p;
+
+                CurrentEnemy.SetValue(Canvas.LeftProperty, Convert.ToDouble(CurrentEnemy.GetValue(Canvas.LeftProperty)) + xDiff);
+                CurrentEnemy.SetValue(Canvas.TopProperty, Convert.ToDouble(CurrentEnemy.GetValue(Canvas.TopProperty)) + yDiff);
+
+                ((Enemy)CurrentEnemy.Tag).Location = new Point(Convert.ToInt32(CurrentEnemy.GetValue(Canvas.LeftProperty)), Convert.ToInt32(CurrentEnemy.GetValue(Canvas.TopProperty)));
+            }
         }
 
         private void object_MouseDown(object sender, MouseEventArgs e)
@@ -408,10 +496,32 @@ namespace TeddyMapEditor
                 ((Rectangle)sender).Stroke = _surfaceSelectedOutline;
                 ((Rectangle)sender).Opacity = _selectionOpacity;
 
-                _currentObject = ((Rectangle)sender);
+                CurrentObject = ((Rectangle)sender);
                 spObjects.Width = 1000;
+                _clickCaptured = true;
             }
 
+        }
+
+        private void object_MouseUp(object sender, MouseEventArgs e)
+        {
+            _clickCaptured = false;
+        }
+
+        private void object_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (_clickCaptured && CurrentObject != null)
+            {
+                Point p = e.GetPosition(cnvsMap);
+                double xDiff = p.X - _clickStart.X;
+                double yDiff = p.Y - _clickStart.Y;
+                _clickStart = p;
+
+                CurrentObject.SetValue(Canvas.LeftProperty, Convert.ToDouble(CurrentObject.GetValue(Canvas.LeftProperty)) + xDiff);
+                CurrentObject.SetValue(Canvas.TopProperty, Convert.ToDouble(CurrentObject.GetValue(Canvas.TopProperty)) + yDiff);
+
+                ((GameObject)CurrentObject.Tag).Location = new Point(Convert.ToInt32(CurrentObject.GetValue(Canvas.LeftProperty)), Convert.ToInt32(CurrentObject.GetValue(Canvas.TopProperty)));
+            }
         }
 
 
@@ -508,9 +618,9 @@ namespace TeddyMapEditor
 
         private void SetAllCurrentObjectsToNull()
         {
-            _currentSurface = null;
-            _currentEnemy = null;
-            _currentObject = null;
+            CurrentSurface = null;
+            CurrentEnemy = null;
+            CurrentObject = null;
         }
 
         private void SetButtonUnselected(ref Button b)
@@ -543,50 +653,50 @@ namespace TeddyMapEditor
 
         private void btnIncreaseWidth_Click(object sender, RoutedEventArgs e)
         {
-            if(_currentSurface != null)
-                _currentSurface.Width += BASIC_UNIT;
+            if(CurrentSurface != null)
+                CurrentSurface.Width += BASIC_UNIT;
         }
 
         private void btnDecreaseWidth_Click(object sender, RoutedEventArgs e)
         {
-            if (_currentSurface != null)
-                _currentSurface.Width -= BASIC_UNIT;
+            if (CurrentSurface != null)
+                CurrentSurface.Width -= BASIC_UNIT;
         }
 
         private void btnIncreaseHeight_Click(object sender, RoutedEventArgs e)
         {
-            if (_currentSurface != null)
-                _currentSurface.Height += BASIC_UNIT;
+            if (CurrentSurface != null)
+                CurrentSurface.Height += BASIC_UNIT;
         }
 
         private void btnDecreaseHeight_Click(object sender, RoutedEventArgs e)
         {
-            if (_currentSurface != null)
-                _currentSurface.Height -= BASIC_UNIT;
+            if (CurrentSurface != null)
+                CurrentSurface.Height -= BASIC_UNIT;
         }
 
         private void btnIncreaseX_Click(object sender, RoutedEventArgs e)
         {
-            if (_currentSurface != null)
-                _currentSurface.SetValue(Canvas.LeftProperty, Convert.ToDouble(_currentSurface.GetValue(Canvas.LeftProperty)) + (double)BASIC_UNIT);
+            if (CurrentSurface != null)
+                CurrentSurface.SetValue(Canvas.LeftProperty, Convert.ToDouble(CurrentSurface.GetValue(Canvas.LeftProperty)) + (double)BASIC_UNIT);
         }
 
         private void btnDecreaseX_Click(object sender, RoutedEventArgs e)
         {
-            if (_currentSurface != null)
-                _currentSurface.SetValue(Canvas.LeftProperty, Convert.ToDouble(_currentSurface.GetValue(Canvas.LeftProperty)) - (double)BASIC_UNIT);
+            if (CurrentSurface != null)
+                CurrentSurface.SetValue(Canvas.LeftProperty, Convert.ToDouble(CurrentSurface.GetValue(Canvas.LeftProperty)) - (double)BASIC_UNIT);
         }
 
         private void btnDecreaseY_Click(object sender, RoutedEventArgs e)
         {
-            if (_currentSurface != null)
-                _currentSurface.SetValue(Canvas.TopProperty, Convert.ToDouble(_currentSurface.GetValue(Canvas.TopProperty)) - (double)BASIC_UNIT);
+            if (CurrentSurface != null)
+                CurrentSurface.SetValue(Canvas.TopProperty, Convert.ToDouble(CurrentSurface.GetValue(Canvas.TopProperty)) - (double)BASIC_UNIT);
         }
 
         private void btnIncreaseY_Click(object sender, RoutedEventArgs e)
         {
-            if (_currentSurface != null)
-                _currentSurface.SetValue(Canvas.TopProperty, Convert.ToDouble(_currentSurface.GetValue(Canvas.TopProperty)) + (double)BASIC_UNIT);
+            if (CurrentSurface != null)
+                CurrentSurface.SetValue(Canvas.TopProperty, Convert.ToDouble(CurrentSurface.GetValue(Canvas.TopProperty)) + (double)BASIC_UNIT);
         }
 
         private void btnRender_Click(object sender, RoutedEventArgs e)

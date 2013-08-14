@@ -18,10 +18,26 @@ namespace TeddyMapEditor
 
         private Point _location;
 
+        public Point Location
+        {
+            get { return _location; }
+            set 
+            {
+                EventHandler handler = SomethingChanged;
+                _location = value;
+                if (handler != null)
+                {
+                    handler(this, null);
+                }
+            }
+        }
+
+        public event EventHandler SomethingChanged;
+
         public GameObject(string name, Point location)
         {
-            _name = name;
-            _location = location;
+            Name = name;
+            Location = location;
         }
     }
 }
