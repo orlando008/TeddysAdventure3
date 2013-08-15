@@ -57,5 +57,17 @@ namespace TeddyMapEditor
             _velocityX = velocityX;
             _velocityY = velocityY;
         }
+
+        public string GetXMLString()
+        {
+            string s = "";
+            s += "<Item>" + System.Environment.NewLine;
+            s += "<Type>" + _name + "</Type>" + System.Environment.NewLine;
+            s += "<Position>" + Convert.ToInt32(_location.X).ToString() + " " + Convert.ToInt32(_location.Y).ToString() + "</Position>" + System.Environment.NewLine;
+            s += "<Velocity>" + _velocityX.ToString() + " " + _velocityY.ToString() + "</Velocity>" + System.Environment.NewLine;
+            s += "</Item>" + System.Environment.NewLine;
+
+            return s;
+        }
     }
 }
