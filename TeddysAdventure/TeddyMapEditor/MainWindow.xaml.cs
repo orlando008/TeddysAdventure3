@@ -790,6 +790,10 @@ namespace TeddyMapEditor
             sw.WriteLine("Normal");
             sw.WriteLine("</LevelType>");
 
+            sw.WriteLine("<LevelSize>");
+            sw.WriteLine(txtLevelWidth.Text + " " + txtLevelHeight.Text);
+            sw.WriteLine("</LevelSize>");
+
             sw.WriteLine("</Asset>");
             sw.WriteLine("</XnaContent>");
 
