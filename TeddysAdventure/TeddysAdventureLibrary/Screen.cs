@@ -26,9 +26,8 @@ namespace TeddysAdventureLibrary
         private List<Rectangle> _surfaces;
         private ScreenHelper _screenHelper;
         private List<Texture2D> _sprites;
-        private List<Vector2> _positions;
         private int _totalLevelWidth;
-        private List<Fluff> _fluffs;
+        private List<GameObject> _gameObjects;
         private List<Enemy> _enemies;
         private int _deathScreenCounter = 0;
         private bool _goBackToStartScreen = false;
@@ -52,11 +51,6 @@ namespace TeddysAdventureLibrary
             set { _sprites = value; }
         }
 
-        public List<Vector2> Positions
-        {
-            get { return _positions; }
-            set { _positions = value; }
-        }
 
         public Vector2 GlobalPosition
         {
@@ -64,10 +58,10 @@ namespace TeddysAdventureLibrary
             set { _globalPosition = value; }
         }
 
-        public List<Fluff> Fluffs
+        public List<GameObject> GameObjects
         {
-            get { return _fluffs; }
-            set { _fluffs = value; }
+            get { return _gameObjects; }
+            set { _gameObjects = value; }
         }
 
         public List<Enemy> Enemies
@@ -87,12 +81,6 @@ namespace TeddysAdventureLibrary
         {
             _screenHelper = game.Content.Load<ScreenHelper>("Screens\\" + levelName);
             
-            Sprites = new List<Texture2D>();
-            foreach (string s in _screenHelper.Assets)
-            {
-                Sprites.Add( game.Content.Load<Texture2D>("Screens\\" + s));
-                _totalLevelWidth += Sprites[Sprites.Count - 1].Width;
-            }
 
             _deathSprite = game.Content.Load<Texture2D>("Screens\\deathScreen");
             _deathFont = game.Content.Load<SpriteFont>("Fonts\\DeathScreenFont");
@@ -100,18 +88,18 @@ namespace TeddysAdventureLibrary
 
             _surfaceTexture = game.Content.Load<Texture2D>(System.IO.Path.Combine(@"Objects", "SurfaceTexture1"));
 
-            Positions = new List<Vector2>();
+            GlobalPosition = new Vector2(0, 0);
 
-            foreach (int i in _screenHelper.Positions)
+            GameObjects = new List<GameObject>();
+            foreach (GameObjectHelper v2 in _screenHelper.ListOfObjects)
             {
-                Positions.Add(new Vector2(i, 0));
-            }
-            GlobalPosition = new Vector2(Positions[0].X, Positions[0].Y);
-
-            Fluffs = new List<Fluff>();
-            foreach (Vector2 v2 in _screenHelper.FluffLocations)
-            {
-                Fluffs.Add(new Fluff(game, v2));
+                switch (v2.Type)
+                {
+                    case "Fluff":
+                        GameObjects.Add(new Fluff(game, v2.Position));
+                        break;
+                }
+                
             }
 
             _enemies = new List<Enemy>();
@@ -195,16 +183,10 @@ namespace TeddysAdventureLibrary
                 Surfaces[i] = new Rectangle(Surfaces[i].X + speed, Surfaces[i].Y, Surfaces[i].Width, Surfaces[i].Height); 
             }
 
-            //move all the positions
-            for (int i = 0; i < Positions.Count; i++)
-            {
-                Positions[i] = new Vector2(Positions[i].X + speed, Positions[i].Y);
-            }
-
             //move all the fluffs
-            for (int i = 0; i < Fluffs.Count; i++)
+            for (int i = 0; i < GameObjects.Count; i++)
             {
-                Fluffs[i].MoveFluffByX(speed);
+                GameObjects[i].MoveGameObjectByX(speed);
             }
 
             //move all the enemies
@@ -238,7 +220,7 @@ namespace TeddysAdventureLibrary
             }
 
 
-            foreach (Fluff f in Fluffs)
+            foreach (Fluff f in GameObjects)
             {
                 f.Update(gameTime);
             }
@@ -281,7 +263,7 @@ namespace TeddysAdventureLibrary
                 DrawSurface(sur.X, sur.Y, sur.Width, sur.Height, _surfaceTexture);
             }
 
-            foreach (Fluff f in Fluffs)
+            foreach (GameObject f in GameObjects)
             {
                 f.Draw(gameTime, spriteBatch);
             }

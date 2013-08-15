@@ -473,7 +473,7 @@ namespace TeddysAdventureLibrary
 
         private void checkForFluffGrabs()
         {
-            foreach (Fluff f in ((Screen)Game.Components[0]).Fluffs)
+            foreach (Fluff f in ((Screen)Game.Components[0]).GameObjects)
             {
                 if (!f.Destroyed & TeddyRectangle.Intersects(f.CollisionRectangle) == true)
                 {

@@ -4,6 +4,13 @@
         Title="MainWindow" WindowStartupLocation="CenterScreen" WindowState="Maximized" Loaded="Window_Loaded">
     
     <DockPanel LastChildFill="True">
+        <ToolBar DockPanel.Dock="Top">
+            <ToolBar.Items>
+                <Button Width="50" Height="25" BorderThickness="1" BorderBrush="Black" Name="btnSave" Margin="3" Click="btnSave_Click">Save</Button>
+                <Button Width="50" Height="25" BorderThickness="1" BorderBrush="Black" Name="btnLoad" Margin="3">Load</Button>
+                <Button Width="50" Height="25" BorderThickness="1" BorderBrush="Black" Name="btnNew" Margin="3" Click="btnNew_Click">New</Button>
+            </ToolBar.Items>
+        </ToolBar>
         <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Background="LightGoldenrodYellow" Height="85">
             <StackPanel Orientation="Vertical">
                 <StackPanel Orientation="Horizontal">
@@ -21,8 +28,7 @@
                     <TextBox Name="txtLevelHeight" Width="100" Height="20">750</TextBox>
                     <Button Name="btnRender" Width="24" Height="24" Margin="3" Click="btnRender_Click">Go</Button>
                 </StackPanel>
-                
-                
+
             </StackPanel>
             <Grid>
                 <Grid.RowDefinitions>

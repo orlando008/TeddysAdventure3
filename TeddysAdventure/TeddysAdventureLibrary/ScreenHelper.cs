@@ -16,24 +16,10 @@ namespace TeddysAdventureLibrary
             
         }
 
-        private string[] _assets;
-        private int[] _positions;
         private List<Rectangle> _surfaces;
-        private List<Vector2> _fluffLocations;
+        private List<GameObjectHelper> _gameObjectLocations;
         private List<EnemyHelper> _listOfEnemies;
         private string _levelType;
-
-        public string[] Assets
-        {
-            get { return _assets; }
-            set { _assets = value; }
-        }
-
-        public int[] Positions
-        {
-            get { return _positions; }
-            set { _positions = value; }
-        }
 
         public List<Rectangle> Surfaces
         {
@@ -41,10 +27,10 @@ namespace TeddysAdventureLibrary
             set { _surfaces = value; }
         }
 
-        public List<Vector2> FluffLocations
+        public List<GameObjectHelper> ListOfObjects
         {
-            get { return _fluffLocations; }
-            set { _fluffLocations = value; }
+            get { return _gameObjectLocations; }
+            set { _gameObjectLocations = value; }
         }
 
         public List<EnemyHelper> ListOfEnemies
@@ -84,11 +70,9 @@ namespace TeddysAdventureLibrary
                 scrn = new ScreenHelper();
             }
 
-            scrn.Assets = input.ReadObject<string[]>();
-            scrn.Positions = input.ReadObject<int[]>();
             scrn.Surfaces = input.ReadObject<List<Rectangle>>();
-            scrn.FluffLocations = input.ReadObject<List<Vector2>>();
-            List<EnemyHelper> enemyHelperList = input.ReadObject<List<EnemyHelper>>();
+            scrn.ListOfObjects = input.ReadObject<List<GameObjectHelper>>();
+            scrn.ListOfEnemies = input.ReadObject<List<EnemyHelper>>();
             scrn.LevelType = input.ReadString();
 
             return scrn;

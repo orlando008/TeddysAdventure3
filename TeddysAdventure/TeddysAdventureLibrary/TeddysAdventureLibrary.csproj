@@ -98,6 +98,8 @@
     <Compile Include="EnemyHelper.cs" />
     <Compile Include="Fluff.cs" />
     <Compile Include="FlyingBook.cs" />
+    <Compile Include="GameObject.cs" />
+    <Compile Include="GameObjectHelper.cs" />
     <Compile Include="MatchBoxCar.cs" />
     <Compile Include="Plane.cs" />
     <Compile Include="Screen.cs" />

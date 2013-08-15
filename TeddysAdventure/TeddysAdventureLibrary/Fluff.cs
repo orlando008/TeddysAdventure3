@@ -7,89 +7,26 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace TeddysAdventureLibrary
 {
-    public class Fluff : DrawableGameComponent
+    public class Fluff : GameObject
     {
-        private Texture2D _styleSheet;
-        private Game _game;
-        private Vector2 _position;
-        private Rectangle _collisionBox;
-        private Rectangle _boxToDraw;
-        private Vector2 _frameSize;
-        private bool _destroyed;
         private int _floatCount;
         private int _centerLine;
         private int _lengthOfPose = 20;
 
-        public Texture2D StyleSheet
-        {
-            get { return _styleSheet; }
-            set { _styleSheet = value; }
-        }
-
-        public Vector2 Position
-        {
-            get { return _position; }
-            set 
-            { 
-                _position = value; 
-            }
-        }
-
-        public Vector2 FrameSize
-        {
-            get { return _frameSize; }
-            set { _frameSize = value; }
-        }
-        
-        public Rectangle BoxToDraw
-        {
-            get { return _boxToDraw; }
-            set { _boxToDraw = value; }
-        }
-
-        public Rectangle CollisionRectangle
-        {
-            get
-            {
-                return new Rectangle((int)Position.X, (int)Position.Y, BoxToDraw.Width, BoxToDraw.Height);
-            }
-        }
-
-        public bool Destroyed
-        {
-            get { return _destroyed; }
-            set 
-            { 
-                _destroyed = value;
-                if (value == true)
-                {
-                    Position = new Vector2(-100, -100);
-                }
-            }
-        }
 
         public Fluff(Game game, Vector2 position)
-            : base(game)
+            : base(game,position)
         {
             StyleSheet = game.Content.Load<Texture2D>("Objects\\Fluff");
           
-            Position = position;
             _centerLine = (int)position.X;
             BoxToDraw = new Rectangle(0, 0, StyleSheet.Width, StyleSheet.Height);
-            Destroyed = false;
         }
 
-        public void Draw(GameTime gameTime, SpriteBatch sp)
-        {
-            if (!_destroyed)
-            {
-                sp.Draw(StyleSheet, Position, BoxToDraw, Color.White);
-            }
-        }
 
         public override void Update(GameTime gameTime)
         {
-            if (!_destroyed)
+            if (!Destroyed)
             {
                 if (_floatCount < _lengthOfPose)
                 {
@@ -119,15 +56,10 @@ namespace TeddysAdventureLibrary
             }
         }
 
-        public void MoveFluffByX(int x)
+        public override void MoveGameObjectByX(int x)
         {
             this.Position = new Vector2((int)Position.X + x, (int)Position.Y);
             _centerLine = _centerLine + x;
-        }
-
-        public void MoveFluffByY(int y)
-        {
-            this.Position = new Vector2((int)Position.X, (int)Position.Y + y);
         }
     }
 }

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?><XnaContent>
+<Asset Type="TeddysAdventureLibrary.ScreenHelper">
+<Surfaces>
+0 625 1100 100
+1100 625 125 100
+1350 625 500 100
+1775 500 125 75
+1800 125 100 325
+</Surfaces>
+<ListOfObjects>
+</ListOfObjects>
+<ListOfEnemies>
+</ListOfEnemies>
+<LevelType>
+Normal
+</LevelType>
+</Asset>
+</XnaContent>

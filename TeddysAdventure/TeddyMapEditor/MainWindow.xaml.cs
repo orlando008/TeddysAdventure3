@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.IO;
 
 namespace TeddyMapEditor
 {
@@ -126,7 +127,26 @@ namespace TeddyMapEditor
 
         private void DrawGrid()
         {
-            cnvsMap.Children.Clear();
+            for (int i = cnvsMap.Children.Count - 1; i > 0; i--)
+            {
+               if(cnvsMap.Children[i].GetType() == typeof(Line))
+               {
+                   cnvsMap.Children.RemoveAt(i);
+               }
+            }
+
+
+            for (int i = 0; i < cnvsMap.Height / BASIC_UNIT; i++)
+            {
+                Line theHorizontal = new Line();
+                theHorizontal.X1 = 0;
+                theHorizontal.X2 = cnvsMap.Width;
+                theHorizontal.Y1 = i * BASIC_UNIT;
+                theHorizontal.Y2 = i * BASIC_UNIT;
+                theHorizontal.StrokeThickness = 0.1;
+                theHorizontal.Stroke = Brushes.Black;
+                cnvsMap.Children.Add(theHorizontal);
+            }
 
 
             for (int i = 0; i < cnvsMap.Width / BASIC_UNIT; i++)
@@ -142,17 +162,7 @@ namespace TeddyMapEditor
             }
 
 
-            for (int i = 0; i < cnvsMap.Height / BASIC_UNIT; i++)
-            {
-                Line theHorizontal = new Line();
-                theHorizontal.X1 = 0;
-                theHorizontal.X2 = cnvsMap.Width;
-                theHorizontal.Y1 = i * BASIC_UNIT;
-                theHorizontal.Y2 = i * BASIC_UNIT;
-                theHorizontal.StrokeThickness = 0.1;
-                theHorizontal.Stroke = Brushes.Black;
-                cnvsMap.Children.Add(theHorizontal);
-            }
+
 
 
         }
@@ -706,6 +716,85 @@ namespace TeddyMapEditor
             DrawGrid();
         }
 
+        private void btnNew_Click(object sender, RoutedEventArgs e)
+        {
+            cnvsMap.Children.Clear();
+            txtLevelName.Text = "{NEW}";
+            txtLevelWidth.Text = "1250";
+            txtLevelHeight.Text = "750";
+            DrawGrid();
+        }
+
+        private void btnSave_Click(object sender, RoutedEventArgs e)
+        {
+            if (txtLevelName.Text == "")
+            {
+                MessageBox.Show("Please enter a level name");
+                return;
+            }
+            else
+            {
+                SaveLevelDownToXML();
+            }
+        }
+
+        private void SaveLevelDownToXML()
+        {
+            StreamWriter sw = new StreamWriter(txtLevelName.Text + ".xml");
+            sw.WriteLine("<?xml version=\"1.0\" encoding=\"utf-8\"?><XnaContent>");
+            sw.WriteLine("<Asset Type=\"TeddysAdventureLibrary.ScreenHelper\">");
+
+            sw.WriteLine("<Surfaces>");
+            foreach (UIElement item in cnvsMap.Children)
+            {
+                if(item.GetType() == typeof(Rectangle))
+                {
+                    if(((Rectangle)item).Tag.GetType() == typeof(Surface))
+                    {
+                        sw.WriteLine( Convert.ToInt32(((Rectangle)item).GetValue(Canvas.LeftProperty)).ToString() + " " + Convert.ToInt32(((Rectangle)item).GetValue(Canvas.TopProperty)).ToString() + " " + Convert.ToInt32(((Rectangle)item).Width).ToString() + " " + Convert.ToInt32(((Rectangle)item).Height).ToString() )  ;
+                    }
+                }
+
+            }
+            sw.WriteLine("</Surfaces>");
+
+            sw.WriteLine("<ListOfObjects>");
+            foreach (UIElement item in cnvsMap.Children)
+            {
+                if (item.GetType() == typeof(Rectangle))
+                {
+                    if (((Rectangle)item).Tag.GetType() == typeof(GameObject))
+                    {
+                        sw.Write(((GameObject)((Rectangle)item).Tag).GetXMLString());
+                    }
+                }
+            }
+            sw.WriteLine("</ListOfObjects>");
+
+            sw.WriteLine("<ListOfEnemies>");
+            foreach (UIElement item in cnvsMap.Children)
+            {
+                if (item.GetType() == typeof(Rectangle))
+                {
+
+                    if (((Rectangle)item).Tag.GetType() == typeof(Enemy))
+                    {
+                        sw.Write(((Enemy)((Rectangle)item).Tag).GetXMLString());
+                    }
+                }
+            }
+            sw.WriteLine("</ListOfEnemies>");
+
+
+            sw.WriteLine("<LevelType>");
+            sw.WriteLine("Normal");
+            sw.WriteLine("</LevelType>");
+
+            sw.WriteLine("</Asset>");
+            sw.WriteLine("</XnaContent>");
+
+            sw.Close();
+        }
 
     }
 }
