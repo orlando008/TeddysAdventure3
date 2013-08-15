@@ -14,5 +14,8 @@
 <LevelType>
 Normal
 </LevelType>
+<LevelSize>
+2000 750
+</LevelSize>
 </Asset>
 </XnaContent>

@@ -102,6 +102,7 @@ namespace TeddysAdventureLibrary
                 
             }
 
+            _totalLevelWidth = (int)_screenHelper.LevelSize.X;
             _enemies = new List<Enemy>();
 
             foreach (EnemyHelper eh in _screenHelper.ListOfEnemies)

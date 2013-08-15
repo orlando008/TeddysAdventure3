@@ -20,6 +20,9 @@ namespace TeddysAdventureLibrary
         private List<GameObjectHelper> _gameObjectLocations;
         private List<EnemyHelper> _listOfEnemies;
         private string _levelType;
+        private Vector2 _levelSize;
+
+
 
         public List<Rectangle> Surfaces
         {
@@ -43,6 +46,12 @@ namespace TeddysAdventureLibrary
         {
             get { return _levelType; }
             set { _levelType = value; }
+        }
+
+        public Vector2 LevelSize
+        {
+            get { return _levelSize; }
+            set { _levelSize = value; }
         }
 
         public ScreenHelper()
@@ -74,6 +83,7 @@ namespace TeddysAdventureLibrary
             scrn.ListOfObjects = input.ReadObject<List<GameObjectHelper>>();
             scrn.ListOfEnemies = input.ReadObject<List<EnemyHelper>>();
             scrn.LevelType = input.ReadString();
+            scrn.LevelSize = input.ReadVector2();
 
             return scrn;
         }
