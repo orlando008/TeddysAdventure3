@@ -11,6 +11,7 @@ namespace TeddysAdventureLibrary
     {
 
         private int _lengthOfPose = 5;
+        private int _damage = 10;
 
         public PlaneEnemy(Game game, Vector2 position, Vector2 velocity)
             : base(game) 
@@ -24,7 +25,7 @@ namespace TeddysAdventureLibrary
             this._gravity = 0f;
             this._collisionDampingFactor = .3f;
             this._playerCanRide = true;
-
+            base.Damage = _damage;
 
         }
 

@@ -42,10 +42,13 @@ namespace TeddysAdventureLibrary
         private float _gravity = .25f;
         private float _yVelocity = 0.0f;
         
-        private int _currentFluff = 0;
+        private int _currentFluff = 100;
         private int _enemiesDestroyed = 0;
         private ISurfaceInterface _ridingSurface = null;
 
+        private int _recoverCounter = 0;
+        private int _recoverWait = 100;
+        private bool _isHit = false;
 
         public void Initialize()
         {
@@ -164,6 +167,18 @@ namespace TeddysAdventureLibrary
                 return;
             }
 
+            if (_isHit)
+            {
+                if (_recoverCounter < _recoverWait)
+                {
+                    _recoverCounter++;
+                }
+                else
+                {
+                    _isHit = false;
+                    _recoverCounter = 0;
+                }
+            }
 
             var playerOverallVelocity = new Vector2(0,0);
             if (_ridingSurface != null)
@@ -540,8 +555,34 @@ namespace TeddysAdventureLibrary
             if (e.CanInteractWithPlayer & (TeddyRectangle.Intersects(e.CollisionRectangle)) && (e != _ridingSurface))
             {
                 BoxToDraw = new Rectangle(150, 75, BoxToDraw.Width, BoxToDraw.Height);
-                Dead = true;
-                e.Kill();
+                // Check if Teddy has been hit
+                if (!_isHit)
+                {
+                    if (e.Damage > CurrentFluff)
+                    {
+                        Dead = true;
+                        e.Kill();
+                    }
+                    else
+                    {
+                        CurrentFluff -= e.Damage;
+                        _isHit = true;
+                        var playerOverallVelocity = new Vector2(-50, 0);
+                        //hit on right side
+                        if (TeddyRectangle.Right <= e.CollisionRectangle.Left)
+                        {
+                            _yVelocity = -3;
+                            playerOverallVelocity.X = 50;
+                            movePlayer(playerOverallVelocity);
+                        }
+                        else //hit on left side
+                        {
+                            _yVelocity = -3;
+                            playerOverallVelocity.X = 50;
+                            movePlayer(playerOverallVelocity);
+                        }
+                    }
+                }
             }
 
         }

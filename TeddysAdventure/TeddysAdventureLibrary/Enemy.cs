@@ -36,6 +36,8 @@ namespace TeddysAdventureLibrary
 
         private List<Enemy> _childrenEnemies;
 
+        // 15 by default since, only testing with plane
+        private int _damage = 15;
 
         public Texture2D StyleSheet
         {
@@ -125,6 +127,12 @@ namespace TeddysAdventureLibrary
             {
                 _childrenEnemies = value;
             }
+        }
+
+        public int Damage
+        {
+            get { return _damage; }
+            set { _damage = value; }
         }
 
         public Enemy(Game game)
