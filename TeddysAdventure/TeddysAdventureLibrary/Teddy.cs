@@ -569,10 +569,10 @@ namespace TeddysAdventureLibrary
                         _isHit = true;
                         var playerOverallVelocity = new Vector2(-50, 0);
                         //hit on right side
-                        if (TeddyRectangle.Right <= e.CollisionRectangle.Left)
+                        if (TeddyRectangle.Left <= e.CollisionRectangle.Left)
                         {
                             _yVelocity = -3;
-                            playerOverallVelocity.X = 50;
+                            playerOverallVelocity.X = -50;
                             movePlayer(playerOverallVelocity);
                         }
                         else //hit on left side

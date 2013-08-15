@@ -118,7 +118,7 @@ namespace TeddysAdventureLibrary
                     case "FlyingBook":
                         _enemies.Add(new FlyingBook(game, eh.Position, eh.Velocity));
                         break;
-                    case "Plane":
+                    case "Airplane":
                         _enemies.Add(new PlaneEnemy(game, eh.Position, eh.Velocity));
                         break;
                 }

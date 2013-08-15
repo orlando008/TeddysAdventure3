@@ -223,7 +223,7 @@ namespace TeddyMapEditor
             Rectangle r = new Rectangle();
             int width =0;
             int height =0;
-            GetCurrentEnemysSize(ref width, ref height);
+            GetCurrentEnemysSize(cboEnemies.Text, ref width, ref height);
             r.Width = width;
             r.Height = height;
             r.Stroke = _surfaceSelectedOutline;
@@ -291,9 +291,9 @@ namespace TeddyMapEditor
             txtEnemyYLocation.Text = ((Enemy)sender).Location.Y.ToString();
         }
 
-        private void GetCurrentEnemysSize(ref int width, ref int height)
+        private void GetCurrentEnemysSize(string enemyType, ref int width, ref int height)
         {
-            switch (cboEnemies.Text.ToString())
+            switch (enemyType)
             {
                 case "BowlingBall":
                     width = 50;
@@ -800,5 +800,163 @@ namespace TeddyMapEditor
             sw.Close();
         }
 
+        private void txtVelocityX_LostFocus(object sender, RoutedEventArgs e)
+        {
+            ((Enemy)_currentEnemy.Tag).VelocityX = Convert.ToInt32(txtVelocityX.Text);
+        }
+
+        private void txtVelocityY_LostFocus(object sender, RoutedEventArgs e)
+        {
+            ((Enemy)_currentEnemy.Tag).VelocityY = Convert.ToInt32(txtVelocityY.Text);
+        }
+
+        private void loadScreen(string filePath)
+        {
+            StreamReader sr = new StreamReader(filePath);
+           
+            string currentLine = "";
+            while (!sr.EndOfStream)
+            {
+                currentLine = sr.ReadLine();
+                if (currentLine == "<Surfaces>")
+                {
+                    break;
+                }
+
+            }
+
+            //do surfaces
+            while(!sr.EndOfStream)
+            {
+                currentLine = sr.ReadLine();
+                if (currentLine == "</Surfaces>")
+                {
+                    break;
+                }
+
+                List<string> lrecparts = currentLine.Split(" ".ToArray()).ToList();
+
+                Rectangle r = new Rectangle();
+                r.Width = Convert.ToInt32(lrecparts[2]);
+                r.Height = Convert.ToInt32(lrecparts[3]);
+                r.Stroke = _surfaceBrushOutline;
+                r.StrokeThickness = 1;
+
+                r.Tag = new Surface() { SurfaceTexture = "SurfaceTexture1" };
+
+
+                ImageBrush ib = new ImageBrush();
+                ib.ImageSource = new BitmapImage(new Uri("..\\..\\Images\\SurfaceTexture1.png", UriKind.Relative));
+                ib.TileMode = TileMode.Tile;
+                ib.Viewport = new Rect(0, 0, ib.ImageSource.Width/r.Width, ib.ImageSource.Height/r.Height);
+                r.Fill = ib;
+                r.Opacity = 1;
+                r.MouseDown += new MouseButtonEventHandler(surface_MouseDown);
+                r.MouseMove += new MouseEventHandler(surface_MouseMove);
+                r.MouseUp += new MouseButtonEventHandler(surface_MouseUp);
+                cnvsMap.Children.Add(r);
+
+                cnvsMap.Children[cnvsMap.Children.Count - 1].SetValue(Canvas.LeftProperty, Convert.ToDouble(lrecparts[0]));
+                cnvsMap.Children[cnvsMap.Children.Count - 1].SetValue(Canvas.TopProperty, Convert.ToDouble(lrecparts[1]));
+            }
+
+            //do objects
+            while (!sr.EndOfStream)
+            {
+                currentLine = sr.ReadLine();
+
+                if (currentLine == "</ListOfObjects>")
+                {
+                    break;
+                }
+
+                if (currentLine == "<Item>")
+                {
+                    currentLine = sr.ReadLine();
+                    string sType = currentLine.Replace("<Type>", "").Replace("</Type>", "");
+                    currentLine = sr.ReadLine();
+                    string sPosition = currentLine.Replace("<Position>", "").Replace("</Position>", "");
+                }
+                    
+            }
+
+            //do enemies
+            while (!sr.EndOfStream)
+            {
+                currentLine = sr.ReadLine();
+
+                if (currentLine == "</ListOfEnemies>")
+                {
+                    break;
+                }
+
+                if (currentLine == "<Item>")
+                {
+                    currentLine = sr.ReadLine();
+                    string sType = currentLine.Replace("<Type>", "").Replace("</Type>", "");
+                    
+                    currentLine = sr.ReadLine();
+                    List<string> sPosition = currentLine.Replace("<Position>", "").Replace("</Position>", "").Split(" ".ToArray()).ToList();
+                    string xPosition = sPosition[0];
+                    string yPosition = sPosition[1];
+
+                    currentLine = sr.ReadLine();
+                    List<string> sVelocity = currentLine.Replace("<Velocity>", "").Replace("</Velocity>", "").Split(" ".ToArray()).ToList();
+
+                    string xVelocity = sVelocity[0];
+                    string yVelocity = sVelocity[1];
+
+                    Point p = new Point(Convert.ToDouble(xPosition), Convert.ToDouble(yPosition));
+                    Rectangle r = new Rectangle();
+                    int width = 0;
+                    int height = 0;
+                    GetCurrentEnemysSize(sType, ref width, ref height);
+
+                    r.Width = width;
+                    r.Height = height;
+                    r.Stroke = _surfaceBrushOutline;
+                    r.StrokeThickness = 1;
+                    r.Fill = Brushes.Beige;
+                    r.Tag = new Enemy(sType, p, Convert.ToSingle(xVelocity), Convert.ToSingle( yVelocity));
+
+                    ImageBrush ib = new ImageBrush();
+                    ib.ImageSource = new BitmapImage(new Uri("..\\..\\Images\\" + sType + ".png", UriKind.Relative));
+                    r.Fill = ib;
+
+                    r.MouseDown += new MouseButtonEventHandler(enemy_MouseDown);
+                    r.MouseMove += new MouseEventHandler(enemy_MouseMove);
+                    r.MouseUp += new MouseButtonEventHandler(enemy_MouseUp);
+
+                    ((Enemy)r.Tag).SomethingChanged += new EventHandler(Enemy_SomethingChanged);
+                    cnvsMap.Children.Add(r);
+
+                    cnvsMap.Children[cnvsMap.Children.Count - 1].SetValue(Canvas.LeftProperty, p.X);
+                    cnvsMap.Children[cnvsMap.Children.Count - 1].SetValue(Canvas.TopProperty, p.Y);
+                }
+
+            }
+
+            sr.ReadLine();
+            sr.ReadLine();
+            sr.ReadLine();
+            sr.ReadLine();
+
+            currentLine = sr.ReadLine();
+            List<string> levelSize = currentLine.Split(" ".ToArray()).ToList();
+
+            txtLevelWidth.Text = levelSize[0];
+            txtLevelHeight.Text = levelSize[1];
+            txtLevelName.Text = filePath.Replace(".xml", "");
+            sr.Close();
+
+        }
+
+        private void btnLoad_Click(object sender, RoutedEventArgs e)
+        {
+            loadScreen("NicksTest.xml");
+            cnvsMap.Width = Convert.ToInt32(txtLevelWidth.Text);
+            cnvsMap.Height = Convert.ToInt32(txtLevelHeight.Text);
+            DrawGrid();
+        }
     }
 }

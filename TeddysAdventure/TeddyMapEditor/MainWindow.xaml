@@ -7,7 +7,7 @@
         <ToolBar DockPanel.Dock="Top">
             <ToolBar.Items>
                 <Button Width="50" Height="25" BorderThickness="1" BorderBrush="Black" Name="btnSave" Margin="3" Click="btnSave_Click">Save</Button>
-                <Button Width="50" Height="25" BorderThickness="1" BorderBrush="Black" Name="btnLoad" Margin="3">Load</Button>
+                <Button Width="50" Height="25" BorderThickness="1" BorderBrush="Black" Name="btnLoad" Margin="3" Click="btnLoad_Click">Load</Button>
                 <Button Width="50" Height="25" BorderThickness="1" BorderBrush="Black" Name="btnNew" Margin="3" Click="btnNew_Click">New</Button>
             </ToolBar.Items>
         </ToolBar>
@@ -96,10 +96,10 @@
                     </ComboBox>
 
                     <Label>Velocity X</Label>
-                    <TextBox Width="25"></TextBox>
+                    <TextBox Name ="txtVelocityX" Width="25" LostFocus="txtVelocityX_LostFocus"></TextBox>
 
                     <Label>Velocity Y</Label>
-                    <TextBox Width="25"></TextBox>
+                    <TextBox  Name ="txtVelocityY" Width="25" LostFocus="txtVelocityY_LostFocus"></TextBox>
 
                     <Label>Start X</Label>
                     <TextBox Width="50" Name="txtEnemyXLocation" ></TextBox>
