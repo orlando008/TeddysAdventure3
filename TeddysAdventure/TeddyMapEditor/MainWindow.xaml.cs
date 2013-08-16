@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO;
+using Microsoft.Win32;
 
 namespace TeddyMapEditor
 {
@@ -34,6 +35,13 @@ namespace TeddyMapEditor
         private Point _clickStart;
         private Point _clickEnd;
         private EditMode _currentEditMode;
+        private EditMode _previousEditMode = EditMode.none;
+
+        public EditMode PreviousEditMode
+        {
+            get { return _previousEditMode; }
+            set { _previousEditMode = value; }
+        }
         private float _selectionOpacity = 0.5f;
 
         public EditMode CurrentEditMode
@@ -45,6 +53,7 @@ namespace TeddyMapEditor
                 spEnemies.Width = 0;
                 spObjects.Width = 0;
                 spSurfaces.Width = 0;
+                _previousEditMode = _currentEditMode;
                 _currentEditMode = value; 
             }
         }
@@ -96,17 +105,9 @@ namespace TeddyMapEditor
             CurrentEditMode = EditMode.none;
 
             Color c = new Color();
-            c = Colors.Gray;
-            c.A = 50;
-            //_surfaceBrush = new SolidColorBrush(c);
-
             c = Colors.DarkGray;
             c.A = 250;
             _surfaceBrushOutline = new SolidColorBrush(c);
-
-            c = Colors.LightBlue;
-            c.A = 150;
-            //_surfaceSelectedBrush = new SolidColorBrush(c);
 
             c = Colors.Navy;
             c.A = 250;
@@ -115,14 +116,36 @@ namespace TeddyMapEditor
 
         private void txtLevelWidth_LostFocus(object sender, RoutedEventArgs e)
         {
-            cnvsMap.Width = Convert.ToInt32(txtLevelWidth.Text);
-            DrawGrid();
+            try
+            {
+                cnvsMap.Width = Convert.ToInt32(txtLevelWidth.Text);
+                DrawGrid();
+            }
+            catch
+            {
+                MessageBox.Show("Level width value not valid");
+                txtLevelWidth.Text = "1250";
+                cnvsMap.Width = Convert.ToInt32(txtLevelWidth.Text);
+                DrawGrid();
+            }
+
         }
 
         private void txtLevelHeight_LostFocus(object sender, RoutedEventArgs e)
         {
-            cnvsMap.Height = Convert.ToInt32(txtLevelHeight.Text);
-            DrawGrid();
+            try
+            {
+                cnvsMap.Height = Convert.ToInt32(txtLevelHeight.Text);
+                DrawGrid();
+            }
+            catch
+            {
+                MessageBox.Show("Level height value not valid");
+                txtLevelHeight.Text = "750";
+                cnvsMap.Height = Convert.ToInt32(txtLevelHeight.Text);
+                DrawGrid();
+            }
+
         }
 
         private void DrawGrid()
@@ -428,108 +451,99 @@ namespace TeddyMapEditor
 
         private void surface_MouseDown(object sender, MouseEventArgs e)
         {
-            if (_currentEditMode == EditMode.selection)
-            {
-                UnselectAllElements();
+            BasicMouseDown(sender, e);
+            spSurfaces.Width = 1000;
+        }
 
-                ((Rectangle)sender).Opacity = _selectionOpacity;
-                CurrentSurface = ((Rectangle)sender);
-                spSurfaces.Width = 1000;
-                _clickCaptured = true;
-                _clickStart = e.GetPosition(cnvsMap);
-            }
+        private void BasicMouseDown(object sender, MouseEventArgs e)
+        {
+            CurrentEditMode = EditMode.selection;
 
+            UnselectAllElements();
+
+            ((Rectangle)sender).Opacity = _selectionOpacity;
+            CurrentSurface = ((Rectangle)sender);
+            
+            _clickCaptured = true;
+            _clickStart = e.GetPosition(cnvsMap);
         }
 
         private void surface_MouseUp(object sender, MouseEventArgs e)
         {
-            _clickCaptured = false;
+            BasicMouseUp(sender, e);
         }
 
         private void surface_MouseMove(object sender, MouseEventArgs e)
         {
-            if (_clickCaptured && CurrentSurface != null)
+            BasicMouseMove(sender, e, CurrentSurface);
+        }
+
+        private void BasicMouseMove(object sender, MouseEventArgs e, Rectangle currentElement)
+        {
+            if (_clickCaptured && currentElement != null)
             {
                 Point p = e.GetPosition(cnvsMap);
                 double xDiff = p.X - _clickStart.X;
                 double yDiff = p.Y - _clickStart.Y;
                 _clickStart = p;
 
-                CurrentSurface.SetValue(Canvas.LeftProperty, Convert.ToDouble(CurrentSurface.GetValue(Canvas.LeftProperty)) + xDiff);
-                CurrentSurface.SetValue(Canvas.TopProperty, Convert.ToDouble(CurrentSurface.GetValue(Canvas.TopProperty)) + yDiff);
+                currentElement.SetValue(Canvas.LeftProperty, Convert.ToDouble(currentElement.GetValue(Canvas.LeftProperty)) + xDiff);
+                currentElement.SetValue(Canvas.TopProperty, Convert.ToDouble(currentElement.GetValue(Canvas.TopProperty)) + yDiff);
             }
         }
 
         private void enemy_MouseDown(object sender, MouseEventArgs e)
         {
-            if (_currentEditMode == EditMode.selection)
-            {
-                UnselectAllElements();
+            BasicMouseDown(sender, e);
 
-                ((Rectangle)sender).Stroke = _surfaceSelectedOutline;
-                ((Rectangle)sender).Opacity = _selectionOpacity;
-
-                CurrentEnemy = ((Rectangle)sender);
-                spEnemies.Width = 1000;
-                _clickCaptured = true;
-            }
+            CurrentEnemy = ((Rectangle)sender);
+            txtVelocityX.Text = ((Enemy)CurrentEnemy.Tag).VelocityX.ToString();
+            txtVelocityY.Text = ((Enemy)CurrentEnemy.Tag).VelocityY.ToString();
+            spEnemies.Width = 1000;
 
         }
 
         private void enemy_MouseUp(object sender, MouseEventArgs e)
+        {
+            BasicMouseUp(sender, e);
+        }
+
+        private void BasicMouseUp(object sender, MouseEventArgs e)
         {
             _clickCaptured = false;
         }
 
         private void enemy_MouseMove(object sender, MouseEventArgs e)
         {
-            if (_clickCaptured && CurrentEnemy != null)
+            BasicMouseMove(sender, e, CurrentEnemy);
+
+            if (CurrentEnemy != null && _clickCaptured)
             {
-                Point p = e.GetPosition(cnvsMap);
-                double xDiff = p.X - _clickStart.X;
-                double yDiff = p.Y - _clickStart.Y;
-                _clickStart = p;
-
-                CurrentEnemy.SetValue(Canvas.LeftProperty, Convert.ToDouble(CurrentEnemy.GetValue(Canvas.LeftProperty)) + xDiff);
-                CurrentEnemy.SetValue(Canvas.TopProperty, Convert.ToDouble(CurrentEnemy.GetValue(Canvas.TopProperty)) + yDiff);
-
                 ((Enemy)CurrentEnemy.Tag).Location = new Point(Convert.ToInt32(CurrentEnemy.GetValue(Canvas.LeftProperty)), Convert.ToInt32(CurrentEnemy.GetValue(Canvas.TopProperty)));
             }
+        
         }
 
         private void object_MouseDown(object sender, MouseEventArgs e)
         {
-            if (_currentEditMode == EditMode.selection)
-            {
-                UnselectAllElements();
+            BasicMouseDown(sender, e);
 
-                ((Rectangle)sender).Stroke = _surfaceSelectedOutline;
-                ((Rectangle)sender).Opacity = _selectionOpacity;
-
-                CurrentObject = ((Rectangle)sender);
-                spObjects.Width = 1000;
-                _clickCaptured = true;
-            }
+            CurrentObject = ((Rectangle)sender);
+            spObjects.Width = 1000;
 
         }
 
         private void object_MouseUp(object sender, MouseEventArgs e)
         {
-            _clickCaptured = false;
+            BasicMouseUp(sender, e);
         }
 
         private void object_MouseMove(object sender, MouseEventArgs e)
         {
-            if (_clickCaptured && CurrentObject != null)
+            BasicMouseMove(sender, e, CurrentSurface);
+
+            if (CurrentSurface != null && _clickCaptured)
             {
-                Point p = e.GetPosition(cnvsMap);
-                double xDiff = p.X - _clickStart.X;
-                double yDiff = p.Y - _clickStart.Y;
-                _clickStart = p;
-
-                CurrentObject.SetValue(Canvas.LeftProperty, Convert.ToDouble(CurrentObject.GetValue(Canvas.LeftProperty)) + xDiff);
-                CurrentObject.SetValue(Canvas.TopProperty, Convert.ToDouble(CurrentObject.GetValue(Canvas.TopProperty)) + yDiff);
-
                 ((GameObject)CurrentObject.Tag).Location = new Point(Convert.ToInt32(CurrentObject.GetValue(Canvas.LeftProperty)), Convert.ToInt32(CurrentObject.GetValue(Canvas.TopProperty)));
             }
         }
@@ -727,20 +741,28 @@ namespace TeddyMapEditor
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            if (txtLevelName.Text == "")
-            {
-                MessageBox.Show("Please enter a level name");
-                return;
-            }
-            else
-            {
-                SaveLevelDownToXML();
-            }
+            SaveLevelDownToXML();
         }
+
+
 
         private void SaveLevelDownToXML()
         {
-            StreamWriter sw = new StreamWriter(txtLevelName.Text + ".xml");
+            SaveFileDialog ofg = new SaveFileDialog();
+       
+            ofg.AddExtension = true;
+            ofg.DefaultExt = "*.xml";
+            ofg.FileName = txtLevelName.Text;
+            ofg.Filter = "XML (.xml)|*.xml"; // Filter files by extension 
+            if (ofg.ShowDialog(this) == false)
+            {
+                return;
+            }
+
+            if (ofg.FileName == "")
+                return;
+            
+            StreamWriter sw = new StreamWriter(ofg.FileName);
             sw.WriteLine("<?xml version=\"1.0\" encoding=\"utf-8\"?><XnaContent>");
             sw.WriteLine("<Asset Type=\"TeddysAdventureLibrary.ScreenHelper\">");
 
@@ -802,12 +824,32 @@ namespace TeddyMapEditor
 
         private void txtVelocityX_LostFocus(object sender, RoutedEventArgs e)
         {
-            ((Enemy)_currentEnemy.Tag).VelocityX = Convert.ToInt32(txtVelocityX.Text);
+            try
+            {
+                ((Enemy)_currentEnemy.Tag).VelocityX = Convert.ToInt32(txtVelocityX.Text);
+            }
+            catch
+            {
+                MessageBox.Show("Velocity X value not valid.");
+                txtVelocityX.Text = "0";
+                ((Enemy)_currentEnemy.Tag).VelocityX = Convert.ToInt32(txtVelocityX.Text);
+            }
+            
         }
 
         private void txtVelocityY_LostFocus(object sender, RoutedEventArgs e)
         {
-            ((Enemy)_currentEnemy.Tag).VelocityY = Convert.ToInt32(txtVelocityY.Text);
+            try
+            {
+                ((Enemy)_currentEnemy.Tag).VelocityY = Convert.ToInt32(txtVelocityY.Text);
+            }
+            catch
+            {
+                MessageBox.Show("Velocity Y value not valid.");
+                txtVelocityY.Text = "0";
+                ((Enemy)_currentEnemy.Tag).VelocityY = Convert.ToInt32(txtVelocityY.Text);
+            }
+            
         }
 
         private void loadScreen(string filePath)
@@ -947,13 +989,29 @@ namespace TeddyMapEditor
             txtLevelWidth.Text = levelSize[0];
             txtLevelHeight.Text = levelSize[1];
             txtLevelName.Text = filePath.Replace(".xml", "");
+            txtLevelName.Text = txtLevelName.Text.Substring(txtLevelName.Text.LastIndexOf("\\") + 1);
             sr.Close();
 
         }
 
         private void btnLoad_Click(object sender, RoutedEventArgs e)
         {
-            loadScreen("NicksTest.xml");
+            OpenFileDialog ofg = new OpenFileDialog();
+
+            ofg.AddExtension = true;
+            ofg.DefaultExt = "*.xml";
+            ofg.FileName = txtLevelName.Text;
+            ofg.Filter = "XML (.xml)|*.xml"; // Filter files by extension 
+            if (ofg.ShowDialog(this) == false)
+            {
+                return;
+            }
+
+            if (ofg.FileName == "")
+                return;
+
+            cnvsMap.Children.Clear();
+            loadScreen(ofg.FileName);
             cnvsMap.Width = Convert.ToInt32(txtLevelWidth.Text);
             cnvsMap.Height = Convert.ToInt32(txtLevelHeight.Text);
             DrawGrid();
