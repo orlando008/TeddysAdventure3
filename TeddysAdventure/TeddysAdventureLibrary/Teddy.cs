@@ -589,13 +589,13 @@ namespace TeddysAdventureLibrary
                         {
                             _yVelocity = -3;
                             playerOverallVelocity.X = -50;
-                            movePlayer(playerOverallVelocity);
+                            movePlayerX(playerOverallVelocity);
                         }
                         else //hit on left side
                         {
                             _yVelocity = -3;
                             playerOverallVelocity.X = 50;
-                            movePlayer(playerOverallVelocity);
+                            movePlayerX(playerOverallVelocity);
                         }
                     }
                 }
