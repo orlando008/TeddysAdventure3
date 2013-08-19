@@ -33,24 +33,21 @@
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition/>
-                    <RowDefinition/>
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
+                    <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-
-                <Button Grid.Column="0" Grid.Row="0" Name="btnSelectionMode"  Width="24" Height="24" Click="btnSelectionMode_Click" Margin="3,0,3,0">
-                    <Image Source="/TeddyMapEditor;component/Images/SelectionMode.png"></Image>
-                </Button>
-                <Button Grid.Column="0" Grid.Row="1" Name="btnSurfacesMode" Width="24" Height="24" Click="btnSurfacesMode_Click" Margin="3,0,3,0"> 
+                
+                <Button Grid.Column="0" Grid.Row="0" Name="btnSurfacesMode" Width="24" Height="24" Click="btnSurfacesMode_Click" Margin="3,0,3,0"> 
                     <Image Source="/TeddyMapEditor;component/Images/SurfaceMode.png"></Image>
                 </Button>
                 <Button Grid.Column="1" Grid.Row="0" Name="btnEnemyMode" Width="24" Height="24" Click="btnEnemyMode_Click" Margin="3,0,3,0">
                     <Image Source="/TeddyMapEditor;component/Images/EnemyMode.png"></Image>
                 </Button>
-                <Button Grid.Column="1" Grid.Row="1" Name="btnObjects" Width="24" Height="24" Click="btnObjects_Click"  Margin="3,0,3,0">
+                <Button Grid.Column="2" Grid.Row="1" Name="btnObjects" Width="24" Height="24" Click="btnObjects_Click"  Margin="3,0,3,0">
                     <Image Source="/TeddyMapEditor;component/Images/ObjectMode.png"></Image>
                 </Button>
             </Grid>

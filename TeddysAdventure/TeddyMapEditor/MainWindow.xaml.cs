@@ -54,7 +54,20 @@ namespace TeddyMapEditor
                 spObjects.Width = 0;
                 spSurfaces.Width = 0;
                 _previousEditMode = _currentEditMode;
-                _currentEditMode = value; 
+                _currentEditMode = value;
+
+                switch (_currentEditMode)
+                {
+                    case EditMode.enemies:
+                        spEnemies.Width = 1000;
+                        break;
+                    case EditMode.objects:
+                        spObjects.Width = 1000;
+                        break;
+                    case EditMode.surfaces:
+                        spSurfaces.Width = 1000;
+                        break;
+                }
             }
         }
 
@@ -200,6 +213,17 @@ namespace TeddyMapEditor
 
         private void cnvsMap_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            if (sender == cnvsMap)
+            {
+                if (e.Source.GetType() != typeof(Rectangle))
+                {
+                    SetAllCurrentObjectsToNull();
+                    UnselectAllElements();
+                    if(CurrentEditMode == EditMode.selection)
+                        CurrentEditMode = PreviousEditMode;
+                }
+            }
+
             Point p = e.MouseDevice.GetPosition(cnvsMap);
             int x = (int)(p.X / BASIC_UNIT);
             int y = (int)(p.Y / BASIC_UNIT);
@@ -213,6 +237,7 @@ namespace TeddyMapEditor
 
         private void cnvsMap_MouseUp(object sender, MouseButtonEventArgs e)
         {
+
             switch (_currentEditMode)
             {
                 case EditMode.surfaces:
@@ -236,12 +261,31 @@ namespace TeddyMapEditor
                 case EditMode.surfaces:
                     SurfaceModeMouseMove(e);
                     break;
+                case EditMode.selection:
+                    if (CurrentObject != null)
+                    {
+                        object_MouseMove(sender, e);
+                    }
+
+                    if (CurrentEnemy != null)
+                    {
+                        enemy_MouseMove(sender, e);
+                    }
+
+                    if (CurrentSurface != null)
+                    {
+                        surface_MouseMove(sender, e);
+                    }
+                    break;
             }
 
         }
 
         private void EnemyModeMouseUp(MouseEventArgs e)
         {
+            if (cboEnemies.Text == "")
+                return;
+
             Point p = e.MouseDevice.GetPosition(cnvsMap);
             Rectangle r = new Rectangle();
             int width =0;
@@ -273,6 +317,9 @@ namespace TeddyMapEditor
 
         private void ObjectModeMouseUp(MouseEventArgs e)
         {
+            if (cboObjects.Text == "")
+                return;
+
             Point p = e.MouseDevice.GetPosition(cnvsMap);
             Rectangle r = new Rectangle();
             int width = 0;
@@ -453,17 +500,19 @@ namespace TeddyMapEditor
         {
             BasicMouseDown(sender, e);
             spSurfaces.Width = 1000;
+            CurrentSurface = ((Rectangle)sender);
+
         }
 
         private void BasicMouseDown(object sender, MouseEventArgs e)
         {
             CurrentEditMode = EditMode.selection;
 
+            SetAllCurrentObjectsToNull();
             UnselectAllElements();
 
             ((Rectangle)sender).Opacity = _selectionOpacity;
-            CurrentSurface = ((Rectangle)sender);
-            
+
             _clickCaptured = true;
             _clickStart = e.GetPosition(cnvsMap);
         }
@@ -487,6 +536,7 @@ namespace TeddyMapEditor
                 double yDiff = p.Y - _clickStart.Y;
                 _clickStart = p;
 
+                
                 currentElement.SetValue(Canvas.LeftProperty, Convert.ToDouble(currentElement.GetValue(Canvas.LeftProperty)) + xDiff);
                 currentElement.SetValue(Canvas.TopProperty, Convert.ToDouble(currentElement.GetValue(Canvas.TopProperty)) + yDiff);
             }
@@ -494,12 +544,13 @@ namespace TeddyMapEditor
 
         private void enemy_MouseDown(object sender, MouseEventArgs e)
         {
-            BasicMouseDown(sender, e);
 
+            BasicMouseDown(sender, e);
             CurrentEnemy = ((Rectangle)sender);
             txtVelocityX.Text = ((Enemy)CurrentEnemy.Tag).VelocityX.ToString();
             txtVelocityY.Text = ((Enemy)CurrentEnemy.Tag).VelocityY.ToString();
             spEnemies.Width = 1000;
+
 
         }
 
@@ -540,12 +591,14 @@ namespace TeddyMapEditor
 
         private void object_MouseMove(object sender, MouseEventArgs e)
         {
-            BasicMouseMove(sender, e, CurrentSurface);
+            BasicMouseMove(sender, e, CurrentObject);
 
-            if (CurrentSurface != null && _clickCaptured)
+            if (CurrentObject != null && _clickCaptured)
             {
                 ((GameObject)CurrentObject.Tag).Location = new Point(Convert.ToInt32(CurrentObject.GetValue(Canvas.LeftProperty)), Convert.ToInt32(CurrentObject.GetValue(Canvas.TopProperty)));
             }
+
+            _clickStart = e.GetPosition(cnvsMap);
         }
 
 
@@ -563,24 +616,6 @@ namespace TeddyMapEditor
             }
         }
 
-        private void btnSelectionMode_Click(object sender, RoutedEventArgs e)
-        {
-            
-            if (btnSelectionMode.Foreground == _buttonSelectionTextColor)
-            {
-                SetButtonUnselected(ref btnSelectionMode);
-            }
-            else
-            {
-                UnselectAllButtons();
-                CurrentEditMode = EditMode.selection;
-                btnSelectionMode.Foreground = _buttonSelectionTextColor;
-                btnSelectionMode.Background = _buttonSelectionBackColor;
-                this.Cursor = Cursors.Hand;
-            }
-
-            
-        }
 
         private void btnSurfacesMode_Click(object sender, RoutedEventArgs e)
         {
@@ -594,7 +629,6 @@ namespace TeddyMapEditor
                 CurrentEditMode = EditMode.surfaces;
                 btnSurfacesMode.Foreground = _buttonSelectionTextColor;
                 btnSurfacesMode.Background = _buttonSelectionBackColor;
-                this.Cursor = Cursors.Cross;
                 UnselectAllElements();
                 SetAllCurrentObjectsToNull();
                 spSurfaces.Width = 1000;
@@ -614,7 +648,6 @@ namespace TeddyMapEditor
                 CurrentEditMode = EditMode.enemies;
                 btnEnemyMode.Foreground = _buttonSelectionTextColor;
                 btnEnemyMode.Background = _buttonSelectionBackColor;
-                this.Cursor = Cursors.Pen;
                 UnselectAllElements();
                 SetAllCurrentObjectsToNull();
                 spEnemies.Width = 1000;
@@ -633,7 +666,6 @@ namespace TeddyMapEditor
                 CurrentEditMode = EditMode.objects;
                 btnObjects.Foreground = _buttonSelectionTextColor;
                 btnObjects.Background = _buttonSelectionBackColor;
-                this.Cursor = Cursors.SizeAll;
                 UnselectAllElements();
                 SetAllCurrentObjectsToNull();
                 spObjects.Width = 1000;
@@ -645,6 +677,10 @@ namespace TeddyMapEditor
             CurrentSurface = null;
             CurrentEnemy = null;
             CurrentObject = null;
+
+            spEnemies.Width = 0;
+            spSurfaces.Width = 0;
+            spObjects.Width = 0;
         }
 
         private void SetButtonUnselected(ref Button b)
@@ -657,9 +693,6 @@ namespace TeddyMapEditor
 
         private void UnselectAllButtons()
         {
-            btnSelectionMode.Foreground = _buttonUnselectedTextColor;
-            btnSelectionMode.Background = _buttonUnselectedBackColor;
-
             btnSurfacesMode.Foreground = _buttonUnselectedTextColor;
             btnSurfacesMode.Background = _buttonUnselectedBackColor;
 
