@@ -93,7 +93,11 @@ namespace TeddyMapEditor
         public Rectangle CurrentSurface
         {
             get { return _currentSurface; }
-            set { _currentSurface = value; }
+            set 
+            { 
+                _currentSurface = value;
+                spSurfaces.Width = 1000;
+            }
         }
 
         private Rectangle _currentEnemy;
@@ -101,7 +105,34 @@ namespace TeddyMapEditor
         public Rectangle CurrentEnemy
         {
             get { return _currentEnemy; }
-            set { _currentEnemy = value; }
+            set 
+            {
+                if (_currentEnemy != null)
+                {
+                    try
+                    {
+                        ((Enemy)_currentEnemy.Tag).VelocityX = Convert.ToSingle(txtVelocityX.Text);
+                    }
+                    catch { }
+
+                    try
+                    {
+                        ((Enemy)_currentEnemy.Tag).VelocityY = Convert.ToSingle(txtVelocityY.Text);
+                    }
+                    catch { }
+
+                    try
+                    {
+                        ((Enemy)_currentEnemy.Tag).Location = new Point(Convert.ToDouble(txtEnemyXLocation.Text), Convert.ToDouble(txtEnemyYLocation.Text));
+                    }
+                    catch { }
+                    
+                }
+
+                _currentEnemy = value;
+                spEnemies.Width = 1000;
+                
+            }
         }
 
         private Rectangle _currentObject;
@@ -109,7 +140,11 @@ namespace TeddyMapEditor
         public Rectangle CurrentObject
         {
             get { return _currentObject; }
-            set { _currentObject = value; }
+            set 
+            { 
+                _currentObject = value;
+                spObjects.Width = 1000;
+            }
         }
 
         public MainWindow()
@@ -125,6 +160,8 @@ namespace TeddyMapEditor
             c = Colors.Navy;
             c.A = 250;
             _surfaceSelectedOutline = new SolidColorBrush(c);
+            
+            this.PreviewKeyDown += cnvs_KeyPrev;
         }
 
         private void txtLevelWidth_LostFocus(object sender, RoutedEventArgs e)
@@ -249,6 +286,7 @@ namespace TeddyMapEditor
                 case EditMode.objects:
                     ObjectModeMouseUp(e);
                     break;
+
             }
 
             _clickCaptured = false;
@@ -295,8 +333,9 @@ namespace TeddyMapEditor
             r.Height = height;
             r.Stroke = _surfaceSelectedOutline;
             r.StrokeThickness = .5;
+            r.Opacity = _selectionOpacity;
             r.Fill = Brushes.Beige;
-            r.Tag = new Enemy(cboEnemies.Text, p, 0, 0);
+            r.Tag = new Enemy(r,cboEnemies.Text, p, 0, 0);
 
             ImageBrush ib = new ImageBrush();
             ib.ImageSource = new BitmapImage(new Uri("..\\..\\Images\\" + cboEnemies.Text + ".png", UriKind.Relative));
@@ -313,6 +352,27 @@ namespace TeddyMapEditor
             cnvsMap.Children[cnvsMap.Children.Count - 1].SetValue(Canvas.TopProperty, p.Y);
 
             CurrentEnemy = r;
+            ((Enemy)CurrentEnemy.Tag).Location = p;
+            ((Enemy)CurrentEnemy.Tag).VelocityX = 0;
+            ((Enemy)CurrentEnemy.Tag).VelocityY = 0;
+        }
+
+        private void cnvs_KeyPrev(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Delete)
+            {
+                for (int i = cnvsMap.Children.Count -1; i >= 0; i--)
+                {
+                    if (cnvsMap.Children[i].GetType() == typeof(Rectangle))
+                    {
+                        if (((Rectangle)cnvsMap.Children[i]).Opacity == Convert.ToDouble(_selectionOpacity))
+                        {
+                            cnvsMap.Children.RemoveAt(i);
+                        }
+                    }
+                }
+                
+            }
         }
 
         private void ObjectModeMouseUp(MouseEventArgs e)
@@ -330,7 +390,8 @@ namespace TeddyMapEditor
             r.Stroke = _surfaceSelectedOutline;
             r.StrokeThickness = .5;
             r.Fill = Brushes.GhostWhite;
-            r.Tag = new GameObject(cboObjects.Text, p);
+            r.Opacity = _selectionOpacity;
+            r.Tag = new GameObject(r,cboObjects.Text, p);
 
             ImageBrush ib = new ImageBrush();
             ib.ImageSource = new BitmapImage(new Uri("..\\..\\Images\\" + cboObjects.Text + ".png", UriKind.Relative));
@@ -347,18 +408,27 @@ namespace TeddyMapEditor
             cnvsMap.Children[cnvsMap.Children.Count - 1].SetValue(Canvas.TopProperty, p.Y);
 
             CurrentObject = r;
+            ((GameObject)CurrentObject.Tag).Location = p;
         }
 
         private void Object_SomethingChanged(Object sender, EventArgs e)
         {
             txtObjectXLocation.Text = ((GameObject)sender).Location.X.ToString();
             txtObjectYLocation.Text = ((GameObject)sender).Location.Y.ToString();
+
+            ((GameObject)sender).Parent.SetValue(Canvas.LeftProperty, ((GameObject)sender).Location.X);
+            ((GameObject)sender).Parent.SetValue(Canvas.TopProperty, ((GameObject)sender).Location.Y);
         }
 
         private void Enemy_SomethingChanged(Object sender, EventArgs e)
         {
             txtEnemyXLocation.Text = ((Enemy)sender).Location.X.ToString();
             txtEnemyYLocation.Text = ((Enemy)sender).Location.Y.ToString();
+            txtVelocityX.Text = ((Enemy)sender).VelocityX.ToString();
+            txtVelocityY.Text = ((Enemy)sender).VelocityY.ToString();
+ 
+            ((Enemy)sender).Parent.SetValue(Canvas.LeftProperty, ((Enemy)sender).Location.X);
+            ((Enemy)sender).Parent.SetValue(Canvas.TopProperty, ((Enemy)sender).Location.Y);
         }
 
         private void GetCurrentEnemysSize(string enemyType, ref int width, ref int height)
@@ -506,7 +576,11 @@ namespace TeddyMapEditor
 
         private void BasicMouseDown(object sender, MouseEventArgs e)
         {
-            CurrentEditMode = EditMode.selection;
+            if (CurrentEditMode != EditMode.selection)
+            {
+                CurrentEditMode = EditMode.selection;
+            }
+           
 
             SetAllCurrentObjectsToNull();
             UnselectAllElements();
@@ -547,8 +621,7 @@ namespace TeddyMapEditor
 
             BasicMouseDown(sender, e);
             CurrentEnemy = ((Rectangle)sender);
-            txtVelocityX.Text = ((Enemy)CurrentEnemy.Tag).VelocityX.ToString();
-            txtVelocityY.Text = ((Enemy)CurrentEnemy.Tag).VelocityY.ToString();
+            Enemy_SomethingChanged(CurrentEnemy.Tag, null);
             spEnemies.Width = 1000;
 
 
@@ -992,7 +1065,7 @@ namespace TeddyMapEditor
                     r.Stroke = _surfaceBrushOutline;
                     r.StrokeThickness = 1;
                     r.Fill = Brushes.Beige;
-                    r.Tag = new Enemy(sType, p, Convert.ToSingle(xVelocity), Convert.ToSingle( yVelocity));
+                    r.Tag = new Enemy(r, sType, p, Convert.ToSingle(xVelocity), Convert.ToSingle( yVelocity));
 
                     ImageBrush ib = new ImageBrush();
                     ib.ImageSource = new BitmapImage(new Uri("..\\..\\Images\\" + sType + ".png", UriKind.Relative));
@@ -1048,6 +1121,21 @@ namespace TeddyMapEditor
             cnvsMap.Width = Convert.ToInt32(txtLevelWidth.Text);
             cnvsMap.Height = Convert.ToInt32(txtLevelHeight.Text);
             DrawGrid();
+        }
+
+        private void txtEnemyLocation_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (CurrentEnemy != null)
+            {
+                try
+                {
+                    ((Enemy)CurrentEnemy.Tag).Location = new Point(Convert.ToDouble(txtEnemyXLocation.Text), Convert.ToDouble(txtEnemyYLocation.Text));
+                }
+                catch
+                {
+
+                }
+            }
         }
     }
 }

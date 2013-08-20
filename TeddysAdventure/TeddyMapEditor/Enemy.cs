@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows;
+using System.Windows.Shapes;
 
 namespace TeddyMapEditor
 {
@@ -21,7 +22,15 @@ namespace TeddyMapEditor
         public float VelocityX
         {
             get { return _velocityX; }
-            set { _velocityX = value; }
+            set 
+            { 
+                _velocityX = value;
+                EventHandler handler = SomethingChanged;
+                if (handler != null)
+                {
+                    handler(this, null);
+                }
+            }
         }
 
         private float _velocityY;
@@ -29,7 +38,15 @@ namespace TeddyMapEditor
         public float VelocityY
         {
             get { return _velocityY; }
-            set { _velocityY = value; }
+            set 
+            { 
+                _velocityY = value;
+                EventHandler handler = SomethingChanged;
+                if (handler != null)
+                {
+                    handler(this, null);
+                }
+            }
         }
 
         private Point _location;
@@ -48,14 +65,24 @@ namespace TeddyMapEditor
             }
         }
 
+        private Rectangle _parent;
+
+        public Rectangle Parent
+        {
+            get { return _parent; }
+            set { _parent = value; }
+        }
+
+
         public event EventHandler SomethingChanged;
 
-        public Enemy(string name, Point location, float velocityX, float velocityY)
+        public Enemy(Rectangle parent, string name, Point location, float velocityX, float velocityY)
         {
             _name = name;
             _location = location;
             _velocityX = velocityX;
             _velocityY = velocityY;
+            _parent = parent;
         }
 
         public string GetXMLString()

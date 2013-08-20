@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows;
+using System.Windows.Shapes;
 
 namespace TeddyMapEditor
 {
@@ -23,8 +24,8 @@ namespace TeddyMapEditor
             get { return _location; }
             set 
             {
-                EventHandler handler = SomethingChanged;
                 _location = value;
+                EventHandler handler = SomethingChanged;
                 if (handler != null)
                 {
                     handler(this, null);
@@ -32,12 +33,22 @@ namespace TeddyMapEditor
             }
         }
 
+        private Rectangle _parent;
+
+        public Rectangle Parent
+        {
+            get { return _parent; }
+            set { _parent = value; }
+        }
+
+
         public event EventHandler SomethingChanged;
 
-        public GameObject(string name, Point location)
+        public GameObject(Rectangle parent, string name, Point location)
         {
             Name = name;
             Location = location;
+            Parent = parent;
         }
 
         public string GetXMLString()
