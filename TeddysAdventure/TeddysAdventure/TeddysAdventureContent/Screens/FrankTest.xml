@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?><XnaContent>
+<Asset Type="TeddysAdventureLibrary.ScreenHelper">
+<Surfaces>
+0 625 775 75
+925 625 200 75
+1275 600 575 100
+1950 500 600 50
+2650 375 575 100
+3250 275 150 50
+</Surfaces>
+<ListOfObjects>
+</ListOfObjects>
+<ListOfEnemies>
+<Item>
+<Type>Airplane</Type>
+<Position>0 564</Position>
+<Velocity>1 0</Velocity>
+</Item>
+<Item>
+<Type>MatchBoxCar</Type>
+<Position>1654 532</Position>
+<Velocity>-1 0</Velocity>
+</Item>
+</ListOfEnemies>
+<LevelType>
+Normal
+</LevelType>
+<LevelSize>
+3500 750
+</LevelSize>
+</Asset>
+</XnaContent>
