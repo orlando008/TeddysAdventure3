@@ -46,6 +46,10 @@
       <Project>{35188CCA-45B4-4627-8F79-85046C33FA3E}</Project>
       <Name>TeddysAdventureLibrary</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ContentManifestExtensions\ContentManifestExtensions.csproj">
+      <Project>{f4cdbc64-a84a-41cd-a941-418b67578af7}</Project>
+      <Name>ContentManifestExtensions</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Screens\NicksTest.xml">
@@ -147,6 +151,20 @@
       <Name>SurfaceTexture1</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="content.manifest">
+      <Name>content</Name>
+      <Importer>ManifestImporter</Importer>
+      <Processor>ManifestProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Screens\FrankTest.xml">
+      <Name>FrankTest</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
