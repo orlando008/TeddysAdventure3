@@ -99,10 +99,10 @@
                     <TextBox  Name ="txtVelocityY" Width="25" LostFocus="txtVelocityY_LostFocus"></TextBox>
 
                     <Label>Start X</Label>
-                    <TextBox Width="50" Name="txtEnemyXLocation" ></TextBox>
+                    <TextBox Width="50" Name="txtEnemyXLocation" LostFocus="txtEnemyLocation_LostFocus"></TextBox>
 
                     <Label>Start Y</Label>
-                    <TextBox Width="50" Name="txtEnemyYLocation"></TextBox>
+                    <TextBox Width="50" Name="txtEnemyYLocation" LostFocus="txtEnemyLocation_LostFocus"></TextBox>
                 </StackPanel>
 
 
