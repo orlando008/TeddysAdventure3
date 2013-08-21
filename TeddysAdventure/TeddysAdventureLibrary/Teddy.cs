@@ -590,17 +590,35 @@ namespace TeddysAdventureLibrary
                             _yVelocity = -3;
                             playerOverallVelocity.X = -50;
                             movePlayerX(playerOverallVelocity);
+			    throwFluff(e.Damage);
                         }
                         else //hit on left side
                         {
                             _yVelocity = -3;
                             playerOverallVelocity.X = 50;
                             movePlayerX(playerOverallVelocity);
+			    throwFluff(e.Damage);
                         }
                     }
                 }
             }
 
+        }
+	
+	private void throwFluff(int damage)
+        {
+            double mid = TeddyRectangle.Height / 2;
+            Random r = new Random();
+            Screen currentScreen = (Screen)this.Game.Components[0];
+
+            for (int i = 0; i < damage; i++)
+            {
+                Vector2 fluffPos = new Vector2(TeddyRectangle.Left, TeddyRectangle.Top);
+                fluffPos.X -= r.Next(-100, 100);
+                fluffPos.Y -= r.Next(50, 100);
+                Fluff thrown = new Fluff(this.Game, fluffPos, true);
+                currentScreen.GameObjects.Add(thrown);
+            }
         }
 
         public override void Draw(GameTime gameTime)
