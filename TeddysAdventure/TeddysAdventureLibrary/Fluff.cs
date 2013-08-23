@@ -88,12 +88,12 @@ namespace TeddysAdventureLibrary
                     _centerLine += _xVelocity;
 
                     Position = new Vector2(Position.X + _xVelocity, Position.Y + _yVelocity);
-                    foreach (Rectangle surfaceRect in ((Screen)Game.Components[0]).Surfaces)
+                    foreach (Surface surfaceRect in ((Screen)Game.Components[0]).Surfaces)
                     {
                         // if we are rising, check for top surfaces
                         if (_yVelocity < 0)
                         {
-                            if (fluffRect.Intersects(surfaceRect) & (fluffRect.Top < surfaceRect.Bottom))
+                            if (fluffRect.Intersects(surfaceRect.Rect) & (fluffRect.Top < surfaceRect.Bottom))
                             {
                                 Position = new Vector2(Position.X + _xVelocity, surfaceRect.Bottom + 1);
 
@@ -102,7 +102,7 @@ namespace TeddysAdventureLibrary
                         }
                         else
                         {
-                            if (fluffRect.Intersects(surfaceRect) & (fluffRect.Bottom > surfaceRect.Top))
+                            if (fluffRect.Intersects(surfaceRect.Rect) & (fluffRect.Bottom > surfaceRect.Top))
                             {
                                 Position = new Vector2(Position.X + _xVelocity, surfaceRect.Top - BoxToDraw.Height);
                                 _yVelocity = 0.0f;

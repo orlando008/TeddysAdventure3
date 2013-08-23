@@ -23,7 +23,7 @@ namespace TeddysAdventureLibrary
 
         private Texture2D _deathSprite;
         private Vector2 _globalPosition;
-        private List<Rectangle> _surfaces;
+        private List<Surface> _surfaces;
         private ScreenHelper _screenHelper;
         private List<Texture2D> _sprites;
         private int _totalLevelWidth;
@@ -35,11 +35,11 @@ namespace TeddysAdventureLibrary
         private LevelType _levelType = LevelType.Normal;
         private SpriteFont _deathFont;
         private SpriteFont _hudFont;
-        private Texture2D _surfaceTexture;
+        private Dictionary<string,Texture2D> _surfaceTextures;
 
         public static SpriteBatch spriteBatch;
 
-        public List<Rectangle> Surfaces
+        public List<Surface> Surfaces
         {
             get { return _surfaces; }
             set { _surfaces = value; }
@@ -81,13 +81,25 @@ namespace TeddysAdventureLibrary
         {
             _screenHelper = game.Content.Load<ScreenHelper>("Screens\\" + levelName);
             
-
             _deathSprite = game.Content.Load<Texture2D>("Screens\\deathScreen");
             _deathFont = game.Content.Load<SpriteFont>("Fonts\\DeathScreenFont");
             _hudFont = game.Content.Load<SpriteFont>("Fonts\\HudFont");
 
-            _surfaceTexture = game.Content.Load<Texture2D>(System.IO.Path.Combine(@"Objects", "SurfaceTexture1"));
+            _surfaceTextures = new Dictionary<string, Texture2D>();
+            _surfaces = new List<Surface>();
 
+            var allScreenSprites = from s in _screenHelper.Surfaces select s.Sprite;
+
+            foreach (SurfaceHelper sh in _screenHelper.Surfaces)
+            {
+                if(!_surfaceTextures.ContainsKey(sh.Sprite))
+                    _surfaceTextures.Add( sh.Sprite, game.Content.Load<Texture2D>(System.IO.Path.Combine(@"Objects", sh.Sprite)));
+
+                _surfaces.Add(  new Surface(sh));
+
+            }
+
+             
             GlobalPosition = new Vector2(0, 0);
 
             GameObjects = new List<GameObject>();
@@ -144,7 +156,6 @@ namespace TeddysAdventureLibrary
                     break;
             }
 
-            Surfaces = _screenHelper.Surfaces;
             spriteBatch = new SpriteBatch(Game.GraphicsDevice);
         }
 
@@ -181,7 +192,8 @@ namespace TeddysAdventureLibrary
             //move all the surfaces
             for (int i = Surfaces.Count - 1; i >= 0 ; i--)
             {
-                Surfaces[i] = new Rectangle(Surfaces[i].X + speed, Surfaces[i].Y, Surfaces[i].Width, Surfaces[i].Height); 
+                Surfaces[i].MoveByX(speed);
+
             }
 
             //move all the fluffs
@@ -259,9 +271,12 @@ namespace TeddysAdventureLibrary
 
             Rectangle r;
 
-            foreach (Rectangle sur in Surfaces)
+            foreach (Surface sur in Surfaces)
             {
-                DrawSurface(sur.X, sur.Y, sur.Width, sur.Height, _surfaceTexture);
+                Texture2D surfaceTexture;
+                if (_surfaceTextures.TryGetValue( sur.Sprite, out surfaceTexture)) {
+                    DrawSurface(sur.Rect.X, sur.Rect.Y, sur.Rect.Width, sur.Rect.Height, surfaceTexture )  ;
+                }
             }
 
             foreach (GameObject f in GameObjects)

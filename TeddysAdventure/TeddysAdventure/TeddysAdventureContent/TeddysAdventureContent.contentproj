@@ -56,6 +56,7 @@
       <Name>NicksTest</Name>
       <Importer>XmlImporter</Importer>
       <Processor>PassThroughProcessor</Processor>
+      <SubType>Designer</SubType>
     </Compile>
     <Compile Include="Teddy\TeddyRun.png">
       <Name>TeddyRun</Name>

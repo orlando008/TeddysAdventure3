@@ -1,12 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?><XnaContent>
 <Asset Type="TeddysAdventureLibrary.ScreenHelper">
+  
 <Surfaces>
-0 625 775 75
-925 625 200 75
-1275 600 575 100
-1950 500 600 50
-2650 375 575 100
-3250 275 150 50
+  <Item>
+    <Rect>0 625 775 75</Rect>
+    <Sprite>SurfaceTexture1</Sprite>
+  </Item>
+  <Item>
+    <Rect>925 625 200 75</Rect>
+    <Sprite>SurfaceTexture1</Sprite>
+  </Item>
+  <Item>
+    <Rect>1275 600 575 100</Rect>
+    <Sprite>SurfaceTexture1</Sprite>
+  </Item>
+  <Item>
+    <Rect>1950 500 600 50</Rect>
+    <Sprite>SurfaceTexture1</Sprite>
+  </Item>
+  <Item>
+    <Rect>2650 375 575 100</Rect>
+    <Sprite>SurfaceTexture1</Sprite>
+  </Item>
+  <Item>
+    <Rect>3250 275 150 50</Rect>
+    <Sprite>SurfaceTexture1</Sprite>
+  </Item>
+
 </Surfaces>
 <ListOfObjects>
 </ListOfObjects>

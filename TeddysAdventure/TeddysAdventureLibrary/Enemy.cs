@@ -24,7 +24,7 @@ namespace TeddysAdventureLibrary
         private bool _dying = false;
         private bool _destroyed = false;
         protected Vector2 _velocity = new Vector2(1, -3);     
-        private Rectangle _mySurface; 
+        private Surface _mySurface; 
 
         //Enemy Characteristics
         protected bool _canJumpOnToKill;
@@ -213,10 +213,10 @@ namespace TeddysAdventureLibrary
                 }
             }
 
-            foreach (Rectangle surface in ((Screen)Game.Components[0]).Surfaces)
+            foreach (Surface surface in ((Screen)Game.Components[0]).Surfaces)
             {
 
-                if (surface.Intersects(CollisionRectangle))
+                if (surface.Rect.Intersects(CollisionRectangle))
                 {
                     //We must figure out which surface we are hitting to know if we should change direction and which way to shift 
                     if (Math.Abs(surface.Left - CollisionRectangle.Left) > Math.Abs(surface.Left - CollisionRectangle.Right))
@@ -248,15 +248,15 @@ namespace TeddysAdventureLibrary
             MoveByY((int)_velocity.Y);
             _velocity.Y += _gravity; //Down is positive
 
-            foreach (Rectangle surfaceRect in ((Screen)Game.Components[0]).Surfaces)
+            foreach (Surface surface in ((Screen)Game.Components[0]).Surfaces)
             {
-                if (CollisionRectangle.Intersects(surfaceRect) & (CollisionRectangle.Bottom > surfaceRect.Top))
+                if (CollisionRectangle.Intersects(surface.Rect) & (CollisionRectangle.Bottom > surface.Top))
                 {
-                    Position = new Vector2(Position.X, surfaceRect.Top - BoxToDraw.Height);
+                    Position = new Vector2(Position.X, surface.Top - BoxToDraw.Height);
                     _velocity.Y *= -_collisionDampingFactor;
 
                     //once it hits a base surface for the first time, claim that surface as "_mySurface", stop applying gravity
-                    if (!_fallsOffSurface) { _mySurface = surfaceRect; }
+                    if (!_fallsOffSurface) { _mySurface = surface; }
 
                     if (Math.Abs(_velocity.Y) < 1)
                         _velocity.Y = 0f;
