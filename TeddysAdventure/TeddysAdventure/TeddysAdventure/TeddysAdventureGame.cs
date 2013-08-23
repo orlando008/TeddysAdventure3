@@ -25,6 +25,7 @@ namespace TeddysAdventure
 
         private Boolean _started = false;
         private Boolean _levelLoaded = false;
+        private bool _openingCinematicPlayed = false;
 
         public TeddysAdventureGame()
         {
@@ -76,8 +77,17 @@ namespace TeddysAdventure
 
             //spriteBatch = new SpriteBatch(GraphicsDevice);
 
+
             _startMenu = new StartMenu(this, new Vector2(0, 0), Content.Load<Texture2D>(System.IO.Path.Combine(@"Screens", "startMenuTest")));//, Content.Load<Texture2D>(System.IO.Path.Combine(@"Screens", "startMenuIcon")), new Vector2(200, 1000));
-            this.Components.Add(_startMenu);
+            if (_openingCinematicPlayed == false)
+            {
+                _openingCinematicPlayed = true;
+                this.Components.Add(new OpeningCinematic(this));
+            }
+            else
+            {
+                this.Components.Add(_startMenu);
+            }
 
         }
 
@@ -123,36 +133,50 @@ namespace TeddysAdventure
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();            
             // TODO: Add your update logic here
-
-            if (!_started)
+            if (Components[0].GetType() == typeof(OpeningCinematic))
             {
-                _startMenu.Update(gameTime);
-                _started = _startMenu.Started;
+                if (((OpeningCinematic)Components[0]).FinishedCinematic)
+                {
+                    Components.RemoveAt(0);
+                    this.Components.Insert(0, _startMenu);
+                }
+                else
+                {
+                    ((OpeningCinematic)Components[0]).Update(gameTime);
+                }
+               
             }
             else
             {
-                if (_levelLoaded)
+                if (!_started)
                 {
-                    if (screen.GoBackToStartScreen)
-                    {
-                        _started = false;
-                        _levelLoaded = false;
-                        _startMenu.Started = false;
-                        this.Content.Unload();
-                        this.LoadContent();
-                    }
-                    else
-                    {
-                        screen.Update(gameTime);
-                        teddy.Update(gameTime);
-                    }
-
+                    _startMenu.Update(gameTime);
+                    _started = _startMenu.Started;
                 }
                 else
-                    if (!string.IsNullOrEmpty(_startMenu.SelectedLevelName))
-                        LoadLevel(_startMenu.SelectedLevelName);
-            }            
+                {
+                    if (_levelLoaded)
+                    {
+                        if (screen.GoBackToStartScreen)
+                        {
+                            _started = false;
+                            _levelLoaded = false;
+                            _startMenu.Started = false;
+                            this.Content.Unload();
+                            this.LoadContent();
+                        }
+                        else
+                        {
+                            screen.Update(gameTime);
+                            teddy.Update(gameTime);
+                        }
 
+                    }
+                    else
+                        if (!string.IsNullOrEmpty(_startMenu.SelectedLevelName))
+                            LoadLevel(_startMenu.SelectedLevelName);
+                }
+            }
             base.Update(gameTime);
         }
 
@@ -165,17 +189,26 @@ namespace TeddysAdventure
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
 
-            // TODO: Add your drawing code here
-            if (!_started)
-                _startMenu.Draw(gameTime);
+            if (Components[0].GetType() == typeof(OpeningCinematic))
+            {
+                ((OpeningCinematic)Components[0]).Draw(gameTime);
+            }
             else
             {
-                if (_levelLoaded)
+                // TODO: Add your drawing code here
+                if (!_started)
+                    _startMenu.Draw(gameTime);
+                else
                 {
-                    screen.Draw(gameTime);
-                    teddy.Draw(gameTime);
+                    if (_levelLoaded)
+                    {
+                        screen.Draw(gameTime);
+                        teddy.Draw(gameTime);
+                    }
                 }
             }
+
+
 
             base.Draw(gameTime);
             spriteBatch.End();
