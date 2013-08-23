@@ -102,6 +102,7 @@
     <Compile Include="GameObjectHelper.cs" />
     <Compile Include="GeometryMethods.cs" />
     <Compile Include="MatchBoxCar.cs" />
+    <Compile Include="OpeningCinematic.cs" />
     <Compile Include="Plane.cs" />
     <Compile Include="Screen.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
