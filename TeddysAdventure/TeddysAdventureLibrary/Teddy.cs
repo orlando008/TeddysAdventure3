@@ -368,9 +368,9 @@ namespace TeddysAdventureLibrary
                     {
                         Position = new Vector2(Position.X + overallVelocity.X, Position.Y);
 
-                        foreach (Surface surface in ((Screen)Game.Components[0]).Surfaces)
+                        foreach (Rectangle surface in ((Screen)Game.Components[0]).Surfaces)
                         {
-                            if (TeddyRectangle.Intersects(surface.Rect) )
+                            if (TeddyRectangle.Intersects(surface) )
                             {
                                 Position = new Vector2(surface.Right + 1, Position.Y);
                                 break;
@@ -383,9 +383,9 @@ namespace TeddysAdventureLibrary
                     //Move Screen
                     ((Screen)Game.Components[0]).MoveX((int)-overallVelocity.X);
 
-                    foreach (Surface surface in ((Screen)Game.Components[0]).Surfaces)
+                    foreach (Rectangle surface in ((Screen)Game.Components[0]).Surfaces)
                     {
-                        if (TeddyRectangle.Intersects(surface.Rect))
+                        if (TeddyRectangle.Intersects(surface))
                         {
                             ((Screen)Game.Components[0]).MoveX(-(surface.Right - (int)this.Position.X));
                             break;
@@ -418,9 +418,9 @@ namespace TeddysAdventureLibrary
                     {
                         Position = new Vector2(Position.X + overallVelocity.X, Position.Y);
 
-                        foreach (Surface surface in ((Screen)Game.Components[0]).Surfaces)
+                        foreach (Rectangle surface in ((Screen)Game.Components[0]).Surfaces)
                         {
-                            if (TeddyRectangle.Intersects(surface.Rect))
+                            if (TeddyRectangle.Intersects(surface))
                             {
                                 Position = new Vector2(surface.Left - (int)TeddyRectangle.Width  , Position.Y);
                                 break;
@@ -438,9 +438,9 @@ namespace TeddysAdventureLibrary
                 {
                     ((Screen)Game.Components[0]).MoveX((int)-overallVelocity.X);
 
-                    foreach (Surface surface in ((Screen)Game.Components[0]).Surfaces)
+                    foreach (Rectangle surface in ((Screen)Game.Components[0]).Surfaces)
                     {
-                        if (TeddyRectangle.Intersects(surface.Rect))
+                        if (TeddyRectangle.Intersects(surface))
                         {
                             ((Screen)Game.Components[0]).MoveX(-(surface.Left - (int)this.Position.X - (int)TeddyRectangle.Width));
                             break;
@@ -473,13 +473,13 @@ namespace TeddysAdventureLibrary
             }
 
 
-            foreach (Surface surfaceRect in ((Screen)Game.Components[0]).Surfaces)
+            foreach (Rectangle surfaceRect in ((Screen)Game.Components[0]).Surfaces)
             {
                 //Negative velocity is up (so teddy is jumping)
                 if (_yVelocity < 0)
                 {
                     //Check for surfaces above (Teddy hit his head)
-                    if (TeddyRectangle.Intersects(surfaceRect.Rect) & (TeddyRectangle.Top < surfaceRect.Bottom))
+                    if (TeddyRectangle.Intersects(surfaceRect) & (TeddyRectangle.Top < surfaceRect.Bottom))
                     {
                         //todo: if teddy is really close to one of the edge (only 1 pixel is touching the above surface, then move him over.  I'm pretty sure  Mario does that.
 
@@ -490,7 +490,7 @@ namespace TeddysAdventureLibrary
                 else
                 {
                     //Check for surfaces below
-                    if (TeddyRectangle.Intersects(surfaceRect.Rect) & (TeddyRectangle.Bottom > surfaceRect.Top))
+                    if (TeddyRectangle.Intersects(surfaceRect) & (TeddyRectangle.Bottom > surfaceRect.Top))
                     {
                         Position = new Vector2(Position.X, surfaceRect.Top - BoxToDraw.Height );
                         _yVelocity = 0.0f;
@@ -616,7 +616,9 @@ namespace TeddysAdventureLibrary
                 Vector2 fluffPos = new Vector2(TeddyRectangle.Left, TeddyRectangle.Top);
                 fluffPos.X -= r.Next(-100, 100);
                 fluffPos.Y -= r.Next(50, 100);
-                Fluff thrown = new Fluff(this.Game, fluffPos, true);
+                float xVelocity = (float)r.NextDouble() * r.Next(-1, 2) * 5f + 0.5f;
+                float yVelocity = (float)r.NextDouble() * -10f;
+                Fluff thrown = new Fluff(this.Game, fluffPos, true, xVelocity, yVelocity);
                 currentScreen.GameObjects.Add(thrown);
             }
         }
