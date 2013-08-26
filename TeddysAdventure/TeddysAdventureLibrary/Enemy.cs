@@ -160,11 +160,23 @@ namespace TeddysAdventureLibrary
         public void MoveByX(int x)
         {
             this.Position = new Vector2((int)Position.X + x, (int)Position.Y);
+
+            if (this.ChildrenEnemies != null)
+            {
+                foreach (Enemy e in ChildrenEnemies)
+                    e.MoveByX(x);
+            }
         }
 
         public void MoveByY(int y)
         {
             this.Position = new Vector2((int)Position.X, (int)Position.Y + y);
+
+            if (this.ChildrenEnemies != null)
+            {
+                foreach (Enemy e in ChildrenEnemies)
+                    e.MoveByY(y);
+            }
         }
 
         public virtual void DrawEnemy(GameTime gameTime, SpriteBatch sp)
