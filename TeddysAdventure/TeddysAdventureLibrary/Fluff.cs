@@ -28,7 +28,7 @@ namespace TeddysAdventureLibrary
             BoxToDraw = new Rectangle(0, 0, StyleSheet.Width, StyleSheet.Height);
         }
 
-        public Fluff(Game game, Vector2 position, bool applyGravity)
+        public Fluff(Game game, Vector2 position, bool applyGravity, float xVelocty, float yVelocity)
             : base(game, position)
         {
             StyleSheet = game.Content.Load<Texture2D>("Objects\\Fluff");
@@ -38,10 +38,8 @@ namespace TeddysAdventureLibrary
 
             _applyGravity = applyGravity;
 
-            // Give initial velocities
-            Random r = new Random();
-            _yVelocity = (float)r.NextDouble() * -10;
-            _xVelocity = (float)r.NextDouble() * r.Next(-1, 2) * -5;
+            _xVelocity = xVelocty;
+            _yVelocity = yVelocity;
         }
 
         private GeometryMethods.RectangleF fluffRect
