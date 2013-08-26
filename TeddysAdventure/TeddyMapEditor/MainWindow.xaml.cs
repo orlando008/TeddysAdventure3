@@ -879,7 +879,9 @@ namespace TeddyMapEditor
                 {
                     if(((Rectangle)item).Tag.GetType() == typeof(Surface))
                     {
-                        sw.WriteLine( Convert.ToInt32(((Rectangle)item).GetValue(Canvas.LeftProperty)).ToString() + " " + Convert.ToInt32(((Rectangle)item).GetValue(Canvas.TopProperty)).ToString() + " " + Convert.ToInt32(((Rectangle)item).Width).ToString() + " " + Convert.ToInt32(((Rectangle)item).Height).ToString() )  ;
+                        Surface s = (Surface)((Rectangle)item).Tag;
+                        s.SurfaceBounds = (Rectangle)item;
+                        sw.Write(((Surface)((Rectangle)item).Tag).GetXMLString());
                     }
                 }
 
@@ -965,7 +967,7 @@ namespace TeddyMapEditor
             string currentLine = "";
             while (!sr.EndOfStream)
             {
-                currentLine = sr.ReadLine();
+                currentLine = sr.ReadLine().Trim();
                 if (currentLine == "<Surfaces>")
                 {
                     break;
@@ -976,42 +978,52 @@ namespace TeddyMapEditor
             //do surfaces
             while(!sr.EndOfStream)
             {
-                currentLine = sr.ReadLine();
+                currentLine = sr.ReadLine().Trim();
                 if (currentLine == "</Surfaces>")
                 {
                     break;
                 }
 
-                List<string> lrecparts = currentLine.Split(" ".ToArray()).ToList();
+                if (currentLine == "<Item>")
+                {
+                    currentLine = sr.ReadLine().Trim();
+                    string sRect = currentLine.Replace("<Rect>", "").Replace("</Rect>", "");
 
-                Rectangle r = new Rectangle();
-                r.Width = Convert.ToInt32(lrecparts[2]);
-                r.Height = Convert.ToInt32(lrecparts[3]);
-                r.Stroke = _surfaceBrushOutline;
-                r.StrokeThickness = 1;
+                    //Parse Rect string into Rectangle object
+                    List<string> lrecparts = sRect.Split(  " ".ToArray()).ToList();
+                    Rectangle r = new Rectangle();
+                    r.Width = Convert.ToInt32(lrecparts[2]);
+                    r.Height = Convert.ToInt32(lrecparts[3]);
+                    r.Stroke = _surfaceBrushOutline;
+                    r.StrokeThickness = 1;
+                    
+                    currentLine = sr.ReadLine().Trim();
+                    string sSprite = currentLine.Replace("<Sprite>", "").Replace("</Sprite>", "");
 
-                r.Tag = new Surface() { SurfaceTexture = "SurfaceTexture1" };
+                    r.Tag = new Surface() { SurfaceTexture = sSprite, SurfaceBounds = r };
 
 
-                ImageBrush ib = new ImageBrush();
-                ib.ImageSource = new BitmapImage(new Uri("..\\..\\Images\\SurfaceTexture1.png", UriKind.Relative));
-                ib.TileMode = TileMode.Tile;
-                ib.Viewport = new Rect(0, 0, ib.ImageSource.Width/r.Width, ib.ImageSource.Height/r.Height);
-                r.Fill = ib;
-                r.Opacity = 1;
-                r.MouseDown += new MouseButtonEventHandler(surface_MouseDown);
-                r.MouseMove += new MouseEventHandler(surface_MouseMove);
-                r.MouseUp += new MouseButtonEventHandler(surface_MouseUp);
-                cnvsMap.Children.Add(r);
+                    ImageBrush ib = new ImageBrush();
+                    ib.ImageSource = new BitmapImage(new Uri( string.Format("..\\..\\Images\\{0}.png", sSprite )   , UriKind.Relative));
+                    ib.TileMode = TileMode.Tile;
+                    ib.Viewport = new Rect(0, 0, ib.ImageSource.Width/r.Width, ib.ImageSource.Height/r.Height);
+                    r.Fill = ib;
+                    r.Opacity = 1;
+                    r.MouseDown += new MouseButtonEventHandler(surface_MouseDown);
+                    r.MouseMove += new MouseEventHandler(surface_MouseMove);
+                    r.MouseUp += new MouseButtonEventHandler(surface_MouseUp);
+                    cnvsMap.Children.Add(r);
 
-                cnvsMap.Children[cnvsMap.Children.Count - 1].SetValue(Canvas.LeftProperty, Convert.ToDouble(lrecparts[0]));
-                cnvsMap.Children[cnvsMap.Children.Count - 1].SetValue(Canvas.TopProperty, Convert.ToDouble(lrecparts[1]));
+                    cnvsMap.Children[cnvsMap.Children.Count - 1].SetValue(Canvas.LeftProperty, Convert.ToDouble(lrecparts[0]));
+                    cnvsMap.Children[cnvsMap.Children.Count - 1].SetValue(Canvas.TopProperty, Convert.ToDouble(lrecparts[1]));
+
+                }
             }
 
             //do objects
             while (!sr.EndOfStream)
             {
-                currentLine = sr.ReadLine();
+                currentLine = sr.ReadLine().Trim();
 
                 if (currentLine == "</ListOfObjects>")
                 {
@@ -1020,9 +1032,9 @@ namespace TeddyMapEditor
 
                 if (currentLine == "<Item>")
                 {
-                    currentLine = sr.ReadLine();
+                    currentLine = sr.ReadLine().Trim();
                     string sType = currentLine.Replace("<Type>", "").Replace("</Type>", "");
-                    currentLine = sr.ReadLine();
+                    currentLine = sr.ReadLine().Trim();
                     string sPosition = currentLine.Replace("<Position>", "").Replace("</Position>", "");
                 }
                     
@@ -1031,7 +1043,7 @@ namespace TeddyMapEditor
             //do enemies
             while (!sr.EndOfStream)
             {
-                currentLine = sr.ReadLine();
+                currentLine = sr.ReadLine().Trim();
 
                 if (currentLine == "</ListOfEnemies>")
                 {
@@ -1040,15 +1052,15 @@ namespace TeddyMapEditor
 
                 if (currentLine == "<Item>")
                 {
-                    currentLine = sr.ReadLine();
+                    currentLine = sr.ReadLine().Trim();
                     string sType = currentLine.Replace("<Type>", "").Replace("</Type>", "");
                     
-                    currentLine = sr.ReadLine();
+                    currentLine = sr.ReadLine().Trim();
                     List<string> sPosition = currentLine.Replace("<Position>", "").Replace("</Position>", "").Split(" ".ToArray()).ToList();
                     string xPosition = sPosition[0];
                     string yPosition = sPosition[1];
 
-                    currentLine = sr.ReadLine();
+                    currentLine = sr.ReadLine().Trim();
                     List<string> sVelocity = currentLine.Replace("<Velocity>", "").Replace("</Velocity>", "").Split(" ".ToArray()).ToList();
 
                     string xVelocity = sVelocity[0];
@@ -1084,12 +1096,12 @@ namespace TeddyMapEditor
 
             }
 
-            sr.ReadLine();
-            sr.ReadLine();
-            sr.ReadLine();
-            sr.ReadLine();
+            sr.ReadLine().Trim();
+            sr.ReadLine().Trim();
+            sr.ReadLine().Trim();
+            sr.ReadLine().Trim();
 
-            currentLine = sr.ReadLine();
+            currentLine = sr.ReadLine().Trim();
             List<string> levelSize = currentLine.Split(" ".ToArray()).ToList();
 
             txtLevelWidth.Text = levelSize[0];

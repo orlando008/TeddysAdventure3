@@ -616,7 +616,9 @@ namespace TeddysAdventureLibrary
                 Vector2 fluffPos = new Vector2(TeddyRectangle.Left, TeddyRectangle.Top);
                 fluffPos.X -= r.Next(-100, 100);
                 fluffPos.Y -= r.Next(50, 100);
-                Fluff thrown = new Fluff(this.Game, fluffPos, true);
+                float xVelocity = (float)r.NextDouble() * r.Next(-1, 2) * 5f + 0.5f;
+                float yVelocity = (float)r.NextDouble() * -10f;
+                Fluff thrown = new Fluff(this.Game, fluffPos, true, xVelocity, yVelocity);
                 currentScreen.GameObjects.Add(thrown);
             }
         }
