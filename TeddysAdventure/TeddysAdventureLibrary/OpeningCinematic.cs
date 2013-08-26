@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Audio;
 
 namespace TeddysAdventureLibrary
 {
@@ -15,11 +16,11 @@ namespace TeddysAdventureLibrary
         public static SpriteBatch _spriteBatch;
         private int _frameCount;
         private Rectangle _boxToDraw;
-        private bool _playerIsReady;
+        private bool _playerIsReadyToContinue;
         private Teddy _teddy;
         private SpriteFont _hudFont;
         private bool _theQuestionHasBeenAsked;
-        private bool _playerIsGoodToGo;
+        private bool _playerIsDoneWithCinematic;
         private bool _finishedCinematic;
         private int _lengthOfPose = 10;
 
@@ -43,12 +44,12 @@ namespace TeddysAdventureLibrary
         {
             _spriteBatch.Begin();
             _spriteBatch.Draw(_textureForAnimation, new Vector2((Game.GraphicsDevice.Viewport.Width / 2) - 254, (Game.GraphicsDevice.Viewport.Height / 2)- _boxToDraw.Height), _boxToDraw, Color.White);
-            if (_teddy.Position.X >= (Game.GraphicsDevice.Viewport.Width / 2) && _playerIsGoodToGo == false)
+            if (_teddy.Position.X >= (Game.GraphicsDevice.Viewport.Width / 2) && _playerIsDoneWithCinematic == false)
             {
                 _spriteBatch.DrawString(_hudFont, "Let's do this?", new Vector2(_teddy.Position.X + _teddy.BoxToDraw.Width, _teddy.Position.Y), Color.White);
                 _theQuestionHasBeenAsked = true;
             }
-            else if(_playerIsGoodToGo)
+            else if(_playerIsDoneWithCinematic)
             {
                 _spriteBatch.DrawString(_hudFont, "Aight den", new Vector2(_teddy.Position.X + _teddy.BoxToDraw.Width, _teddy.Position.Y), Color.White);
             }
@@ -56,7 +57,7 @@ namespace TeddysAdventureLibrary
             _spriteBatch.End();
 
 
-            if (_playerIsReady)
+            if (_playerIsReadyToContinue)
             {
                 _teddy.Draw(gameTime);
             }
@@ -64,9 +65,9 @@ namespace TeddysAdventureLibrary
 
         public override void Update(GameTime gameTime)
         {
-            if (Keyboard.GetState().IsKeyDown(Keys.Space) || _playerIsReady)
+            if (Keyboard.GetState().IsKeyDown(Keys.Space) || _playerIsReadyToContinue)
             {
-                if (_playerIsGoodToGo)
+                if (_playerIsDoneWithCinematic)
                 {
                     _frameCount++;
                     if (_frameCount > 100)
@@ -76,19 +77,26 @@ namespace TeddysAdventureLibrary
                 }
                 else if (Keyboard.GetState().IsKeyDown(Keys.Space) && _theQuestionHasBeenAsked)
                 {
-                    _playerIsGoodToGo = true;
+                    _playerIsDoneWithCinematic = true;
                     _frameCount = 0;
                 }
                 else
                 {
-
-                    _playerIsReady = true;
+                    if (_playerIsReadyToContinue == false)
+                    {
+                        //TODO: Change this sound to be like a dryer door popping open.
+                        SoundEffectHelper.PlaySoundEffect(Game, "GoodScan");
+                    }
+                        
+                    _playerIsReadyToContinue = true;
                     _boxToDraw = new Rectangle(254 * 3, 0, 254, _textureForAnimation.Height);
 
                     if (_teddy.Position.X < (Game.GraphicsDevice.Viewport.Width / 2))
                     {
                         _teddy.Position = new Vector2(_teddy.Position.X + 3, _teddy.Position.Y);
                     }
+
+                    
                 }
                
             }
