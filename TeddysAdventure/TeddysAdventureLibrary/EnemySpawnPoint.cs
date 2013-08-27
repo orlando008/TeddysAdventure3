@@ -13,7 +13,7 @@ namespace TeddysAdventureLibrary
         
         private int _interval;
         private string _enemyType;
-        private long _millisecondsElapsed = 0;
+        private int _millisecondsElapsed = 0;
 
         public EnemySpawnPoint(Game game, Vector2 position, string enemyType, int interval, Vector2 velocity)
             : base(game)
@@ -79,6 +79,9 @@ namespace TeddysAdventureLibrary
                         break;
                     case "Airplane":
                         newEnemy = new PlaneEnemy(Game, Position, Velocity);
+                        break;
+                    case "LadyBug":
+                        newEnemy = new LadyBug(Game, Position, Velocity);
                         break;
                 }
             }
