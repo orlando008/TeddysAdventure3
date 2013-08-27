@@ -119,23 +119,32 @@ namespace TeddysAdventureLibrary
 
             foreach (EnemyHelper eh in _screenHelper.ListOfEnemies)
             {
-                switch (eh.Type)
+                if (eh.IsSpawnPoint)
                 {
-                    case "BowlingBall":
-                        _enemies.Add(new BowlingBall(game, eh.Position, eh.Velocity));
-                        break;
-                    case "MatchBoxCar":
-                        _enemies.Add(new MatchBoxCar(game, eh.Position, eh.Velocity));
-                        break;
-                    case "FlyingBook":
-                        _enemies.Add(new FlyingBook(game, eh.Position, eh.Velocity));
-                        break;
-                    case "Airplane":
-                        _enemies.Add(new PlaneEnemy(game, eh.Position, eh.Velocity));
-                        break;
+                    _enemies.Add(new EnemySpawnPoint(game, eh.Position, eh.Type, eh.SpawnInterval, eh.Velocity));
+                }
+                else
+                {
+                    switch (eh.Type)
+                    {
+                        case "BowlingBall":
+                            _enemies.Add(new BowlingBall(game, eh.Position, eh.Velocity));
+                            break;
+                        case "MatchBoxCar":
+                            _enemies.Add(new MatchBoxCar(game, eh.Position, eh.Velocity));
+                            break;
+                        case "FlyingBook":
+                            _enemies.Add(new FlyingBook(game, eh.Position, eh.Velocity));
+                            break;
+                        case "Airplane":
+                            _enemies.Add(new PlaneEnemy(game, eh.Position, eh.Velocity));
+                            break;
+                        case "LadyBug":
+                            _enemies.Add(new LadyBug(game, eh.Position, eh.Velocity));
+                            break;
+                    }
                 }
             }
-
 
             switch (_screenHelper.LevelType)
             {

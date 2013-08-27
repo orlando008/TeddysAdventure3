@@ -33,11 +33,8 @@
 <Type>Airplane</Type>
 <Position>0 564</Position>
 <Velocity>1 0</Velocity>
-</Item>
-<Item>
-<Type>MatchBoxCar</Type>
-<Position>1654 532</Position>
-<Velocity>-1 0</Velocity>
+  <IsSpawnPoint>1</IsSpawnPoint>
+  <SpawnInterval>1000</SpawnInterval>
 </Item>
 </ListOfEnemies>
 <LevelType>

@@ -14,6 +14,8 @@ namespace TeddysAdventureLibrary
         private string _enemyType;
         private Vector2 _position;
         private Vector2 _velocity;
+        private bool _isSpawnPoint;
+        private int _spawnInterval;
 
         public string Type
         {
@@ -31,6 +33,18 @@ namespace TeddysAdventureLibrary
         {
             get { return _velocity; }
             set { _velocity = value; }
+        }
+
+        public bool IsSpawnPoint
+        {
+            get { return _isSpawnPoint; }
+            set { _isSpawnPoint = value; }
+        }
+
+        public int SpawnInterval
+        {
+            get { return _spawnInterval; }
+            set { _spawnInterval = value; }
         }
 
         public EnemyHelper()
@@ -57,6 +71,8 @@ namespace TeddysAdventureLibrary
             enemyHelper.Type = input.ReadString();
             enemyHelper.Position = input.ReadVector2();
             enemyHelper.Velocity = input.ReadVector2();
+            enemyHelper.IsSpawnPoint = input.ReadBoolean();
+            enemyHelper.SpawnInterval = input.ReadInt32();
             return enemyHelper;
         }
     }
