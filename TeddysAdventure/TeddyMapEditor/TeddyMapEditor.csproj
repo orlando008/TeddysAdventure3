@@ -105,6 +105,12 @@
     <Content Include="Images\Fluff.png" />
     <Resource Include="Images\SurfaceTexture1.png" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TeddysAdventureLibrary\TeddysAdventureLibrary.csproj">
+      <Project>{35188cca-45b4-4627-8f79-85046c33fa3e}</Project>
+      <Name>TeddysAdventureLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

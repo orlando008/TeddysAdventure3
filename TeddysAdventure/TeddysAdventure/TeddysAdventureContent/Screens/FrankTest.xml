@@ -27,11 +27,35 @@
 </Item>
 </Surfaces>
 <ListOfObjects>
+<Item>
+<Type>Fluff</Type>
+<Position>280 109</Position>
+</Item>
+<Item>
+<Type>Fluff</Type>
+<Position>338 170</Position>
+</Item>
+<Item>
+<Type>Fluff</Type>
+<Position>771 339</Position>
+</Item>
+<Item>
+<Type>Fluff</Type>
+<Position>260 226</Position>
+</Item>
+<Item>
+<Type>Fluff</Type>
+<Position>204 231</Position>
+</Item>
+<Item>
+<Type>Fluff</Type>
+<Position>176 353</Position>
+</Item>
 </ListOfObjects>
 <ListOfEnemies>
 <Item>
 <Type>Airplane</Type>
-<Position>0 564</Position>
+<Position>737 393</Position>
 <Velocity>1 0</Velocity>
   <IsSpawnPoint>1</IsSpawnPoint>
   <SpawnInterval>1000</SpawnInterval>
