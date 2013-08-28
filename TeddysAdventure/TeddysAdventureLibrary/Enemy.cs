@@ -33,6 +33,7 @@ namespace TeddysAdventureLibrary
         protected bool _fallsOffSurface = true;
         protected bool _playerCanRide = false;
         protected bool _playerCanPassThrough = false;
+        protected bool _changeDirectionUponSurfaceHit = false;
 
         private List<Enemy> _childrenEnemies;
 
@@ -234,19 +235,60 @@ namespace TeddysAdventureLibrary
                     if (Math.Abs(surface.Left - CollisionRectangle.Left) > Math.Abs(surface.Left - CollisionRectangle.Right))
                     {
                         Position = new Vector2(surface.Left - CollisionRectangle.Width - 1, Position.Y);
-                        if (_velocity.X > 0 ) 
-                             _velocity.X *= - _collisionDampingFactor;
+                        if (_changeDirectionUponSurfaceHit)
+                        {
+                            _velocity.X *= -1;
+                        }
+                        else
+                        {
+                            if (_velocity.X > 0)
+                                _velocity.X *= -_collisionDampingFactor;
+                        }
+
                     }
                     else
                     {
                         Position = new Vector2(surface.Right + 1, Position.Y);
-                        if (_velocity.X < 0)
-                            _velocity.X *=  - _collisionDampingFactor;
+
+                        if (_changeDirectionUponSurfaceHit)
+                        {
+                            _velocity.X *= -1;
+                        }
+                        else
+                        {
+                            if (_velocity.X < 0)
+                                _velocity.X *= -_collisionDampingFactor;
+                        }
+
                     }
 
                     if (Math.Abs(_velocity.X) < 1)
                         _velocity.X = 0f;
                     break;
+                }
+            }
+
+            if (_changeDirectionUponSurfaceHit)
+            {
+                if (Position.Y < 0 || (Position.Y + BoxToDraw.Height > Game.GraphicsDevice.Viewport.Height))
+                {
+                    if (Position.Y < 0)
+                        Position = new Vector2(Position.X, 0);
+                    else
+                        Position = new Vector2(Position.X, Game.GraphicsDevice.Viewport.Height - BoxToDraw.Height);
+
+
+                    Velocity = new Vector2(Velocity.X, -1 * Velocity.Y);
+                }
+
+                if (Position.X < 0 || (Position.X + BoxToDraw.Width > Game.GraphicsDevice.Viewport.Width))
+                {
+                    if (Position.X < 0)
+                        Position = new Vector2(0, Position.Y);
+                    else
+                        Position = new Vector2(Game.GraphicsDevice.Viewport.Width - BoxToDraw.Width,Position.Y);
+
+                    Velocity = new Vector2(Velocity.X * -1, Velocity.Y);
                 }
             }
 
@@ -265,13 +307,22 @@ namespace TeddysAdventureLibrary
                 if (CollisionRectangle.Intersects(surface.Rect) & (CollisionRectangle.Bottom > surface.Top))
                 {
                     Position = new Vector2(Position.X, surface.Top - BoxToDraw.Height);
-                    _velocity.Y *= -_collisionDampingFactor;
 
-                    //once it hits a base surface for the first time, claim that surface as "_mySurface", stop applying gravity
-                    if (!_fallsOffSurface) { _mySurface = surface; }
+                    if (_changeDirectionUponSurfaceHit)
+                    {
+                        _velocity.Y *= -1;
+                    }
+                    else
+                    {
+                        _velocity.Y *= -_collisionDampingFactor;
 
-                    if (Math.Abs(_velocity.Y) < 1)
-                        _velocity.Y = 0f;
+                        //once it hits a base surface for the first time, claim that surface as "_mySurface", stop applying gravity
+                        if (!_fallsOffSurface) { _mySurface = surface; }
+
+                        if (Math.Abs(_velocity.Y) < 1)
+                            _velocity.Y = 0f;
+                    }
+
 
                     break;
                 }

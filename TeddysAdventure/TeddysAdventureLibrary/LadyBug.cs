@@ -20,6 +20,7 @@ namespace TeddysAdventureLibrary
             base.Velocity = velocity;
             CanJumpOnToKill = true;
             this._gravity = 0;
+            this._changeDirectionUponSurfaceHit = true;
         }
 
         public override void DrawEnemy(GameTime gameTime, SpriteBatch sp)
@@ -46,16 +47,6 @@ namespace TeddysAdventureLibrary
                 }
                 
 
-            }
-        }
-
-        public override void Update(GameTime gameTime)
-        {
-            base.Update(gameTime);
-
-            if (Position.Y < 0 || (Position.Y + BoxToDraw.Height > Game.GraphicsDevice.Viewport.Height))
-            {
-                Velocity = new Vector2(Velocity.X, -1 * Velocity.Y);
             }
         }
     }
