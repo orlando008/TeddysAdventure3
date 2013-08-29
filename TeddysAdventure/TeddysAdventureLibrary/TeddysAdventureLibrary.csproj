@@ -105,6 +105,7 @@
     <Compile Include="LadyBug.cs" />
     <Compile Include="MatchBoxCar.cs" />
     <Compile Include="OpeningCinematic.cs" />
+    <Compile Include="OrangeBomb.cs" />
     <Compile Include="Plane.cs" />
     <Compile Include="Screen.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

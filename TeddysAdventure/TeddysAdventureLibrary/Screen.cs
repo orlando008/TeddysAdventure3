@@ -142,6 +142,9 @@ namespace TeddysAdventureLibrary
                         case "LadyBug":
                             _enemies.Add(new LadyBug(game, eh.Position, eh.Velocity));
                             break;
+                        case "OrangeBomb":
+                            _enemies.Add(new OrangeBomb(Game, eh.Position, eh.Velocity));
+                            break;
                     }
                 }
             }

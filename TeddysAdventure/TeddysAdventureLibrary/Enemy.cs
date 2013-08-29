@@ -150,6 +150,11 @@ namespace TeddysAdventureLibrary
             _deathFrameCount = 0;
         }
 
+        public void HardKill()
+        {
+            _destroyed = true;
+        }
+
         public void BringToLife()
         {
             _destroyed = false;

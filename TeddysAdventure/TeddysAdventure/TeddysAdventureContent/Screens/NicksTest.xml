@@ -34,10 +34,17 @@
 <Item>
 <Type>LadyBug</Type>
 <Position>982 400</Position>
-  <Velocity>0 -1</Velocity>
+  <Velocity>-2 -2</Velocity>
   <IsSpawnPoint>0</IsSpawnPoint>
   <SpawnInterval>1000</SpawnInterval>
 </Item>
+  <Item>
+    <Type>OrangeBomb</Type>
+    <Position>400 400</Position>
+    <Velocity>0 0</Velocity>
+    <IsSpawnPoint>0</IsSpawnPoint>
+    <SpawnInterval>0</SpawnInterval>
+  </Item>
 </ListOfEnemies>
 <LevelType>
 Normal

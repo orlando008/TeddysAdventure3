@@ -83,6 +83,9 @@ namespace TeddysAdventureLibrary
                     case "LadyBug":
                         newEnemy = new LadyBug(Game, Position, Velocity);
                         break;
+                    case "OrangeBomb":
+                        newEnemy = new OrangeBomb(Game, Position, Velocity);
+                        break;
                 }
             }
             else
