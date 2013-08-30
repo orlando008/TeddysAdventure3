@@ -145,6 +145,9 @@ namespace TeddysAdventureLibrary
                         case "OrangeBomb":
                             _enemies.Add(new OrangeBomb(Game, eh.Position, eh.Velocity));
                             break;
+                        case "OrangeCrayon":
+                            _enemies.Add(new OrangeCrayon(Game, eh.Position, eh.Velocity));
+                            break;
                     }
                 }
             }
@@ -217,7 +220,7 @@ namespace TeddysAdventureLibrary
             //move all the enemies
             for (int i = 0; i < _enemies.Count; i++)
             {
-                _enemies[i].MoveByX(speed);
+                _enemies[i].MoveByX(speed,true);
             }
 
             //Set the overall global position

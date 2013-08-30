@@ -86,6 +86,9 @@ namespace TeddysAdventureLibrary
                     case "OrangeBomb":
                         newEnemy = new OrangeBomb(Game, Position, Velocity);
                         break;
+                    case "OrangeCrayon":
+                        newEnemy = new OrangeCrayon(Game, Position, Velocity);
+                        break;
                 }
             }
             else
