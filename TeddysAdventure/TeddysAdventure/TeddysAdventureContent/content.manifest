@@ -1,7 +1,12 @@
+Objects\Fluff.png
+Objects\SurfaceTexture1.png
+Objects\SurfaceTexture2.png
+Objects\SurfaceTexture3.png
+Objects\SurfaceTexture4.png
+Objects\SurfaceTexture5.png
 Screens\NicksTest.xml
 Teddy\TeddyRun.png
 Teddy\TeddyJetpack.png
-Objects\Fluff.png
 Screens\deathScreen.png
 Enemies\BowlingBall.png
 Screens\startMenuTest.png
@@ -11,8 +16,11 @@ Fonts\HudFont.spritefont
 Enemies\ABomb.png
 Enemies\FlyingBook.png
 Enemies\Airplane.png
-Objects\SurfaceTexture1.png
-Objects\SurfaceTexture1.png
 Screens\FrankTest.xml
 Cinematics\Dryer.png
 Cinematics\PlainDryer.png
+Sounds\GoodScan.wav
+Objects\SurfaceTexture6.png
+Enemies\LadyBug.png
+Enemies\OrangeBomb.png
+Enemies\OrangeCrayon.png
