@@ -163,26 +163,34 @@ namespace TeddysAdventureLibrary
         }
 
 
-        public void MoveByX(int x)
+        public void MoveByX(int x, bool moveChildren)
         {
             this.Position = new Vector2((int)Position.X + x, (int)Position.Y);
 
-            if (this.ChildrenEnemies != null)
+            if (moveChildren)
             {
-                foreach (Enemy e in ChildrenEnemies)
-                    e.MoveByX(x);
+                if (this.ChildrenEnemies != null)
+                {
+                    foreach (Enemy e in ChildrenEnemies)
+                        e.MoveByX(x, moveChildren);
+                }
             }
+
         }
 
-        public void MoveByY(int y)
+        public void MoveByY(int y, bool moveChildren)
         {
             this.Position = new Vector2((int)Position.X, (int)Position.Y + y);
 
-            if (this.ChildrenEnemies != null)
+            if (moveChildren)
             {
-                foreach (Enemy e in ChildrenEnemies)
-                    e.MoveByY(y);
+                if (this.ChildrenEnemies != null)
+                {
+                    foreach (Enemy e in ChildrenEnemies)
+                        e.MoveByY(y, moveChildren);
+                }
             }
+
         }
 
         public virtual void DrawEnemy(GameTime gameTime, SpriteBatch sp)
@@ -217,7 +225,7 @@ namespace TeddysAdventureLibrary
 
 
 
-            MoveByX((int) _velocity.X);
+            MoveByX((int) _velocity.X, false);
 
             //wait till this car lands on a surface, then you only need to check against that surface (for whether or not you hit the end of the surface)
             if (!_fallsOffSurface)
@@ -304,7 +312,7 @@ namespace TeddysAdventureLibrary
         private void applyGravity()
         {
 
-            MoveByY((int)_velocity.Y);
+            MoveByY((int)_velocity.Y, false);
             _velocity.Y += _gravity; //Down is positive
 
             foreach (Surface surface in ((Screen)Game.Components[0]).Surfaces)

@@ -110,6 +110,9 @@
     <Compile Include="Helpers\SoundEffectHelper.cs" />
     <Compile Include="Helpers\SurfaceHelper.cs" />
     <Compile Include="OpeningCinematic.cs" />
+    <Compile Include="OrangeBomb.cs" />
+    <Compile Include="OrangeCrayon.cs" />
+    <Compile Include="Plane.cs" />
     <Compile Include="Screen.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StartMenu.cs" />
