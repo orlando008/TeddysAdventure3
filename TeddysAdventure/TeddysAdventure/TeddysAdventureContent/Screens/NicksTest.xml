@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?><XnaContent>
 <Asset Type="TeddysAdventureLibrary.ScreenHelper">
-  
+ <BackgroundColor>FF6495ED</BackgroundColor>
+  <Backgrounds></Backgrounds>
 <Surfaces>
   <Item>
     <Rect>0 625 775 75</Rect>

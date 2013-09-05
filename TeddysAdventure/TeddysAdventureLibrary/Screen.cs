@@ -36,6 +36,8 @@ namespace TeddysAdventureLibrary
         private SpriteFont _deathFont;
         private SpriteFont _hudFont;
         private Dictionary<string,Texture2D> _surfaceTextures;
+        private Dictionary<string, Texture2D> _backgroundImages;
+        private Color _backgroundColor;
 
         public static SpriteBatch spriteBatch;
 
@@ -70,6 +72,8 @@ namespace TeddysAdventureLibrary
             set { _enemies = value; }
         }
 
+        public List<Background> Backgrounds { get; set; }
+
         public bool GoBackToStartScreen
         {
             get { return _goBackToStartScreen; }
@@ -79,16 +83,28 @@ namespace TeddysAdventureLibrary
         public Screen(Game game, string levelName)
             : base(game)
         {
-            _screenHelper = game.Content.Load<ScreenHelper>("Screens\\" + levelName);
+            _screenHelper = game.Content.Load<ScreenHelper>("Screens\\" + levelName); 
             
             _deathSprite = game.Content.Load<Texture2D>("Screens\\deathScreen");
             _deathFont = game.Content.Load<SpriteFont>("Fonts\\DeathScreenFont");
             _hudFont = game.Content.Load<SpriteFont>("Fonts\\HudFont");
 
             _surfaceTextures = new Dictionary<string, Texture2D>();
+            _backgroundImages = new Dictionary<string, Texture2D>();
             _surfaces = new List<Surface>();
+            this.Backgrounds = new List<Background>();
+
+            _backgroundColor = _screenHelper.BackgroundColor;
 
             var allScreenSprites = from s in _screenHelper.Surfaces select s.Sprite;
+
+            foreach (BackgroundHelper bh in _screenHelper.Backgrounds)
+            {
+                if (!_backgroundImages.ContainsKey(bh.Image))
+                    _backgroundImages.Add(bh.Image, game.Content.Load<Texture2D>(System.IO.Path.Combine(@"Screens\\Backgrounds", bh.Image)));
+
+                this.Backgrounds.Add(new Background(bh));
+            }
 
             foreach (SurfaceHelper sh in _screenHelper.Surfaces)
             {
@@ -280,11 +296,83 @@ namespace TeddysAdventureLibrary
 
         public void Draw(GameTime gameTime)
         {
-
+            GraphicsDevice.Clear(_backgroundColor);
 
             spriteBatch.Begin();
 
             Rectangle r;
+
+            
+            //Draw Background images
+            foreach (Background b in this.Backgrounds)
+            {
+                Texture2D backgroundTexture;
+                if (_backgroundImages.TryGetValue(b.BackgroundName, out backgroundTexture))
+                {
+
+                        int numViewsX = 1; 
+                        int numViewsY = 1;
+
+                        Rectangle paddedBackground = new Rectangle(0, 0, backgroundTexture.Width + (int)b.Offset.X, backgroundTexture.Height + (int)b.Offset.Y);
+
+                        if ( b.RepeatX ) 
+                            numViewsX =  (Game.GraphicsDevice.Viewport.Width / paddedBackground.Width) + 1;
+
+                        if (b.RepeatY )
+                            numViewsY= (Game.GraphicsDevice.Viewport.Height / paddedBackground.Height) + 1;
+
+                        //Scrolling doesn't make sense without repeat?
+                        if (b.Scrolls)
+                        {
+                            if (b.RepeatX)
+                            {
+                                //Repeat this texture to fill the screen.  It scrolls with the level
+
+                                //based on GlobalPosition, figure out where to draw this sprite  (and how many times)
+                                int backgroundOffsetX = (int)(((int)_globalPosition.X) % paddedBackground.Width);
+                                int backgroundOffsetY = (int)(((int)_globalPosition.Y) % paddedBackground.Height);
+
+                                for (int i = 0; i <= numViewsX; i++)
+                                {
+                                    for (int j = 0; j < numViewsY; j++)
+                                    {
+                                        r = new Rectangle(i * paddedBackground.Width + backgroundOffsetX + (int)b.Offset.X, j * paddedBackground.Height + backgroundOffsetY + (int)b.Offset.Y, backgroundTexture.Width, backgroundTexture.Height);
+                                        spriteBatch.Draw(backgroundTexture, r, Color.White);
+                                    }
+                                }
+
+                            }
+                            else
+                            {
+                                //Only draw if it is actually visible
+                                if (_globalPosition.X + paddedBackground.Width > 0)
+                                {
+                                    for (int j = 0; j < numViewsY; j++)
+                                    {
+                                        r = new Rectangle((int)_globalPosition.X + (int)b.Offset.X, j * paddedBackground.Height + (int)b.Offset.Y , backgroundTexture.Width, backgroundTexture.Height);
+                                        spriteBatch.Draw(backgroundTexture, r, Color.White);
+                                    }
+
+                                }
+                            }
+
+                        }
+                        else
+                        {
+                            //Repeat this texture to fill the screen.  It always stays in the same position relative to the viewport
+                            for( int i = 0; i < numViewsX; i++){
+                                for (int j = 0; j < numViewsY; j++)
+                                {
+                                    r = new Rectangle(i * paddedBackground.Width  + (int)b.Offset.X, j*paddedBackground.Height  + (int)b.Offset.Y, backgroundTexture.Width, backgroundTexture.Height);
+                                    spriteBatch.Draw(backgroundTexture, r, Color.White);
+                                }
+                            }
+                        }
+
+                }
+            }
+
+
 
             foreach (Surface sur in Surfaces)
             {
@@ -330,7 +418,7 @@ namespace TeddysAdventureLibrary
         }
     }
 
-    public interface ISurfaceInterface
+        public interface ISurfaceInterface
     {
         Rectangle SurfaceBounds();
          Vector2 SurfaceVelocity();

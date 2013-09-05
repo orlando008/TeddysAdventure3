@@ -16,12 +16,20 @@ namespace TeddysAdventureLibrary
             
         }
 
+        private List<BackgroundHelper> _backgrounds;
         private List<SurfaceHelper> _surfaces;
         private List<GameObjectHelper> _gameObjectLocations;
         private List<EnemyHelper> _listOfEnemies;
         private string _levelType;
         private Vector2 _levelSize;
 
+        public Color BackgroundColor { get; set; }
+
+        public List<BackgroundHelper> Backgrounds
+        {
+            get { return _backgrounds; }
+            set { _backgrounds = value; }
+        }
 
 
         public List<SurfaceHelper> Surfaces
@@ -79,6 +87,8 @@ namespace TeddysAdventureLibrary
                 scrn = new ScreenHelper();
             }
 
+            scrn.BackgroundColor = input.ReadObject<Color>();
+            scrn.Backgrounds = input.ReadObject<List<BackgroundHelper>>();
             scrn.Surfaces = input.ReadObject<List<SurfaceHelper>>();
             scrn.ListOfObjects = input.ReadObject<List<GameObjectHelper>>();
             scrn.ListOfEnemies = input.ReadObject<List<EnemyHelper>>();

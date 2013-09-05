@@ -83,10 +83,10 @@
       <Processor>TextureProcessor</Processor>
     </Compile>
     <Compile Include="Screens\NicksTest.xml">
+      <SubType>Designer</SubType>
       <Name>NicksTest</Name>
       <Importer>XmlImporter</Importer>
       <Processor>PassThroughProcessor</Processor>
-      <SubType>Designer</SubType>
     </Compile>
     <Compile Include="Teddy\TeddyRun.png">
       <Name>TeddyRun</Name>
@@ -226,6 +226,27 @@
   <ItemGroup>
     <Compile Include="Teddy\RunGlow.png">
       <Name>RunGlow</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Screens\Backgrounds\basement.png">
+      <Name>basement</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Screens\Backgrounds\Basement_window.png">
+      <Name>Basement_window</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Screens\Backgrounds\Basement_dryer.png">
+      <Name>Basement_dryer</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

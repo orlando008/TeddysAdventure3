@@ -1,5 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?><XnaContent>
 <Asset Type="TeddysAdventureLibrary.ScreenHelper">
+  <BackgroundColor>FFA2A2A2</BackgroundColor>
+<Backgrounds>
+  <!--<Item>
+    <Image>Basement</Image>
+    <RepeatX>1</RepeatX>
+    <RepeatY>1</RepeatY>
+    <Scrolls>1</Scrolls>
+    <Offset>0 0</Offset>
+  </Item>-->  
+  <Item>
+    <Image>Basement_window</Image>
+    <RepeatX>1</RepeatX>
+    <RepeatY>0</RepeatY>
+    <Scrolls>1</Scrolls>
+    <Offset>250 50</Offset>
+  </Item>
+  <Item>
+    <Image>Basement_dryer</Image>
+    <RepeatX>0</RepeatX>
+    <RepeatY>0</RepeatY>
+    <Scrolls>1</Scrolls>
+    <Offset>0 450</Offset>
+  </Item>
+</Backgrounds>  
 <Surfaces>
 <Item>
 <Rect>0 625 775 75</Rect>
@@ -57,7 +81,7 @@
 <Type>Airplane</Type>
 <Position>737 393</Position>
 <Velocity>1 0</Velocity>
-  <IsSpawnPoint>1</IsSpawnPoint>
+  <IsSpawnPoint>0</IsSpawnPoint>
   <SpawnInterval>1000</SpawnInterval>
 </Item>
 </ListOfEnemies>
