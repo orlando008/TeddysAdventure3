@@ -22,6 +22,7 @@ namespace TeddysAdventureLibrary
         private int _height;
         private int _width;
         private Texture2D _styleSheet;
+        private Texture2D _runGlow;
         private Game _game;
         private Vector2 _position;
         private Rectangle _collisionBox;
@@ -36,6 +37,7 @@ namespace TeddysAdventureLibrary
         private int _initialBlinkWait = 500;
         private int _blinkPoseLength = 10;
         private bool _dead = false;
+        private bool _isRunning = false;
 
         private bool _isJumping = false;
         private float _initialJumpVelocity = 10;
@@ -59,6 +61,7 @@ namespace TeddysAdventureLibrary
             :base(game)
         {
             StyleSheet = styleSheet;
+            _runGlow = game.Content.Load<Texture2D>(System.IO.Path.Combine(@"Teddy", "RunGlow"));
             Game = game;
             Position = initialPosition;
             FrameSize = sizeOfFrame;
@@ -192,16 +195,24 @@ namespace TeddysAdventureLibrary
             if (keyState.IsKeyDown(Keys.LeftShift))
             {
                 speed = runSpeed;
+                _isRunning = true;
+            }
+            else
+            {
+                _isRunning = false;
             }
 
             if (keyState.IsKeyDown(Keys.Left))
             {
                 if (_facing == Direction.Left)
                 {
-                    _facingCounter++;
+                    if(!_isJumping)
+                        _facingCounter++;
+
                     if (speed == runSpeed)
                     {
-                        _facingCounter++;
+                        if (!_isJumping)
+                            _facingCounter++;
                     }
                 }
                 else
@@ -212,16 +223,20 @@ namespace TeddysAdventureLibrary
 
                 if (_facingCounter < _poseLengthWalk)
                 {
-                    BoxToDraw = new Rectangle(100, 0, BoxToDraw.Width, BoxToDraw.Height);
+                    BoxToDraw = new Rectangle(150, 0, BoxToDraw.Width, BoxToDraw.Height);
+                }
+                else if (_facingCounter < _poseLengthWalk * 2)
+                {
+                    BoxToDraw = new Rectangle(200, 0, BoxToDraw.Width, BoxToDraw.Height);
+                }
+                else if (_facingCounter < _poseLengthWalk * 3)
+                {
+                    BoxToDraw = new Rectangle(250, 0, BoxToDraw.Width, BoxToDraw.Height);
+
                 }
                 else
                 {
-                    BoxToDraw = new Rectangle(150, 0, BoxToDraw.Width, BoxToDraw.Height);
-
-                    if (_facingCounter == _poseLengthWalk * 2)
-                    {
-                        _facingCounter = 0;
-                    }
+                    _facingCounter = 0;
                 }
 
                 if (((Screen)Game.Components[0]).GlobalPosition.X > 0)
@@ -237,11 +252,13 @@ namespace TeddysAdventureLibrary
             {
                 if (_facing == Direction.Right)
                 {
-                    _facingCounter++;
+                    if (!_isJumping)
+                        _facingCounter++;
                     
                     if (speed == runSpeed)
                     {
-                        _facingCounter++;
+                        if (!_isJumping)
+                            _facingCounter++;
                     }
                 }
                 else
@@ -254,14 +271,17 @@ namespace TeddysAdventureLibrary
                 {
                     BoxToDraw = new Rectangle(0, 0, BoxToDraw.Width, BoxToDraw.Height);
                 }
-                else
+                else if (_facingCounter < _poseLengthWalk * 2)
                 {
                     BoxToDraw = new Rectangle(50, 0, BoxToDraw.Width, BoxToDraw.Height);
-
-                    if (_facingCounter == _poseLengthWalk * 2)
-                    {
-                        _facingCounter = 0;
-                    }
+                }
+                else if (_facingCounter < _poseLengthWalk * 3)
+                {
+                    BoxToDraw = new Rectangle(100, 0, BoxToDraw.Width, BoxToDraw.Height);
+                }
+                else
+                {
+                    _facingCounter = 0;
                 }
 
                 playerOverallVelocity.X = speed;
@@ -626,6 +646,12 @@ namespace TeddysAdventureLibrary
         public override void Draw(GameTime gameTime)
         {
             spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend);
+
+            if (_isRunning && _isJumping == false && _yVelocity == 0)
+            {
+                spriteBatch.Draw(_runGlow, new Vector2(Position.X, Position.Y + BoxToDraw.Height - _runGlow.Height/2), new Rectangle(0,0, _runGlow.Width, _runGlow.Height), Color.White);
+            }
+
             spriteBatch.Draw(StyleSheet, Position, BoxToDraw, Color.White);
             spriteBatch.End();
         }
