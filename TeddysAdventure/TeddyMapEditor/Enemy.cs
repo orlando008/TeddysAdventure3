@@ -49,6 +49,9 @@ namespace TeddyMapEditor
             }
         }
 
+        public bool IsSpawnPoint { get; set; }
+        public int SpawnInterval { get; set; }
+
         private Point _location;
 
         public Point Location
@@ -92,6 +95,8 @@ namespace TeddyMapEditor
             s += "<Type>" + _name + "</Type>" + System.Environment.NewLine;
             s += "<Position>" + Convert.ToInt32(_location.X).ToString() + " " + Convert.ToInt32(_location.Y).ToString() + "</Position>" + System.Environment.NewLine;
             s += "<Velocity>" + _velocityX.ToString() + " " + _velocityY.ToString() + "</Velocity>" + System.Environment.NewLine;
+            s += "<IsSpawnPoint>" + (this.IsSpawnPoint ? "1" : "0") + "</IsSpawnPoint>" + System.Environment.NewLine;
+            s += "<SpawnInterval>" + this.SpawnInterval.ToString() + "</SpawnInterval>" + System.Environment.NewLine;
             s += "</Item>" + System.Environment.NewLine;
 
             return s;

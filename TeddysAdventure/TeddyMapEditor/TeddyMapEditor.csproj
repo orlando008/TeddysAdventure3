@@ -56,6 +56,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Enemy.cs" />
+    <Compile Include="LevelParser.cs" />
     <Compile Include="Object.cs" />
     <Compile Include="Surface.cs" />
     <Page Include="MainWindow.xaml">
