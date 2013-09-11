@@ -26,6 +26,34 @@ namespace TeddysAdventureLibrary
             this.Offset = bh.Offset;
         }
 
+        public Background()
+        { }
+
+        public void SetOffsets(int x, int y)
+        {
+            this.Offset = new Vector2(x, y);
+        }
+
+        public string GetXMLString()
+        {
+            string xml;
+
+            xml = "<Item><Image>{0}</Image><RepeatX>{1}</RepeatX><RepeatY>{2}</RepeatY><Scrolls>{3}</Scrolls><Offset>{4}</Offset></Item>";
+
+            return string.Format(xml, new object[] { this.BackgroundName, BoolToXML(this.RepeatX), BoolToXML(this.RepeatY), BoolToXML(this.Scrolls), VectorToXML( this.Offset)   });
+
+        }
+
+        public string VectorToXML(Vector2 v)
+        {
+            return string.Format("{0} {1}", v.X.ToString(), v.Y.ToString());
+        }
+
+        public string BoolToXML(bool b)
+        {
+            return b ? "1" : "0";
+        }
+
     }
 
 
