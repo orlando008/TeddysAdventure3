@@ -13,6 +13,7 @@ namespace TeddysAdventureLibrary
         private Vector2 _position;
         private Rectangle _boxToDraw;
         private Vector2 _frameSize;
+        private List<TeddysAdventureLibrary.GeometryMethods.RectangleF> _hitBoxes;
 
         //Drawing Animations
         protected int _frameCount = 0;
@@ -52,6 +53,16 @@ namespace TeddysAdventureLibrary
             set
             {
                 _position = value;
+
+                if (_hitBoxes == null)
+                {
+                    _hitBoxes = new List<GeometryMethods.RectangleF>();
+                    _hitBoxes.Add(new GeometryMethods.RectangleF(CollisionRectangle));
+                }
+                else
+                {
+                    _hitBoxes[0] = new GeometryMethods.RectangleF(CollisionRectangle);
+                }
             }
         }
 
@@ -79,6 +90,12 @@ namespace TeddysAdventureLibrary
             {
                 return new Rectangle((int)_position.X + _boxToDraw.Width / 2, (int)_position.Y + _boxToDraw.Height / 2, (int)_boxToDraw.Width, (int)_boxToDraw.Height);
             }
+        }
+
+        public List<TeddysAdventureLibrary.GeometryMethods.RectangleF> HitBoxes
+        {
+            get { return _hitBoxes; }
+            set { _hitBoxes = value; }
         }
 
         public Rectangle CollisionRectangle
@@ -176,6 +193,12 @@ namespace TeddysAdventureLibrary
                 }
             }
 
+
+            for (int i = _hitBoxes.Count - 1; i >= 0; i--)
+            {
+                _hitBoxes[i] = new GeometryMethods.RectangleF(_hitBoxes[i].X + x, _hitBoxes[i].Y, _hitBoxes[i].Width, _hitBoxes[i].Height);
+            }
+
         }
 
         public void MoveByY(int y, bool moveChildren)
@@ -191,6 +214,10 @@ namespace TeddysAdventureLibrary
                 }
             }
 
+            for (int i = _hitBoxes.Count - 1; i >= 0; i--)
+            {
+                _hitBoxes[i] = new GeometryMethods.RectangleF(_hitBoxes[i].X, _hitBoxes[i].Y + y, _hitBoxes[i].Width, _hitBoxes[i].Height);
+            }
         }
 
         public virtual void DrawEnemy(GameTime gameTime, SpriteBatch sp)
@@ -202,6 +229,21 @@ namespace TeddysAdventureLibrary
             }
         }
 
+        public virtual bool RectangleInsersectsWithHitBoxes(GeometryMethods.RectangleF r, ref GeometryMethods.RectangleF rHit)
+        {
+
+
+            foreach (GeometryMethods.RectangleF rec in _hitBoxes)
+            {
+                if (rec.Intersects(r))
+                {
+                    rHit = rec;
+                    return true;
+                }
+            }
+
+            return false;
+        }
 
         public override void Update(GameTime gameTime)
         {
@@ -281,6 +323,31 @@ namespace TeddysAdventureLibrary
                 }
             }
 
+            //when moving up, check for hitting your head on a surface
+            if (Velocity.Y < 0)
+            {
+                foreach (Surface surface in ((Screen)Game.Components[0]).Surfaces)
+                {
+                    if (CollisionRectangle.Intersects(surface.Rect) & (CollisionRectangle.Top < surface.Bottom))
+                    {
+                        Position = new Vector2(Position.X, surface.Bottom + 1);
+
+                        if (_changeDirectionUponSurfaceHit)
+                        {
+                            _velocity.Y *= -1;
+                        }
+                        else
+                        {
+                            _velocity.Y = 0f;
+                        }
+
+
+                        break;
+                    }
+                }
+            }
+
+            //Bounce off the sides of the viewport if necessary
             if (_changeDirectionUponSurfaceHit)
             {
                 if (Position.Y < 0 || (Position.Y + BoxToDraw.Height > Game.GraphicsDevice.Viewport.Height))
@@ -299,12 +366,11 @@ namespace TeddysAdventureLibrary
                     if (Position.X < 0)
                         Position = new Vector2(0, Position.Y);
                     else
-                        Position = new Vector2(Game.GraphicsDevice.Viewport.Width - BoxToDraw.Width,Position.Y);
+                        Position = new Vector2(Game.GraphicsDevice.Viewport.Width - BoxToDraw.Width, Position.Y);
 
                     Velocity = new Vector2(Velocity.X * -1, Velocity.Y);
                 }
             }
-
 
             applyGravity();
         }

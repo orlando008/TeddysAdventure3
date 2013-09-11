@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 
 namespace TeddysAdventureLibrary
 {
-    class GeometryMethods
+    public class GeometryMethods
     {
 
         public class RectangleF

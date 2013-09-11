@@ -401,7 +401,7 @@ namespace TeddysAdventureLibrary
                 else
                 {
                     //Move Screen
-                    ((Screen)Game.Components[0]).MoveX((int)-overallVelocity.X);
+                     ((Screen)Game.Components[0]).MoveX((int)-overallVelocity.X);
 
                     foreach (Surface surface in ((Screen)Game.Components[0]).Surfaces)
                     {
@@ -588,7 +588,9 @@ namespace TeddysAdventureLibrary
                 }
             }
 
-            if (e.CanInteractWithPlayer & (TeddyRectangle.Intersects(e.CollisionRectangle)) && (e != _ridingSurface))
+            GeometryMethods.RectangleF rHit = null;
+
+            if (e.CanInteractWithPlayer & (e.RectangleInsersectsWithHitBoxes(TeddyRectangle, ref rHit)) && (e != _ridingSurface))
             {
                 BoxToDraw = new Rectangle(150, 75, BoxToDraw.Width, BoxToDraw.Height);
                 // Check if Teddy has been hit
@@ -605,19 +607,19 @@ namespace TeddysAdventureLibrary
                         _isHit = true;
                         var playerOverallVelocity = new Vector2(-50, 0);
                         //hit on right side
-                        if (TeddyRectangle.Left <= e.CollisionRectangle.Left)
+                        if (TeddyRectangle.Left <= rHit.Left)
                         {
                             _yVelocity = -3;
                             playerOverallVelocity.X = -50;
                             movePlayerX(playerOverallVelocity);
-			    throwFluff(e.Damage);
+			                throwFluff(e.Damage);
                         }
                         else //hit on left side
                         {
                             _yVelocity = -3;
                             playerOverallVelocity.X = 50;
                             movePlayerX(playerOverallVelocity);
-			    throwFluff(e.Damage);
+			                throwFluff(e.Damage);
                         }
                     }
                 }
@@ -625,7 +627,7 @@ namespace TeddysAdventureLibrary
 
         }
 	
-	private void throwFluff(int damage)
+	    private void throwFluff(int damage)
         {
             double mid = TeddyRectangle.Height / 2;
             Random r = new Random();

@@ -46,6 +46,20 @@
     <IsSpawnPoint>0</IsSpawnPoint>
     <SpawnInterval>0</SpawnInterval>
   </Item>
+  <Item>
+    <Type>OrangeBomb</Type>
+    <Position>500 400</Position>
+    <Velocity>0 0</Velocity>
+    <IsSpawnPoint>0</IsSpawnPoint>
+    <SpawnInterval>0</SpawnInterval>
+  </Item>
+  <Item>
+    <Type>OrangeBomb</Type>
+    <Position>600 400</Position>
+    <Velocity>0 0</Velocity>
+    <IsSpawnPoint>0</IsSpawnPoint>
+    <SpawnInterval>0</SpawnInterval>
+  </Item>
 </ListOfEnemies>
 <LevelType>
 Normal
