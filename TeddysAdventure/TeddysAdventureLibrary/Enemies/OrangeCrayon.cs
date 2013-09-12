@@ -9,7 +9,9 @@ namespace TeddysAdventureLibrary
 {
     public class OrangeCrayon : Enemy
     {
-        private int _lengthOfPose = 40;
+        private int _lengthOfPose = 100;
+        private int _jumpTickCounter = 0;
+        
         public OrangeCrayon(Game game, Vector2 position, Vector2 velocity)
             : base(game)
         {
@@ -19,6 +21,7 @@ namespace TeddysAdventureLibrary
             BoxToDraw = new Rectangle(0, 0, StyleSheet.Width, StyleSheet.Height);
             base.Velocity = velocity;
             CanJumpOnToKill = true;
+            _collisionDampingFactor = 0;
 
             this.ChildrenEnemies = new List<Enemy>();
         }
@@ -64,9 +67,10 @@ namespace TeddysAdventureLibrary
                 Velocity = new Vector2(Velocity.X * -1, Velocity.Y);
             }
 
-            base.Update(gameTime);
+            
 
             _frameCount++;
+            _jumpTickCounter++;
 
             if (_frameCount > 75)
             {
@@ -74,11 +78,19 @@ namespace TeddysAdventureLibrary
                 _frameCount = 0;
             }
 
+            //Jump up every once in a while
+            if (_jumpTickCounter >= _lengthOfPose)
+            {
+                Velocity = new Vector2(Velocity.X, -5);
+                _jumpTickCounter = 0;
+            }
+            
             foreach (Enemy e in ChildrenEnemies)
             {
                 e.Update(gameTime);
             }
 
+            base.Update(gameTime);
         }
     }
 }
