@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using TeddysAdventureLibrary;
+using Microsoft.Xna.Framework.Storage;
 
 namespace TeddysAdventure
 {
@@ -26,6 +27,12 @@ namespace TeddysAdventure
         private Boolean _started = false;
         private Boolean _levelLoaded = false;
         private bool _openingCinematicPlayed = false;
+        private GameSettings _gameSettings;
+
+        public struct GameSettings
+        {
+            public bool playOpeningCinematic;
+        }
 
         public TeddysAdventureGame()
         {
@@ -34,6 +41,42 @@ namespace TeddysAdventure
             graphics.PreferredBackBufferWidth = 1250;
             graphics.PreferredBackBufferHeight = 750;
             Content.RootDirectory = "Content";
+        }
+
+        private void GetGameSettings()
+        {
+            try
+            {
+                System.IO.Stream stream = TitleContainer.OpenStream("GameSettings.txt");
+                System.IO.StreamReader sreader = new System.IO.StreamReader(stream);
+                // use StreamReader.ReadLine or other methods to read the file data
+
+                String t = sreader.ReadLine();
+                _gameSettings.playOpeningCinematic = (t.Split('=')[1] == "1") ? true : false;
+                stream.Close();
+            }
+            catch (System.IO.FileNotFoundException)
+            {
+                // this will be thrown by OpenStream if gamedata.txt
+                // doesn't exist in the title storage location
+            }
+        }
+
+        private void SaveGameSettings()
+        {
+            try
+            {
+                System.IO.StreamWriter swriter = new System.IO.StreamWriter("GameSettings.txt", false);
+                // use StreamReader.ReadLine or other methods to read the file data
+
+                swriter.WriteLine("OpeningCinematic=" + (_gameSettings.playOpeningCinematic ? "1" : "0"));
+                swriter.Close();
+            }
+            catch (System.IO.FileNotFoundException)
+            {
+                // this will be thrown by OpenStream if gamedata.txt
+                // doesn't exist in the title storage location
+            }
         }
 
         /// <summary>
@@ -55,6 +98,8 @@ namespace TeddysAdventure
         /// </summary>
         protected override void LoadContent()
         {
+            GetGameSettings();
+
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
@@ -79,9 +124,10 @@ namespace TeddysAdventure
 
 
             _startMenu = new StartMenu(this, new Vector2(0, 0), Content.Load<Texture2D>(System.IO.Path.Combine(@"Screens", "startMenuTest")));//, Content.Load<Texture2D>(System.IO.Path.Combine(@"Screens", "startMenuIcon")), new Vector2(200, 1000));
-            if (_openingCinematicPlayed == false)
+            if (_openingCinematicPlayed == false && _gameSettings.playOpeningCinematic)
             {
                 _openingCinematicPlayed = true;
+                _gameSettings.playOpeningCinematic = false;
                 this.Components.Add(new OpeningCinematic(this));
             }
             else
@@ -120,6 +166,7 @@ namespace TeddysAdventure
         protected override void UnloadContent()
         {
             // TODO: Unload any non ContentManager content here
+            SaveGameSettings();
         }
 
         /// <summary>
