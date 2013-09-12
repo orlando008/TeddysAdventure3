@@ -23,6 +23,7 @@ namespace TeddyMapEditor
 
         private Color _backgroundColor = Colors.OldLace;
 
+        private object _currentSelection;
 
 
         public Color BackgroundColor
@@ -31,7 +32,15 @@ namespace TeddyMapEditor
             set { _backgroundColor = value; OnPropertyChanges("BackgroundColor"); }
         }
 
-
+        public object CurrentSelection
+        {
+            get { return _currentSelection; }
+            set
+            {
+                _currentSelection = value;
+                OnPropertyChanges("CurrentSelection");
+            }
+        }
 
 
         public event PropertyChangedEventHandler PropertyChanged;

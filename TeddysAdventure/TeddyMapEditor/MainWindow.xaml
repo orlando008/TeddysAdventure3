@@ -132,6 +132,12 @@ xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
                 <Label>Background Color:</Label>
                 <xctk:ColorPicker SelectedColor="{Binding BackgroundColor}"></xctk:ColorPicker>
             </StackPanel>
+
+            <ScrollViewer>
+                <xctk:PropertyGrid SelectedObject="{Binding CurrentSelection}"></xctk:PropertyGrid>               
+            </ScrollViewer>
+            
+
             
         </StackPanel>
 
