@@ -38,7 +38,7 @@ namespace TeddyMapEditor
         private EditMode _currentEditMode;
         private EditMode _previousEditMode = EditMode.none;
 
-        private Color _backgroundColor = Colors.White;
+        private EditorViewModel _vm;
         private List<TeddysAdventureLibrary.Background> _backgrounds = new List<TeddysAdventureLibrary.Background>();
         private List<Surface> _surfaces = new List<Surface>();
         private List<GameObject> _gameObjects = new List<GameObject>();
@@ -79,9 +79,8 @@ namespace TeddyMapEditor
             }
         }
 
-        //private SolidColorBrush _surfaceBrush;
+
         private SolidColorBrush _surfaceBrushOutline;
-        //private SolidColorBrush _surfaceSelectedBrush;
         private SolidColorBrush _surfaceSelectedOutline;
 
         private SolidColorBrush _enemyBrush;
@@ -159,6 +158,9 @@ namespace TeddyMapEditor
         {
             InitializeComponent();
             CurrentEditMode = EditMode.none;
+
+            _vm = new EditorViewModel();
+            this.DataContext = _vm;
 
             Color c = new Color();
             c = Colors.DarkGray;
@@ -627,6 +629,7 @@ namespace TeddyMapEditor
 
             BasicMouseDown(sender, e);
             CurrentEnemy = ((Rectangle)sender);
+       // '    ctlProperties.SetObject(CurrentEnemy.Tag);
             Enemy_SomethingChanged(CurrentEnemy.Tag, null);
             spEnemies.Width = 1000;
 
@@ -864,80 +867,9 @@ namespace TeddyMapEditor
                 return;
             }
 
-            LevelParser.WriteLevel(ofg.FileName, _backgroundColor, _backgrounds, _surfaces, _gameObjects, _enemies, _levelSize);
+            LevelParser.WriteLevel(ofg.FileName, _vm.BackgroundColor, _backgrounds, _surfaces, _gameObjects, _enemies, _levelSize);
 
-            //SaveLevelDownToXML(ofg.FileName);
         }
-
-
-
-        //private void SaveLevelDownToXML(string fileName)
-        //{
-            
-        //    if (fileName == "")
-        //        return;
-            
-        //    StreamWriter sw = new StreamWriter(fileName);
-        //    sw.WriteLine("<?xml version=\"1.0\" encoding=\"utf-8\"?><XnaContent>");
-        //    sw.WriteLine("<Asset Type=\"TeddysAdventureLibrary.ScreenHelper\">");
-
-        //    sw.WriteLine("<Surfaces>");
-        //    foreach (UIElement item in cnvsMap.Children)
-        //    {
-        //        if(item.GetType() == typeof(Rectangle))
-        //        {
-        //            if(((Rectangle)item).Tag.GetType() == typeof(Surface))
-        //            {
-        //                Surface s = (Surface)((Rectangle)item).Tag;
-        //                s.SurfaceBounds = (Rectangle)item;
-        //                sw.Write(((Surface)((Rectangle)item).Tag).GetXMLString());
-        //            }
-        //        }
-
-        //    }
-        //    sw.WriteLine("</Surfaces>");
-
-        //    sw.WriteLine("<ListOfObjects>");
-        //    foreach (UIElement item in cnvsMap.Children)
-        //    {
-        //        if (item.GetType() == typeof(Rectangle))
-        //        {
-        //            if (((Rectangle)item).Tag.GetType() == typeof(GameObject))
-        //            {
-        //                sw.Write(((GameObject)((Rectangle)item).Tag).GetXMLString());
-        //            }
-        //        }
-        //    }
-        //    sw.WriteLine("</ListOfObjects>");
-
-        //    sw.WriteLine("<ListOfEnemies>");
-        //    foreach (UIElement item in cnvsMap.Children)
-        //    {
-        //        if (item.GetType() == typeof(Rectangle))
-        //        {
-
-        //            if (((Rectangle)item).Tag.GetType() == typeof(Enemy))
-        //            {
-        //                sw.Write(((Enemy)((Rectangle)item).Tag).GetXMLString());
-        //            }
-        //        }
-        //    }
-        //    sw.WriteLine("</ListOfEnemies>");
-
-
-        //    sw.WriteLine("<LevelType>");
-        //    sw.WriteLine("Normal");
-        //    sw.WriteLine("</LevelType>");
-
-        //    sw.WriteLine("<LevelSize>");
-        //    sw.WriteLine(txtLevelWidth.Text + " " + txtLevelHeight.Text);
-        //    sw.WriteLine("</LevelSize>");
-
-        //    sw.WriteLine("</Asset>");
-        //    sw.WriteLine("</XnaContent>");
-
-        //    sw.Close();
-        //}
 
         private void txtVelocityX_LostFocus(object sender, RoutedEventArgs e)
         {
@@ -975,8 +907,7 @@ namespace TeddyMapEditor
         private void LoadScreenElementsToUI(List<Surface> surfaces, List<GameObject> gameObjects, List<Enemy> enemies, List<TeddysAdventureLibrary.Background> backgrounds, Size? levelSize, string filePath)
         {
 
-           
-
+         //'  cnvsMap.Background = new SolidColorBrush(_vm.BackgroundColor);
 
             foreach (TeddysAdventureLibrary.Background b in backgrounds)
             {
@@ -1014,7 +945,8 @@ namespace TeddyMapEditor
                 int height = 0;
 
                 GetCurrentObjectSize(go.Name,  ref width, ref height);
-
+                r.Width = width;
+                r.Height = height;
                 r.Stroke = _surfaceSelectedOutline;
 
                 r.MouseDown += new MouseButtonEventHandler(object_MouseDown);
@@ -1038,6 +970,8 @@ namespace TeddyMapEditor
                 int height = 0;
 
                 GetCurrentEnemysSize(e.Name, ref width, ref height);
+                r.Width = width;
+                r.Height = height;
                 r.Stroke = _surfaceBrushOutline;
 
                 r.MouseDown += new MouseButtonEventHandler(enemy_MouseDown);
@@ -1077,7 +1011,10 @@ namespace TeddyMapEditor
 
             cnvsMap.Children.Clear();
 
-            LevelParser.LoadLevel(   ofg.FileName, _surfaces, _enemies, _gameObjects, _backgrounds, ref _backgroundColor, ref _levelSize);
+            Color backgroundColor = Colors.White;
+
+            LevelParser.LoadLevel(   ofg.FileName, _surfaces, _enemies, _gameObjects, _backgrounds, ref backgroundColor, ref _levelSize);
+            _vm.BackgroundColor = backgroundColor;
             LoadScreenElementsToUI(_surfaces, _gameObjects, _enemies, _backgrounds, _levelSize, ofg.FileName);
 
             cnvsMap.Width = Convert.ToInt32(txtLevelWidth.Text);

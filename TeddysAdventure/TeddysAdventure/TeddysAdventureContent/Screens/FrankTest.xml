@@ -81,10 +81,10 @@
 <ListOfEnemies>
 <Item>
 <Type>Airplane</Type>
-<Position>737 393</Position>
+<Position>50 393</Position>
 <Velocity>1 0</Velocity>
   <IsSpawnPoint>0</IsSpawnPoint>
-  <SpawnInterval>1000</SpawnInterval>
+  <SpawnInterval>1</SpawnInterval>
 </Item>
 </ListOfEnemies>
 <LevelType>

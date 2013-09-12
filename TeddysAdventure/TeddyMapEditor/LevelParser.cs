@@ -99,67 +99,6 @@ namespace TeddyMapEditor
                 screenDoc.WriteTo(screenWriter);
             }
 
-            //StreamWriter sw = new StreamWriter(fileName);
-            //sw.WriteLine("<?xml version=\"1.0\" encoding=\"utf-8\"?><XnaContent>");
-            //sw.WriteLine("<Asset Type=\"TeddysAdventureLibrary.ScreenHelper\">");
-
-            //sw.WriteLine("<Surfaces>");
-            //foreach (UIElement item in cnvsMap.Children)
-            //{
-            //    if (item.GetType() == typeof(Rectangle))
-            //    {
-            //        if (((Rectangle)item).Tag.GetType() == typeof(Surface))
-            //        {
-            //            Surface s = (Surface)((Rectangle)item).Tag;
-            //            s.SurfaceBounds = (Rectangle)item;
-            //            sw.Write(((Surface)((Rectangle)item).Tag).GetXMLString());
-            //        }
-            //    }
-
-            //}
-            //sw.WriteLine("</Surfaces>");
-
-            //sw.WriteLine("<ListOfObjects>");
-            //foreach (UIElement item in cnvsMap.Children)
-            //{
-            //    if (item.GetType() == typeof(Rectangle))
-            //    {
-            //        if (((Rectangle)item).Tag.GetType() == typeof(GameObject))
-            //        {
-            //            sw.Write(((GameObject)((Rectangle)item).Tag).GetXMLString());
-            //        }
-            //    }
-            //}
-            //sw.WriteLine("</ListOfObjects>");
-
-            //sw.WriteLine("<ListOfEnemies>");
-            //foreach (UIElement item in cnvsMap.Children)
-            //{
-            //    if (item.GetType() == typeof(Rectangle))
-            //    {
-
-            //        if (((Rectangle)item).Tag.GetType() == typeof(Enemy))
-            //        {
-            //            sw.Write(((Enemy)((Rectangle)item).Tag).GetXMLString());
-            //        }
-            //    }
-            //}
-            //sw.WriteLine("</ListOfEnemies>");
-
-
-            //sw.WriteLine("<LevelType>");
-            //sw.WriteLine("Normal");
-            //sw.WriteLine("</LevelType>");
-
-            //sw.WriteLine("<LevelSize>");
-            //sw.WriteLine(txtLevelWidth.Text + " " + txtLevelHeight.Text);
-            //sw.WriteLine("</LevelSize>");
-
-            //sw.WriteLine("</Asset>");
-            //sw.WriteLine("</XnaContent>");
-
-            //sw.Close();
-
         }
 
         private static String HexColorConverter(Color c)
