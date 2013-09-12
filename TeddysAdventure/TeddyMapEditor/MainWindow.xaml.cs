@@ -629,7 +629,8 @@ namespace TeddyMapEditor
 
             BasicMouseDown(sender, e);
             CurrentEnemy = ((Rectangle)sender);
-       // '    ctlProperties.SetObject(CurrentEnemy.Tag);
+            _vm.CurrentSelection = CurrentEnemy.Tag;
+
             Enemy_SomethingChanged(CurrentEnemy.Tag, null);
             spEnemies.Width = 1000;
 
