@@ -7,7 +7,8 @@ using System.Windows.Shapes;
 
 namespace TeddyMapEditor
 {
-    public class Enemy
+    public class Enemy:IMovableGameItem
+
     {
         private string _name;
 

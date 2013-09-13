@@ -1,97 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
 <XnaContent>
-<Asset Type="TeddysAdventureLibrary.ScreenHelper">
-  <BackgroundColor>FFA2A2A2</BackgroundColor>
-   <!--<Item>
-    <Image>Basement</Image>
-    <RepeatX>1</RepeatX>
-    <RepeatY>1</RepeatY>
-    <Scrolls>1</Scrolls>
-    <Offset>0 0</Offset>
-  </Item>-->   
-<Backgrounds>
-
-  <Item>
-    <Image>Basement_window</Image>
-    <RepeatX>1</RepeatX>
-    <RepeatY>0</RepeatY>
-    <Scrolls>1</Scrolls>
-    <Offset>250 50</Offset>
-  </Item>
-  <Item>
-    <Image>Basement_dryer</Image>
-    <RepeatX>0</RepeatX>
-    <RepeatY>0</RepeatY>
-    <Scrolls>1</Scrolls>
-    <Offset>0 450</Offset>
-  </Item>
-</Backgrounds>  
-<Surfaces>
-<Item>
-<Rect>0 625 775 75</Rect>
-<Sprite>SurfaceTexture1</Sprite>
-</Item>
-<Item>
-<Rect>925 625 200 75</Rect>
-<Sprite>SurfaceTexture1</Sprite>
-</Item>
-<Item>
-<Rect>1275 600 575 100</Rect>
-<Sprite>SurfaceTexture1</Sprite>
-</Item>
-<Item>
-<Rect>1950 500 600 50</Rect>
-<Sprite>SurfaceTexture1</Sprite>
-</Item>
-<Item>
-<Rect>2650 375 575 100</Rect>
-<Sprite>SurfaceTexture1</Sprite>
-</Item>
-<Item>
-<Rect>3250 275 150 50</Rect>
-<Sprite>SurfaceTexture1</Sprite>
-</Item>
-</Surfaces>
-<ListOfObjects>
-<Item>
-<Type>Fluff</Type>
-<Position>280 109</Position>
-</Item>
-<Item>
-<Type>Fluff</Type>
-<Position>338 170</Position>
-</Item>
-<Item>
-<Type>Fluff</Type>
-<Position>771 339</Position>
-</Item>
-<Item>
-<Type>Fluff</Type>
-<Position>260 226</Position>
-</Item>
-<Item>
-<Type>Fluff</Type>
-<Position>204 231</Position>
-</Item>
-<Item>
-<Type>Fluff</Type>
-<Position>176 353</Position>
-</Item>
-</ListOfObjects>
-<ListOfEnemies>
-<Item>
-<Type>Airplane</Type>
-<Position>50 393</Position>
-<Velocity>1 0</Velocity>
-  <IsSpawnPoint>0</IsSpawnPoint>
-  <SpawnInterval>1</SpawnInterval>
-</Item>
-</ListOfEnemies>
-<LevelType>
-Normal
-</LevelType>
-<LevelSize>
-3500 750
-</LevelSize>
-</Asset>
+  <Asset Type="TeddysAdventureLibrary.ScreenHelper">
+    <BackgroundColor>FFA2A2A2</BackgroundColor>
+    <Backgrounds>
+      <Item>
+        <Image>Basement_window</Image>
+        <RepeatX>1</RepeatX>
+        <RepeatY>0</RepeatY>
+        <Scrolls>1</Scrolls>
+        <Offset>250 50</Offset>
+      </Item>
+      <Item>
+        <Image>Basement_dryer</Image>
+        <RepeatX>0</RepeatX>
+        <RepeatY>0</RepeatY>
+        <Scrolls>1</Scrolls>
+        <Offset>0 450</Offset>
+      </Item>
+    </Backgrounds>
+    <Surfaces>
+      <Item>
+        <Rect>0 625 775 75</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>925 625 200 75</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>1275 600 575 100</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>1950 500 600 50</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>2650 375 575 100</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>3250 275 150 50</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>0 3825 1200 125</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>325 3750 0 0</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>225 3700 0 0</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>175 3725 0 0</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>300 3725 0 0</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>300 3725 0 0</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>325 3750 0 0</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>325 3750 0 0</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+    </Surfaces>
+    <ListOfObjects>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>280 109</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>338 170</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>771 339</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>260 226</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>204 231</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>176 353</Position>
+      </Item>
+    </ListOfObjects>
+    <ListOfEnemies>
+      <Item>
+        <Type>Airplane</Type>
+        <Position>50 393</Position>
+        <Velocity>1 0</Velocity>
+        <IsSpawnPoint>0</IsSpawnPoint>
+        <SpawnInterval>1</SpawnInterval>
+      </Item>
+    </ListOfEnemies>
+    <LevelType>Normal</LevelType>
+    <LevelSize>3500 9000</LevelSize>
+  </Asset>
 </XnaContent>

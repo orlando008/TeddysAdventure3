@@ -18,7 +18,7 @@ namespace TeddyMapEditor
 {
     class LevelParser
     {
-        public static void WriteLevel(string fileName, Color backgroundColor, List<Background> backgrounds, List<Surface> surfaces, List<GameObject> gameObjects, List<Enemy> enemies, Size levelSize)
+        public static void WriteLevel(string fileName, Color backgroundColor, List<Background> backgrounds, List<Surface> surfaces, List<GameObject> gameObjects, List<Enemy> enemies, int levelWidth, int levelHeight)
         {
 
             if (fileName == "")
@@ -92,7 +92,7 @@ namespace TeddyMapEditor
                 assetNode.AppendChild(levelTypeNode);
 
                 XmlNode levelSizeNode = screenDoc.CreateElement("LevelSize");
-                levelSizeNode.InnerText = string.Format("{0} {1}", levelSize.Width.ToString(), levelSize.Height.ToString());
+                levelSizeNode.InnerText = string.Format("{0} {1}", levelWidth.ToString(), levelHeight.ToString());
                 assetNode.AppendChild(levelSizeNode);
 
 

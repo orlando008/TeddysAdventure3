@@ -18,12 +18,30 @@ using System.ComponentModel;
 
 namespace TeddyMapEditor
 {
+
+    interface IMovableGameItem
+    {
+         Point Location { get; set; }
+         Rectangle Parent { get; set; }
+    }
+
+
     class EditorViewModel:System.ComponentModel.INotifyPropertyChanged
     {
 
         private Color _backgroundColor = Colors.OldLace;
+        private int _levelWidth = 1250;
+        private int _levelHeight = 750;
 
-        private object _currentSelection;
+        private IMovableGameItem _currentSelection;
+
+        private MainWindow _view;
+
+
+        public EditorViewModel(MainWindow view)
+        {
+            _view = view;
+        }
 
 
         public Color BackgroundColor
@@ -32,7 +50,18 @@ namespace TeddyMapEditor
             set { _backgroundColor = value; OnPropertyChanges("BackgroundColor"); }
         }
 
-        public object CurrentSelection
+        public int LevelWidth{
+         get { return _levelWidth;}
+            set { _levelWidth = value; OnPropertyChanges("LevelWidth");_view.DrawGrid();  }
+        }
+
+        public int LevelHeight
+        {
+            get { return _levelHeight; }
+            set { _levelHeight = value; OnPropertyChanges("LevelHeight"); _view.DrawGrid(); }
+        }
+
+        public IMovableGameItem CurrentSelection
         {
             get { return _currentSelection; }
             set
@@ -45,7 +74,7 @@ namespace TeddyMapEditor
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected void OnPropertyChanges(string propertyName)
+        public void OnPropertyChanges(string propertyName)
         {
             PropertyChangedEventHandler handler = this.PropertyChanged;
             if (handler != null)
