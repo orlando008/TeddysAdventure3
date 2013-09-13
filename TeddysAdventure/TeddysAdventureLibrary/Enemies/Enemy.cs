@@ -222,11 +222,6 @@ namespace TeddysAdventureLibrary
 
         public virtual void DrawEnemy(GameTime gameTime, SpriteBatch sp)
         {
-            if (_dying) { 
-                _deathFrameCount += 1; 
-
-
-            }
         }
 
         public virtual bool RectangleInsersectsWithHitBoxes(GeometryMethods.RectangleF r, ref GeometryMethods.RectangleF rHit)
@@ -257,6 +252,7 @@ namespace TeddysAdventureLibrary
                     _destroyed = true;
                     _position = new Vector2(-100, -100);
                 }
+                _deathFrameCount += 1; 
                 return;
 
             }else if (_destroyed)

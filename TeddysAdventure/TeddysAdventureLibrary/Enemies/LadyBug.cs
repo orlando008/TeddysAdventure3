@@ -25,8 +25,6 @@ namespace TeddysAdventureLibrary
 
         public override void DrawEnemy(GameTime gameTime, SpriteBatch sp)
         {
-            base.DrawEnemy(gameTime, sp);
-
             if (!Destroyed)
             {
               

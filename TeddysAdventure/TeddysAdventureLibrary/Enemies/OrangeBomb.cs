@@ -9,7 +9,7 @@ namespace TeddysAdventureLibrary
 {
     public class OrangeBomb : Enemy
     {
-        private int _lengthOfPose = 40;
+        private int _lengthOfPose = 18;
         private int _lengthOfPoseExplosion = 25;
         private bool _explosionPhase = false;
         public OrangeBomb(Game game, Vector2 position, Vector2 velocity)
@@ -26,6 +26,9 @@ namespace TeddysAdventureLibrary
 
         public override void DrawEnemy(GameTime gameTime, SpriteBatch sp)
         {
+            if (this.Destroyed)
+                return;
+
             Color enemyColor = Color.White;
             
             int explosionRadius = 0;
@@ -76,7 +79,7 @@ namespace TeddysAdventureLibrary
 
                 if (_explosionPhase)
                 {
-                    if (_frameCount < _lengthOfPoseExplosion * 100)
+                    if (_frameCount < _lengthOfPoseExplosion * 10)
                     {
                         BoxToDraw = new Rectangle(BoxToDraw.Width * 7, 0, BoxToDraw.Width, BoxToDraw.Height);
 
