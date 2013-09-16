@@ -4,6 +4,10 @@
 xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         Title="MainWindow" WindowStartupLocation="CenterScreen" WindowState="Maximized" Loaded="Window_Loaded"  PreviewMouseDown="Window_PreviewMouseDown" PreviewMouseMove="Window_PreviewMouseMove" MouseUp="Window_MouseUp">
     
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    </Window.Resources>
+    
     <DockPanel LastChildFill="True">
         <ToolBar DockPanel.Dock="Top">
             <ToolBar.Items>
@@ -28,13 +32,21 @@ xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
                 <StackPanel Orientation="Horizontal">
                     <Label Margin="0,0,6,0" Width="100">Level Height:</Label>
                     <TextBox Name="txtLevelHeight" Width="100" Height="20" Text="{Binding LevelHeight}"></TextBox>
-                    <!--<Button Name="btnRender" Width="24" Height="24" Margin="3" Click="btnRender_Click">Go</Button>-->
                 </StackPanel>
 
             </StackPanel>
-            
-            
-            <Grid>
+
+
+            <StackPanel Margin="5">
+                <Label>Background Color:</Label>
+                <xctk:ColorPicker SelectedColor="{Binding BackgroundColor}"></xctk:ColorPicker>
+            </StackPanel>
+
+            <ScrollViewer Margin="5" Height="400">
+                <xctk:PropertyGrid SelectedObject="{Binding CurrentSelection}" MinWidth="200"></xctk:PropertyGrid>
+            </ScrollViewer>
+
+            <Grid Margin="5">
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
@@ -55,8 +67,8 @@ xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
                     <Image Source="/TeddyMapEditor;component/Images/ObjectMode.png"></Image>
                 </Button>
             </Grid>
-
-            <StackPanel x:Name="spSurfaces" Orientation="Vertical" Width="0">
+            
+            <StackPanel x:Name="spSurfaces" Orientation="Vertical" Visibility="{Binding SurfaceSelected, Converter={StaticResource BooleanToVisibilityConverter}}" >
                 <StackPanel.Resources>
                     <Style x:Key="SurfaceButton" TargetType="{x:Type Button}">
                         <Style.Setters>
@@ -68,23 +80,32 @@ xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
                     </Style>
                 </StackPanel.Resources>
                 
-                <Label>Surface width</Label>
-                <Button Name="btnIncreaseWidth" Click="btnIncreaseWidth_Click" Style="{StaticResource ResourceKey=SurfaceButton}">++</Button>
-                <Button Name="btnDecreaseWidth" Click="btnDecreaseWidth_Click" Style="{StaticResource ResourceKey=SurfaceButton}">--</Button>
-                <Label>Surface height</Label>
-                <Button Name="btnIncreaseHeight" Click="btnIncreaseHeight_Click" Style="{StaticResource ResourceKey=SurfaceButton}">++</Button>
-                <Button Name="btnDecreaseHeight" Click="btnDecreaseHeight_Click" Style="{StaticResource ResourceKey=SurfaceButton}">--</Button>
-                <Label>Surface Location</Label>
-                <Button Name="btnIncreaseX" Click="btnIncreaseX_Click" Style="{StaticResource ResourceKey=SurfaceButton}">Right</Button>
-                <Button Name="btnDecreaseX" Click="btnDecreaseX_Click" Style="{StaticResource ResourceKey=SurfaceButton}">Left</Button>
-                <Button Name="btnDecreaseY" Click="btnDecreaseY_Click" Style="{StaticResource ResourceKey=SurfaceButton}">Up</Button>
-                <Button Name="btnIncreaseY" Click="btnIncreaseY_Click" Style="{StaticResource ResourceKey=SurfaceButton}">Down</Button>
+                <StackPanel Orientation="Horizontal">
+                    <Label Margin="0 0 5 0">Surface width:</Label>
+                    <Button Name="btnIncreaseWidth" Click="btnIncreaseWidth_Click" Style="{StaticResource ResourceKey=SurfaceButton}">++</Button>
+                    <Button Name="btnDecreaseWidth" Click="btnDecreaseWidth_Click" Style="{StaticResource ResourceKey=SurfaceButton}">--</Button>                    
+                </StackPanel>
 
-                <Label VerticalAlignment="Top" VerticalContentAlignment="Top">Surface Texture</Label>
-                <TextBox Name="txtSurfaceTexture" Width="150" Height="24" VerticalAlignment="Top" Margin="3">SurfaceTexture1</TextBox>
+                 <StackPanel Orientation="Horizontal">
+                    <Label Margin="0 0 5 0">Surface height:</Label>
+                    <Button Name="btnIncreaseHeight" Click="btnIncreaseHeight_Click" Style="{StaticResource ResourceKey=SurfaceButton}">++</Button>
+                    <Button Name="btnDecreaseHeight" Click="btnDecreaseHeight_Click" Style="{StaticResource ResourceKey=SurfaceButton}">--</Button>                   
+                </StackPanel>               
+
+                <StackPanel Orientation="Horizontal">
+                    <Label Margin="0 0 5 0">Surface Location:</Label>
+                    <Button Name="btnIncreaseX" Click="btnIncreaseX_Click" Style="{StaticResource ResourceKey=SurfaceButton}">Right</Button>
+                    <Button Name="btnDecreaseX" Click="btnDecreaseX_Click" Style="{StaticResource ResourceKey=SurfaceButton}">Left</Button>
+                    <Button Name="btnDecreaseY" Click="btnDecreaseY_Click" Style="{StaticResource ResourceKey=SurfaceButton}">Up</Button>
+                    <Button Name="btnIncreaseY" Click="btnIncreaseY_Click" Style="{StaticResource ResourceKey=SurfaceButton}">Down</Button>                   
+                </StackPanel>                
+
+
+                <!--<Label VerticalAlignment="Top" VerticalContentAlignment="Top">Surface Texture</Label>-->
+                <!--<TextBox Name="txtSurfaceTexture" Width="150" Height="24" VerticalAlignment="Top" Margin="3">SurfaceTexture1</TextBox>-->
             </StackPanel>
 
-            <StackPanel Name="spEnemies"  Width="0">
+            <StackPanel Name="spEnemies" Visibility="{Binding EnemySelected, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <StackPanel Orientation="Horizontal">
                     <Label>Enemy Type</Label>
                     <ComboBox Name="cboEnemies" Width="100">
@@ -101,33 +122,19 @@ xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
 
             </StackPanel>
 
-            <StackPanel Name="spObjects"  Width="0">
+            <StackPanel Name="spObjects" Visibility="{Binding ObjectSelected, Converter={StaticResource BooleanToVisibilityConverter}}"  >
                 <StackPanel Orientation="Horizontal">
-                    <Label>Enemy Type</Label>
+                    <Label>Object Type</Label>
                     <ComboBox Name="cboObjects" Width="100">
                         <ComboBox.Items>
                             <ComboBoxItem>Fluff</ComboBoxItem>
                         </ComboBox.Items>
                     </ComboBox>
-
-                    
                 </StackPanel>
 
-
             </StackPanel>
-            
-            <StackPanel>
-                <Label>Background Color:</Label>
-                <xctk:ColorPicker SelectedColor="{Binding BackgroundColor}"></xctk:ColorPicker>
-            </StackPanel>
-           
-             <ScrollViewer>
-             <xctk:PropertyGrid SelectedObject="{Binding CurrentSelection}" MinWidth="200"></xctk:PropertyGrid>               
-            </ScrollViewer>           
             
         </StackPanel>
-
-
 
         <ScrollViewer Width="1250" Height="750" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
             <StackPanel>

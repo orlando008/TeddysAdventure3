@@ -34,14 +34,20 @@ namespace TeddyMapEditor
         private int _levelHeight = 750;
 
         private IMovableGameItem _currentSelection;
-
         private MainWindow _view;
 
 
-        public EditorViewModel(MainWindow view)
-        {
-            _view = view;
+        //Costructor
+        public EditorViewModel(MainWindow view) 
+        { 
+            _view = view; 
         }
+
+
+        //Properties
+        public bool SurfaceSelected { get { return (_currentSelection != null &&   _currentSelection.GetType() == typeof(Surface)); } }
+        public bool EnemySelected { get { return (_currentSelection != null && _currentSelection.GetType() == typeof(Enemy)); } }
+        public bool ObjectSelected { get { return (_currentSelection != null && _currentSelection.GetType() == typeof(GameObject)); } }
 
 
         public Color BackgroundColor
@@ -51,7 +57,7 @@ namespace TeddyMapEditor
         }
 
         public int LevelWidth{
-         get { return _levelWidth;}
+            get { return _levelWidth; }
             set { _levelWidth = value; OnPropertyChanges("LevelWidth");_view.DrawGrid();  }
         }
 
@@ -68,9 +74,15 @@ namespace TeddyMapEditor
             {
                 _currentSelection = value;
                 OnPropertyChanges("CurrentSelection");
+                OnPropertyChanges("SurfaceSelected");
+                OnPropertyChanges("EnemySelected");
+                OnPropertyChanges("ObjectSelected");
             }
         }
 
+
+
+    #region "INotifyPropertyChanged Support "
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -84,6 +96,7 @@ namespace TeddyMapEditor
             }
         }
 
+        #endregion
 
 
     }

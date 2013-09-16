@@ -59,24 +59,8 @@ namespace TeddyMapEditor
             set 
             {
                 UnselectAllElements();
-                spEnemies.Width = 0;
-                spObjects.Width = 0;
-                spSurfaces.Width = 0;
                 _previousEditMode = _currentEditMode;
                 _currentEditMode = value;
-
-                switch (_currentEditMode)
-                {
-                    case EditMode.enemies:
-                        spEnemies.Width = 1000;
-                        break;
-                    case EditMode.objects:
-                        spObjects.Width = 1000;
-                        break;
-                    case EditMode.surfaces:
-                        spSurfaces.Width = 1000;
-                        break;
-                }
             }
         }
 
@@ -319,13 +303,13 @@ namespace TeddyMapEditor
                 r.Stroke = _surfaceSelectedOutline;
                 r.StrokeThickness = .5;
 
-                Surface s = new Surface() { SurfaceTexture = txtSurfaceTexture.Text };
+                Surface s = new Surface() { SurfaceTexture = "SurfaceTexture1" };
                 s.SurfaceBounds = r;
                 r.Tag = s;
 
 
                 ImageBrush ib = new ImageBrush();
-                ib.ImageSource = new BitmapImage(new Uri("..\\..\\Images\\" + txtSurfaceTexture.Text  + ".png", UriKind.Relative));
+                ib.ImageSource = new BitmapImage(new Uri("..\\..\\Images\\" + s.SurfaceTexture  + ".png", UriKind.Relative));
                 ib.TileMode = TileMode.Tile;
                 ib.Viewport = new Rect(0, 0, ib.ImageSource.Width/r.Width, ib.ImageSource.Height/r.Height);
                 r.Fill = ib;
@@ -375,6 +359,7 @@ namespace TeddyMapEditor
             cnvsMap.Children[cnvsMap.Children.Count - 1].SetValue(Canvas.LeftProperty, p.X);
             cnvsMap.Children[cnvsMap.Children.Count - 1].SetValue(Canvas.TopProperty, p.Y);
 
+            _enemies.Add(en);
             _vm.CurrentSelection = en;
 
             en.Location = p;
@@ -412,7 +397,7 @@ namespace TeddyMapEditor
 
             cnvsMap.Children[cnvsMap.Children.Count - 1].SetValue(Canvas.LeftProperty, p.X);
             cnvsMap.Children[cnvsMap.Children.Count - 1].SetValue(Canvas.TopProperty, p.Y);
-
+            _gameObjects.Add(go);
 
             _vm.CurrentSelection = go;
     
@@ -490,7 +475,7 @@ namespace TeddyMapEditor
                 btnSurfacesMode.Background = _buttonSelectionBackColor;
                 UnselectAllElements();
                 SetAllCurrentObjectsToNull();
-                spSurfaces.Width = 1000;
+              //  spSurfaces.Width = 1000;
             }
         }
 
@@ -508,7 +493,7 @@ namespace TeddyMapEditor
                 btnEnemyMode.Background = _buttonSelectionBackColor;
                 UnselectAllElements();
                 SetAllCurrentObjectsToNull();
-                spEnemies.Width = 1000;
+            //    spEnemies.Width = 1000;
             }
         }
 
@@ -526,7 +511,7 @@ namespace TeddyMapEditor
                 btnObjects.Background = _buttonSelectionBackColor;
                 UnselectAllElements();
                 SetAllCurrentObjectsToNull();
-                spObjects.Width = 1000;
+             //   spObjects.Width = 1000;
             }
         }
 
@@ -535,9 +520,9 @@ namespace TeddyMapEditor
             _vm.CurrentSelection = null;
 
 
-            spEnemies.Width = 0;
-            spSurfaces.Width = 0;
-            spObjects.Width = 0;
+        //    spEnemies.Width = 0;
+        //    spSurfaces.Width = 0;
+        //    spObjects.Width = 0;
         }
 
         private void SetButtonUnselected(ref Button b)
@@ -559,8 +544,8 @@ namespace TeddyMapEditor
             btnEnemyMode.Foreground = _buttonUnselectedTextColor;
             btnEnemyMode.Background = _buttonUnselectedBackColor;
 
-            spEnemies.Width = 0;
-            spSurfaces.Width = 0;
+         //   spEnemies.Width = 0;
+         //   spSurfaces.Width = 0;
         }
 
 
