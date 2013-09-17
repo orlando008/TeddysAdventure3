@@ -484,6 +484,7 @@ namespace TeddyMapEditor
             if (btnEnemyMode.Foreground == _buttonSelectionTextColor)
             {
                 SetButtonUnselected(ref btnEnemyMode);
+
             }
             else
             {
@@ -493,6 +494,9 @@ namespace TeddyMapEditor
                 btnEnemyMode.Background = _buttonSelectionBackColor;
                 UnselectAllElements();
                 SetAllCurrentObjectsToNull();
+                //Rectangle r = GetCurrentEnemysSize( null, 
+                _vm.CurrentSelection = new Enemy(null, "Airplane", new Point(0, 0), 0, 0);
+
             //    spEnemies.Width = 1000;
             }
         }
@@ -511,6 +515,7 @@ namespace TeddyMapEditor
                 btnObjects.Background = _buttonSelectionBackColor;
                 UnselectAllElements();
                 SetAllCurrentObjectsToNull();
+                _vm.CurrentSelection = new GameObject(null, "Fluff", new Point(0, 0));
              //   spObjects.Width = 1000;
             }
         }
