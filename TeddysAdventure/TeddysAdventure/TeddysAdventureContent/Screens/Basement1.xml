@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<XnaContent>
+  <Asset Type="TeddysAdventureLibrary.ScreenHelper">
+    <BackgroundColor>FFCCC4B7</BackgroundColor>
+    <Backgrounds />
+    <Surfaces>
+      <Item>
+        <Rect>0 650 825 75</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>275 600 50 50</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>325 550 50 50</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>375 500 50 50</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>425 450 50 50</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>475 400 50 50</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>525 350 50 50</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>575 300 50 50</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>625 250 50 50</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>675 200 50 50</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>725 150 50 50</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>775 100 50 50</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>925 525 475 50</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+    </Surfaces>
+    <ListOfObjects>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>400 623</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>401 584</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>714 605</Position>
+      </Item>
+      <Item>
+        <Type>Goal</Type>
+        <Position>714 605</Position>
+      </Item>
+    </ListOfObjects>
+    <ListOfEnemies>
+      <Item>
+        <Type>BowlingBall</Type>
+        <Position>782 39</Position>
+        <Velocity>-1 0</Velocity>
+        <IsSpawnPoint>0</IsSpawnPoint>
+        <SpawnInterval>1000</SpawnInterval>
+      </Item>
+      <Item>
+        <Type>MatchBoxCar</Type>
+        <Position>500 625</Position>
+        <Velocity>-1 0</Velocity>
+        <IsSpawnPoint>0</IsSpawnPoint>
+        <SpawnInterval>0</SpawnInterval>
+      </Item>
+      <Item>
+        <Type>MatchBoxCar</Type>
+        <Position>1330 500</Position>
+        <Velocity>-1 0</Velocity>
+        <IsSpawnPoint>0</IsSpawnPoint>
+        <SpawnInterval>0</SpawnInterval>
+      </Item>
+      <Item>
+        <Type>MatchBoxCar</Type>
+        <Position>948 500</Position>
+        <Velocity>1 0</Velocity>
+        <IsSpawnPoint>0</IsSpawnPoint>
+        <SpawnInterval>0</SpawnInterval>
+      </Item>
+    </ListOfEnemies>
+    <LevelType>Normal</LevelType>
+    <LevelSize>6500 750</LevelSize>
+  </Asset>
+</XnaContent>

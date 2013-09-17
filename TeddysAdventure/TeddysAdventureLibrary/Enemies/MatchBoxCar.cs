@@ -24,9 +24,10 @@ namespace TeddysAdventureLibrary
             BoxToDraw = new Rectangle(0, 0, StyleSheet.Width, StyleSheet.Height);
             base.Velocity = velocity;
             CanJumpOnToKill = true;
-            this._collisionDampingFactor = .1f;
+            this._collisionDampingFactor = 0.6f;
             this._fallsOffSurface = false;
             this._deathFrames = 20;
+            this._changeDirectionUponSurfaceHit = true;
         }
 
 

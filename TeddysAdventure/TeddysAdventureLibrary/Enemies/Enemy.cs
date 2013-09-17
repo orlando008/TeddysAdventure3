@@ -35,6 +35,7 @@ namespace TeddysAdventureLibrary
         protected bool _playerCanRide = false;
         protected bool _playerCanPassThrough = false;
         protected bool _changeDirectionUponSurfaceHit = false;
+        protected bool _bounceOffSidesOfViewport = false;
 
         private List<Enemy> _childrenEnemies;
 
@@ -344,7 +345,7 @@ namespace TeddysAdventureLibrary
             }
 
             //Bounce off the sides of the viewport if necessary
-            if (_changeDirectionUponSurfaceHit)
+            if (_bounceOffSidesOfViewport)
             {
                 if (Position.Y < 0 || (Position.Y + BoxToDraw.Height > Game.GraphicsDevice.Viewport.Height))
                 {
@@ -387,16 +388,17 @@ namespace TeddysAdventureLibrary
                     {
                         _velocity.Y *= -1;
                     }
-                    else
+
+                    _velocity.Y *= -_collisionDampingFactor;
+
+                    //once it hits a base surface for the first time, claim that surface as "_mySurface", stop applying gravity
+                    if (!_fallsOffSurface)
                     {
-                        _velocity.Y *= -_collisionDampingFactor;
-
-                        //once it hits a base surface for the first time, claim that surface as "_mySurface", stop applying gravity
-                        if (!_fallsOffSurface) { _mySurface = surface; }
-
-                        if (Math.Abs(_velocity.Y) < 1)
-                            _velocity.Y = 0f;
+                        _mySurface = surface;
                     }
+
+                    if (Math.Abs(_velocity.Y) < 1)
+                        _velocity.Y = 0f;
 
 
                     break;

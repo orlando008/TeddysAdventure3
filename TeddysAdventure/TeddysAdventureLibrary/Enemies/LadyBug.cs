@@ -21,6 +21,7 @@ namespace TeddysAdventureLibrary
             CanJumpOnToKill = true;
             this._gravity = 0;
             this._changeDirectionUponSurfaceHit = true;
+            this._bounceOffSidesOfViewport = true;
         }
 
         public override void DrawEnemy(GameTime gameTime, SpriteBatch sp)
