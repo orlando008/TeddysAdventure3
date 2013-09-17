@@ -78,6 +78,10 @@
     </Surfaces>
     <ListOfObjects>
       <Item>
+        <Type>Goal</Type>
+        <Position>500 500</Position>
+      </Item>
+      <Item>
         <Type>Fluff</Type>
         <Position>280 109</Position>
       </Item>

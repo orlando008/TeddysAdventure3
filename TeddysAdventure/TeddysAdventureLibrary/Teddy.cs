@@ -52,6 +52,8 @@ namespace TeddysAdventureLibrary
         private int _recoverWait = 100;
         private bool _isHit = false;
 
+        private bool _levelComplete = false;
+
         public void Initialize()
         {
             
@@ -75,6 +77,12 @@ namespace TeddysAdventureLibrary
         {
             get { return _dead; }
             set { _dead = value; }
+        }
+
+        public bool LevelComplete
+        {
+            get { return _levelComplete; }
+            set { _levelComplete = value; }
         }
 
         public int CurrentFluff
@@ -161,7 +169,7 @@ namespace TeddysAdventureLibrary
 
         public override void Update(GameTime gameTime)
         {
-            if (Dead)
+            if (Dead || LevelComplete)
             {
                 if (Position.Y < Game.GraphicsDevice.Viewport.Width)
                 {
@@ -364,6 +372,7 @@ namespace TeddysAdventureLibrary
             }
 
             checkForFluffGrabs();
+            checkForGoal();
 
             movePlayerY(keyState);
             
@@ -524,13 +533,33 @@ namespace TeddysAdventureLibrary
 
         private void checkForFluffGrabs()
         {
-            foreach (Fluff f in ((Screen)Game.Components[0]).GameObjects)
+            foreach (GameObject f in ((Screen)Game.Components[0]).GameObjects)
             {
-                if (!f.Destroyed & TeddyRectangle.Intersects(f.CollisionRectangle) == true)
+                if (f.GetType() == typeof(Fluff))
                 {
-                    _currentFluff++;
-                    f.Destroyed = true;
+                    if (!f.Destroyed & TeddyRectangle.Intersects(f.CollisionRectangle) == true)
+                    {
+                        _currentFluff++;
+                        f.Destroyed = true;
+                    }
                 }
+
+            }
+        }
+
+        private void checkForGoal()
+        {
+            foreach (GameObject f in ((Screen)Game.Components[0]).GameObjects)
+            {
+                if (f.GetType() == typeof(Goal))
+                {
+                    if (TeddyRectangle.Intersects(f.CollisionRectangle))
+                    {
+                        Position = new Vector2(-100, -100);
+                        this.LevelComplete = true;
+                    }  
+                }
+
             }
         }
 

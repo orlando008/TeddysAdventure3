@@ -105,6 +105,7 @@
     <Compile Include="Enemies\Plane.cs" />
     <Compile Include="GameObjects\Fluff.cs" />
     <Compile Include="GameObjects\GameObject.cs" />
+    <Compile Include="GameObjects\Goal.cs" />
     <Compile Include="GeometryMethods.cs" />
     <Compile Include="Helpers\EnemyHelper.cs" />
     <Compile Include="Helpers\GameObjectHelper.cs" />

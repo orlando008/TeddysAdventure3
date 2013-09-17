@@ -22,6 +22,7 @@ namespace TeddysAdventureLibrary
         }
 
         private Texture2D _deathSprite;
+        private Texture2D _successSprite;
         private Vector2 _globalPosition;
         private List<Surface> _surfaces;
         private ScreenHelper _screenHelper;
@@ -86,6 +87,7 @@ namespace TeddysAdventureLibrary
             _screenHelper = game.Content.Load<ScreenHelper>("Screens\\" + levelName); 
             
             _deathSprite = game.Content.Load<Texture2D>("Screens\\deathScreen");
+            _successSprite = game.Content.Load<Texture2D>("Screens\\successScreen");
             _deathFont = game.Content.Load<SpriteFont>("Fonts\\DeathScreenFont");
             _hudFont = game.Content.Load<SpriteFont>("Fonts\\HudFont");
 
@@ -125,6 +127,9 @@ namespace TeddysAdventureLibrary
                 {
                     case "Fluff":
                         GameObjects.Add(new Fluff(game, v2.Position));
+                        break;
+                    case "Goal":
+                        GameObjects.Add(new Goal(game, v2.Position));
                         break;
                 }
                 
@@ -262,9 +267,26 @@ namespace TeddysAdventureLibrary
                     }
                 }
             }
+            else if (((Teddy)Game.Components[1]).LevelComplete)
+            {
+                KeyboardState keyState = Keyboard.GetState();
+
+                if (keyState.IsKeyDown(Keys.Enter))
+                {
+                    _userPressedEnterToGoBack = true;
+                }
+
+                if (_userPressedEnterToGoBack)
+                {
+                    if (keyState.IsKeyUp(Keys.Enter))
+                    {
+                        _goBackToStartScreen = true;
+                    }
+                }
+            }
 
 
-            foreach (Fluff f in GameObjects)
+            foreach (GameObject f in GameObjects)
             {
                 f.Update(gameTime);
             }
@@ -410,6 +432,20 @@ namespace TeddysAdventureLibrary
                     _deathScreenCounter+=3;
                 }
 
+            }
+            else if (((Teddy)Game.Components[1]).LevelComplete)
+            {
+                Color c = new Color(255, 255, 255, _deathScreenCounter);
+
+                r = new Rectangle(0, 0, _successSprite.Width, _successSprite.Height);
+                spriteBatch.Draw(_successSprite, r, c);
+
+                spriteBatch.DrawString(_deathFont, "Press Enter To Continue", new Vector2(625, 500), Color.White);
+
+                if (_deathScreenCounter < 255)
+                {
+                    _deathScreenCounter += 3;
+                }
             }
 
             spriteBatch.End();
