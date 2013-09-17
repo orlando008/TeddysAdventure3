@@ -90,6 +90,8 @@ namespace TeddysAdventureLibrary
                         newEnemy = new OrangeCrayon(Game, Position, Velocity);
                         break;
                 }
+
+                ChildrenEnemies.Add(newEnemy);
             }
             else
             {
@@ -97,9 +99,7 @@ namespace TeddysAdventureLibrary
             }
 
             newEnemy.Velocity = this.Velocity;
-            newEnemy.Position = this.Position;
-
-            ChildrenEnemies.Add(newEnemy);
+            newEnemy.Position = this.Position; 
 
         }
 

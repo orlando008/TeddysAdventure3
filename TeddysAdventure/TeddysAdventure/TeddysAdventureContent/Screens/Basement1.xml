@@ -80,8 +80,8 @@
         <Type>BowlingBall</Type>
         <Position>782 39</Position>
         <Velocity>-1 0</Velocity>
-        <IsSpawnPoint>0</IsSpawnPoint>
-        <SpawnInterval>1000</SpawnInterval>
+        <IsSpawnPoint>1</IsSpawnPoint>
+        <SpawnInterval>4000</SpawnInterval>
       </Item>
       <Item>
         <Type>MatchBoxCar</Type>
