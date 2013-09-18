@@ -145,11 +145,13 @@ namespace TeddysAdventure
 
             _levelLoaded = false;
 
-            screen = new Screen(this,  levelName);
+
+            teddy = new Teddy(this, Content.Load<Texture2D>(System.IO.Path.Combine(@"Teddy" , "TeddyRun")), new Vector2(20, 200), new Vector2(50, 75));
+
+            screen = new Screen(this,  levelName, teddy);
 
             this.Components.Add(screen);
 
-            teddy = new Teddy(this, Content.Load<Texture2D>(System.IO.Path.Combine(@"Teddy" , "TeddyRun")), new Vector2(20, 200), new Vector2(50, 75));
 
             this.Components.Add(teddy);
 
@@ -250,7 +252,7 @@ namespace TeddysAdventure
                     if (_levelLoaded)
                     {
                         screen.Draw(gameTime);
-                        teddy.Draw(gameTime);
+                       // teddy.Draw(gameTime);
                     }
                 }
             }

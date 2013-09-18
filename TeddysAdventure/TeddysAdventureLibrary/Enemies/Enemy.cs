@@ -262,7 +262,7 @@ namespace TeddysAdventureLibrary
             }
 
 
-
+            Screen currentScreen = (Screen)Game.Components[0];
 
             MoveByX((int) _velocity.X, false);
 
@@ -278,7 +278,7 @@ namespace TeddysAdventureLibrary
                 }
             }
 
-            foreach (Surface surface in ((Screen)Game.Components[0]).Surfaces)
+            foreach (Surface surface in currentScreen.Surfaces)
             {
 
                 if (surface.Rect.Intersects(CollisionRectangle))
@@ -347,26 +347,28 @@ namespace TeddysAdventureLibrary
             //Bounce off the sides of the viewport if necessary
             if (_bounceOffSidesOfViewport)
             {
-                if (Position.Y < 0 || (Position.Y + BoxToDraw.Height > Game.GraphicsDevice.Viewport.Height))
+
+                if (Position.Y < currentScreen.CameraBounds.Top || (Position.Y + BoxToDraw.Height > currentScreen.CameraBounds.Bottom))
                 {
                     if (Position.Y < 0)
-                        Position = new Vector2(Position.X, 0);
+                        Position = new Vector2(Position.X, currentScreen.CameraBounds.Top);
                     else
-                        Position = new Vector2(Position.X, Game.GraphicsDevice.Viewport.Height - BoxToDraw.Height);
+                        Position = new Vector2(Position.X, currentScreen.CameraBounds.Bottom - BoxToDraw.Height);
 
-
-                    Velocity = new Vector2(Velocity.X, -1 * Velocity.Y);
+                    Velocity = new Vector2( Velocity.X, -1 * Velocity.Y);
                 }
 
-                if (Position.X < 0 || (Position.X + BoxToDraw.Width > Game.GraphicsDevice.Viewport.Width))
+
+                if (this.Position.X < currentScreen.CameraBounds.Left || this.Position.X + BoxToDraw.Width > currentScreen.CameraBounds.Right)
                 {
-                    if (Position.X < 0)
-                        Position = new Vector2(0, Position.Y);
+                    if (this.Position.X < currentScreen.CameraBounds.Left)
+                        this.Position = new Vector2(currentScreen.CameraBounds.Left, this.Position.Y);
                     else
-                        Position = new Vector2(Game.GraphicsDevice.Viewport.Width - BoxToDraw.Width, Position.Y);
+                        this.Position = new Vector2(currentScreen.CameraBounds.Right - BoxToDraw.Width, this.Position.Y);
 
-                    Velocity = new Vector2(Velocity.X * -1, Velocity.Y);
+                    this.Velocity = new Vector2(Velocity.X * -1, Velocity.Y);
                 }
+
             }
 
             applyGravity();

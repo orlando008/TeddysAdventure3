@@ -28,6 +28,7 @@ namespace TeddysAdventureLibrary
         private ScreenHelper _screenHelper;
         private List<Texture2D> _sprites;
         private int _totalLevelWidth;
+        private Teddy _teddy;
         private List<GameObject> _gameObjects;
         private List<Enemy> _enemies;
         private int _deathScreenCounter = 0;
@@ -40,7 +41,15 @@ namespace TeddysAdventureLibrary
         private Dictionary<string, Texture2D> _backgroundImages;
         private Color _backgroundColor;
 
-        public static SpriteBatch spriteBatch;
+        public static SpriteBatch _backgroundBatch;
+        public static SpriteBatch _foregroundBatch;
+        public static SpriteBatch _overlayBatch;
+
+        private Vector2 _currentCamera;
+        private Rectangle _cameraBounds;
+
+
+        public Rectangle CameraBounds { get { return _cameraBounds; } }
 
         public List<Surface> Surfaces
         {
@@ -54,12 +63,6 @@ namespace TeddysAdventureLibrary
             set { _sprites = value; }
         }
 
-
-        public Vector2 GlobalPosition
-        {
-            get { return _globalPosition; }
-            set { _globalPosition = value; }
-        }
 
         public List<GameObject> GameObjects
         {
@@ -75,17 +78,19 @@ namespace TeddysAdventureLibrary
 
         public List<Background> Backgrounds { get; set; }
 
+        public int LevelWidth { get { return _totalLevelWidth; } }
+
         public bool GoBackToStartScreen
         {
             get { return _goBackToStartScreen; }
             set { _goBackToStartScreen = value; }
         }
 
-        public Screen(Game game, string levelName)
+        public Screen(Game game, string levelName, Teddy teddy)
             : base(game)
         {
-            _screenHelper = game.Content.Load<ScreenHelper>("Screens\\" + levelName); 
-            
+            _screenHelper = game.Content.Load<ScreenHelper>("Screens\\" + levelName);
+            _teddy = teddy;
             _deathSprite = game.Content.Load<Texture2D>("Screens\\deathScreen");
             _successSprite = game.Content.Load<Texture2D>("Screens\\successScreen");
             _deathFont = game.Content.Load<SpriteFont>("Fonts\\DeathScreenFont");
@@ -117,8 +122,6 @@ namespace TeddysAdventureLibrary
 
             }
 
-             
-            GlobalPosition = new Vector2(0, 0);
 
             GameObjects = new List<GameObject>();
             foreach (GameObjectHelper v2 in _screenHelper.ListOfObjects)
@@ -192,61 +195,15 @@ namespace TeddysAdventureLibrary
                     break;
             }
 
-            spriteBatch = new SpriteBatch(Game.GraphicsDevice);
+            _foregroundBatch = new SpriteBatch(Game.GraphicsDevice);
+            _overlayBatch = new SpriteBatch(Game.GraphicsDevice);
+            _backgroundBatch = new SpriteBatch(game.GraphicsDevice);
         }
 
 
 
-        /// <summary>
-        /// Is teddy at the last screen of the level?
-        /// </summary>
-        /// <param name="pixelsOver">pixelsOver tells you how many pixels the screen has moved past its end. You can use this to move the screen back to a proper location.</param>
-        /// <returns>Returns true if this is the last screen of the level</returns>
-        public bool TeddyAtLastScreen(ref int pixelsOver)
-        {
-            int sum = 0;
 
-            sum = _totalLevelWidth - Game.GraphicsDevice.Viewport.Width;
 
-            int difference = (int)GlobalPosition.X + sum;
-
-            if (difference <= 0)
-            {
-                pixelsOver = difference;
-                return true;
-            }
-            else
-            {
-                pixelsOver = 0;
-                return false;
-            }
-        }
-
-        //Move the screen in the X direction
-        public void MoveX(int speed)
-        {
-            //move all the surfaces
-            for (int i = Surfaces.Count - 1; i >= 0 ; i--)
-            {
-                Surfaces[i].MoveByX(speed);
-
-            }
-
-            //move all the fluffs
-            for (int i = 0; i < GameObjects.Count; i++)
-            {
-                GameObjects[i].MoveGameObjectByX(speed);
-            }
-
-            //move all the enemies
-            for (int i = 0; i < _enemies.Count; i++)
-            {
-                _enemies[i].MoveByX(speed,true);
-            }
-
-            //Set the overall global position
-            GlobalPosition = new Vector2(GlobalPosition.X + speed, GlobalPosition.Y);
-        }
 
         public override void Update(GameTime gameTime)
         {
@@ -298,31 +255,16 @@ namespace TeddysAdventureLibrary
 
         }
 
-        private void DrawSurface(int x, int y, int totalWidth, int totalHeight, Texture2D surfaceTexture)
-        {
-            totalHeight = totalHeight / surfaceTexture.Height;
-            totalWidth = totalWidth / surfaceTexture.Width;
 
-            for (int i = 0; i < totalWidth; i++)
-            {
-                for (int j = 0; j < totalHeight; j++)
-                {
-                    if ((surfaceTexture.Width * i) + x < Game.GraphicsDevice.Viewport.Width && (surfaceTexture.Width * i) + x > -surfaceTexture.Width)
-                    {
-                        spriteBatch.Draw(surfaceTexture, new Rectangle((surfaceTexture.Width * i) + x, (surfaceTexture.Height * j) + y, surfaceTexture.Width, surfaceTexture.Height), Color.White);
-                    }
-                    
-                }
-            }
-        }
-
-        public void Draw(GameTime gameTime)
+        public override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(_backgroundColor);
 
-            spriteBatch.Begin();
+            Matrix cameraView = SetCamera();
 
-            Rectangle r;
+            _overlayBatch.Begin();
+            _backgroundBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, cameraView);
+            _foregroundBatch.Begin( SpriteSortMode.Deferred, null, null,null,null, null, cameraView   );
 
             
             //Draw Background images
@@ -331,65 +273,8 @@ namespace TeddysAdventureLibrary
                 Texture2D backgroundTexture;
                 if (_backgroundImages.TryGetValue(b.BackgroundName, out backgroundTexture))
                 {
+                    DrawBackground(b, backgroundTexture, _backgroundBatch);
 
-                        int numViewsX = 1; 
-                        int numViewsY = 1;
-
-                        Rectangle paddedBackground = new Rectangle(0, 0, backgroundTexture.Width + (int)b.Offset.X, backgroundTexture.Height + (int)b.Offset.Y);
-
-                        if ( b.RepeatX ) 
-                            numViewsX =  (Game.GraphicsDevice.Viewport.Width / paddedBackground.Width) + 1;
-
-                        if (b.RepeatY )
-                            numViewsY= (Game.GraphicsDevice.Viewport.Height / paddedBackground.Height) + 1;
-
-                        //Scrolling doesn't make sense without repeat?
-                        if (b.Scrolls)
-                        {
-                            if (b.RepeatX)
-                            {
-                                //Repeat this texture to fill the screen.  It scrolls with the level
-
-                                //based on GlobalPosition, figure out where to draw this sprite  (and how many times)
-                                int backgroundOffsetX = (int)(((int)_globalPosition.X) % paddedBackground.Width);
-                                int backgroundOffsetY = (int)(((int)_globalPosition.Y) % paddedBackground.Height);
-
-                                for (int i = 0; i <= numViewsX; i++)
-                                {
-                                    for (int j = 0; j < numViewsY; j++)
-                                    {
-                                        r = new Rectangle(i * paddedBackground.Width + backgroundOffsetX + (int)b.Offset.X, j * paddedBackground.Height + backgroundOffsetY + (int)b.Offset.Y, backgroundTexture.Width, backgroundTexture.Height);
-                                        spriteBatch.Draw(backgroundTexture, r, Color.White);
-                                    }
-                                }
-
-                            }
-                            else
-                            {
-                                //Only draw if it is actually visible
-                                if (_globalPosition.X + paddedBackground.Width > 0)
-                                {
-                                    for (int j = 0; j < numViewsY; j++)
-                                    {
-                                        r = new Rectangle((int)_globalPosition.X + (int)b.Offset.X, j * paddedBackground.Height + (int)b.Offset.Y , backgroundTexture.Width, backgroundTexture.Height);
-                                        spriteBatch.Draw(backgroundTexture, r, Color.White);
-                                    }
-
-                                }
-                            }
-
-                        }
-                        else
-                        {
-                            //Repeat this texture to fill the screen.  It always stays in the same position relative to the viewport
-                            for( int i = 0; i < numViewsX; i++){
-                                for (int j = 0; j < numViewsY; j++)
-                                {
-                                    r = new Rectangle(i * paddedBackground.Width  + (int)b.Offset.X, j*paddedBackground.Height  + (int)b.Offset.Y, backgroundTexture.Width, backgroundTexture.Height);
-                                    spriteBatch.Draw(backgroundTexture, r, Color.White);
-                                }
-                            }
-                        }
 
                 }
             }
@@ -398,34 +283,39 @@ namespace TeddysAdventureLibrary
 
             foreach (Surface sur in Surfaces)
             {
-                Texture2D surfaceTexture;
-                if (_surfaceTextures.TryGetValue( sur.Sprite, out surfaceTexture)) {
-                    DrawSurface(sur.Rect.X, sur.Rect.Y, sur.Rect.Width, sur.Rect.Height, surfaceTexture )  ;
+                if ( _cameraBounds.Intersects( sur.Rect )){
+                    Texture2D surfaceTexture;
+                    if (_surfaceTextures.TryGetValue( sur.Sprite, out surfaceTexture)) {
+                        DrawSurface(sur.Rect.X, sur.Rect.Y, sur.Rect.Width, sur.Rect.Height, surfaceTexture, _foregroundBatch )  ;
+                    }
                 }
             }
 
             foreach (GameObject f in GameObjects)
             {
-                f.Draw(gameTime, spriteBatch);
+                if (_cameraBounds.Intersects( f.CollisionRectangle ) )
+                    f.Draw(gameTime, _foregroundBatch);
             }
 
             foreach (Enemy bb in _enemies)
             {
-                bb.DrawEnemy(gameTime, spriteBatch);
+                if ( _cameraBounds.Intersects( bb.CollisionRectangle ) )
+                    bb.DrawEnemy(gameTime, _foregroundBatch);
             }
 
-            spriteBatch.DrawString(_hudFont, "Fluff Count: " + ((Teddy)Game.Components[1]).CurrentFluff.ToString(), new Vector2(25, 700), Color.LightBlue);
-            spriteBatch.DrawString(_hudFont, "Enemies Destroyed: " + ((Teddy)Game.Components[1]).EnemiesDestroyed.ToString(), new Vector2(25, 725), Color.LightBlue);
+            _overlayBatch.DrawString(_hudFont, "Fluff Count: " + _teddy.CurrentFluff.ToString(), new Vector2(25, 700), Color.LightBlue);
+            _overlayBatch.DrawString(_hudFont, "Enemies Destroyed: " + _teddy.EnemiesDestroyed.ToString(), new Vector2(25, 725), Color.LightBlue);
 
 
-            if (((Teddy)Game.Components[1]).Dead)
+            Rectangle r;
+
+            if (_teddy.Dead)
             {
                 Color c = new Color(255, 255, 255, _deathScreenCounter);
 
                 r = new Rectangle(0, 0, _deathSprite.Width, _deathSprite.Height);
-                spriteBatch.Draw(_deathSprite, r, c);
-
-                spriteBatch.DrawString(_deathFont, "Press Enter To Continue", new Vector2(625, 500), Color.White);
+                _overlayBatch.Draw(_deathSprite, r, c);
+                _overlayBatch.DrawString(_deathFont, "Press Enter To Continue", new Vector2(625, 500), Color.White);
 
                 if (_deathScreenCounter < 255)
                 {
@@ -433,14 +323,13 @@ namespace TeddysAdventureLibrary
                 }
 
             }
-            else if (((Teddy)Game.Components[1]).LevelComplete)
+            else if (_teddy.LevelComplete)
             {
                 Color c = new Color(255, 255, 255, _deathScreenCounter);
 
                 r = new Rectangle(0, 0, _successSprite.Width, _successSprite.Height);
-                spriteBatch.Draw(_successSprite, r, c);
-
-                spriteBatch.DrawString(_deathFont, "Press Enter To Continue", new Vector2(625, 500), Color.White);
+                _overlayBatch.Draw(_successSprite, r, c);
+                _overlayBatch.DrawString(_deathFont, "Press Enter To Continue", new Vector2(625, 500), Color.White);
 
                 if (_deathScreenCounter < 255)
                 {
@@ -448,11 +337,123 @@ namespace TeddysAdventureLibrary
                 }
             }
 
-            spriteBatch.End();
+            _teddy.Draw(gameTime, cameraView);
 
+
+            _backgroundBatch.End();
+            _foregroundBatch.End();
+            _overlayBatch.End();
 
         }
+
+        private void DrawSurface(int x, int y, int totalWidth, int totalHeight, Texture2D surfaceTexture, SpriteBatch surfaceBatch)
+        {
+            totalHeight = totalHeight / surfaceTexture.Height;
+            totalWidth = totalWidth / surfaceTexture.Width;
+
+            for (int i = 0; i < totalWidth; i++)
+            {
+                for (int j = 0; j < totalHeight; j++)
+                {
+                    if ((surfaceTexture.Width * i) + x < _cameraBounds.Right && (surfaceTexture.Width * i) + x > -surfaceTexture.Width)
+                    {
+                        surfaceBatch.Draw(surfaceTexture, new Rectangle((surfaceTexture.Width * i) + x, (surfaceTexture.Height * j) + y, surfaceTexture.Width, surfaceTexture.Height), Color.White);
+                    }
+
+                }
+            }
+        }
+
+        private void DrawBackground(Background b, Texture2D backgroundTexture, SpriteBatch backgroundBatch)
+        {
+            int numViewsX = 1;
+            int numViewsY = 1;
+
+            Rectangle paddedBackground = new Rectangle(0, 0, backgroundTexture.Width + (int)b.Offset.X, backgroundTexture.Height + (int)b.Offset.Y);
+            Rectangle r;
+
+            if (b.RepeatX)
+                numViewsX = (Game.GraphicsDevice.Viewport.Width / paddedBackground.Width) + 1;
+
+            if (b.RepeatY)
+                numViewsY = (Game.GraphicsDevice.Viewport.Height / paddedBackground.Height) + 1;
+
+            //Scrolling doesn't make sense without repeat?
+            if (b.Scrolls)
+            {
+                if (b.RepeatX)
+                {
+                    //Repeat this texture to fill the screen.  It scrolls with the level
+
+                    //based on GlobalPosition, figure out where to draw this sprite  (and how many times)
+                    int backgroundOffsetX = (int)(((int)_globalPosition.X) % paddedBackground.Width);
+                    int backgroundOffsetY = (int)(((int)_globalPosition.Y) % paddedBackground.Height);
+
+                    for (int i = 0; i <= numViewsX; i++)
+                    {
+                        for (int j = 0; j < numViewsY; j++)
+                        {
+                            r = new Rectangle(i * paddedBackground.Width + backgroundOffsetX + (int)b.Offset.X, j * paddedBackground.Height + backgroundOffsetY + (int)b.Offset.Y, backgroundTexture.Width, backgroundTexture.Height);
+                            backgroundBatch.Draw(backgroundTexture, r, Color.White);
+                        }
+                    }
+
+                }
+                else
+                {
+                    //Only draw if it is actually visible
+                    if (_globalPosition.X + paddedBackground.Width > 0)
+                    {
+                        for (int j = 0; j < numViewsY; j++)
+                        {
+                            r = new Rectangle((int)_globalPosition.X + (int)b.Offset.X, j * paddedBackground.Height + (int)b.Offset.Y, backgroundTexture.Width, backgroundTexture.Height);
+                            backgroundBatch.Draw(backgroundTexture, r, Color.White);
+                        }
+
+                    }
+                }
+
+            }
+            else
+            {
+                //Repeat this texture to fill the screen.  It always stays in the same position relative to the viewport
+                for (int i = 0; i < numViewsX; i++)
+                {
+                    for (int j = 0; j < numViewsY; j++)
+                    {
+                        r = new Rectangle(i * paddedBackground.Width + (int)b.Offset.X, j * paddedBackground.Height + (int)b.Offset.Y, backgroundTexture.Width, backgroundTexture.Height);
+                        backgroundBatch.Draw(backgroundTexture, r, Color.White);
+                    }
+                }
+            }
+
+        }
+
+
+        private Matrix SetCamera(){
+
+            Matrix cameraView;
+            if (_teddy.Position.X < Game.GraphicsDevice.Viewport.Width / 2)
+                _currentCamera = new Vector2(0, 0);
+            else if (_teddy.Position.X > _screenHelper.LevelSize.X - Game.GraphicsDevice.Viewport.Width / 2)
+                _currentCamera = new Vector2(-_screenHelper.LevelSize.X + (Game.GraphicsDevice.Viewport.Width), 0);
+            else
+                _currentCamera = new Vector2(-_teddy.Position.X + (Game.GraphicsDevice.Viewport.Width / 2), 0);
+
+            cameraView = Matrix.CreateTranslation(_currentCamera.X, _currentCamera.Y, 0);
+
+            _cameraBounds = new Rectangle(-(int)_currentCamera.X, (int)_currentCamera.Y, Game.GraphicsDevice.Viewport.Width, Game.GraphicsDevice.Viewport.Height);
+
+            return cameraView;
+
+        }
+
+
     }
+
+
+
+
 
         public interface ISurfaceInterface
     {

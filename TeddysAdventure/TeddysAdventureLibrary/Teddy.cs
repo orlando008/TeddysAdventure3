@@ -247,11 +247,6 @@ namespace TeddysAdventureLibrary
                     _facingCounter = 0;
                 }
 
-                if (((Screen)Game.Components[0]).GlobalPosition.X > 0)
-                {
-                    ((Screen)Game.Components[0]).GlobalPosition = new Vector2(0, 0);
-                }
-
                 playerOverallVelocity.X = -speed;
             }
 
@@ -383,108 +378,30 @@ namespace TeddysAdventureLibrary
         private void movePlayerX(Vector2 overallVelocity)
         {
 
-            int pixelsOver = 0;
-
-            if (overallVelocity.X < 0) //Moving Left
+            if (overallVelocity.X != 0)
             {
 
-                //if the global position of the screen is greater than or equal to zero we are the very beginning of the level, so move teddy, not the screen behind him.
-                //OR if we are at the very end of the level, move teddy and not the level behind him
-                if (((Screen)Game.Components[0]).GlobalPosition.X >= 0 || ((Position.X >= Game.GraphicsDevice.Viewport.Width / 2) && ((Screen)Game.Components[0]).TeddyAtLastScreen(ref pixelsOver)))
+                this.Position = new Vector2(this.Position.X + overallVelocity.X, this.Position.Y);
+
+                Screen currentScreen = ((Screen)Game.Components[0]);
+
+                if (this.Position.X < 0)
                 {
-                    //Move Teddy
-                    if (Position.X > 0)
-                    {
-                        Position = new Vector2(Position.X + overallVelocity.X, Position.Y);
-
-                        foreach (Surface surface in ((Screen)Game.Components[0]).Surfaces)
-                        {
-                            if (TeddyRectangle.Intersects(surface.Rect) )
-                            {
-                                Position = new Vector2(surface.Right + 1, Position.Y);
-                                break;
-                            }
-                        }
-                    }
+                    this.Position = new Vector2(0, this.Position.Y);
                 }
-                else
+                else if ( this.Position.X + this.BoxToDraw.Width > currentScreen.LevelWidth)
                 {
-                    //Move Screen
-                     ((Screen)Game.Components[0]).MoveX((int)-overallVelocity.X);
-
-                    foreach (Surface surface in ((Screen)Game.Components[0]).Surfaces)
-                    {
-                        if (TeddyRectangle.Intersects(surface.Rect))
-                        {
-                            ((Screen)Game.Components[0]).MoveX(-(surface.Right - (int)this.Position.X));
-                            break;
-                        }
-                    }
+                    this.Position = new Vector2(currentScreen.LevelWidth - this.BoxToDraw.Width, this.Position.Y);
                 }
-
-
             }
-            else if (overallVelocity.X > 0) //Moving Right
-            {
 
-                //If we are at a position less than half of the view, move teddy 
-                //OR if we are at the very last screen of the level, move teddy
-                //OTHERWISE we move the screen behind teddy
-                if ((Position.X <= Game.GraphicsDevice.Viewport.Width / 2) || ((Screen)Game.Components[0]).TeddyAtLastScreen(ref pixelsOver))
-                {
-                    if (pixelsOver != 0)
-                    {
-                        ((Screen)Game.Components[0]).MoveX(-pixelsOver);
-
-                        Position = new Vector2(Position.X + overallVelocity.X, Position.Y);
-
-                        if (Position.X + BoxToDraw.Width >= Game.GraphicsDevice.Viewport.Width)
-                        {
-                            Position = new Vector2(Game.GraphicsDevice.Viewport.Width - BoxToDraw.Width, Position.Y);
-                        }
-                    }
-                    else
-                    {
-                        Position = new Vector2(Position.X + overallVelocity.X, Position.Y);
-
-                        foreach (Surface surface in ((Screen)Game.Components[0]).Surfaces)
-                        {
-                            if (TeddyRectangle.Intersects(surface.Rect))
-                            {
-                                Position = new Vector2(surface.Left - (int)TeddyRectangle.Width  , Position.Y);
-                                break;
-                            }
-                        }
-
-                        if (Position.X + BoxToDraw.Width >= Game.GraphicsDevice.Viewport.Width)
-                        {
-                            Position = new Vector2(Game.GraphicsDevice.Viewport.Width - BoxToDraw.Width, Position.Y);
-                        }
-                    }
-
-                }
-                else
-                {
-                    ((Screen)Game.Components[0]).MoveX((int)-overallVelocity.X);
-
-                    foreach (Surface surface in ((Screen)Game.Components[0]).Surfaces)
-                    {
-                        if (TeddyRectangle.Intersects(surface.Rect))
-                        {
-                            ((Screen)Game.Components[0]).MoveX(-(surface.Left - (int)this.Position.X - (int)TeddyRectangle.Width));
-                            break;
-                        }
-                    }
-                }
-
-            }
         }
         
         private void movePlayerY( KeyboardState keyState)
         {
             _yVelocity += _gravity;
 
-            Position = new Vector2(Position.X, Position.Y + _yVelocity);
+            _position = new Vector2(_position.X, _position.Y + _yVelocity);
 
             if (_ridingSurface != null)
             {
@@ -674,9 +591,9 @@ namespace TeddysAdventureLibrary
             }
         }
 
-        public override void Draw(GameTime gameTime)
+        public  void Draw(GameTime gameTime, Matrix camera)
         {
-            spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend);
+            spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend,null,null,null,null, camera );  
 
             if (_isRunning && _isJumping == false && _yVelocity == 0)
             {
