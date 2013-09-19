@@ -58,13 +58,13 @@ namespace TeddysAdventureLibrary
                 return;
 
 
-            if (((Teddy)Game.Components[1]).Position.X < this.Position.X && Velocity.X > 0)
+            if (((Teddy)Game.Components[1]).Position.X < this.Position.X)
             {
-                Velocity = new Vector2(Velocity.X * -1, Velocity.Y);
+                Velocity = new Vector2(-1, Velocity.Y);
             }
-            else if (((Teddy)Game.Components[1]).Position.X > this.Position.X && Velocity.X < 0)
+            else if (((Teddy)Game.Components[1]).Position.X > this.Position.X)
             {
-                Velocity = new Vector2(Velocity.X * -1, Velocity.Y);
+                Velocity = new Vector2(1, Velocity.Y);
             }
 
             
@@ -74,7 +74,11 @@ namespace TeddysAdventureLibrary
 
             if (_frameCount > 75)
             {
-                this.ChildrenEnemies.Add(new OrangeBomb(Game, this.Position, new Vector2(0, 0)));
+                if (this.ChildrenEnemies.Count < 5)
+                {
+                    this.ChildrenEnemies.Add(new OrangeBomb(Game, this.Position, new Vector2(0, 0)));
+                }
+                
                 _frameCount = 0;
             }
 
@@ -88,6 +92,14 @@ namespace TeddysAdventureLibrary
             foreach (Enemy e in ChildrenEnemies)
             {
                 e.Update(gameTime);
+            }
+
+            for (int i = ChildrenEnemies.Count - 1; i >= 0; i--)
+            {
+                if (ChildrenEnemies[i].Destroyed)
+                {
+                    ChildrenEnemies.RemoveAt(i);
+                }
             }
 
             base.Update(gameTime);

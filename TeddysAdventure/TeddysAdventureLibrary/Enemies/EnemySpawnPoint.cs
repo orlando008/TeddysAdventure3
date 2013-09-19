@@ -22,6 +22,7 @@ namespace TeddysAdventureLibrary
             this.Velocity = velocity;
             _enemyType = enemyType;
             _interval = interval;
+            _playerCanPassThrough = true;
         }
 
         public override void Update(GameTime gameTime)
