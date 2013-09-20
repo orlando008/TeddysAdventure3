@@ -284,7 +284,7 @@ namespace TeddysAdventureLibrary
                 if (surface.Rect.Intersects(CollisionRectangle))
                 {
                     //We must figure out which surface we are hitting to know if we should change direction and which way to shift 
-                    if (Math.Abs(surface.Left - CollisionRectangle.Left) > Math.Abs(surface.Left - CollisionRectangle.Right))
+                     if (Math.Abs(surface.Left - CollisionRectangle.Left) > Math.Abs(surface.Left - CollisionRectangle.Right))
                     {
                         Position = new Vector2(surface.Left - CollisionRectangle.Width - 1, Position.Y);
                         if (_changeDirectionUponSurfaceHit)

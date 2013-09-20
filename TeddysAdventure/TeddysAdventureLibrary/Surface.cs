@@ -31,15 +31,5 @@ namespace TeddysAdventureLibrary
             this.Sprite = sh.Sprite;
         }
 
-        public void MoveByX(int x)
-        {
-            this.Rect = new Rectangle( this.Rect.X + x, this.Rect.Y, this.Rect.Width, this.Rect.Height);
-        }
-
-        public void MoveByY(int y)
-        {
-            this.Rect = new Rectangle(this.Rect.X, this.Rect.Y + y, this.Rect.Width, this.Rect.Height);
-        }
-
     }
 }

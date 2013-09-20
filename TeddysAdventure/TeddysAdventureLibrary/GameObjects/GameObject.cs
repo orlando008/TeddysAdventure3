@@ -81,15 +81,5 @@ namespace TeddysAdventureLibrary
             }
         }
 
-        public virtual void MoveGameObjectByX(int x)
-        {
-            this.Position = new Vector2((int)Position.X + x, (int)Position.Y);
-        }
-
-        public virtual void MoveGameObjectByY(int y)
-        {
-            this.Position = new Vector2((int)Position.X, (int)Position.Y + y);
-        }
-
     }
 }

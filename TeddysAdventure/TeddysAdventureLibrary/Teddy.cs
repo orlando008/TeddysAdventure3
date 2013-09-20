@@ -17,6 +17,8 @@ namespace TeddysAdventureLibrary
             Up = 0, Down, Left, Right
         }
 
+        private const int TERMINAL_VELOCITY = 10;
+
         private int _x;
         private int _y;
         private int _height;
@@ -400,6 +402,9 @@ namespace TeddysAdventureLibrary
         private void movePlayerY( KeyboardState keyState)
         {
             _yVelocity += _gravity;
+
+            if (_yVelocity > TERMINAL_VELOCITY)
+                _yVelocity = TERMINAL_VELOCITY;
 
             _position = new Vector2(_position.X, _position.Y + _yVelocity);
 

@@ -23,22 +23,24 @@ namespace TeddysAdventureLibrary
 
         private Texture2D _deathSprite;
         private Texture2D _successSprite;
-        private Vector2 _globalPosition;
+        private Dictionary<string,Texture2D> _surfaceTextures;
+        private Dictionary<string, Texture2D> _backgroundImages;
+        private SpriteFont _deathFont;
+        private SpriteFont _hudFont;
+
         private List<Surface> _surfaces;
-        private ScreenHelper _screenHelper;
-        private List<Texture2D> _sprites;
-        private int _totalLevelWidth;
-        private Teddy _teddy;
         private List<GameObject> _gameObjects;
         private List<Enemy> _enemies;
+        private Teddy _teddy;
+
+        private int _totalLevelWidth;
+        private int _totalLevelHeight;
+        private LevelType _levelType = LevelType.Normal;
+
         private int _deathScreenCounter = 0;
         private bool _goBackToStartScreen = false;
         private bool _userPressedEnterToGoBack = false;
-        private LevelType _levelType = LevelType.Normal;
-        private SpriteFont _deathFont;
-        private SpriteFont _hudFont;
-        private Dictionary<string,Texture2D> _surfaceTextures;
-        private Dictionary<string, Texture2D> _backgroundImages;
+
         private Color _backgroundColor;
 
         public static SpriteBatch _backgroundBatch;
@@ -55,12 +57,6 @@ namespace TeddysAdventureLibrary
         {
             get { return _surfaces; }
             set { _surfaces = value; }
-        }
-
-        public List<Texture2D> Sprites
-        {
-            get { return _sprites; }
-            set { _sprites = value; }
         }
 
 
@@ -89,7 +85,9 @@ namespace TeddysAdventureLibrary
         public Screen(Game game, string levelName, Teddy teddy)
             : base(game)
         {
-            _screenHelper = game.Content.Load<ScreenHelper>("Screens\\" + levelName);
+
+
+            ScreenHelper screenHelper = game.Content.Load<ScreenHelper>("Screens\\" + levelName);
             _teddy = teddy;
             _deathSprite = game.Content.Load<Texture2D>("Screens\\deathScreen");
             _successSprite = game.Content.Load<Texture2D>("Screens\\successScreen");
@@ -101,11 +99,11 @@ namespace TeddysAdventureLibrary
             _surfaces = new List<Surface>();
             this.Backgrounds = new List<Background>();
 
-            _backgroundColor = _screenHelper.BackgroundColor;
+            _backgroundColor = screenHelper.BackgroundColor;
 
-            var allScreenSprites = from s in _screenHelper.Surfaces select s.Sprite;
+            var allScreenSprites = from s in screenHelper.Surfaces select s.Sprite;
 
-            foreach (BackgroundHelper bh in _screenHelper.Backgrounds)
+            foreach (BackgroundHelper bh in screenHelper.Backgrounds)
             {
                 if (!_backgroundImages.ContainsKey(bh.Image))
                     _backgroundImages.Add(bh.Image, game.Content.Load<Texture2D>(System.IO.Path.Combine(@"Screens\\Backgrounds", bh.Image)));
@@ -113,7 +111,7 @@ namespace TeddysAdventureLibrary
                 this.Backgrounds.Add(new Background(bh));
             }
 
-            foreach (SurfaceHelper sh in _screenHelper.Surfaces)
+            foreach (SurfaceHelper sh in screenHelper.Surfaces)
             {
                 if(!_surfaceTextures.ContainsKey(sh.Sprite))
                     _surfaceTextures.Add( sh.Sprite, game.Content.Load<Texture2D>(System.IO.Path.Combine(@"Objects", sh.Sprite)));
@@ -124,7 +122,7 @@ namespace TeddysAdventureLibrary
 
 
             GameObjects = new List<GameObject>();
-            foreach (GameObjectHelper v2 in _screenHelper.ListOfObjects)
+            foreach (GameObjectHelper v2 in screenHelper.ListOfObjects)
             {
                 switch (v2.Type)
                 {
@@ -138,10 +136,11 @@ namespace TeddysAdventureLibrary
                 
             }
 
-            _totalLevelWidth = (int)_screenHelper.LevelSize.X;
+            _totalLevelWidth = (int)screenHelper.LevelSize.X;
+            _totalLevelHeight = (int)screenHelper.LevelSize.Y;
             _enemies = new List<Enemy>();
 
-            foreach (EnemyHelper eh in _screenHelper.ListOfEnemies)
+            foreach (EnemyHelper eh in screenHelper.ListOfEnemies)
             {
                 if (eh.IsSpawnPoint)
                 {
@@ -176,7 +175,7 @@ namespace TeddysAdventureLibrary
                 }
             }
 
-            switch (_screenHelper.LevelType)
+            switch (screenHelper.LevelType)
             {
                 case "Normal":
                     _levelType = LevelType.Normal;
@@ -199,10 +198,6 @@ namespace TeddysAdventureLibrary
             _overlayBatch = new SpriteBatch(Game.GraphicsDevice);
             _backgroundBatch = new SpriteBatch(game.GraphicsDevice);
         }
-
-
-
-
 
 
         public override void Update(GameTime gameTime)
@@ -262,6 +257,8 @@ namespace TeddysAdventureLibrary
 
             Matrix cameraView = SetCamera();
 
+
+            //Begin all sprite batches
             _overlayBatch.Begin();
             _backgroundBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, cameraView);
             _foregroundBatch.Begin( SpriteSortMode.Deferred, null, null,null,null, null, cameraView   );
@@ -274,13 +271,10 @@ namespace TeddysAdventureLibrary
                 if (_backgroundImages.TryGetValue(b.BackgroundName, out backgroundTexture))
                 {
                     DrawBackground(b, backgroundTexture, _backgroundBatch);
-
-
                 }
             }
 
-
-
+            //Draw foreground items
             foreach (Surface sur in Surfaces)
             {
                 if ( _cameraBounds.Intersects( sur.Rect )){
@@ -299,7 +293,8 @@ namespace TeddysAdventureLibrary
 
             foreach (Enemy bb in _enemies)
             {
-                if ( _cameraBounds.Intersects( bb.CollisionRectangle ) )
+                //todo: figure out why bowling ball collision doesn't work with this
+              //  if ( _cameraBounds.Intersects( bb.CollisionRectangle ) )
                     bb.DrawEnemy(gameTime, _foregroundBatch);
             }
 
@@ -386,8 +381,8 @@ namespace TeddysAdventureLibrary
                     //Repeat this texture to fill the screen.  It scrolls with the level
 
                     //based on GlobalPosition, figure out where to draw this sprite  (and how many times)
-                    int backgroundOffsetX = (int)(((int)_globalPosition.X) % paddedBackground.Width);
-                    int backgroundOffsetY = (int)(((int)_globalPosition.Y) % paddedBackground.Height);
+                    int backgroundOffsetX = (int)(((int)_cameraBounds.X) % paddedBackground.Width);
+                    int backgroundOffsetY = (int)(((int)_cameraBounds.Y) % paddedBackground.Height);
 
                     for (int i = 0; i <= numViewsX; i++)
                     {
@@ -402,11 +397,11 @@ namespace TeddysAdventureLibrary
                 else
                 {
                     //Only draw if it is actually visible
-                    if (_globalPosition.X + paddedBackground.Width > 0)
+                    if (_cameraBounds.X + paddedBackground.Width > 0)
                     {
                         for (int j = 0; j < numViewsY; j++)
                         {
-                            r = new Rectangle((int)_globalPosition.X + (int)b.Offset.X, j * paddedBackground.Height + (int)b.Offset.Y, backgroundTexture.Width, backgroundTexture.Height);
+                            r = new Rectangle((int)_cameraBounds.X + (int)b.Offset.X, j * paddedBackground.Height + (int)b.Offset.Y, backgroundTexture.Width, backgroundTexture.Height);
                             backgroundBatch.Draw(backgroundTexture, r, Color.White);
                         }
 
@@ -433,12 +428,28 @@ namespace TeddysAdventureLibrary
         private Matrix SetCamera(){
 
             Matrix cameraView;
+
+            float cameraX;
+            float cameraY;
+            cameraY = 0;
+
             if (_teddy.Position.X < Game.GraphicsDevice.Viewport.Width / 2)
-                _currentCamera = new Vector2(0, 0);
-            else if (_teddy.Position.X > _screenHelper.LevelSize.X - Game.GraphicsDevice.Viewport.Width / 2)
-                _currentCamera = new Vector2(-_screenHelper.LevelSize.X + (Game.GraphicsDevice.Viewport.Width), 0);
+                cameraX = 0;
+            else if (_teddy.Position.X > _totalLevelWidth - Game.GraphicsDevice.Viewport.Width / 2)
+                cameraX = -_totalLevelWidth + (Game.GraphicsDevice.Viewport.Width);
             else
-                _currentCamera = new Vector2(-_teddy.Position.X + (Game.GraphicsDevice.Viewport.Width / 2), 0);
+                cameraX = -_teddy.Position.X + (Game.GraphicsDevice.Viewport.Width / 2);
+
+
+            //if (_teddy.Position.Y < Game.GraphicsDevice.Viewport.Height / 2)
+            //    cameraY = 0;
+            //else if (_teddy.Position.Y > _totalLevelHeight - Game.GraphicsDevice.Viewport.Height / 2)
+            //    cameraY = -_totalLevelHeight + (Game.GraphicsDevice.Viewport.Height);
+            //else
+            //    cameraY = -_teddy.Position.Y + (Game.GraphicsDevice.Viewport.Height / 2);
+
+
+            _currentCamera = new Vector2(cameraX, cameraY);
 
             cameraView = Matrix.CreateTranslation(_currentCamera.X, _currentCamera.Y, 0);
 

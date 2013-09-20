@@ -119,10 +119,5 @@ namespace TeddysAdventureLibrary
             }
         }
 
-        public override void MoveGameObjectByX(int x)
-        {
-            this.Position = new Vector2((int)Position.X + x, (int)Position.Y);
-            _centerLine = _centerLine + x;
-        }
     }
 }
