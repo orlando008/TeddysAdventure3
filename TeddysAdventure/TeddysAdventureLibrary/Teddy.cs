@@ -395,6 +395,31 @@ namespace TeddysAdventureLibrary
                 {
                     this.Position = new Vector2(currentScreen.LevelWidth - this.BoxToDraw.Width, this.Position.Y);
                 }
+
+                if (overallVelocity.X > 0)
+                {
+                    foreach (Surface surface in currentScreen.Surfaces)
+                    {
+                        if (TeddyRectangle.Intersects(surface.Rect))
+                        {
+                            Position = new Vector2(surface.Left - (int)TeddyRectangle.Width, Position.Y);
+                            break;
+                        }
+                    }
+                }
+                else if (overallVelocity.X < 0)
+                {
+                    foreach (Surface surface in currentScreen.Surfaces)
+                    {
+                        if (TeddyRectangle.Intersects(surface.Rect))
+                        {
+                            Position = new Vector2(surface.Right, Position.Y);
+                            break;
+                        }
+                    }
+                }
+
+
             }
 
         }
