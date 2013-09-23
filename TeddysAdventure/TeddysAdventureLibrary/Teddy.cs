@@ -512,12 +512,15 @@ namespace TeddysAdventureLibrary
 
         private void checkForDeath(KeyboardState keyState)
         {
-            if (Position.Y > Game.GraphicsDevice.Viewport.Height)
+
+            Screen currentScreen = (Screen)Game.Components[0];
+
+            if (Position.Y > currentScreen.LevelHeight)
             {
                 Dead = true;
             }
 
-            foreach (Enemy e in ((Screen)Game.Components[0]).Enemies)
+            foreach (Enemy e in currentScreen.Enemies)
             {
                 checkEnemyInducedDeath(e, keyState);
 
@@ -621,17 +624,17 @@ namespace TeddysAdventureLibrary
             }
         }
 
-        public  void Draw(GameTime gameTime, Matrix camera)
+        public  void Draw(GameTime gameTime, SpriteBatch teddyBatch)
         {
-            spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend,null,null,null,null, camera );  
+           // spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend,null,null,null,null, camera );  
 
             if (_isRunning && _isJumping == false && _yVelocity == 0)
             {
-                spriteBatch.Draw(_runGlow, new Vector2(Position.X, Position.Y + BoxToDraw.Height - _runGlow.Height/2), new Rectangle(0,0, _runGlow.Width, _runGlow.Height), Color.White);
+                teddyBatch.Draw(_runGlow, new Vector2(Position.X, Position.Y + BoxToDraw.Height - _runGlow.Height/2), new Rectangle(0,0, _runGlow.Width, _runGlow.Height), Color.White);
             }
 
-            spriteBatch.Draw(StyleSheet, Position, BoxToDraw, Color.White);
-            spriteBatch.End();
+            teddyBatch.Draw(StyleSheet, Position, BoxToDraw, Color.White);
+            //spriteBatch.End();
         }
 
     }

@@ -75,6 +75,7 @@ namespace TeddysAdventureLibrary
         public List<Background> Backgrounds { get; set; }
 
         public int LevelWidth { get { return _totalLevelWidth; } }
+        public int LevelHeight { get { return _totalLevelHeight; } }
 
         public bool GoBackToStartScreen
         {
@@ -277,17 +278,17 @@ namespace TeddysAdventureLibrary
             //Draw foreground items
             foreach (Surface sur in Surfaces)
             {
-                if ( _cameraBounds.Intersects( sur.Rect )){
+              //  if ( _cameraBounds.Intersects( sur.Rect )){
                     Texture2D surfaceTexture;
                     if (_surfaceTextures.TryGetValue( sur.Sprite, out surfaceTexture)) {
                         DrawSurface(sur.Rect.X, sur.Rect.Y, sur.Rect.Width, sur.Rect.Height, surfaceTexture, _foregroundBatch )  ;
                     }
-                }
+              //  }
             }
 
             foreach (GameObject f in GameObjects)
             {
-                if (_cameraBounds.Intersects( f.CollisionRectangle ) )
+              //  if (_cameraBounds.Intersects( f.CollisionRectangle ) )
                     f.Draw(gameTime, _foregroundBatch);
             }
 
@@ -332,7 +333,7 @@ namespace TeddysAdventureLibrary
                 }
             }
 
-            _teddy.Draw(gameTime, cameraView);
+            _teddy.Draw(gameTime, _foregroundBatch);
 
 
             _backgroundBatch.End();
@@ -388,9 +389,24 @@ namespace TeddysAdventureLibrary
                     {
                         for (int j = 0; j < numViewsY; j++)
                         {
-                            r = new Rectangle(i * paddedBackground.Width + backgroundOffsetX + (int)b.Offset.X, j * paddedBackground.Height + backgroundOffsetY + (int)b.Offset.Y, backgroundTexture.Width, backgroundTexture.Height);
+                            r = new Rectangle( _cameraBounds.X + i * paddedBackground.Width - backgroundOffsetX + (int)b.Offset.X, j * paddedBackground.Height + backgroundOffsetY + (int)b.Offset.Y, backgroundTexture.Width, backgroundTexture.Height);
                             backgroundBatch.Draw(backgroundTexture, r, Color.White);
                         }
+                    }
+
+                }
+                else if (b.RepeatY)
+                {
+                    //Only draw if it is actually visible
+                    if (_cameraBounds.X + paddedBackground.Width > 0)
+                    {
+                        for (int j = 0; j < numViewsY; j++)
+                        {
+
+                            r = new Rectangle((int)_cameraBounds.X + (int)b.Offset.X, j * paddedBackground.Height + (int)b.Offset.Y, backgroundTexture.Width, backgroundTexture.Height);
+                            backgroundBatch.Draw(backgroundTexture, r, Color.White);
+                        }
+
                     }
 
                 }
@@ -401,12 +417,16 @@ namespace TeddysAdventureLibrary
                     {
                         for (int j = 0; j < numViewsY; j++)
                         {
-                            r = new Rectangle((int)_cameraBounds.X + (int)b.Offset.X, j * paddedBackground.Height + (int)b.Offset.Y, backgroundTexture.Width, backgroundTexture.Height);
+
+                            r = new Rectangle( (int)b.Offset.X, j * paddedBackground.Height + (int)b.Offset.Y, backgroundTexture.Width, backgroundTexture.Height);
                             backgroundBatch.Draw(backgroundTexture, r, Color.White);
                         }
 
                     }
+
+
                 }
+
 
             }
             else
@@ -427,6 +447,9 @@ namespace TeddysAdventureLibrary
 
         private Matrix SetCamera(){
 
+            if (_teddy.LevelComplete)
+                return Matrix.CreateTranslation(_currentCamera.X, _currentCamera.Y, 0); 
+
             Matrix cameraView;
 
             float cameraX;
@@ -441,12 +464,12 @@ namespace TeddysAdventureLibrary
                 cameraX = -_teddy.Position.X + (Game.GraphicsDevice.Viewport.Width / 2);
 
 
-            //if (_teddy.Position.Y < Game.GraphicsDevice.Viewport.Height / 2)
-            //    cameraY = 0;
-            //else if (_teddy.Position.Y > _totalLevelHeight - Game.GraphicsDevice.Viewport.Height / 2)
-            //    cameraY = -_totalLevelHeight + (Game.GraphicsDevice.Viewport.Height);
-            //else
-            //    cameraY = -_teddy.Position.Y + (Game.GraphicsDevice.Viewport.Height / 2);
+            if (_teddy.Position.Y < Game.GraphicsDevice.Viewport.Height / 2)
+                cameraY = 0;
+            else if (_teddy.Position.Y > _totalLevelHeight - Game.GraphicsDevice.Viewport.Height / 2)
+                cameraY = -_totalLevelHeight + (Game.GraphicsDevice.Viewport.Height);
+            else
+                cameraY = -_teddy.Position.Y + (Game.GraphicsDevice.Viewport.Height / 2);
 
 
             _currentCamera = new Vector2(cameraX, cameraY);

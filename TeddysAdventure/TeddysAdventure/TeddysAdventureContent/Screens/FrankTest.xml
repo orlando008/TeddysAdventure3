@@ -81,6 +81,10 @@
 <Type>Fluff</Type>
 <Position>176 353</Position>
 </Item>
+  <Item>
+    <Type>Goal</Type>
+    <Position>700 500</Position>
+  </Item>
 </ListOfObjects>
 <ListOfEnemies>
 <Item>

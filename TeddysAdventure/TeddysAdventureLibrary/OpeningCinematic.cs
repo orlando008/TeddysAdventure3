@@ -53,13 +53,12 @@ namespace TeddysAdventureLibrary
             {
                 _spriteBatch.DrawString(_hudFont, "Aight den", new Vector2(_teddy.Position.X + _teddy.BoxToDraw.Width, _teddy.Position.Y), Color.White);
             }
-            
-            _spriteBatch.End();
-            
+                        
             if (_playerIsReadyToContinue)
             {
-                _teddy.Draw(gameTime, Matrix.Identity);
+                _teddy.Draw(gameTime, _spriteBatch);
             }
+            _spriteBatch.End();
 
         }
 
