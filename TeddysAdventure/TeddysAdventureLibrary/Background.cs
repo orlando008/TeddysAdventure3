@@ -17,6 +17,7 @@ namespace TeddysAdventureLibrary
         public bool Scrolls { get; set; }
         public Vector2 Offset { get; set; }
 
+
         public Background(BackgroundHelper bh)
         {
             this.BackgroundName = bh.Image;
@@ -24,6 +25,7 @@ namespace TeddysAdventureLibrary
             this.RepeatY = bh.RepeatY;
             this.Scrolls = bh.Scrolls;
             this.Offset = bh.Offset;
+
         }
 
         public Background()
@@ -40,7 +42,7 @@ namespace TeddysAdventureLibrary
 
             xml = "<Item><Image>{0}</Image><RepeatX>{1}</RepeatX><RepeatY>{2}</RepeatY><Scrolls>{3}</Scrolls><Offset>{4}</Offset></Item>";
 
-            return string.Format(xml, new object[] { this.BackgroundName, BoolToXML(this.RepeatX), BoolToXML(this.RepeatY), BoolToXML(this.Scrolls), VectorToXML( this.Offset)   });
+            return string.Format(xml, new object[] { this.BackgroundName, BoolToXML(this.RepeatX), BoolToXML(this.RepeatY), BoolToXML(this.Scrolls), VectorToXML( this.Offset)  });
 
         }
 

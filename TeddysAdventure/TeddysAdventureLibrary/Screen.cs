@@ -83,13 +83,13 @@ namespace TeddysAdventureLibrary
             set { _goBackToStartScreen = value; }
         }
 
-        public Screen(Game game, string levelName, Teddy teddy)
+        public Screen(Game game, string levelName)
             : base(game)
         {
 
 
             ScreenHelper screenHelper = game.Content.Load<ScreenHelper>("Screens\\" + levelName);
-            _teddy = teddy;
+
             _deathSprite = game.Content.Load<Texture2D>("Screens\\deathScreen");
             _successSprite = game.Content.Load<Texture2D>("Screens\\successScreen");
             _deathFont = game.Content.Load<SpriteFont>("Fonts\\DeathScreenFont");
@@ -114,7 +114,7 @@ namespace TeddysAdventureLibrary
 
             foreach (SurfaceHelper sh in screenHelper.Surfaces)
             {
-                if(!_surfaceTextures.ContainsKey(sh.Sprite))
+                if(!_surfaceTextures.ContainsKey(sh.Sprite) && sh.Sprite != string.Empty)
                     _surfaceTextures.Add( sh.Sprite, game.Content.Load<Texture2D>(System.IO.Path.Combine(@"Objects", sh.Sprite)));
 
                 _surfaces.Add(  new Surface(sh));
@@ -176,6 +176,9 @@ namespace TeddysAdventureLibrary
                 }
             }
 
+
+            _teddy = new Teddy(game, game.Content.Load<Texture2D>(System.IO.Path.Combine(@"Teddy", "TeddyRun")),   screenHelper.TeddyStart, new Vector2(50, 75));
+            
             switch (screenHelper.LevelType)
             {
                 case "Normal":
@@ -203,7 +206,8 @@ namespace TeddysAdventureLibrary
 
         public override void Update(GameTime gameTime)
         {
-            if (((Teddy)Game.Components[1]).Dead)
+
+            if (_teddy.Dead)
             {
                 KeyboardState keyState = Keyboard.GetState();
 
@@ -220,7 +224,7 @@ namespace TeddysAdventureLibrary
                     }
                 }
             }
-            else if (((Teddy)Game.Components[1]).LevelComplete)
+            else if (_teddy.LevelComplete)
             {
                 KeyboardState keyState = Keyboard.GetState();
 
@@ -248,6 +252,8 @@ namespace TeddysAdventureLibrary
             {
                 bb.Update(gameTime);
             }
+
+            _teddy.Update(gameTime);
 
         }
 
@@ -369,15 +375,15 @@ namespace TeddysAdventureLibrary
             Rectangle r;
 
             if (b.RepeatX)
-                numViewsX = (_cameraBounds.Width / paddedBackground.Width) + 1;
+                numViewsX = (_cameraBounds.Width / paddedBackground.Width) + 2;
 
             if (b.RepeatY)
-                numViewsY = (_cameraBounds.Height / paddedBackground.Height) + 1;
+                numViewsY = (_cameraBounds.Height / paddedBackground.Height) + 2;
 
             //Scrolling doesn't make sense without repeat?
             if (b.Scrolls)
             {
-                if (b.RepeatY)
+                if (b.RepeatY || b.RepeatY)
                 {
                     //Repeat this texture to fill the screen.  It scrolls with the level
 
@@ -395,23 +401,12 @@ namespace TeddysAdventureLibrary
                     {
                         for (int j = 0; j < numViewsY; j++)
                         {
-                            r = new Rectangle( _cameraBounds.X + i * paddedBackground.Width + backgroundOffsetX + (int)b.Offset.X, -_cameraBounds.Top + j * paddedBackground.Height - backgroundOffsetY + (int)b.Offset.Y, backgroundTexture.Width, backgroundTexture.Height);
+                            int startX =  _cameraBounds.X + i * paddedBackground.Width + backgroundOffsetX + (int)b.Offset.X;
+                            int startY = - _cameraBounds.Y + (j-2) * paddedBackground.Height + backgroundOffsetY + (int)b.Offset.Y ;
+
+                            r = new Rectangle(startX, startY , backgroundTexture.Width, backgroundTexture.Height);
                             backgroundBatch.Draw(backgroundTexture, r, Color.White);
                         }
-                    }
-
-                }
-                else if (b.RepeatY)
-                {
-                    //Only draw if it is actually visible
-                    if (_cameraBounds.X + paddedBackground.Width > 0)
-                    {
-                        for (int j = 0; j < numViewsY; j++)
-                        {
-                            r = new Rectangle((int)_cameraBounds.X + (int)b.Offset.X, (int) -_cameraBounds.Y +  j * paddedBackground.Height + (int)b.Offset.Y, backgroundTexture.Width, backgroundTexture.Height);
-                            backgroundBatch.Draw(backgroundTexture, r, Color.White);
-                        }
-
                     }
 
                 }
@@ -422,7 +417,7 @@ namespace TeddysAdventureLibrary
                     {
                         for (int j = 0; j < numViewsY; j++)
                         {
-                            r = new Rectangle( (int)b.Offset.X, j * paddedBackground.Height + (int)b.Offset.Y, backgroundTexture.Width, backgroundTexture.Height);
+                            r = new Rectangle( (int)b.Offset.X , j * paddedBackground.Height + (int)b.Offset.Y , backgroundTexture.Width, backgroundTexture.Height);
                             backgroundBatch.Draw(backgroundTexture, r, Color.White);
                         }
 
