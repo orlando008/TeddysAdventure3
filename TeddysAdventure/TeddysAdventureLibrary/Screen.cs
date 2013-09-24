@@ -369,27 +369,33 @@ namespace TeddysAdventureLibrary
             Rectangle r;
 
             if (b.RepeatX)
-                numViewsX = (Game.GraphicsDevice.Viewport.Width / paddedBackground.Width) + 1;
+                numViewsX = (_cameraBounds.Width / paddedBackground.Width) + 1;
 
             if (b.RepeatY)
-                numViewsY = (Game.GraphicsDevice.Viewport.Height / paddedBackground.Height) + 1;
+                numViewsY = (_cameraBounds.Height / paddedBackground.Height) + 1;
 
             //Scrolling doesn't make sense without repeat?
             if (b.Scrolls)
             {
-                if (b.RepeatX)
+                if (b.RepeatY)
                 {
                     //Repeat this texture to fill the screen.  It scrolls with the level
 
                     //based on GlobalPosition, figure out where to draw this sprite  (and how many times)
-                    int backgroundOffsetX = (int)(((int)_cameraBounds.X) % paddedBackground.Width);
-                    int backgroundOffsetY = (int)(((int)_cameraBounds.Y) % paddedBackground.Height);
+                    int backgroundOffsetX = (int)(((int)-_cameraBounds.X) % paddedBackground.Width);
+                    int backgroundOffsetY = (int)(((int)-_cameraBounds.Y) % paddedBackground.Height);
+
+                    if (!b.RepeatY)
+                        backgroundOffsetY = 0;
+
+                    if (!b.RepeatX)
+                        backgroundOffsetX = 0;
 
                     for (int i = 0; i <= numViewsX; i++)
                     {
                         for (int j = 0; j < numViewsY; j++)
                         {
-                            r = new Rectangle( _cameraBounds.X + i * paddedBackground.Width - backgroundOffsetX + (int)b.Offset.X, j * paddedBackground.Height + backgroundOffsetY + (int)b.Offset.Y, backgroundTexture.Width, backgroundTexture.Height);
+                            r = new Rectangle( _cameraBounds.X + i * paddedBackground.Width + backgroundOffsetX + (int)b.Offset.X, -_cameraBounds.Top + j * paddedBackground.Height - backgroundOffsetY + (int)b.Offset.Y, backgroundTexture.Width, backgroundTexture.Height);
                             backgroundBatch.Draw(backgroundTexture, r, Color.White);
                         }
                     }
@@ -402,8 +408,7 @@ namespace TeddysAdventureLibrary
                     {
                         for (int j = 0; j < numViewsY; j++)
                         {
-
-                            r = new Rectangle((int)_cameraBounds.X + (int)b.Offset.X, j * paddedBackground.Height + (int)b.Offset.Y, backgroundTexture.Width, backgroundTexture.Height);
+                            r = new Rectangle((int)_cameraBounds.X + (int)b.Offset.X, (int) -_cameraBounds.Y +  j * paddedBackground.Height + (int)b.Offset.Y, backgroundTexture.Width, backgroundTexture.Height);
                             backgroundBatch.Draw(backgroundTexture, r, Color.White);
                         }
 
@@ -417,7 +422,6 @@ namespace TeddysAdventureLibrary
                     {
                         for (int j = 0; j < numViewsY; j++)
                         {
-
                             r = new Rectangle( (int)b.Offset.X, j * paddedBackground.Height + (int)b.Offset.Y, backgroundTexture.Width, backgroundTexture.Height);
                             backgroundBatch.Draw(backgroundTexture, r, Color.White);
                         }

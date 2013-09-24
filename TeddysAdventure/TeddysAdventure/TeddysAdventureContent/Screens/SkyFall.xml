@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<XnaContent>
+  <Asset Type="TeddysAdventureLibrary.ScreenHelper">
+    <BackgroundColor>FF4169E1</BackgroundColor>
+    <Backgrounds>
+      <Item>
+        <Image>Basement_window</Image>
+        <RepeatX>1</RepeatX>
+        <RepeatY>1</RepeatY>
+        <Scrolls>1</Scrolls>
+        <Offset>250 250</Offset>
+      </Item>
+      <Item>
+        <Image>Basement_dryer</Image>
+        <RepeatX>0</RepeatX>
+        <RepeatY>0</RepeatY>
+        <Scrolls>1</Scrolls>
+        <Offset>0 450</Offset>
+      </Item>
+    </Backgrounds>
+    <Surfaces>
+      <Item>
+        <Rect>0 625 775 75</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>149 8899 600 100</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+    </Surfaces>
+    <ListOfObjects>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>280 109</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>338 170</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>771 339</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>260 226</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>204 231</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>176 353</Position>
+      </Item>
+    </ListOfObjects>
+    <ListOfEnemies>
+      <Item>
+        <Type>Airplane</Type>
+        <Position>50 393</Position>
+        <Velocity>1 0</Velocity>
+        <IsSpawnPoint>0</IsSpawnPoint>
+        <SpawnInterval>1</SpawnInterval>
+      </Item>
+    </ListOfEnemies>
+    <LevelType>Normal</LevelType>
+    <LevelSize>1250 9000</LevelSize>
+  </Asset>
+</XnaContent>

@@ -14,7 +14,7 @@
   <Item>
     <Image>Basement_window</Image>
     <RepeatX>1</RepeatX>
-    <RepeatY>0</RepeatY>
+    <RepeatY>1</RepeatY>
     <Scrolls>1</Scrolls>
     <Offset>250 50</Offset>
   </Item>
@@ -83,7 +83,7 @@
 </Item>
   <Item>
     <Type>Goal</Type>
-    <Position>700 500</Position>
+    <Position>600 500</Position>
   </Item>
 </ListOfObjects>
 <ListOfEnemies>
