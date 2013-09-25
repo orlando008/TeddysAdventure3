@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <XnaContent>
   <Asset Type="TeddysAdventureLibrary.ScreenHelper">
-    <TeddyStart>1100 350</TeddyStart>
+    <TeddyStart>1300 350</TeddyStart>
     <BackgroundColor>FF4169E1</BackgroundColor>
     <Backgrounds>
       <Item>
@@ -9,27 +9,34 @@
         <RepeatX>0</RepeatX>
         <RepeatY>0</RepeatY>
         <Scrolls>1</Scrolls>
-        <Offset>1000 0</Offset>
-      </Item>       
-      
+        <Offset>1200 0</Offset>
+      </Item>
+      <Item>
+        <Image>TreeTop</Image>
+        <RepeatX>0</RepeatX>
+        <RepeatY>0</RepeatY>
+        <Scrolls>1</Scrolls>
+        <Offset>0 0</Offset>        
+      </Item>
 
     </Backgrounds>
     <Surfaces>
-      <Item>
-        <Rect>0 500 775 75</Rect>
-        <Sprite>SurfaceTexture1</Sprite>
-      </Item>
+
       <Item>
         <Rect>149 8899 600 100</Rect>
         <Sprite>SurfaceTexture1</Sprite>
       </Item>
       <Item>
-        <Rect>1000 350 250 258</Rect>
+        <Rect>1200 350 250 258</Rect>
         <Sprite></Sprite>
       </Item>
       <Item>
-        <Rect>1000 508 250 8000</Rect>
+        <Rect>1200 508 250 8000</Rect>
         <Sprite>HouseRepeat</Sprite>
+      </Item>
+      <Item>
+        <Rect>0 500 250 8000</Rect>
+        <Sprite>TreeRepeat</Sprite>
       </Item>
       
     </Surfaces>
@@ -69,6 +76,6 @@
       </Item>
     </ListOfEnemies>
     <LevelType>Falling</LevelType>
-    <LevelSize>1250 9000</LevelSize>
+    <LevelSize>1450 9000</LevelSize>
   </Asset>
 </XnaContent>

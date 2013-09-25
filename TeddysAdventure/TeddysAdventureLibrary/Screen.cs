@@ -177,7 +177,7 @@ namespace TeddysAdventureLibrary
             }
 
 
-            _teddy = new Teddy(game, game.Content.Load<Texture2D>(System.IO.Path.Combine(@"Teddy", "TeddyRun")),   screenHelper.TeddyStart, new Vector2(50, 75));
+
             
             switch (screenHelper.LevelType)
             {
@@ -198,6 +198,17 @@ namespace TeddysAdventureLibrary
                     break;
             }
 
+
+            switch (_levelType)
+            {
+                case LevelType.Falling:
+                    _teddy = new TeddyFalling(game, screenHelper.TeddyStart, new Vector2(50,75));
+                    break;
+                default:
+                    _teddy = new Teddy(game,    screenHelper.TeddyStart, new Vector2(50, 75));
+                    break;
+            }
+
             _foregroundBatch = new SpriteBatch(Game.GraphicsDevice);
             _overlayBatch = new SpriteBatch(Game.GraphicsDevice);
             _backgroundBatch = new SpriteBatch(game.GraphicsDevice);
@@ -207,9 +218,18 @@ namespace TeddysAdventureLibrary
         public override void Update(GameTime gameTime)
         {
 
+
+             KeyboardState keyState = Keyboard.GetState();
+
+             if (keyState.IsKeyDown(Keys.Escape))
+             {
+
+                 _teddy.Dead = true;
+             }
+
             if (_teddy.Dead)
             {
-                KeyboardState keyState = Keyboard.GetState();
+
 
                 if (keyState.IsKeyDown(Keys.Enter))
                 {
@@ -226,7 +246,6 @@ namespace TeddysAdventureLibrary
             }
             else if (_teddy.LevelComplete)
             {
-                KeyboardState keyState = Keyboard.GetState();
 
                 if (keyState.IsKeyDown(Keys.Enter))
                 {

@@ -17,7 +17,7 @@ namespace TeddysAdventureLibrary
             Up = 0, Down, Left, Right
         }
 
-        private const int TERMINAL_VELOCITY = 10;
+        protected int TERMINAL_VELOCITY = 10;
 
         private int _x;
         private int _y;
@@ -61,11 +61,13 @@ namespace TeddysAdventureLibrary
             
         }
 
-        public Teddy(Game game, Texture2D styleSheet, Vector2 initialPosition, Vector2 sizeOfFrame)
+        public Teddy(Game game,  Vector2 initialPosition, Vector2 sizeOfFrame)
             :base(game)
         {
-            StyleSheet = styleSheet;
+
+            this.StyleSheet = game.Content.Load<Texture2D>(System.IO.Path.Combine(@"Teddy", "TeddyRun"));
             _runGlow = game.Content.Load<Texture2D>(System.IO.Path.Combine(@"Teddy", "RunGlow"));
+
             Game = game;
             Position = initialPosition;
             FrameSize = sizeOfFrame;
