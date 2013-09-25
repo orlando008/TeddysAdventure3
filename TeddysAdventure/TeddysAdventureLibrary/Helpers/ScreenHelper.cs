@@ -23,6 +23,7 @@ namespace TeddysAdventureLibrary
         private string _levelType;
         private Vector2 _levelSize;
 
+        public Vector2 TeddyStart { get; set; }
         public Color BackgroundColor { get; set; }
 
         public List<BackgroundHelper> Backgrounds
@@ -87,6 +88,7 @@ namespace TeddysAdventureLibrary
                 scrn = new ScreenHelper();
             }
 
+            scrn.TeddyStart = input.ReadObject<Vector2>();
             scrn.BackgroundColor = input.ReadObject<Color>();
             scrn.Backgrounds = input.ReadObject<List<BackgroundHelper>>();
             scrn.Surfaces = input.ReadObject<List<SurfaceHelper>>();

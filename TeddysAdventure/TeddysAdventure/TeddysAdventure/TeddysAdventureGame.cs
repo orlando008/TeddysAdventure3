@@ -20,7 +20,7 @@ namespace TeddysAdventure
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        private Teddy teddy;
+       //private Teddy teddy;
         private Screen screen;
         private StartMenu _startMenu;
 
@@ -146,14 +146,12 @@ namespace TeddysAdventure
             _levelLoaded = false;
 
 
-            teddy = new Teddy(this, Content.Load<Texture2D>(System.IO.Path.Combine(@"Teddy" , "TeddyRun")), new Vector2(20, 200), new Vector2(50, 75));
 
-            screen = new Screen(this,  levelName, teddy);
+            screen = new Screen(this,  levelName);
 
             this.Components.Add(screen);
 
 
-            this.Components.Add(teddy);
 
             _levelLoaded = true;
         }
@@ -217,7 +215,6 @@ namespace TeddysAdventure
                         else
                         {
                             screen.Update(gameTime);
-                            teddy.Update(gameTime);
                         }
 
                     }

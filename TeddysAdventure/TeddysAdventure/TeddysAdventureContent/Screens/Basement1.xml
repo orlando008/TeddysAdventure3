@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <XnaContent>
   <Asset Type="TeddysAdventureLibrary.ScreenHelper">
+    <TeddyStart>250 20</TeddyStart>
     <BackgroundColor>FFCCC4B7</BackgroundColor>
     <Backgrounds />
     <Surfaces>
