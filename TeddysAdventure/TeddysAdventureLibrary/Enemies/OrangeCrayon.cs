@@ -57,8 +57,10 @@ namespace TeddysAdventureLibrary
             if (Destroyed)
                 return;
 
+            Screen currentScreen = (Screen)Game.Components[0];
 
-            if (((Teddy)Game.Components[1]).Position.X < this.Position.X)
+
+            if (currentScreen.Teddy.Position.X < this.Position.X)
             {
                 Velocity = new Vector2(-1, Velocity.Y);
             }

@@ -166,7 +166,7 @@ namespace TeddysAdventureLibrary
             set { _boxToDraw = value; }
         }
 
-        private GeometryMethods.RectangleF TeddyRectangle
+        protected virtual GeometryMethods.RectangleF TeddyRectangle
         {
             get 
             {
@@ -409,9 +409,9 @@ namespace TeddysAdventureLibrary
                 {
                     this.Position = new Vector2(0, this.Position.Y);
                 }
-                else if ( this.Position.X + this.BoxToDraw.Width > currentScreen.LevelWidth)
+                else if ( this.Position.X + this.TeddyRectangle.Width > currentScreen.LevelWidth)
                 {
-                    this.Position = new Vector2(currentScreen.LevelWidth - this.BoxToDraw.Width, this.Position.Y);
+                    this.Position = new Vector2(currentScreen.LevelWidth - this.TeddyRectangle.Width, this.Position.Y);
                 }
 
                 if (overallVelocity.X > 0)
@@ -638,7 +638,7 @@ namespace TeddysAdventureLibrary
             }
         }
 
-        public  void Draw(GameTime gameTime, SpriteBatch teddyBatch)
+        public virtual void Draw(GameTime gameTime, SpriteBatch teddyBatch)
         {
 
             if (_isRunning && _isJumping == false && _yVelocity == 0)

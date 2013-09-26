@@ -33,6 +33,8 @@ namespace TeddysAdventureLibrary
         private List<Enemy> _enemies;
         private Teddy _teddy;
 
+
+
         private int _totalLevelWidth;
         private int _totalLevelHeight;
         private LevelType _levelType = LevelType.Normal;
@@ -52,6 +54,12 @@ namespace TeddysAdventureLibrary
 
 
         public Rectangle CameraBounds { get { return _cameraBounds; } }
+
+        public Teddy Teddy
+        {
+            get { return _teddy; }
+            set { _teddy = value; }
+        }
 
         public List<Surface> Surfaces
         {

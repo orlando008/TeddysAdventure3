@@ -11,8 +11,17 @@ namespace TeddysAdventureLibrary
     class TeddyFalling : Teddy
     {
 
+        //Teddy Resources
+        private Texture2D _teddySprite;
+        private Texture2D _blanketParachuteSprite;
+
+        //Teddy Constant values
+        private Vector2 _fallingBoxOffset = new Vector2(-15, 0);  //Offset to get Teddy's body to line up with his non falling self
+        private Vector2 _blanketBoxOffset = new Vector2(5, 79 - 28);  //Height of blanket sprite - distance to teddys hands
+
+
         //Teddy State
-        private TeddyModeEnum _teddyMode;
+        private TeddyModeEnum _teddyMode = TeddyModeEnum.Normal;
 
 
 
@@ -21,18 +30,62 @@ namespace TeddysAdventureLibrary
         {
             Normal = 0,
             Falling = 1,
-            Parachuting = 2
+            Parachuting = 2,
+            FallingToDeath = 3
         }
 
 
         public TeddyFalling(Game game,  Vector2 initialPosition, Vector2 sizeOfFrame):base(game, initialPosition, sizeOfFrame)
         {
-            TERMINAL_VELOCITY = 4;
-
-
-
+            _teddySprite = game.Content.Load<Texture2D>(System.IO.Path.Combine(@"Teddy", "TeddyFall"));
+            _blanketParachuteSprite = game.Content.Load<Texture2D>(System.IO.Path.Combine(@"Teddy", "Blanket"));
         }
 
+        //Falling teddy is wider than normal teddy
+        //Because of this, we must alter his position when changing modes otherwise it will appear like his body is jumping sideways
+        private void ChangeTeddyMode(TeddyModeEnum mode)
+        {
+            switch (mode)
+            {
+                case TeddyModeEnum.Normal:
+                    TERMINAL_VELOCITY = 10;
+                    if (_teddyMode == TeddyModeEnum.Parachuting)
+                        this.Position = this.Position - _fallingBoxOffset;
+
+                    break;
+
+                case TeddyModeEnum.Parachuting:
+                    TERMINAL_VELOCITY = 4;
+                    this.Position = this.Position + _fallingBoxOffset;
+                    break;
+
+                case TeddyModeEnum.Falling:
+
+                    if (_teddyMode == TeddyModeEnum.Parachuting)
+                        this.Position = this.Position - _fallingBoxOffset;
+
+                    TERMINAL_VELOCITY = 10;
+                    break;
+            }
+            _teddyMode = mode;
+        }
+
+
+        protected override GeometryMethods.RectangleF TeddyRectangle
+        {
+            get
+            {
+                switch (_teddyMode)
+                {
+                    case TeddyModeEnum.Parachuting:
+                        var fallingPosition = this.Position + _fallingBoxOffset;
+
+                        return new GeometryMethods.RectangleF(fallingPosition.X, fallingPosition.Y, _teddySprite.Width, _teddySprite.Height); 
+
+                }
+                return base.TeddyRectangle;    
+            }
+        }
 
 
         public override void Update(GameTime gameTime) 
@@ -43,14 +96,14 @@ namespace TeddysAdventureLibrary
             if (_teddyMode != TeddyModeEnum.Normal ) {
                 if (_yVelocity == 0.0f)
                 {
-                    _teddyMode = TeddyModeEnum.Normal;
+                    ChangeTeddyMode(TeddyModeEnum.Normal);
                 }
             }
 
             if ( _teddyMode == TeddyModeEnum.Normal ){
                 if (_yVelocity > 0.0f) {
                     //We have begun falling, start parachuting
-                    _teddyMode = TeddyModeEnum.Parachuting;
+                    ChangeTeddyMode(TeddyModeEnum.Parachuting);
                 }
             }
 
@@ -65,13 +118,11 @@ namespace TeddysAdventureLibrary
                     _spacePressedDown = true;
                     if (_teddyMode == TeddyModeEnum.Parachuting)
                     {
-                        _teddyMode = TeddyModeEnum.Falling;
-                        TERMINAL_VELOCITY = 10;
+                        ChangeTeddyMode(TeddyModeEnum.Falling);
                     }
                     else
                     {
-                        _teddyMode = TeddyModeEnum.Parachuting;
-                        TERMINAL_VELOCITY = 4;
+                        ChangeTeddyMode(TeddyModeEnum.Parachuting);
                     }
                 }
 
@@ -87,21 +138,37 @@ namespace TeddysAdventureLibrary
         }
 
 
-        public override void Draw(GameTime gameTime)
+        
+
+        public override void Draw(GameTime gameTime, SpriteBatch teddyBatch)
         {
             //todo: when we are falling we will do different drawing here
             switch (_teddyMode)
             {
                 case TeddyModeEnum.Normal:
-                    base.Draw(gameTime);
+                    base.Draw(gameTime, teddyBatch);
                     break;
                 case TeddyModeEnum.Parachuting:
-                    base.Draw(gameTime);
+                    DrawParachuting(gameTime, teddyBatch);
                     break;
                 case TeddyModeEnum.Falling:
-                    base.Draw(gameTime);
+                    base.Draw(gameTime, teddyBatch);
                     break;
             }
+
+        }
+
+
+
+        private void DrawParachuting(GameTime gameTime, SpriteBatch teddyBatch)
+        {
+
+            var teddyBox = new Rectangle(0, 0, _teddySprite.Width, _teddySprite.Height);
+            var blanketBox = new Rectangle(0, 0, _blanketParachuteSprite.Width, _blanketParachuteSprite.Height);
+
+
+            teddyBatch.Draw(_teddySprite,   this.Position ,  teddyBox, Color.White);
+            teddyBatch.Draw(_blanketParachuteSprite, this.Position - _blanketBoxOffset , blanketBox, Color.White);
 
         }
 
