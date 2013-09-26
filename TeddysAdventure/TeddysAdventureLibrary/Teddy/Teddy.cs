@@ -177,9 +177,12 @@ namespace TeddysAdventureLibrary
 
         public override void Update(GameTime gameTime)
         {
+
+            Screen currentScreen = (Screen)Game.Components[0];
+
             if (Dead || LevelComplete)
             {
-                if (Position.Y < Game.GraphicsDevice.Viewport.Width)
+                if (Position.Y < currentScreen.CameraBounds.Height)
                 {
                     Position = new Vector2(Position.X, Position.Y + 3);
                 }
@@ -299,23 +302,6 @@ namespace TeddysAdventureLibrary
 
             }
 
-            movePlayerX(playerOverallVelocity);
-
-
-
-            //if teddy is not jumping, and he is not falling, and the user hits the space bar, jump
-            if ( keyState.IsKeyDown(Keys.Space) && _isJumping == false && _yVelocity == 0.0f && !_spacePressedDown )
-            {
-                  _isJumping = true;
-                _yVelocity = -_initialJumpVelocity;
-                _spacePressedDown = true;
-            }
-
-            if (keyState.IsKeyUp(Keys.Space))
-            {
-                _spacePressedDown = false;
-            }
-
             //if both right and left keys are up, teddy should be facing forward (he'll blink)
             if (keyState.IsKeyUp(Keys.Right) && keyState.IsKeyUp(Keys.Left))
             {
@@ -380,8 +366,23 @@ namespace TeddysAdventureLibrary
 
             }
 
-            checkForFluffGrabs();
-            checkForGoal();
+            movePlayerX(playerOverallVelocity, currentScreen);
+            
+
+            //if teddy is not jumping, and he is not falling, and the user hits the space bar, jump
+            if (keyState.IsKeyDown(Keys.Space) && _isJumping == false && _yVelocity == 0.0f)
+            {
+                _isJumping = true;
+                _yVelocity = -_initialJumpVelocity;
+                _spacePressedDown = true;
+            }
+
+            if (keyState.IsKeyUp(Keys.Space))
+            {
+                _spacePressedDown = false;
+            }
+
+            checkForObjectInteractions(currentScreen);
 
             //Apply change in Y
             _yVelocity += _gravity;
@@ -392,10 +393,11 @@ namespace TeddysAdventureLibrary
             movePlayerY(keyState, ref _yVelocity);
             
             //check to see if teddy is dead.
-            checkForDeath(keyState);
+            checkForDeath(keyState, currentScreen);
+
         }
 
-        protected void movePlayerX(Vector2 overallVelocity)
+        protected void movePlayerX(Vector2 overallVelocity, Screen currentScreen)
         {
 
             if (overallVelocity.X != 0)
@@ -403,8 +405,7 @@ namespace TeddysAdventureLibrary
 
                 this.Position = new Vector2(this.Position.X + overallVelocity.X, this.Position.Y);
 
-                Screen currentScreen = ((Screen)Game.Components[0]);
-
+ 
                 if (this.Position.X < 0)
                 {
                     this.Position = new Vector2(0, this.Position.Y);
@@ -492,11 +493,19 @@ namespace TeddysAdventureLibrary
             }
         }
 
-        protected void checkForFluffGrabs()
+        protected void checkForObjectInteractions(Screen currentScreen)
         {
-            foreach (GameObject f in ((Screen)Game.Components[0]).GameObjects)
+            foreach (GameObject f in currentScreen.GameObjects)
             {
-                if (f.GetType() == typeof(Fluff))
+                if (f.GetType() == typeof(Goal))
+                {
+                    if (TeddyRectangle.Intersects(f.CollisionRectangle))
+                    {
+                        Position = new Vector2(-100, -100);
+                        this.LevelComplete = true;
+                    }
+                }
+                else if (f.GetType() == typeof(Fluff))
                 {
                     if (!f.Destroyed & TeddyRectangle.Intersects(f.CollisionRectangle) == true)
                     {
@@ -508,26 +517,10 @@ namespace TeddysAdventureLibrary
             }
         }
 
-        protected void checkForGoal()
-        {
-            foreach (GameObject f in ((Screen)Game.Components[0]).GameObjects)
-            {
-                if (f.GetType() == typeof(Goal))
-                {
-                    if (TeddyRectangle.Intersects(f.CollisionRectangle))
-                    {
-                        Position = new Vector2(-100, -100);
-                        this.LevelComplete = true;
-                    }  
-                }
 
-            }
-        }
-
-        protected void checkForDeath(KeyboardState keyState)
+        protected void checkForDeath(KeyboardState keyState, Screen currentScreen)
         {
 
-            Screen currentScreen = (Screen)Game.Components[0];
 
             if (Position.Y > currentScreen.LevelHeight)
             {
@@ -536,20 +529,20 @@ namespace TeddysAdventureLibrary
 
             foreach (Enemy e in currentScreen.Enemies)
             {
-                checkEnemyInducedDeath(e, keyState);
+                checkEnemyInteractions(e, currentScreen, keyState);
 
                 if (e.ChildrenEnemies != null)
                 {
                     foreach (Enemy e2 in e.ChildrenEnemies)
                     {
-                        checkEnemyInducedDeath(e2, keyState);
+                        checkEnemyInteractions(e2, currentScreen, keyState);
                     }
                 }
 
             }
         }
 
-        private void checkEnemyInducedDeath(Enemy e, KeyboardState keyState)
+        private void checkEnemyInteractions(Enemy e, Screen currentScreen, KeyboardState keyState)
         {
             if ((e.CanJumpOnToKill || e.PlayerCanRide) && e.CanInteractWithPlayer)
             {
@@ -604,14 +597,14 @@ namespace TeddysAdventureLibrary
                         {
                             _yVelocity = -3;
                             playerOverallVelocity.X = -50;
-                            movePlayerX(playerOverallVelocity);
+                            movePlayerX(playerOverallVelocity, currentScreen);
 			                throwFluff(e.Damage);
                         }
                         else //hit on left side
                         {
                             _yVelocity = -3;
                             playerOverallVelocity.X = 50;
-                            movePlayerX(playerOverallVelocity);
+                            movePlayerX(playerOverallVelocity, currentScreen);
 			                throwFluff(e.Damage);
                         }
                     }

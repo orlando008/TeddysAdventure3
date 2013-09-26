@@ -71,6 +71,21 @@ namespace TeddysAdventureLibrary
         }
 
 
+        private GeometryMethods.RectangleF BlanketRectangle
+        {
+            get 
+            {
+                switch (_teddyMode)
+                {
+                    case TeddyModeEnum.Parachuting:
+                        var blanketPosition = this.Position +  _blanketBoxOffset;
+                        return new  GeometryMethods.RectangleF(blanketPosition.X, blanketPosition.Y, _blanketParachuteSprite.Width, _blanketParachuteSprite.Height); 
+                        
+                }
+                return null;
+            }
+        }
+
         protected override GeometryMethods.RectangleF TeddyRectangle
         {
             get
@@ -78,7 +93,7 @@ namespace TeddysAdventureLibrary
                 switch (_teddyMode)
                 {
                     case TeddyModeEnum.Parachuting:
-                        var fallingPosition = this.Position + _fallingBoxOffset;
+                        var fallingPosition = this.Position ;
 
                         return new GeometryMethods.RectangleF(fallingPosition.X, fallingPosition.Y, _teddySprite.Width, _teddySprite.Height); 
 
