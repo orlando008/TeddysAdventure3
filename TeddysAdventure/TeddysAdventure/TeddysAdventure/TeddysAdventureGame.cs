@@ -22,6 +22,7 @@ namespace TeddysAdventure
         SpriteBatch spriteBatch;
        //private Teddy teddy;
         private Screen screen;
+        private HUD hud;
         private StartMenu _startMenu;
 
         private Boolean _started = false;
@@ -39,7 +40,7 @@ namespace TeddysAdventure
             graphics = new GraphicsDeviceManager(this);
             graphics.IsFullScreen = false;
             graphics.PreferredBackBufferWidth = 1250;
-            graphics.PreferredBackBufferHeight = 750;
+            graphics.PreferredBackBufferHeight = 850;
             Content.RootDirectory = "Content";
         }
 
@@ -151,7 +152,9 @@ namespace TeddysAdventure
 
             this.Components.Add(screen);
 
+            hud = new HUD(this, levelName);
 
+            this.Components.Add(hud);
 
             _levelLoaded = true;
         }
@@ -250,6 +253,7 @@ namespace TeddysAdventure
                     {
                         screen.Draw(gameTime);
                        // teddy.Draw(gameTime);
+                        hud.Draw(gameTime);
                     }
                 }
             }

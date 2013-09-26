@@ -332,8 +332,8 @@ namespace TeddysAdventureLibrary
                     bb.DrawEnemy(gameTime, _foregroundBatch);
             }
 
-            _overlayBatch.DrawString(_hudFont, "Fluff Count: " + _teddy.CurrentFluff.ToString(), new Vector2(25, 700), Color.LightBlue);
-            _overlayBatch.DrawString(_hudFont, "Enemies Destroyed: " + _teddy.EnemiesDestroyed.ToString(), new Vector2(25, 725), Color.LightBlue);
+            //_overlayBatch.DrawString(_hudFont, "Fluff Count: " + _teddy.CurrentFluff.ToString(), new Vector2(25, 700), Color.LightBlue);
+            //_overlayBatch.DrawString(_hudFont, "Enemies Destroyed: " + _teddy.EnemiesDestroyed.ToString(), new Vector2(25, 725), Color.LightBlue);
 
 
             Rectangle r;
@@ -490,25 +490,23 @@ namespace TeddysAdventureLibrary
                 cameraX = -_teddy.Position.X + (Game.GraphicsDevice.Viewport.Width / 2);
 
 
-            if (_teddy.Position.Y < Game.GraphicsDevice.Viewport.Height / 2)
+            if (_teddy.Position.Y < (Game.GraphicsDevice.Viewport.Height - 100) / 2)
                 cameraY = 0;
-            else if (_teddy.Position.Y > _totalLevelHeight - Game.GraphicsDevice.Viewport.Height / 2)
-                cameraY = -_totalLevelHeight + (Game.GraphicsDevice.Viewport.Height);
+            else if (_teddy.Position.Y > _totalLevelHeight - (Game.GraphicsDevice.Viewport.Height - 100) / 2)
+                cameraY = -_totalLevelHeight + (Game.GraphicsDevice.Viewport.Height - 100);
             else
-                cameraY = -_teddy.Position.Y + (Game.GraphicsDevice.Viewport.Height / 2);
+                cameraY = -_teddy.Position.Y + ((Game.GraphicsDevice.Viewport.Height - 100) / 2);
 
 
             _currentCamera = new Vector2(cameraX, cameraY);
 
             cameraView = Matrix.CreateTranslation(_currentCamera.X, _currentCamera.Y, 0);
 
-            _cameraBounds = new Rectangle(-(int)_currentCamera.X, (int)_currentCamera.Y, Game.GraphicsDevice.Viewport.Width, Game.GraphicsDevice.Viewport.Height);
+            _cameraBounds = new Rectangle(-(int)_currentCamera.X, (int)_currentCamera.Y, Game.GraphicsDevice.Viewport.Width, (Game.GraphicsDevice.Viewport.Height - 100));
 
             return cameraView;
 
         }
-
-
     }
 
 
