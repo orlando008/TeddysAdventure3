@@ -45,7 +45,8 @@ namespace TeddysAdventureLibrary
         private float _initialJumpVelocity = 10;
         protected float _gravity = .25f;
         protected float _yVelocity = 0.0f;
-        
+        protected Vector2 _playerOverallVelocity;
+
         private int _currentFluff = 100;
         private int _enemiesDestroyed = 0;
         private ISurfaceInterface _ridingSurface = null;
@@ -166,7 +167,7 @@ namespace TeddysAdventureLibrary
             set { _boxToDraw = value; }
         }
 
-        protected virtual GeometryMethods.RectangleF TeddyRectangle
+        public virtual GeometryMethods.RectangleF TeddyRectangle
         {
             get 
             {
@@ -202,10 +203,10 @@ namespace TeddysAdventureLibrary
                 }
             }
 
-            var playerOverallVelocity = new Vector2(0,0);
+            _playerOverallVelocity = new Vector2(0,0);
             if (_ridingSurface != null)
             {
-                playerOverallVelocity = _ridingSurface.SurfaceVelocity();
+                _playerOverallVelocity = _ridingSurface.SurfaceVelocity();
             }
 
             KeyboardState keyState = Keyboard.GetState();
@@ -258,7 +259,7 @@ namespace TeddysAdventureLibrary
                     _facingCounter = 0;
                 }
 
-                playerOverallVelocity.X = -speed;
+                _playerOverallVelocity.X = -speed;
             }
 
 
@@ -298,7 +299,7 @@ namespace TeddysAdventureLibrary
                     _facingCounter = 0;
                 }
 
-                playerOverallVelocity.X = speed;
+                _playerOverallVelocity.X = speed;
 
             }
 
@@ -366,7 +367,7 @@ namespace TeddysAdventureLibrary
 
             }
 
-            movePlayerX(playerOverallVelocity, currentScreen);
+            movePlayerX(_playerOverallVelocity, currentScreen);
             
 
             //if teddy is not jumping, and he is not falling, and the user hits the space bar, jump
