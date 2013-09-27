@@ -28,6 +28,8 @@ namespace TeddysAdventureLibrary
         private SpriteFont _deathFont;
         private SpriteFont _hudFont;
 
+
+
         private List<Surface> _surfaces;
         private List<GameObject> _gameObjects;
         private List<Enemy> _enemies;
@@ -47,7 +49,12 @@ namespace TeddysAdventureLibrary
 
         public static SpriteBatch _backgroundBatch;
         public static SpriteBatch _foregroundBatch;
-        public static SpriteBatch _overlayBatch;
+        private static SpriteBatch _overlayBatch;
+
+        public SpriteBatch OverlayBatch
+        {
+            get { return _overlayBatch; }
+        }
 
         private Vector2 _currentCamera;
         private Rectangle _cameraBounds;
@@ -59,6 +66,12 @@ namespace TeddysAdventureLibrary
         {
             get { return _teddy; }
             set { _teddy = value; }
+        }
+
+        public SpriteFont HudFont
+        {
+            get { return _hudFont; }
+            set { _hudFont = value; }
         }
 
         public List<Surface> Surfaces

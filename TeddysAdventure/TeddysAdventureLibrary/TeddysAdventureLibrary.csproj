@@ -112,6 +112,7 @@
     <Compile Include="Helpers\ScreenHelper.cs" />
     <Compile Include="Helpers\SoundEffectHelper.cs" />
     <Compile Include="Helpers\SurfaceHelper.cs" />
+    <Compile Include="HUD.cs" />
     <Compile Include="OpeningCinematic.cs" />
     <Compile Include="Screen.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

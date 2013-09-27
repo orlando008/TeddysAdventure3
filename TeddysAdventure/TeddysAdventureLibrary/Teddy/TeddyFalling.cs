@@ -14,16 +14,18 @@ namespace TeddysAdventureLibrary
         //Teddy Resources
         private Texture2D _teddySprite;
         private Texture2D _blanketParachuteSprite;
+        private Texture2D _blanketFallingSprite;
 
         //Teddy Constant values
         private Vector2 _fallingBoxOffset = new Vector2(-15, 0);  //Offset to get Teddy's body to line up with his non falling self
         private Vector2 _blanketBoxOffset = new Vector2(5, 79 - 28);  //Height of blanket sprite - distance to teddys hands
-
+        private Vector2 _blanketFallingBoxOffset = new Vector2(25, 155 - 28); //X = Teddy's left hand postion, Y = Height of blanket prite - distance to teddy's left hand
 
         //Teddy State
         private TeddyModeEnum _teddyMode = TeddyModeEnum.Normal;
 
-
+        private int _blanketFlappingCounter = 0;
+        private int _blanketFlapInterval = 25;
 
 
         private enum TeddyModeEnum
@@ -39,6 +41,7 @@ namespace TeddysAdventureLibrary
         {
             _teddySprite = game.Content.Load<Texture2D>(System.IO.Path.Combine(@"Teddy", "TeddyFall"));
             _blanketParachuteSprite = game.Content.Load<Texture2D>(System.IO.Path.Combine(@"Teddy", "Blanket"));
+            _blanketFallingSprite = game.Content.Load<Texture2D>(System.IO.Path.Combine(@"Teddy", "BlanketFall"));
         }
 
         //Falling teddy is wider than normal teddy
@@ -81,6 +84,21 @@ namespace TeddysAdventureLibrary
                         var blanketPosition = this.Position +  _blanketBoxOffset;
                         return new  GeometryMethods.RectangleF(blanketPosition.X, blanketPosition.Y, _blanketParachuteSprite.Width, _blanketParachuteSprite.Height); 
                         
+                }
+                return null;
+            }
+        }
+
+        private GeometryMethods.RectangleF BlanketFallRectangle
+        {
+            get
+            {
+                switch (_teddyMode)
+                {
+                    case TeddyModeEnum.Falling:
+                        var blanketPosition = this.Position + _blanketFallingBoxOffset;
+                        return new GeometryMethods.RectangleF(blanketPosition.X, blanketPosition.Y, _blanketFallingSprite.Width, _blanketFallingSprite.Height);
+
                 }
                 return null;
             }
@@ -167,7 +185,7 @@ namespace TeddysAdventureLibrary
                     DrawParachuting(gameTime, teddyBatch);
                     break;
                 case TeddyModeEnum.Falling:
-                    base.Draw(gameTime, teddyBatch);
+                    DrawFallingParachuting(gameTime, teddyBatch);
                     break;
             }
 
@@ -184,6 +202,38 @@ namespace TeddysAdventureLibrary
 
             teddyBatch.Draw(_teddySprite,   this.Position ,  teddyBox, Color.White);
             teddyBatch.Draw(_blanketParachuteSprite, this.Position - _blanketBoxOffset , blanketBox, Color.White);
+
+        }
+
+        private void DrawFallingParachuting(GameTime gameTime, SpriteBatch teddyBatch)
+        {
+
+            var teddyBox = new Rectangle(0, 0, _teddySprite.Width, _teddySprite.Height);
+            var blanketBox = new Rectangle(0, 0, _blanketFallingSprite.Width, _blanketFallingSprite.Height);
+            var blanketDestinationBox = new Rectangle((int)(this.Position - _blanketFallingBoxOffset).X, (int)(this.Position - _blanketFallingBoxOffset).Y, _blanketFallingSprite.Width, _blanketFallingSprite.Height);
+ 
+
+            teddyBatch.Draw(_teddySprite, this.Position, teddyBox, Color.White);
+
+            _blanketFlappingCounter++;
+
+            SpriteEffects effect = SpriteEffects.FlipHorizontally;
+
+            if (_blanketFlappingCounter < _blanketFlapInterval)
+            {
+                effect = SpriteEffects.None;
+            }
+            else if (_blanketFlappingCounter < _blanketFlapInterval * 2)
+            {
+                effect = SpriteEffects.FlipHorizontally;
+            }
+            else
+            {
+                _blanketFlapInterval = new Random().Next(5, 25);
+                _blanketFlappingCounter = 0;
+            }
+
+            teddyBatch.Draw(_blanketFallingSprite, blanketDestinationBox, blanketBox, Color.White, 0, Vector2.Zero, effect, 0);
 
         }
 
