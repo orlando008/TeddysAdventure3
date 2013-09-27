@@ -64,7 +64,7 @@ namespace TeddysAdventureLibrary
             {
                 Velocity = new Vector2(-1, Velocity.Y);
             }
-            else if (((Teddy)Game.Components[1]).Position.X > this.Position.X)
+            else if (currentScreen.Teddy.Position.X > this.Position.X)
             {
                 Velocity = new Vector2(1, Velocity.Y);
             }
