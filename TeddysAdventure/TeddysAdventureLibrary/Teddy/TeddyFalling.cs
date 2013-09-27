@@ -55,20 +55,21 @@ namespace TeddysAdventureLibrary
             {
                 case TeddyModeEnum.Normal:
                     TERMINAL_VELOCITY = 10;
-                    if (_teddyMode == TeddyModeEnum.Parachuting)
+                    if (_teddyMode != TeddyModeEnum.Normal)
                         movePlayerX(-_fallingBoxOffset, currentScreen);
 
                     break;
 
                 case TeddyModeEnum.Parachuting:
                     TERMINAL_VELOCITY = 4;
-                    movePlayerX(_fallingBoxOffset, currentScreen);
+                    if ( _teddyMode == TeddyModeEnum.Normal )
+                        movePlayerX(_fallingBoxOffset, currentScreen);
                     break;
 
                 case TeddyModeEnum.Falling:
 
-                    if (_teddyMode == TeddyModeEnum.Parachuting)
-                        movePlayerX(-_fallingBoxOffset, currentScreen);
+                    if (_teddyMode == TeddyModeEnum.Normal)
+                        movePlayerX(_fallingBoxOffset, currentScreen);
 
                     TERMINAL_VELOCITY = 10;
                     break;
@@ -114,6 +115,7 @@ namespace TeddysAdventureLibrary
                 switch (_teddyMode)
                 {
                     case TeddyModeEnum.Parachuting:
+                    case TeddyModeEnum.Falling:
                         var fallingPosition = this.Position ;
 
                         return new GeometryMethods.RectangleF(fallingPosition.X, fallingPosition.Y, _teddySprite.Width, _teddySprite.Height); 
@@ -209,11 +211,13 @@ namespace TeddysAdventureLibrary
             var blanketBox = new Rectangle(0, 0, _blanketParachuteSprite.Width, _blanketParachuteSprite.Height);
 
 
-            //Texture2D fill  = new Texture2D(_game.GraphicsDevice, 1,1, false, SurfaceFormat.Color);
-            //fill.SetData<Color>( new Color[] { Color.Red });
+            //Texture2D teddyFill = new Texture2D(_game.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
+            //teddyFill.SetData<Color>(new Color[] { Color.Red });
+            //teddyBatch.Draw(teddyFill, this.Position, teddyBox, Color.Red);
 
-            //teddyBatch.Draw(fill, this.Position, teddyBox, Color.Black); 
-             
+            //Texture2D blanketFill = new Texture2D(_game.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
+            //blanketFill.SetData<Color>(new Color[] { Color.LimeGreen });
+            //teddyBatch.Draw(blanketFill, this.Position - _blanketBoxOffset, blanketBox, Color.LimeGreen);
 
 
             teddyBatch.Draw(_teddySprite,   this.Position ,  teddyBox, Color.White);
