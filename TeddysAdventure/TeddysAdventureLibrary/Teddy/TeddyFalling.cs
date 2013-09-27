@@ -16,8 +16,10 @@ namespace TeddysAdventureLibrary
         private Texture2D _blanketParachuteSprite;
         private Texture2D _blanketFallingSprite;
 
+        private Game _game;
+
         //Teddy Constant values
-        private Vector2 _fallingBoxOffset = new Vector2(-15, 0);  //Offset to get Teddy's body to line up with his non falling self
+        private Vector2 _fallingBoxOffset = new Vector2(-19, 0);  //Offset to get Teddy's body to line up with his non falling self
         private Vector2 _blanketBoxOffset = new Vector2(5, 79 - 28);  //Height of blanket sprite - distance to teddys hands
         private Vector2 _blanketFallingBoxOffset = new Vector2(25, 155 - 28); //X = Teddy's left hand postion, Y = Height of blanket prite - distance to teddy's left hand
 
@@ -37,35 +39,36 @@ namespace TeddysAdventureLibrary
         }
 
 
-        public TeddyFalling(Game game,  Vector2 initialPosition, Vector2 sizeOfFrame):base(game, initialPosition, sizeOfFrame)
+        public TeddyFalling(Game game,  Vector2 initialPosition, Vector2 sizeOfFrame):base(game,  initialPosition, sizeOfFrame)
         {
             _teddySprite = game.Content.Load<Texture2D>(System.IO.Path.Combine(@"Teddy", "TeddyFall"));
             _blanketParachuteSprite = game.Content.Load<Texture2D>(System.IO.Path.Combine(@"Teddy", "Blanket"));
             _blanketFallingSprite = game.Content.Load<Texture2D>(System.IO.Path.Combine(@"Teddy", "BlanketFall"));
+	    _game = game;
         }
 
         //Falling teddy is wider than normal teddy
         //Because of this, we must alter his position when changing modes otherwise it will appear like his body is jumping sideways
-        private void ChangeTeddyMode(TeddyModeEnum mode)
+        private void ChangeTeddyMode(TeddyModeEnum mode, Screen currentScreen)
         {
             switch (mode)
             {
                 case TeddyModeEnum.Normal:
                     TERMINAL_VELOCITY = 10;
                     if (_teddyMode == TeddyModeEnum.Parachuting)
-                        this.Position = this.Position - _fallingBoxOffset;
+                        movePlayerX(-_fallingBoxOffset, currentScreen);
 
                     break;
 
                 case TeddyModeEnum.Parachuting:
                     TERMINAL_VELOCITY = 4;
-                    this.Position = this.Position + _fallingBoxOffset;
+                    movePlayerX(_fallingBoxOffset, currentScreen);
                     break;
 
                 case TeddyModeEnum.Falling:
 
                     if (_teddyMode == TeddyModeEnum.Parachuting)
-                        this.Position = this.Position - _fallingBoxOffset;
+                        movePlayerX(-_fallingBoxOffset, currentScreen);
 
                     TERMINAL_VELOCITY = 10;
                     break;
@@ -104,7 +107,7 @@ namespace TeddysAdventureLibrary
             }
         }
 
-        protected override GeometryMethods.RectangleF TeddyRectangle
+        public override GeometryMethods.RectangleF TeddyRectangle
         {
             get
             {
@@ -125,18 +128,20 @@ namespace TeddysAdventureLibrary
         {
             base.Update(gameTime);
 
+            Screen currentScreen = (Screen)_game.Components[0];
+
             //If after running the base update our y Velocity is zero, then we must be standing on something so we are in normel mode
             if (_teddyMode != TeddyModeEnum.Normal ) {
                 if (_yVelocity == 0.0f)
                 {
-                    ChangeTeddyMode(TeddyModeEnum.Normal);
+                    ChangeTeddyMode(TeddyModeEnum.Normal, currentScreen);
                 }
             }
 
             if ( _teddyMode == TeddyModeEnum.Normal ){
                 if (_yVelocity > 0.0f) {
                     //We have begun falling, start parachuting
-                    ChangeTeddyMode(TeddyModeEnum.Parachuting);
+                    ChangeTeddyMode(TeddyModeEnum.Parachuting, currentScreen);
                 }
             }
 
@@ -151,11 +156,11 @@ namespace TeddysAdventureLibrary
                     _spacePressedDown = true;
                     if (_teddyMode == TeddyModeEnum.Parachuting)
                     {
-                        ChangeTeddyMode(TeddyModeEnum.Falling);
+                        ChangeTeddyMode(TeddyModeEnum.Falling, currentScreen);
                     }
                     else
                     {
-                        ChangeTeddyMode(TeddyModeEnum.Parachuting);
+                        ChangeTeddyMode(TeddyModeEnum.Parachuting, currentScreen);
                     }
                 }
 
@@ -164,6 +169,10 @@ namespace TeddysAdventureLibrary
                 {
                     _spacePressedDown = false;
                 }
+
+
+
+
 
             }
 
@@ -198,6 +207,13 @@ namespace TeddysAdventureLibrary
 
             var teddyBox = new Rectangle(0, 0, _teddySprite.Width, _teddySprite.Height);
             var blanketBox = new Rectangle(0, 0, _blanketParachuteSprite.Width, _blanketParachuteSprite.Height);
+
+
+            //Texture2D fill  = new Texture2D(_game.GraphicsDevice, 1,1, false, SurfaceFormat.Color);
+            //fill.SetData<Color>( new Color[] { Color.Red });
+
+            //teddyBatch.Draw(fill, this.Position, teddyBox, Color.Black); 
+             
 
 
             teddyBatch.Draw(_teddySprite,   this.Position ,  teddyBox, Color.White);
