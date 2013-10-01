@@ -154,6 +154,9 @@ namespace TeddysAdventureLibrary
                     case "Goal":
                         GameObjects.Add(new Goal(game, v2.Position));
                         break;
+                    case "BadApple":
+                        GameObjects.Add(new BadApple(game, v2.Position));
+                        break;
                 }
                 
             }

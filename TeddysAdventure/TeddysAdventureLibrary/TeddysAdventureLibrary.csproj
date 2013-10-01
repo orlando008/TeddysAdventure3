@@ -104,6 +104,7 @@
     <Compile Include="Enemies\OrangeBomb.cs" />
     <Compile Include="Enemies\OrangeCrayon.cs" />
     <Compile Include="Enemies\Plane.cs" />
+    <Compile Include="GameObjects\BadApple.cs" />
     <Compile Include="GameObjects\Fluff.cs" />
     <Compile Include="GameObjects\GameObject.cs" />
     <Compile Include="GameObjects\Goal.cs" />
