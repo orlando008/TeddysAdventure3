@@ -95,6 +95,7 @@
     <Compile Include="Background.cs" />
     <Compile Include="Enemies\ABomb.cs" />
     <Compile Include="Enemies\BowlingBall.cs" />
+    <Compile Include="Enemies\Eagle.cs" />
     <Compile Include="Enemies\Enemy.cs" />
     <Compile Include="Enemies\EnemySpawnPoint.cs" />
     <Compile Include="Enemies\FlyingBook.cs" />

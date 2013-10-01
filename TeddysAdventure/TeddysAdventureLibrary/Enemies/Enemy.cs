@@ -36,6 +36,7 @@ namespace TeddysAdventureLibrary
         protected bool _playerCanPassThrough = false;
         protected bool _changeDirectionUponSurfaceHit = false;
         protected bool _bounceOffSidesOfViewport = false;
+        protected bool _passesThroughSurfaces = false;
 
         private List<Enemy> _childrenEnemies;
 
@@ -202,9 +203,9 @@ namespace TeddysAdventureLibrary
 
         }
 
-        public void MoveByY(int y, bool moveChildren)
+        public void MoveByY(float y, bool moveChildren)
         {
-            this.Position = new Vector2((int)Position.X, (int)Position.Y + y);
+            this.Position = new Vector2(Position.X, Position.Y + y);
 
             if (moveChildren)
             {
@@ -278,95 +279,99 @@ namespace TeddysAdventureLibrary
                 }
             }
 
-            foreach (Surface surface in currentScreen.Surfaces)
+            if (!_passesThroughSurfaces)
             {
-
-                if (surface.Rect.Intersects(CollisionRectangle))
+                foreach (Surface surface in currentScreen.Surfaces)
                 {
-                    //We must figure out which surface we are hitting to know if we should change direction and which way to shift 
-                     if (Math.Abs(surface.Left - CollisionRectangle.Left) > Math.Abs(surface.Left - CollisionRectangle.Right))
+
+                    if (surface.Rect.Intersects(CollisionRectangle))
                     {
-                        Position = new Vector2(surface.Left - CollisionRectangle.Width - 1, Position.Y);
-                        if (_changeDirectionUponSurfaceHit)
+                        //We must figure out which surface we are hitting to know if we should change direction and which way to shift 
+                        if (Math.Abs(surface.Left - CollisionRectangle.Left) > Math.Abs(surface.Left - CollisionRectangle.Right))
                         {
-                            _velocity.X *= -1;
+                            Position = new Vector2(surface.Left - CollisionRectangle.Width - 1, Position.Y);
+                            if (_changeDirectionUponSurfaceHit)
+                            {
+                                _velocity.X *= -1;
+                            }
+                            else
+                            {
+                                if (_velocity.X > 0)
+                                    _velocity.X *= -_collisionDampingFactor;
+                            }
+
                         }
                         else
                         {
-                            if (_velocity.X > 0)
-                                _velocity.X *= -_collisionDampingFactor;
+                            Position = new Vector2(surface.Right + 1, Position.Y);
+
+                            if (_changeDirectionUponSurfaceHit)
+                            {
+                                _velocity.X *= -1;
+                            }
+                            else
+                            {
+                                if (_velocity.X < 0)
+                                    _velocity.X *= -_collisionDampingFactor;
+                            }
+
                         }
 
-                    }
-                    else
-                    {
-                        Position = new Vector2(surface.Right + 1, Position.Y);
-
-                        if (_changeDirectionUponSurfaceHit)
-                        {
-                            _velocity.X *= -1;
-                        }
-                        else
-                        {
-                            if (_velocity.X < 0)
-                                _velocity.X *= -_collisionDampingFactor;
-                        }
-
-                    }
-
-                    if (Math.Abs(_velocity.X) < 1)
-                        _velocity.X = 0f;
-                    break;
-                }
-            }
-
-            //when moving up, check for hitting your head on a surface
-            if (Velocity.Y < 0)
-            {
-                foreach (Surface surface in ((Screen)Game.Components[0]).Surfaces)
-                {
-                    if (CollisionRectangle.Intersects(surface.Rect) & (CollisionRectangle.Top < surface.Bottom))
-                    {
-                        Position = new Vector2(Position.X, surface.Bottom + 1);
-
-                        if (_changeDirectionUponSurfaceHit)
-                        {
-                            _velocity.Y *= -1;
-                        }
-                        else
-                        {
-                            _velocity.Y = 0f;
-                        }
-
-
+                        if (Math.Abs(_velocity.X) < 1)
+                            _velocity.X = 0f;
                         break;
                     }
                 }
-            }
 
-            //Bounce off the sides of the viewport if necessary
-            if (_bounceOffSidesOfViewport)
-            {
-
-                if (Position.Y < currentScreen.CameraBounds.Top || (Position.Y + BoxToDraw.Height > currentScreen.CameraBounds.Bottom))
+                //when moving up, check for hitting your head on a surface
+                if (Velocity.Y < 0)
                 {
-                    if (Position.Y < 0)
-                        Position = new Vector2(Position.X, currentScreen.CameraBounds.Top);
-                    else
-                        Position = new Vector2(Position.X, currentScreen.CameraBounds.Bottom - BoxToDraw.Height);
+                    foreach (Surface surface in ((Screen)Game.Components[0]).Surfaces)
+                    {
+                        if (CollisionRectangle.Intersects(surface.Rect) & (CollisionRectangle.Top < surface.Bottom))
+                        {
+                            Position = new Vector2(Position.X, surface.Bottom + 1);
 
-                    Velocity = new Vector2( Velocity.X, -1 * Velocity.Y);
+                            if (_changeDirectionUponSurfaceHit)
+                            {
+                                _velocity.Y *= -1;
+                            }
+                            else
+                            {
+                                _velocity.Y = 0f;
+                            }
+
+
+                            break;
+                        }
+                    }
                 }
 
-
-                if (this.Position.X < currentScreen.CameraBounds.Left || this.Position.X + BoxToDraw.Width > currentScreen.CameraBounds.Right)
+                //Bounce off the sides of the viewport if necessary
+                if (_bounceOffSidesOfViewport)
                 {
-                    if (this.Position.X < currentScreen.CameraBounds.Left)
-                        this.Position = new Vector2(currentScreen.CameraBounds.Left, this.Position.Y);
-                    else
-                        this.Position = new Vector2(currentScreen.CameraBounds.Right - BoxToDraw.Width, this.Position.Y);
 
-                    this.Velocity = new Vector2(Velocity.X * -1, Velocity.Y);
+                    if (Position.Y < currentScreen.CameraBounds.Top || (Position.Y + BoxToDraw.Height > currentScreen.CameraBounds.Bottom))
+                    {
+                        if (Position.Y < 0)
+                            Position = new Vector2(Position.X, currentScreen.CameraBounds.Top);
+                        else
+                            Position = new Vector2(Position.X, currentScreen.CameraBounds.Bottom - BoxToDraw.Height);
+
+                        Velocity = new Vector2(Velocity.X, -1 * Velocity.Y);
+                    }
+
+
+                    if (this.Position.X < currentScreen.CameraBounds.Left || this.Position.X + BoxToDraw.Width > currentScreen.CameraBounds.Right)
+                    {
+                        if (this.Position.X < currentScreen.CameraBounds.Left)
+                            this.Position = new Vector2(currentScreen.CameraBounds.Left, this.Position.Y);
+                        else
+                            this.Position = new Vector2(currentScreen.CameraBounds.Right - BoxToDraw.Width, this.Position.Y);
+
+                        this.Velocity = new Vector2(Velocity.X * -1, Velocity.Y);
+                    }
+
                 }
 
             }
@@ -377,33 +382,36 @@ namespace TeddysAdventureLibrary
         private void applyGravity()
         {
 
-            MoveByY((int)_velocity.Y, false);
+            MoveByY(_velocity.Y, false);
             _velocity.Y += _gravity; //Down is positive
 
-            foreach (Surface surface in ((Screen)Game.Components[0]).Surfaces)
+            if (!_passesThroughSurfaces)
             {
-                if (CollisionRectangle.Intersects(surface.Rect) & (CollisionRectangle.Bottom > surface.Top))
+                foreach (Surface surface in ((Screen)Game.Components[0]).Surfaces)
                 {
-                    Position = new Vector2(Position.X, surface.Top - BoxToDraw.Height);
-
-                    if (_changeDirectionUponSurfaceHit)
+                    if (CollisionRectangle.Intersects(surface.Rect) & (CollisionRectangle.Bottom > surface.Top))
                     {
-                        _velocity.Y *= -1;
+                        Position = new Vector2(Position.X, surface.Top - BoxToDraw.Height);
+
+                        if (_changeDirectionUponSurfaceHit)
+                        {
+                            _velocity.Y *= -1;
+                        }
+
+                        _velocity.Y *= -_collisionDampingFactor;
+
+                        //once it hits a base surface for the first time, claim that surface as "_mySurface", stop applying gravity
+                        if (!_fallsOffSurface)
+                        {
+                            _mySurface = surface;
+                        }
+
+                        if (Math.Abs(_velocity.Y) < 1)
+                            _velocity.Y = 0f;
+
+
+                        break;
                     }
-
-                    _velocity.Y *= -_collisionDampingFactor;
-
-                    //once it hits a base surface for the first time, claim that surface as "_mySurface", stop applying gravity
-                    if (!_fallsOffSurface)
-                    {
-                        _mySurface = surface;
-                    }
-
-                    if (Math.Abs(_velocity.Y) < 1)
-                        _velocity.Y = 0f;
-
-
-                    break;
                 }
             }
         }

@@ -193,6 +193,9 @@ namespace TeddysAdventureLibrary
                         case "OrangeCrayon":
                             _enemies.Add(new OrangeCrayon(Game, eh.Position, eh.Velocity));
                             break;
+                        case "Eagle":
+                            _enemies.Add(new Eagle(Game, eh.Position, eh.Velocity));
+                            break;
                     }
                 }
             }
