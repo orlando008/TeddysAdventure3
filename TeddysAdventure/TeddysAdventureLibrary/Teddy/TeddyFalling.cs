@@ -25,6 +25,8 @@ namespace TeddysAdventureLibrary
 
         //Teddy State
         private TeddyModeEnum _teddyMode = TeddyModeEnum.Normal;
+        private float _rotationAngle = 0.0f;
+
 
         private int _blanketFlappingCounter = 0;
         private int _blanketFlapInterval = 25;
@@ -61,7 +63,7 @@ namespace TeddysAdventureLibrary
                     break;
 
                 case TeddyModeEnum.Parachuting:
-                    TERMINAL_VELOCITY = 4;
+                    TERMINAL_VELOCITY = 2;
                     if ( _teddyMode == TeddyModeEnum.Normal )
                         movePlayerX(_fallingBoxOffset, currentScreen);
                     break;
@@ -167,15 +169,21 @@ namespace TeddysAdventureLibrary
                 }
 
 
-                if (keyState.IsKeyUp(Keys.Space))
+                     if (keyState.IsKeyUp(Keys.Space))
                 {
                     _spacePressedDown = false;
                 }
 
-
-
-
-
+                if (keyState.IsKeyDown(Keys.Left))
+                {
+                    _rotationAngle = 30;
+                }
+                else if (keyState.IsKeyDown(Keys.Right))
+                {
+                    _rotationAngle = -30;
+                }
+                else
+                    _rotationAngle = 0;
             }
 
 
@@ -207,21 +215,41 @@ namespace TeddysAdventureLibrary
         private void DrawParachuting(GameTime gameTime, SpriteBatch teddyBatch)
         {
 
+            //todo: clean this up.
             var teddyBox = new Rectangle(0, 0, _teddySprite.Width, _teddySprite.Height);
             var blanketBox = new Rectangle(0, 0, _blanketParachuteSprite.Width, _blanketParachuteSprite.Height);
 
+#if COLLISIONS
+            Texture2D teddyFill = new Texture2D(_game.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
+            teddyFill.SetData<Color>(new Color[] { Color.Red });
+            teddyBatch.Draw(teddyFill, this.Position, teddyBox, Color.Red);
 
-            //Texture2D teddyFill = new Texture2D(_game.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
-            //teddyFill.SetData<Color>(new Color[] { Color.Red });
-            //teddyBatch.Draw(teddyFill, this.Position, teddyBox, Color.Red);
-
-            //Texture2D blanketFill = new Texture2D(_game.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
-            //blanketFill.SetData<Color>(new Color[] { Color.LimeGreen });
-            //teddyBatch.Draw(blanketFill, this.Position - _blanketBoxOffset, blanketBox, Color.LimeGreen);
+            Texture2D blanketFill = new Texture2D(_game.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
+            blanketFill.SetData<Color>(new Color[] { Color.LimeGreen });
+            teddyBatch.Draw(blanketFill, this.Position - _blanketBoxOffset, blanketBox, Color.LimeGreen);
+#endif
 
 
-            teddyBatch.Draw(_teddySprite,   this.Position ,  teddyBox, Color.White);
-            teddyBatch.Draw(_blanketParachuteSprite, this.Position - _blanketBoxOffset , blanketBox, Color.White);
+            double r = teddyBox.Height / 2 + _blanketBoxOffset.Y - blanketBox.Height / 2;
+            double dx = Math.Cos((_rotationAngle + 90)  * Math.PI / 180)* r;
+            double dy = Math.Sin((_rotationAngle+90) * Math.PI / 180) * r;
+
+            double rotationRadians = (float)_rotationAngle * Math.PI / 180;
+
+
+                var originT = new Vector2(teddyBox.Width / 2, teddyBox.Height / 2);
+
+                var destination = new Rectangle( (int)(this.TeddyRectangle.X + originT.X),  (int)(this.TeddyRectangle.Y + originT.Y),  (int)this.TeddyRectangle.Width,  (int)this.TeddyRectangle.Height);
+
+                Vector2 tPosition =  this.Position + originT;
+                teddyBatch.Draw(_teddySprite, tPosition, null, Color.White, (float)rotationRadians, originT, 1, SpriteEffects.None, 0);
+
+
+                var originB = new Vector2(blanketBox.Width / 2, blanketBox.Height / 2);
+            
+                Vector2 bPosition = (Vector2)( this.Position + originT + new Vector2( (float)-dx , (float)-dy));
+
+                teddyBatch.Draw(_blanketParachuteSprite, bPosition , null, Color.White, (float)rotationRadians, originB, 1, SpriteEffects.None, 0);
 
         }
 

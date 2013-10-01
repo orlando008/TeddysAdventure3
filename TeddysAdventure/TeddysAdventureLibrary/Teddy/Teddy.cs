@@ -26,7 +26,7 @@ namespace TeddysAdventureLibrary
         private Texture2D _styleSheet;
         private Texture2D _runGlow;
         private Game _game;
-        private Vector2 _position;
+        protected Vector2 _position;
         private Rectangle _collisionBox;
         private Rectangle _boxToDraw;
         private Vector2 _frameSize;
