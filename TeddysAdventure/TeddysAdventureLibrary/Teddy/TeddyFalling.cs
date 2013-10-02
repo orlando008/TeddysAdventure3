@@ -22,6 +22,8 @@ namespace TeddysAdventureLibrary
         private Vector2 _fallingBoxOffset = new Vector2(-19, 0);  //Offset to get Teddy's body to line up with his non falling self
         private Vector2 _blanketBoxOffset = new Vector2(5, 79 - 28);  //Height of blanket sprite - distance to teddys hands
         private Vector2 _blanketFallingBoxOffset = new Vector2(25, 155 - 28); //X = Teddy's left hand postion, Y = Height of blanket prite - distance to teddy's left hand
+        private float _maxAbsoluteRotationAngle = 30;
+        private float _rotationTickAngle = .5f;
 
         //Teddy State
         private TeddyModeEnum _teddyMode = TeddyModeEnum.Normal;
@@ -130,10 +132,9 @@ namespace TeddysAdventureLibrary
 
         public override void Update(GameTime gameTime) 
         {
-            base.Update(gameTime);
 
             Screen currentScreen = (Screen)_game.Components[0];
-
+            
             //If after running the base update our y Velocity is zero, then we must be standing on something so we are in normel mode
             if (_teddyMode != TeddyModeEnum.Normal ) {
                 if (_yVelocity == 0.0f)
@@ -149,48 +150,52 @@ namespace TeddysAdventureLibrary
                 }
             }
 
-            //Falling/Parachute mode handling
-            if (_teddyMode != TeddyModeEnum.Normal)
+
+            switch (_teddyMode)
             {
+                case TeddyModeEnum.Normal:
+                    base.Update(gameTime);            //Only if we have landed on something does teddy move normally
+                    break;
 
-                KeyboardState keyState = Keyboard.GetState();
+                case TeddyModeEnum.Parachuting:
+                case TeddyModeEnum.Falling:
 
-                if (keyState.IsKeyDown(Keys.Space) && !_spacePressedDown)
-                {
-                    _spacePressedDown = true;
-                    if (_teddyMode == TeddyModeEnum.Parachuting)
+                    KeyboardState keyState = Keyboard.GetState();
+
+                    if (keyState.IsKeyDown(Keys.Space) && !_spacePressedDown)
                     {
-                        ChangeTeddyMode(TeddyModeEnum.Falling, currentScreen);
+                        _spacePressedDown = true;
+                        if (_teddyMode == TeddyModeEnum.Parachuting)
+                            ChangeTeddyMode(TeddyModeEnum.Falling, currentScreen);
+                        else
+                            ChangeTeddyMode(TeddyModeEnum.Parachuting, currentScreen);
                     }
+
+
+                    if (keyState.IsKeyUp(Keys.Space))
+                    {
+                        _spacePressedDown = false;
+                    }
+
+                    
+                    if (keyState.IsKeyDown(Keys.Left))
+                        _rotationAngle = Math.Min(_rotationAngle + _rotationTickAngle, _maxAbsoluteRotationAngle);
+                    else if (keyState.IsKeyDown(Keys.Right))
+                        _rotationAngle = Math.Max(_rotationAngle - _rotationTickAngle, -_maxAbsoluteRotationAngle);
                     else
-                    {
-                        ChangeTeddyMode(TeddyModeEnum.Parachuting, currentScreen);
-                    }
-                }
+                        _rotationAngle = _rotationAngle - Math.Sign(_rotationAngle) * _rotationTickAngle;
 
 
-                     if (keyState.IsKeyUp(Keys.Space))
-                {
-                    _spacePressedDown = false;
-                }
+                    _playerOverallVelocity.X = - (_rotationAngle / _maxAbsoluteRotationAngle) * this.runSpeed;
 
-                if (keyState.IsKeyDown(Keys.Left))
-                {
-                    _rotationAngle = 30;
-                }
-                else if (keyState.IsKeyDown(Keys.Right))
-                {
-                    _rotationAngle = -30;
-                }
-                else
-                    _rotationAngle = 0;
+                    movePlayerAndCheckState(currentScreen, keyState);
+
+                    break;
+
             }
-
 
         }
 
-
-        
 
         public override void Draw(GameTime gameTime, SpriteBatch teddyBatch)
         {

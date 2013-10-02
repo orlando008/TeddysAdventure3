@@ -30,8 +30,8 @@ namespace TeddysAdventureLibrary
         private Rectangle _collisionBox;
         private Rectangle _boxToDraw;
         private Vector2 _frameSize;
-        private int walkSpeed = 2;
-        private int runSpeed = 3;
+        protected int walkSpeed = 2;
+        protected int runSpeed = 3;
         private Direction _facing = Direction.Up;
         private int _facingCounter = 0;
         private int _poseLengthWalk = 15;
@@ -181,27 +181,7 @@ namespace TeddysAdventureLibrary
 
             Screen currentScreen = (Screen)Game.Components[0];
 
-            if (Dead || LevelComplete)
-            {
-                if (Position.Y < currentScreen.CameraBounds.Height)
-                {
-                    Position = new Vector2(Position.X, Position.Y + 3);
-                }
-                return;
-            }
 
-            if (_isHit)
-            {
-                if (_recoverCounter < _recoverWait)
-                {
-                    _recoverCounter++;
-                }
-                else
-                {
-                    _isHit = false;
-                    _recoverCounter = 0;
-                }
-            }
 
             _playerOverallVelocity = new Vector2(0,0);
             if (_ridingSurface != null)
@@ -367,8 +347,29 @@ namespace TeddysAdventureLibrary
 
             }
 
-            movePlayerX(_playerOverallVelocity, currentScreen);
-            
+
+            if (Dead || LevelComplete)
+            {
+                if (Position.Y < currentScreen.CameraBounds.Height)
+                {
+                    Position = new Vector2(Position.X, Position.Y + 3);
+                }
+                return;
+            }
+
+            if (_isHit)
+            {
+                if (_recoverCounter < _recoverWait)
+                {
+                    _recoverCounter++;
+                }
+                else
+                {
+                    _isHit = false;
+                    _recoverCounter = 0;
+                }
+            }
+
 
             //if teddy is not jumping, and he is not falling, and the user hits the space bar, jump
             if (keyState.IsKeyDown(Keys.Space) && _isJumping == false && _yVelocity == 0.0f)
@@ -383,6 +384,16 @@ namespace TeddysAdventureLibrary
                 _spacePressedDown = false;
             }
 
+            movePlayerAndCheckState(currentScreen, keyState);
+
+        }
+
+        protected void movePlayerAndCheckState(Screen currentScreen, KeyboardState keyState)
+        {
+            
+            movePlayerX(_playerOverallVelocity, currentScreen);
+      
+
             checkForObjectInteractions(currentScreen);
 
             //Apply change in Y
@@ -395,7 +406,6 @@ namespace TeddysAdventureLibrary
             
             //check to see if teddy is dead.
             checkForDeath(keyState, currentScreen);
-
         }
 
         protected void movePlayerX(Vector2 overallVelocity, Screen currentScreen)
