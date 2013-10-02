@@ -5,6 +5,27 @@
     <BackgroundColor>FF4169E1</BackgroundColor>
     <Backgrounds>
       <Item>
+        <Image>Cloud1</Image>
+        <RepeatX>0</RepeatX>
+        <RepeatY>0</RepeatY>
+        <Scrolls>0</Scrolls>
+        <Offset>555 0</Offset>
+      </Item>
+      <Item>
+        <Image>Cloud2</Image>
+        <RepeatX>0</RepeatX>
+        <RepeatY>0</RepeatY>
+        <Scrolls>0</Scrolls>
+        <Offset>700 0</Offset>
+      </Item>
+      <Item>
+        <Image>Cloud3</Image>
+        <RepeatX>0</RepeatX>
+        <RepeatY>0</RepeatY>
+        <Scrolls>0</Scrolls>
+        <Offset>299 0</Offset>
+      </Item>
+      <Item>
         <Image>HouseTop</Image>
         <RepeatX>0</RepeatX>
         <RepeatY>0</RepeatY>
