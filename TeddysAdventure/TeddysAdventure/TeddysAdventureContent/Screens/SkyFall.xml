@@ -114,19 +114,19 @@
     <ListOfEnemies>
       <Item>
         <Type>Airplane</Type>
-        <Position>50 393</Position>
+        <Position>550 393</Position>
         <Velocity>1 0</Velocity>
         <IsSpawnPoint>0</IsSpawnPoint>
         <SpawnInterval>1</SpawnInterval>
       </Item>
-      <Item>
+    <Item>
         <Type>Eagle</Type>
         <Position>50 50</Position>
         <Velocity>3 1</Velocity>
         <IsSpawnPoint>1</IsSpawnPoint>
         <SpawnInterval>4000</SpawnInterval>
       </Item>
-      <Item>
+<Item>
         <Type>Eagle</Type>
         <Position>1150 50</Position>
         <Velocity>-3 1</Velocity>

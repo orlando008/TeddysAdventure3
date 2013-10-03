@@ -15,10 +15,13 @@ namespace TeddysAdventureLibrary
         private Texture2D _teddySprite;
         private Texture2D _blanketParachuteSprite;
         private Texture2D _blanketFallingSprite;
+        private Rectangle _teddyBox;
+        private Rectangle _blanketBox;
 
         private Game _game;
 
         //Teddy Constant values
+
         private Vector2 _fallingBoxOffset = new Vector2(-19, 0);  //Offset to get Teddy's body to line up with his non falling self
         private Vector2 _blanketBoxOffset = new Vector2(5, 79 - 28);  //Height of blanket sprite - distance to teddys hands
         private Vector2 _blanketFallingBoxOffset = new Vector2(25, 155 - 28); //X = Teddy's left hand postion, Y = Height of blanket prite - distance to teddy's left hand
@@ -29,6 +32,8 @@ namespace TeddysAdventureLibrary
         private TeddyModeEnum _teddyMode = TeddyModeEnum.Normal;
         private float _rotationAngle = 0.0f;
 
+
+        private Vector2 _blanketRotationOffset = new Vector2(0, 0);
 
         private int _blanketFlappingCounter = 0;
         private int _blanketFlapInterval = 25;
@@ -48,7 +53,9 @@ namespace TeddysAdventureLibrary
             _teddySprite = game.Content.Load<Texture2D>(System.IO.Path.Combine(@"Teddy", "TeddyFall"));
             _blanketParachuteSprite = game.Content.Load<Texture2D>(System.IO.Path.Combine(@"Teddy", "Blanket"));
             _blanketFallingSprite = game.Content.Load<Texture2D>(System.IO.Path.Combine(@"Teddy", "BlanketFall"));
-	    _game = game;
+            _teddyBox   = new Rectangle(0, 0, _teddySprite.Width, _teddySprite.Height);
+            _blanketBox = new Rectangle(0, 0, _blanketParachuteSprite.Width, _blanketParachuteSprite.Height);
+	        _game = game;
         }
 
         //Falling teddy is wider than normal teddy
@@ -77,6 +84,14 @@ namespace TeddysAdventureLibrary
 
                     TERMINAL_VELOCITY = 10;
                     break;
+
+                case TeddyModeEnum.FallingToDeath:
+                    TERMINAL_VELOCITY = int.MaxValue;
+                    if (_teddyMode == TeddyModeEnum.Parachuting || _teddyMode == TeddyModeEnum.Falling)
+                        movePlayerX(-_fallingBoxOffset, currentScreen);
+
+                    break;
+
             }
             _teddyMode = mode;
         }
@@ -89,7 +104,7 @@ namespace TeddysAdventureLibrary
                 switch (_teddyMode)
                 {
                     case TeddyModeEnum.Parachuting:
-                        var blanketPosition = this.Position +  _blanketBoxOffset;
+                        var blanketPosition = this.Position - _blanketBoxOffset + new Vector2(_blanketRotationOffset.X, 0f);
                         return new  GeometryMethods.RectangleF(blanketPosition.X, blanketPosition.Y, _blanketParachuteSprite.Width, _blanketParachuteSprite.Height); 
                         
                 }
@@ -103,7 +118,7 @@ namespace TeddysAdventureLibrary
             {
                 switch (_teddyMode)
                 {
-                    case TeddyModeEnum.Falling:
+                    case TeddyModeEnum.Parachuting:
                         var blanketPosition = this.Position + _blanketFallingBoxOffset;
                         return new GeometryMethods.RectangleF(blanketPosition.X, blanketPosition.Y, _blanketFallingSprite.Width, _blanketFallingSprite.Height);
 
@@ -136,7 +151,7 @@ namespace TeddysAdventureLibrary
             Screen currentScreen = (Screen)_game.Components[0];
             
             //If after running the base update our y Velocity is zero, then we must be standing on something so we are in normel mode
-            if (_teddyMode != TeddyModeEnum.Normal ) {
+            if (_teddyMode != TeddyModeEnum.Normal && _teddyMode != TeddyModeEnum.FallingToDeath) {
                 if (_yVelocity == 0.0f)
                 {
                     ChangeTeddyMode(TeddyModeEnum.Normal, currentScreen);
@@ -154,6 +169,7 @@ namespace TeddysAdventureLibrary
             switch (_teddyMode)
             {
                 case TeddyModeEnum.Normal:
+                case TeddyModeEnum.FallingToDeath:
                     base.Update(gameTime);            //Only if we have landed on something does teddy move normally
                     break;
 
@@ -186,14 +202,53 @@ namespace TeddysAdventureLibrary
                         _rotationAngle = _rotationAngle - Math.Sign(_rotationAngle) * _rotationTickAngle;
 
 
+                    double r = _teddyBox.Height / 2 + _blanketBoxOffset.Y - _blanketBox.Height / 2;
+                    double dx = Math.Cos((_rotationAngle + 90)  * Math.PI / 180)* r;
+                    double dy = Math.Sin((_rotationAngle+90) * Math.PI / 180) * r;
+                    _blanketRotationOffset = new Vector2((float)-dx, (float)-dy);
+
+
                     _playerOverallVelocity.X = - (_rotationAngle / _maxAbsoluteRotationAngle) * this.runSpeed;
 
+                    //Check if teddy hit anything
                     movePlayerAndCheckState(currentScreen, keyState);
+
+                    //Check to see if any enemies hit the blanket
+                    if (_teddyMode == TeddyModeEnum.Parachuting)
+                        checkBlanketEnemies(currentScreen, keyState, this.BlanketRectangle);
 
                     break;
 
             }
 
+        }
+
+
+        private void checkBlanketEnemies(Screen currentScreen, KeyboardState keyState, GeometryMethods.RectangleF playerRectangle)
+        {
+            foreach (Enemy e in currentScreen.Enemies)
+            {
+                checkBlanketEnemyInteractions(e, currentScreen, keyState, playerRectangle);
+
+                if (e.ChildrenEnemies != null)
+                {
+                    foreach (Enemy e2 in e.ChildrenEnemies)
+                    {
+                        checkBlanketEnemyInteractions(e2, currentScreen, keyState, playerRectangle);
+                    }
+                }
+            }
+        }
+
+        private void checkBlanketEnemyInteractions(Enemy e, Screen currentScreen, KeyboardState keyState, GeometryMethods.RectangleF playerRectangle)
+        {
+            GeometryMethods.RectangleF rHit = null;
+
+            if (e.CanInteractWithPlayer & (e.RectangleInsersectsWithHitBoxes(playerRectangle, ref rHit)) )
+            {
+                //Blanket was hit!!!!!!
+                ChangeTeddyMode(TeddyModeEnum.FallingToDeath, currentScreen);
+            }
         }
 
 
@@ -203,6 +258,7 @@ namespace TeddysAdventureLibrary
             switch (_teddyMode)
             {
                 case TeddyModeEnum.Normal:
+                case TeddyModeEnum.FallingToDeath:
                     base.Draw(gameTime, teddyBatch);
                     break;
                 case TeddyModeEnum.Parachuting:
@@ -220,41 +276,26 @@ namespace TeddysAdventureLibrary
         private void DrawParachuting(GameTime gameTime, SpriteBatch teddyBatch)
         {
 
-            //todo: clean this up.
-            var teddyBox = new Rectangle(0, 0, _teddySprite.Width, _teddySprite.Height);
-            var blanketBox = new Rectangle(0, 0, _blanketParachuteSprite.Width, _blanketParachuteSprite.Height);
 
 #if COLLISIONS
             Texture2D teddyFill = new Texture2D(_game.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
             teddyFill.SetData<Color>(new Color[] { Color.Red });
-            teddyBatch.Draw(teddyFill, this.Position, teddyBox, Color.Red);
-
+            teddyBatch.Draw(teddyFill, this.Position, _teddyBox, Color.Red);
+                        
             Texture2D blanketFill = new Texture2D(_game.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
             blanketFill.SetData<Color>(new Color[] { Color.LimeGreen });
-            teddyBatch.Draw(blanketFill, this.Position - _blanketBoxOffset, blanketBox, Color.LimeGreen);
+            teddyBatch.Draw(blanketFill, this.Position - _blanketBoxOffset + new Vector2((float) _blanketRotationOffset.X,0f), _blanketBox, Color.LimeGreen);
 #endif
-
-
-            double r = teddyBox.Height / 2 + _blanketBoxOffset.Y - blanketBox.Height / 2;
-            double dx = Math.Cos((_rotationAngle + 90)  * Math.PI / 180)* r;
-            double dy = Math.Sin((_rotationAngle+90) * Math.PI / 180) * r;
-
-            double rotationRadians = (float)_rotationAngle * Math.PI / 180;
-
-
-                var originT = new Vector2(teddyBox.Width / 2, teddyBox.Height / 2);
-
-                var destination = new Rectangle( (int)(this.TeddyRectangle.X + originT.X),  (int)(this.TeddyRectangle.Y + originT.Y),  (int)this.TeddyRectangle.Width,  (int)this.TeddyRectangle.Height);
-
-                Vector2 tPosition =  this.Position + originT;
-                teddyBatch.Draw(_teddySprite, tPosition, null, Color.White, (float)rotationRadians, originT, 1, SpriteEffects.None, 0);
-
-
-                var originB = new Vector2(blanketBox.Width / 2, blanketBox.Height / 2);
             
-                Vector2 bPosition = (Vector2)( this.Position + originT + new Vector2( (float)-dx , (float)-dy));
+            double rotationRadians = (float)_rotationAngle * Math.PI / 180;
+            var originT = new Vector2(_teddyBox.Width / 2, _teddyBox.Height / 2);
+            var originB = new Vector2(_blanketBox.Width / 2, _blanketBox.Height / 2);
 
-                teddyBatch.Draw(_blanketParachuteSprite, bPosition , null, Color.White, (float)rotationRadians, originB, 1, SpriteEffects.None, 0);
+            Vector2 tPosition =  this.Position + originT;
+            Vector2 bPosition = (Vector2)( this.Position + originT + _blanketRotationOffset);     
+     
+            teddyBatch.Draw(_teddySprite, tPosition, null, Color.White, (float)rotationRadians, originT, 1, SpriteEffects.None, 0);
+            teddyBatch.Draw(_blanketParachuteSprite, bPosition , null, Color.White, (float)rotationRadians, originB, 1, SpriteEffects.None, 0);
 
         }
 
@@ -264,7 +305,17 @@ namespace TeddysAdventureLibrary
             var teddyBox = new Rectangle(0, 0, _teddySprite.Width, _teddySprite.Height);
             var blanketBox = new Rectangle(0, 0, _blanketFallingSprite.Width, _blanketFallingSprite.Height);
             var blanketDestinationBox = new Rectangle((int)(this.Position - _blanketFallingBoxOffset).X, (int)(this.Position - _blanketFallingBoxOffset).Y, _blanketFallingSprite.Width, _blanketFallingSprite.Height);
- 
+
+#if COLLISIONS
+            Texture2D teddyFill = new Texture2D(_game.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
+            teddyFill.SetData<Color>(new Color[] { Color.Red });
+            teddyBatch.Draw(teddyFill, this.Position, teddyBox, Color.Red);
+
+            Texture2D blanketFill = new Texture2D(_game.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
+            blanketFill.SetData<Color>(new Color[] { Color.LimeGreen });
+            teddyBatch.Draw(blanketFill, this.Position - _blanketFallingBoxOffset , blanketBox, Color.LimeGreen);
+#endif
+
 
             teddyBatch.Draw(_teddySprite, this.Position, teddyBox, Color.White);
 

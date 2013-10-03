@@ -351,9 +351,6 @@ namespace TeddysAdventureLibrary
                     bb.DrawEnemy(gameTime, _foregroundBatch);
             }
 
-            //_overlayBatch.DrawString(_hudFont, "Fluff Count: " + _teddy.CurrentFluff.ToString(), new Vector2(25, 700), Color.LightBlue);
-            //_overlayBatch.DrawString(_hudFont, "Enemies Destroyed: " + _teddy.EnemiesDestroyed.ToString(), new Vector2(25, 725), Color.LightBlue);
-
 
             Rectangle r;
 
@@ -523,6 +520,7 @@ namespace TeddysAdventureLibrary
             _currentCamera = new Vector2(cameraX, cameraY);
 
             cameraView = Matrix.CreateTranslation(_currentCamera.X, _currentCamera.Y, 0);
+         //  cameraView *=   Matrix.CreateScale(.5f);
 
             _cameraBounds = new Rectangle(-(int)_currentCamera.X, (int)_currentCamera.Y, Game.GraphicsDevice.Viewport.Width, (Game.GraphicsDevice.Viewport.Height - 100));
 

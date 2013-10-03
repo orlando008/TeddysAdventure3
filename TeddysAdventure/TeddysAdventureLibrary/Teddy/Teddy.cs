@@ -54,6 +54,7 @@ namespace TeddysAdventureLibrary
         private int _recoverCounter = 0;
         private int _recoverWait = 100;
         private bool _isHit = false;
+        
 
         private bool _levelComplete = false;
 
@@ -390,9 +391,9 @@ namespace TeddysAdventureLibrary
 
         protected void movePlayerAndCheckState(Screen currentScreen, KeyboardState keyState)
         {
-            
+
             movePlayerX(_playerOverallVelocity, currentScreen);
-      
+
 
             checkForObjectInteractions(currentScreen);
 
@@ -402,10 +403,21 @@ namespace TeddysAdventureLibrary
             if (_yVelocity > TERMINAL_VELOCITY)
                 _yVelocity = TERMINAL_VELOCITY;
 
-            movePlayerY(keyState, ref _yVelocity);
-            
-            //check to see if teddy is dead.
-            checkForDeath(keyState, currentScreen);
+            movePlayerY(keyState, ref _yVelocity, currentScreen);
+
+            //Check if teddy has fallen down the well
+            if (Position.Y > currentScreen.LevelHeight)
+            {
+                this.Dead = true;
+            }
+
+            if (_yVelocity > 30)
+            {
+                this.Dead = true;
+            }
+
+            //check to see if teddy is interacting with any enemies
+            checkEnemies(keyState, currentScreen);
         }
 
         protected void movePlayerX(Vector2 overallVelocity, Screen currentScreen)
@@ -430,9 +442,9 @@ namespace TeddysAdventureLibrary
                 {
                     foreach (Surface surface in currentScreen.Surfaces)
                     {
-                        if (TeddyRectangle.Intersects(surface.Rect))
+                        if (this.TeddyRectangle.Intersects(surface.Rect))
                         {
-                            Position = new Vector2(surface.Left - (int)TeddyRectangle.Width, Position.Y);
+                            Position = new Vector2(surface.Left - (int)this.TeddyRectangle.Width, Position.Y);
                             break;
                         }
                     }
@@ -441,7 +453,7 @@ namespace TeddysAdventureLibrary
                 {
                     foreach (Surface surface in currentScreen.Surfaces)
                     {
-                        if (TeddyRectangle.Intersects(surface.Rect))
+                        if (this.TeddyRectangle.Intersects(surface.Rect))
                         {
                             Position = new Vector2(surface.Right, Position.Y);
                             break;
@@ -454,7 +466,7 @@ namespace TeddysAdventureLibrary
 
         }
         
-        protected void movePlayerY( KeyboardState keyState, ref float yVelocity)
+        protected void movePlayerY( KeyboardState keyState, ref float yVelocity, Screen currentScreen)
         {
 
             _position = new Vector2(_position.X, _position.Y + yVelocity);
@@ -462,10 +474,10 @@ namespace TeddysAdventureLibrary
             if (_ridingSurface != null)
             {
                 //Check if teddy is still riding on this surface
-                if (TeddyRectangle.Intersects(_ridingSurface.SurfaceBounds()) && (TeddyRectangle.Bottom >= _ridingSurface.SurfaceBounds().Top))
+                if (this.TeddyRectangle.Intersects(_ridingSurface.SurfaceBounds()) && (this.TeddyRectangle.Bottom >= _ridingSurface.SurfaceBounds().Top))
                 {
                     //Still Riding on surface
-                    _position.Y = _ridingSurface.SurfaceBounds().Top - TeddyRectangle.Height;
+                    _position.Y = _ridingSurface.SurfaceBounds().Top - this.TeddyRectangle.Height;
                     yVelocity = 0.0f;
                     _isJumping = false;
                 }else {
@@ -475,26 +487,26 @@ namespace TeddysAdventureLibrary
             }
 
 
-            foreach (Surface surfaceRect in ((Screen)Game.Components[0]).Surfaces)
+            foreach (Surface surfaceRect in currentScreen.Surfaces)
             {
                 //Negative velocity is up (so teddy is jumping)
                 if (yVelocity < 0)
                 {
                     //Check for surfaces above (Teddy hit his head)
-                    if (TeddyRectangle.Intersects(surfaceRect.Rect) & (TeddyRectangle.Top < surfaceRect.Bottom))
+                    if (this.TeddyRectangle.Intersects(surfaceRect.Rect) & (this.TeddyRectangle.Top < surfaceRect.Bottom))
                     {
                         //todo: if teddy is really close to one of the edge (only 1 pixel is touching the above surface, then move him over.  I'm pretty sure  Mario does that.
 
-                          Position = new Vector2(Position.X, surfaceRect.Bottom + 1 );
-                       yVelocity = 0.0f;
+                        this.Position = new Vector2(Position.X, surfaceRect.Bottom + 1);
+                        yVelocity = 0.0f;
                     }
                 }
                 else
                 {
                     //Check for surfaces below
-                    if (TeddyRectangle.Intersects(surfaceRect.Rect) & (TeddyRectangle.Bottom > surfaceRect.Top))
+                    if (this.TeddyRectangle.Intersects(surfaceRect.Rect) & (this.TeddyRectangle.Bottom > surfaceRect.Top))
                     {
-                        Position = new Vector2(Position.X, surfaceRect.Top - BoxToDraw.Height );
+                        Position = new Vector2(Position.X, surfaceRect.Top - this.TeddyRectangle.Height);
                         yVelocity = 0.0f;
                         _isJumping = false;
                     }
@@ -510,7 +522,7 @@ namespace TeddysAdventureLibrary
             {
                 if (f.GetType() == typeof(Goal))
                 {
-                    if (TeddyRectangle.Intersects(f.CollisionRectangle))
+                    if (this.TeddyRectangle.Intersects(f.CollisionRectangle))
                     {
                         Position = new Vector2(-100, -100);
                         this.LevelComplete = true;
@@ -518,7 +530,7 @@ namespace TeddysAdventureLibrary
                 }
                 else if (f.GetType() == typeof(Fluff))
                 {
-                    if (!f.Destroyed & TeddyRectangle.Intersects(f.CollisionRectangle) == true)
+                    if (!f.Destroyed & this.TeddyRectangle.Intersects(f.CollisionRectangle) == true)
                     {
                         _currentFluff++;
                         f.Destroyed = true;
@@ -529,35 +541,31 @@ namespace TeddysAdventureLibrary
         }
 
 
-        protected void checkForDeath(KeyboardState keyState, Screen currentScreen)
+        protected void checkEnemies(KeyboardState keyState, Screen currentScreen)
         {
-
-
-            if (Position.Y > currentScreen.LevelHeight)
-            {
-                Dead = true;
-            }
 
             foreach (Enemy e in currentScreen.Enemies)
             {
-                checkEnemyInteractions(e, currentScreen, keyState);
+                checkLandingOnEnemy(e, keyState);
+                checkTeddyEnemyInteraction(e, currentScreen, keyState);
 
                 if (e.ChildrenEnemies != null)
                 {
                     foreach (Enemy e2 in e.ChildrenEnemies)
                     {
-                        checkEnemyInteractions(e2, currentScreen, keyState);
+                        checkLandingOnEnemy(e2, keyState);
+                        checkTeddyEnemyInteraction(e2, currentScreen, keyState);
                     }
                 }
 
             }
         }
 
-        private void checkEnemyInteractions(Enemy e, Screen currentScreen, KeyboardState keyState)
+        private void checkLandingOnEnemy(Enemy e, KeyboardState keyState)
         {
             if ((e.CanJumpOnToKill || e.PlayerCanRide) && e.CanInteractWithPlayer)
             {
-                if ((TeddyRectangle.Intersects(e.CollisionRectangle)) & (TeddyRectangle.Bottom - _yVelocity <= e.CollisionRectangle.Top))
+                if ((this.TeddyRectangle.Intersects(e.CollisionRectangle)) & (this.TeddyRectangle.Bottom - _yVelocity <= e.CollisionRectangle.Top))
                 {
                     if (e.CanJumpOnToKill)
                     {
@@ -579,15 +587,18 @@ namespace TeddysAdventureLibrary
                     else if (e.PlayerCanRide)
                     {
                         _ridingSurface = (ISurfaceInterface)e;
-                        _position.Y = _ridingSurface.SurfaceBounds().Top - TeddyRectangle.Height - 1;
+                        _position.Y = _ridingSurface.SurfaceBounds().Top - this.TeddyRectangle.Height - 1;
                     }
 
                 }
             }
+        }
 
+        private void checkTeddyEnemyInteraction(Enemy e, Screen currentScreen, KeyboardState keyState)
+        {
             GeometryMethods.RectangleF rHit = null;
 
-            if (e.CanInteractWithPlayer & (e.RectangleInsersectsWithHitBoxes(TeddyRectangle, ref rHit)) && (e != _ridingSurface))
+            if (e.CanInteractWithPlayer & (e.RectangleInsersectsWithHitBoxes(this.TeddyRectangle, ref rHit)) && (e != _ridingSurface))
             {
                 BoxToDraw = new Rectangle(150, 75, BoxToDraw.Width, BoxToDraw.Height);
                 // Check if Teddy has been hit
@@ -604,7 +615,7 @@ namespace TeddysAdventureLibrary
                         _isHit = true;
                         var playerOverallVelocity = new Vector2(-50, 0);
                         //hit on right side
-                        if (TeddyRectangle.Left <= rHit.Left)
+                        if (this.TeddyRectangle.Left <= rHit.Left)
                         {
                             _yVelocity = -3;
                             playerOverallVelocity.X = -50;
@@ -623,7 +634,8 @@ namespace TeddysAdventureLibrary
             }
 
         }
-	
+
+
 	    private void throwFluff(int damage)
         {
             double mid = TeddyRectangle.Height / 2;

@@ -64,6 +64,10 @@ namespace TeddysAdventureLibrary
                     _frameCount = 0;
                 }
 
+#if COLLISIONS
+                sp.Draw(_redFill, this.CollisionRectangle, null, Color.Red);
+#endif
+
                 var origin = new Vector2(0,0);
 
                 if (this._velocity.X > 0)
@@ -75,6 +79,8 @@ namespace TeddysAdventureLibrary
                     sp.Draw(this.StyleSheet, this.CollisionRectangle, this.BoxToDraw, Color.White, 0, origin, SpriteEffects.None, _layerDepth);
 
                 }
+
+
 
                 _frameCount++;
             }

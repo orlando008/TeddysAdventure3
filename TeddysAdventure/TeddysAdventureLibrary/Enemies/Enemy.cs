@@ -9,11 +9,18 @@ namespace TeddysAdventureLibrary
 {
     public class Enemy:DrawableGameComponent
     {
+
+#if COLLISIONS
+        protected Texture2D _redFill;
+#endif
+
+
         private Texture2D _styleSheet;
         private Vector2 _position;
         private Rectangle _boxToDraw;
         private Vector2 _frameSize;
         private List<TeddysAdventureLibrary.GeometryMethods.RectangleF> _hitBoxes;
+        protected Game _game;
 
         //Drawing Animations
         protected int _frameCount = 0;
@@ -158,7 +165,12 @@ namespace TeddysAdventureLibrary
         public Enemy(Game game)
             : base(game)
         {
+            _game = game;
 
+ #if COLLISIONS
+            _redFill = new Texture2D(_game.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
+            _redFill.SetData<Color>(new Color[] { Color.Red });
+#endif
         }
 
 

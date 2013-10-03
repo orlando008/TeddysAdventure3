@@ -23,6 +23,8 @@ namespace TeddysAdventureLibrary
             this._passesThroughSurfaces = true;
         }
 
+
+
         public override void DrawEnemy(GameTime gameTime, SpriteBatch sp)
         {
             if (this.Destroyed)
@@ -33,6 +35,10 @@ namespace TeddysAdventureLibrary
             {
                 seff = SpriteEffects.FlipHorizontally;
             }
+
+#if COLLISIONS
+            sp.Draw(_redFill, CollisionRectangle, this.BoxToDraw, Color.Red);
+#endif
 
             sp.Draw(StyleSheet, CollisionRectangle, this.BoxToDraw, Color.White, 0, Vector2.Zero, seff, 0);
         }
