@@ -430,6 +430,10 @@ namespace TeddyMapEditor
                     width = 67;
                     height = 25;
                     break;
+                case "DustBunny":
+                    width = 67;
+                    height = 50;
+                    break;
                 case "Airplane":
                     width = 75;
                     height = 36;

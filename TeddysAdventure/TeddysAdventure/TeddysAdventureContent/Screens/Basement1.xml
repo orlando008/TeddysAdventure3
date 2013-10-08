@@ -169,8 +169,8 @@
         <SpawnInterval>4000</SpawnInterval>
       </Item>
       <Item>
-        <Type>MatchBoxCar</Type>
-        <Position>500 625</Position>
+        <Type>DustBunny</Type>
+        <Position>500 600</Position>
         <Velocity>-1 0</Velocity>
         <IsSpawnPoint>0</IsSpawnPoint>
         <SpawnInterval>0</SpawnInterval>
