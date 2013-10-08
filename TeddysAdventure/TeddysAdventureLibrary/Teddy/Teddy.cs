@@ -567,29 +567,7 @@ namespace TeddysAdventureLibrary
             {
                 if ((this.TeddyRectangle.Intersects(e.CollisionRectangle)) & (this.TeddyRectangle.Bottom - _yVelocity <= e.CollisionRectangle.Top))
                 {
-                    if (e.CanJumpOnToKill)
-                    {
-                        _enemiesDestroyed++;
-                        e.Kill();
-                        if (keyState.IsKeyDown(Keys.Space))
-                        {
-                            //Can get extra boost jumping off of enemy
-                            _yVelocity = -_initialJumpVelocity - 3;
-                            _isJumping = true;
-                        }
-                        else
-                        {
-                            //If we are not jumping then just give teddy a little boost
-                            _yVelocity = -3;
-                        }
-                       
-                    }
-                    else if (e.PlayerCanRide)
-                    {
-                        _ridingSurface = (ISurfaceInterface)e;
-                        _position.Y = _ridingSurface.SurfaceBounds().Top - this.TeddyRectangle.Height - 1;
-                    }
-
+                    HandleLandingOnEnemy(e, keyState);
                 }
             }
         }
@@ -600,41 +578,72 @@ namespace TeddysAdventureLibrary
 
             if (e.CanInteractWithPlayer & (e.RectangleInsersectsWithHitBoxes(this.TeddyRectangle, ref rHit)) && (e != _ridingSurface))
             {
-                BoxToDraw = new Rectangle(150, 75, BoxToDraw.Width, BoxToDraw.Height);
-                // Check if Teddy has been hit
-                if (!_isHit)
-                {
-                    if (e.Damage > CurrentFluff)
-                    {
-                        Dead = true;
-                        e.Kill();
-                    }
-                    else
-                    {
-                        CurrentFluff -= e.Damage;
-                        _isHit = true;
-                        var playerOverallVelocity = new Vector2(-50, 0);
-                        //hit on right side
-                        if (this.TeddyRectangle.Left <= rHit.Left)
-                        {
-                            _yVelocity = -3;
-                            playerOverallVelocity.X = -50;
-                            movePlayerX(playerOverallVelocity, currentScreen);
-			                throwFluff(e.Damage);
-                        }
-                        else //hit on left side
-                        {
-                            _yVelocity = -3;
-                            playerOverallVelocity.X = 50;
-                            movePlayerX(playerOverallVelocity, currentScreen);
-			                throwFluff(e.Damage);
-                        }
-                    }
-                }
+                HandleEnemyInteraction( e, currentScreen, rHit);
             }
 
         }
 
+        protected virtual void HandleLandingOnEnemy(Enemy e, KeyboardState keyState)
+        {
+            if (e.CanJumpOnToKill)
+            {
+                _enemiesDestroyed++;
+                e.Kill();
+                if (keyState.IsKeyDown(Keys.Space))
+                {
+                    //Can get extra boost jumping off of enemy
+                    _yVelocity = -_initialJumpVelocity - 3;
+                    _isJumping = true;
+                }
+                else
+                {
+                    //If we are not jumping then just give teddy a little boost
+                    _yVelocity = -3;
+                }
+
+            }
+            else if (e.PlayerCanRide)
+            {
+                _ridingSurface = (ISurfaceInterface)e;
+                _position.Y = _ridingSurface.SurfaceBounds().Top - this.TeddyRectangle.Height - 1;
+            }
+        }
+
+        protected virtual void HandleEnemyInteraction(Enemy e, Screen currentScreen, GeometryMethods.RectangleF enemyHitBox)
+        {
+            BoxToDraw = new Rectangle(150, 75, BoxToDraw.Width, BoxToDraw.Height);
+            // Check if Teddy has been hit
+            if (!_isHit)
+            {
+                if (e.Damage > CurrentFluff)
+                {
+                    Dead = true;
+                    e.Kill();
+                }
+                else
+                {
+                    CurrentFluff -= e.Damage;
+                    _isHit = true;
+                    var playerOverallVelocity = new Vector2(-50, 0);
+                    //hit on right side
+                    if (this.TeddyRectangle.Left <= enemyHitBox.Left)
+                    {
+                        _yVelocity = -3;
+                        playerOverallVelocity.X = -50;
+                        movePlayerX(playerOverallVelocity, currentScreen);
+                        throwFluff(e.Damage);
+                    }
+                    else //hit on left side
+                    {
+                        _yVelocity = -3;
+                        playerOverallVelocity.X = 50;
+                        movePlayerX(playerOverallVelocity, currentScreen);
+                        throwFluff(e.Damage);
+                    }
+                }
+            }
+        }
+ 
 
 	    private void throwFluff(int damage)
         {

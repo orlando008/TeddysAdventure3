@@ -101,27 +101,15 @@ namespace TeddysAdventureLibrary
         {
             get 
             {
+                Vector2 blanketPosition;
                 switch (_teddyMode)
                 {
                     case TeddyModeEnum.Parachuting:
-                        var blanketPosition = this.Position - _blanketBoxOffset + new Vector2(_blanketRotationOffset.X, 0f);
-                        return new  GeometryMethods.RectangleF(blanketPosition.X, blanketPosition.Y, _blanketParachuteSprite.Width, _blanketParachuteSprite.Height); 
-                        
-                }
-                return null;
-            }
-        }
-
-        private GeometryMethods.RectangleF BlanketFallRectangle
-        {
-            get
-            {
-                switch (_teddyMode)
-                {
-                    case TeddyModeEnum.Parachuting:
-                        var blanketPosition = this.Position + _blanketFallingBoxOffset;
+                        blanketPosition = this.Position - _blanketBoxOffset + new Vector2(_blanketRotationOffset.X, 0f);
+                        return new  GeometryMethods.RectangleF(blanketPosition.X, blanketPosition.Y, _blanketParachuteSprite.Width, _blanketParachuteSprite.Height);
+                    case TeddyModeEnum.Falling:
+                        blanketPosition = this.Position - _blanketFallingBoxOffset;
                         return new GeometryMethods.RectangleF(blanketPosition.X, blanketPosition.Y, _blanketFallingSprite.Width, _blanketFallingSprite.Height);
-
                 }
                 return null;
             }
@@ -214,7 +202,7 @@ namespace TeddysAdventureLibrary
                     movePlayerAndCheckState(currentScreen, keyState);
 
                     //Check to see if any enemies hit the blanket
-                    if (_teddyMode == TeddyModeEnum.Parachuting)
+                    if (_teddyMode == TeddyModeEnum.Parachuting || _teddyMode == TeddyModeEnum.Falling)
                         checkBlanketEnemies(currentScreen, keyState, this.BlanketRectangle);
 
                     break;
@@ -251,6 +239,30 @@ namespace TeddysAdventureLibrary
             }
         }
 
+        protected override void HandleLandingOnEnemy(Enemy e, KeyboardState keyState)
+        {
+             switch (_teddyMode)
+            {
+                case TeddyModeEnum.FallingToDeath:
+                    break;
+                default:
+                    base.HandleLandingOnEnemy(e, keyState);
+                    break;
+            }
+        }
+
+        protected override void HandleEnemyInteraction(Enemy e, Screen currentScreen, GeometryMethods.RectangleF enemyHitBox)
+        {
+             switch (_teddyMode)
+            {
+                case TeddyModeEnum.FallingToDeath:
+                    break;
+                default:
+                    base.HandleEnemyInteraction(e, currentScreen, enemyHitBox);
+                    break;
+            }
+
+        } 
 
         public override void Draw(GameTime gameTime, SpriteBatch teddyBatch)
         {
