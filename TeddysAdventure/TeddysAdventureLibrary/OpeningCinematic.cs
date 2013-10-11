@@ -46,12 +46,12 @@ namespace TeddysAdventureLibrary
             _spriteBatch.Draw(_textureForAnimation, new Vector2((Game.GraphicsDevice.Viewport.Width / 2) - 254, (Game.GraphicsDevice.Viewport.Height / 2)- _boxToDraw.Height), _boxToDraw, Color.White);
             if (_teddy.Position.X >= (Game.GraphicsDevice.Viewport.Width / 2) && _playerIsDoneWithCinematic == false)
             {
-                _spriteBatch.DrawString(_hudFont, "Let's do this?", new Vector2(_teddy.Position.X + _teddy.BoxToDraw.Width, _teddy.Position.Y), Color.White);
+                _spriteBatch.DrawString(_hudFont, "Let's do this?", new Vector2(_teddy.Position.X + _teddy.FrameSize.X, _teddy.Position.Y), Color.White);
                 _theQuestionHasBeenAsked = true;
             }
             else if(_playerIsDoneWithCinematic)
             {
-                _spriteBatch.DrawString(_hudFont, "Aight den", new Vector2(_teddy.Position.X + _teddy.BoxToDraw.Width, _teddy.Position.Y), Color.White);
+                _spriteBatch.DrawString(_hudFont, "Aight den", new Vector2(_teddy.Position.X + _teddy.FrameSize.X, _teddy.Position.Y), Color.White);
             }
                         
             if (_playerIsReadyToContinue)
@@ -93,6 +93,8 @@ namespace TeddysAdventureLibrary
                     if (_teddy.Position.X < (Game.GraphicsDevice.Viewport.Width / 2))
                     {
                         _teddy.Position = new Vector2(_teddy.Position.X + 3, _teddy.Position.Y);
+                        _teddy.MoveRight(3);
+                        _teddy.SetFacingSprite();
                     }
 
                     
