@@ -12,6 +12,8 @@ namespace TeddysAdventureLibrary
         private int _frameCount;
         private int _framesForCompleteRotation = 48;
         private float _rotationAngle;
+        private int _framesUntilIdleDeath = 10;
+        private int _idleDeathCounter = 0;
        
         public BowlingBall(Game game, Vector2 position, Vector2 velocity)
             : base(game)
@@ -47,6 +49,23 @@ namespace TeddysAdventureLibrary
             }
 
 
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+
+            if (Velocity.X == 0)
+            {
+                _idleDeathCounter++;
+               
+            }
+
+            if (_idleDeathCounter >= _framesUntilIdleDeath)
+            {
+                this.HardKill();
+                _idleDeathCounter = 0;
+            }
         }
 
 
