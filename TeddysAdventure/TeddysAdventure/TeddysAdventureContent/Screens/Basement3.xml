@@ -294,6 +294,97 @@
         <IsSpawnPoint>1</IsSpawnPoint>
         <SpawnInterval>7000</SpawnInterval>
       </Item>
+      <Item>
+        <Type>BowlingBall</Type>
+        <Position>2438 6400</Position>
+        <Velocity>-2 -1</Velocity>
+        <IsSpawnPoint>1</IsSpawnPoint>
+        <SpawnInterval>7000</SpawnInterval>
+      </Item>
+      <Item>
+        <Type>BowlingBall</Type>
+        <Position>2438 5400</Position>
+        <Velocity>-2 -1</Velocity>
+        <IsSpawnPoint>1</IsSpawnPoint>
+        <SpawnInterval>7000</SpawnInterval>
+      </Item>
+      <Item>
+        <Type>BowlingBall</Type>
+        <Position>2438 4400</Position>
+        <Velocity>-2 -1</Velocity>
+        <IsSpawnPoint>1</IsSpawnPoint>
+        <SpawnInterval>7000</SpawnInterval>
+      </Item>
+      <Item>
+        <Type>BowlingBall</Type>
+        <Position>2438 3400</Position>
+        <Velocity>-2 -1</Velocity>
+        <IsSpawnPoint>1</IsSpawnPoint>
+        <SpawnInterval>7000</SpawnInterval>
+      </Item>
+      <Item>
+        <Type>BowlingBall</Type>
+        <Position>2438 2400</Position>
+        <Velocity>-2 -1</Velocity>
+        <IsSpawnPoint>1</IsSpawnPoint>
+        <SpawnInterval>7000</SpawnInterval>
+      </Item>
+      <Item>
+        <Type>BowlingBall</Type>
+        <Position>2438 1400</Position>
+        <Velocity>-2 -1</Velocity>
+        <IsSpawnPoint>1</IsSpawnPoint>
+        <SpawnInterval>7000</SpawnInterval>
+      </Item>
+      <Item>
+        <Type>BowlingBall</Type>
+        <Position>2438 400</Position>
+        <Velocity>-2 -1</Velocity>
+        <IsSpawnPoint>1</IsSpawnPoint>
+        <SpawnInterval>7000</SpawnInterval>
+      </Item>
+      <Item>
+        <Type>BowlingBall</Type>
+        <Position>0 5900</Position>
+        <Velocity>2 -1</Velocity>
+        <IsSpawnPoint>1</IsSpawnPoint>
+        <SpawnInterval>7000</SpawnInterval>
+      </Item>
+      <Item>
+        <Type>BowlingBall</Type>
+        <Position>0 4900</Position>
+        <Velocity>2 -1</Velocity>
+        <IsSpawnPoint>1</IsSpawnPoint>
+        <SpawnInterval>7000</SpawnInterval>
+      </Item>
+      <Item>
+        <Type>BowlingBall</Type>
+        <Position>0 3900</Position>
+        <Velocity>2 -1</Velocity>
+        <IsSpawnPoint>1</IsSpawnPoint>
+        <SpawnInterval>7000</SpawnInterval>
+      </Item>
+      <Item>
+        <Type>BowlingBall</Type>
+        <Position>0 2900</Position>
+        <Velocity>2 -1</Velocity>
+        <IsSpawnPoint>1</IsSpawnPoint>
+        <SpawnInterval>7000</SpawnInterval>
+      </Item>
+      <Item>
+        <Type>BowlingBall</Type>
+        <Position>0 1900</Position>
+        <Velocity>2 -1</Velocity>
+        <IsSpawnPoint>1</IsSpawnPoint>
+        <SpawnInterval>7000</SpawnInterval>
+      </Item>
+      <Item>
+        <Type>BowlingBall</Type>
+        <Position>0 900</Position>
+        <Velocity>2 -1</Velocity>
+        <IsSpawnPoint>1</IsSpawnPoint>
+        <SpawnInterval>7000</SpawnInterval>
+      </Item>
     </ListOfEnemies>
     <LevelType>Normal</LevelType>
     <LevelSize>2500 8000</LevelSize>
