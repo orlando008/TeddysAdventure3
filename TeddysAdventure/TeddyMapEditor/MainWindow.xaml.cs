@@ -449,6 +449,10 @@ namespace TeddyMapEditor
                     width = 25;
                     height = 25;
                     break;
+                case "Goal":
+                    width = 58;
+                    height = 25;
+                    break;
             }
         }
 

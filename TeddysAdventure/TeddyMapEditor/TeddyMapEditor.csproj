@@ -108,6 +108,7 @@
   <ItemGroup>
     <Compile Include="EditorViewModel.cs" />
     <Content Include="Images\Fluff.png" />
+    <Resource Include="Images\Goal.png" />
     <Resource Include="Images\SurfaceTexture1.png" />
   </ItemGroup>
   <ItemGroup>
