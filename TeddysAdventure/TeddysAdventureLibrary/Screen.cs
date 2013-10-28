@@ -18,7 +18,8 @@ namespace TeddysAdventureLibrary
             Normal = 0,
             Jetpack = 1,
             UnderWater = 2,
-            Falling = 3
+            Falling = 3,
+            Fluff = 4
         }
 
         private Texture2D _deathSprite;
@@ -58,7 +59,7 @@ namespace TeddysAdventureLibrary
 
         private Vector2 _currentCamera;
         private Rectangle _cameraBounds;
-
+        private float _cameraZoom = 1.0f;
 
         public Rectangle CameraBounds { get { return _cameraBounds; } }
 
@@ -223,6 +224,9 @@ namespace TeddysAdventureLibrary
                 case "UnderWater":
                     _levelType = LevelType.UnderWater;
                     break;
+                case "Fluff":
+                    _levelType = LevelType.Fluff;
+                    break;
                 default:
                     _levelType = LevelType.Normal;
                     break;
@@ -233,6 +237,9 @@ namespace TeddysAdventureLibrary
             {
                 case LevelType.Falling:
                     _teddy = new TeddyFalling(game, screenHelper.TeddyStart, new Vector2(50,75));
+                    break;
+                case LevelType.Fluff:
+                    _teddy = new TeddyFluff(game, screenHelper.TeddyStart, new Vector2(50, 75));
                     break;
                 default:
                     _teddy = new Teddy(game,    screenHelper.TeddyStart, new Vector2(50, 75));
@@ -251,9 +258,15 @@ namespace TeddysAdventureLibrary
 
              KeyboardState keyState = Keyboard.GetState();
 
+             if (keyState.IsKeyDown(Keys.Add)){
+                 _cameraZoom += .01f;
+             }else if (keyState.IsKeyDown(Keys.Subtract)){
+                 _cameraZoom -= .01f;
+             }
+
+
              if (keyState.IsKeyDown(Keys.Escape))
              {
-
                  _teddy.Dead = true;
              }
 
@@ -490,6 +503,9 @@ namespace TeddysAdventureLibrary
         }
 
 
+
+
+
         private Matrix SetCamera(){
 
             if (_teddy.LevelComplete)
@@ -523,7 +539,7 @@ namespace TeddysAdventureLibrary
             _currentCamera = new Vector2(cameraX, cameraY);
 
             cameraView = Matrix.CreateTranslation(_currentCamera.X, _currentCamera.Y, 0);
-         //  cameraView *=   Matrix.CreateScale(.5f);
+            cameraView *=   Matrix.CreateScale(_cameraZoom);
 
             _cameraBounds = new Rectangle(-(int)_currentCamera.X, (int)_currentCamera.Y, Game.GraphicsDevice.Viewport.Width, (Game.GraphicsDevice.Viewport.Height - 100));
 

@@ -15,7 +15,7 @@
   <Item>
     <Image>Basement_window</Image>
     <RepeatX>1</RepeatX>
-    <RepeatY>1</RepeatY>
+    <RepeatY>0</RepeatY>
     <Scrolls>1</Scrolls>
     <Offset>250 50</Offset>
   </Item>
@@ -96,11 +96,9 @@
   <SpawnInterval>1</SpawnInterval>
 </Item>
 </ListOfEnemies>
-<LevelType>
-Normal
-</LevelType>
+<LevelType>Fluff</LevelType>
 <LevelSize>
-3500 9000
+3500 750
 </LevelSize>
 </Asset>
 </XnaContent>

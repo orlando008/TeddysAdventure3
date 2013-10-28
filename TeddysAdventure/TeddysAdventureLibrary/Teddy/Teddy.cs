@@ -34,7 +34,7 @@ namespace TeddysAdventureLibrary
         private int _y;
         private int _height;
         private int _width;
-        private Texture2D _styleSheet;
+        protected Texture2D _styleSheet;
         private Texture2D _runGlow;
         private Game _game;
         protected Vector2 _position;
@@ -61,7 +61,7 @@ namespace TeddysAdventureLibrary
         protected float _yVelocity = 0.0f;
         protected Vector2 _playerOverallVelocity;
 
-        private int _currentFluff = 100;
+        protected int _currentFluff = 100;
         private int _enemiesDestroyed = 0;
         private ISurfaceInterface _ridingSurface = null;
 
@@ -542,7 +542,7 @@ namespace TeddysAdventureLibrary
             }
         }
 
-        protected void checkForObjectInteractions(Screen currentScreen)
+        protected virtual void checkForObjectInteractions(Screen currentScreen)
         {
             foreach (GameObject f in currentScreen.GameObjects)
             {
