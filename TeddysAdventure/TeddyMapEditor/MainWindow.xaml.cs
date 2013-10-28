@@ -222,6 +222,13 @@ namespace TeddyMapEditor
                     {
                         if (((Rectangle)cnvsMap.Children[i]).Opacity == Convert.ToDouble(_selectionOpacity))
                         {
+
+                            if (((Rectangle)cnvsMap.Children[i]).Tag.GetType() == typeof(GameObject))
+                            {
+                                _gameObjects.Remove((GameObject)((Rectangle)cnvsMap.Children[i]).Tag);
+                            }
+                            
+
                             cnvsMap.Children.RemoveAt(i);
                         }
                     }
@@ -452,6 +459,10 @@ namespace TeddyMapEditor
                 case "Goal":
                     width = 58;
                     height = 25;
+                    break;
+                case "TeddyStart":
+                    width = 50;
+                    height = 75;
                     break;
             }
         }

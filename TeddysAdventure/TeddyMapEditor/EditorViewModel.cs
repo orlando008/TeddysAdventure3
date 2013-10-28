@@ -45,9 +45,9 @@ namespace TeddyMapEditor
 
 
         //Properties
-        public bool SurfaceSelected { get { return (_currentSelection != null &&   _currentSelection.GetType() == typeof(Surface)); } }
-        public bool EnemySelected { get { return (_currentSelection != null && _currentSelection.GetType() == typeof(Enemy)); } }
-        public bool ObjectSelected { get { return (_currentSelection != null && _currentSelection.GetType() == typeof(GameObject)); } }
+        public bool SurfaceSelected { get { return (_currentSelection != null && _currentSelection.GetType() == typeof(Surface)) || true; } }
+        public bool EnemySelected { get { return (_currentSelection != null && _currentSelection.GetType() == typeof(Enemy)) || true; } }
+        public bool ObjectSelected { get { return (_currentSelection != null && _currentSelection.GetType() == typeof(GameObject) || true); } }
 
 
         public Color BackgroundColor

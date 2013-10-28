@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <XnaContent>
   <Asset Type="TeddysAdventureLibrary.ScreenHelper">
-    <TeddyStart>50 7900</TeddyStart>
+    <TeddyStart>73 7790</TeddyStart>
     <BackgroundColor>FFD3D3D3</BackgroundColor>
     <Backgrounds />
     <Surfaces>
@@ -284,10 +284,6 @@
         <Position>2397 91</Position>
       </Item>
       <Item>
-        <Type>Goal</Type>
-        <Position>1988 246</Position>
-      </Item>
-      <Item>
         <Type>Fluff</Type>
         <Position>754 3410</Position>
       </Item>
@@ -318,6 +314,82 @@
       <Item>
         <Type>Fluff</Type>
         <Position>1265 657</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>256 7823</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>336 7826</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>398 7828</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>474 7833</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>504 7797</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>474 7766</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>408 7760</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>364 7766</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>324 7773</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>312 7833</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>518 7850</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>560 7795</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>574 7764</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>624 7796</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>687 7845</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>680 7791</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>676 7754</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>614 7845</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>566 7861</Position>
       </Item>
     </ListOfObjects>
     <ListOfEnemies>

@@ -41,6 +41,22 @@ namespace TeddyMapEditor
                 assetNode.Attributes.Append(screenDoc.CreateAttribute("Type"));
                 assetNode.Attributes[0].Value = "TeddysAdventureLibrary.ScreenHelper";
 
+                XmlNode teddyStartNode = screenDoc.CreateElement("TeddyStart");
+
+                foreach (GameObject i in gameObjects)
+                {
+                    if (i.Name == "TeddyStart")
+                    {
+                        teddyStartNode.InnerText = i.Location.X.ToString() + " " + i.Location.Y.ToString();
+                    }
+                }
+
+                if (teddyStartNode.InnerText == "")
+                {
+                    teddyStartNode.InnerText = "0 0";
+                }
+                
+                assetNode.AppendChild(teddyStartNode);
 
                 XmlNode backgroundColorNode = screenDoc.CreateElement("BackgroundColor");
                 backgroundColorNode.InnerText = HexColorConverter(backgroundColor);
@@ -72,9 +88,12 @@ namespace TeddyMapEditor
                 XmlNode gameObjectsNode = screenDoc.CreateElement("ListOfObjects");
                 foreach (GameObject i in gameObjects)
                 {
-                    var itemDoc = new XmlDocument();
-                    itemDoc.LoadXml( i.GetXMLString() );
-                    gameObjectsNode.AppendChild(screenDoc.ImportNode(itemDoc.DocumentElement, true));         
+                    if (i.Name != "TeddyStart")
+                    {
+                        var itemDoc = new XmlDocument();
+                        itemDoc.LoadXml(i.GetXMLString());
+                        gameObjectsNode.AppendChild(screenDoc.ImportNode(itemDoc.DocumentElement, true));   
+                    }
                 }
                 assetNode.AppendChild(gameObjectsNode);
 
@@ -118,6 +137,35 @@ namespace TeddyMapEditor
             {
                 System.Xml.XmlDocument screenDoc = new System.Xml.XmlDocument();
                 screenDoc.Load(screenReader);
+
+                //TeddyStart
+                XmlNodeList teddyStartNode = ((XmlNodeList)screenDoc.GetElementsByTagName("TeddyStart"));
+                if (teddyStartNode.Count > 0)
+                {
+                    string sPosition = teddyStartNode.Item(0).InnerText;
+
+                    List<string> lvecparts = sPosition.Split(' ').ToList();
+                    Point p = new Point(Double.Parse(lvecparts[0]), Double.Parse(lvecparts[1]));
+
+                    Rectangle r = new Rectangle();
+
+                    int width = 50;
+                    int height = 75;
+                    //   GetCurrentObjectSize(sType, ref width, ref height);
+                    r.Width = width;
+                    r.Height = height;
+                    // r.Stroke = _surfaceSelectedOutline;
+                    r.StrokeThickness = .5;
+                    r.Fill = Brushes.GhostWhite;
+
+                    r.SetValue(Canvas.LeftProperty, p.X);
+                    r.SetValue(Canvas.TopProperty, p.Y);
+
+                    var go = new GameObject(r, "TeddyStart", p);
+                    r.Tag = go;
+
+                    gameObjects.Add(go);
+                }
 
                 //Background Color
                 XmlNodeList backgroundColorNode = ((XmlNodeList)screenDoc.GetElementsByTagName("BackgroundColor"));

@@ -129,6 +129,7 @@ xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
                         <ComboBox.Items>
                             <ComboBoxItem>Fluff</ComboBoxItem>
                             <ComboBoxItem>Goal</ComboBoxItem>
+                            <ComboBoxItem>TeddyStart</ComboBoxItem>
                         </ComboBox.Items>
                     </ComboBox>
                 </StackPanel>

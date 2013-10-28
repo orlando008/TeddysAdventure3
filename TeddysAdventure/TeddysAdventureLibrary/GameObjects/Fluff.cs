@@ -111,7 +111,7 @@ namespace TeddysAdventureLibrary
                     }
                 }
 
-                if (Position.Y > Game.GraphicsDevice.Viewport.Height)
+                if (Position.Y > ((Screen)Game.Components[0]).LevelHeight)
                 {
                     _applyGravity = false;
                     Destroyed = true;

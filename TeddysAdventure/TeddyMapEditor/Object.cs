@@ -54,10 +54,18 @@ namespace TeddyMapEditor
         public string GetXMLString()
         {
             string s = "";
-            s += "<Item>" + System.Environment.NewLine;
-            s += "<Type>" + _name + "</Type>" + System.Environment.NewLine;
-            s += "<Position>" + Convert.ToInt32(_location.X).ToString() + " " + Convert.ToInt32(_location.Y).ToString() + "</Position>" + System.Environment.NewLine;
-            s += "</Item>" + System.Environment.NewLine;
+
+            if (_name == "TeddyStart")
+            {
+                s = "<TeddyStart>" + Convert.ToInt32(_location.X).ToString() + " " + Convert.ToInt32(_location.Y).ToString() + "</TeddyStart>" + System.Environment.NewLine;
+            }
+            else
+            {
+                s += "<Item>" + System.Environment.NewLine;
+                s += "<Type>" + _name + "</Type>" + System.Environment.NewLine;
+                s += "<Position>" + Convert.ToInt32(_location.X).ToString() + " " + Convert.ToInt32(_location.Y).ToString() + "</Position>" + System.Environment.NewLine;
+                s += "</Item>" + System.Environment.NewLine;
+            }
 
             return s;
         }
