@@ -26,12 +26,13 @@ namespace TeddysAdventureLibrary
 
         private FluffMotionTypeEnum _fluffMotionType = FluffMotionTypeEnum.Spring;
         private bool _showTeddyOutline = true;
-
+        
         private enum FluffMotionTypeEnum
         {
             Satellite = 0,
             Spring = 1,
-            Stationary = 2
+            Stationary = 2,
+            Exploding =3
         }
 
 
@@ -75,6 +76,33 @@ namespace TeddysAdventureLibrary
             }
         }
 
+        private void SetFluffMode(FluffMotionTypeEnum t)
+        {
+            if (t == FluffMotionTypeEnum.Exploding)
+            {
+                int fluffCount = _fluffs.Count;
+
+                float step = (float)(2 * Math.PI / fluffCount);
+
+
+                int i = 0;
+
+                foreach (FluffWrapper fw in _fluffs)
+                {
+                    int dx = (int)Math.Cos(step * i) * 1;
+                    int dy = (int)Math.Sin(step * i) * 1;
+
+                    fw.Fluff.SetAccelleration(Vector2.Zero);
+                    fw.Fluff.SetVelocity(new Vector2(dx, dy));
+                    fw.Fluff.SetApplyGravity(true);
+                    i++;
+                }
+
+            }
+
+
+        }
+
         private Keys? _keyDown;
 
         public override void Update(GameTime gameTime)
@@ -86,10 +114,10 @@ namespace TeddysAdventureLibrary
             {
                 if (keyState.IsKeyDown(Keys.Tab))
                 {
-                    _fluffMotionType += 1;
+                    SetFluffMode(_fluffMotionType + 1);
 
-                    if (_fluffMotionType > FluffMotionTypeEnum.Stationary)
-                        _fluffMotionType = 0;
+                    if (_fluffMotionType > FluffMotionTypeEnum.Exploding)
+                        SetFluffMode(0);
 
                     _keyDown = Keys.Tab;
                 }
@@ -176,6 +204,10 @@ namespace TeddysAdventureLibrary
                             fw.Fluff.SetAccelleration(Vector2.Zero);
                             fw.Fluff.SetVelocity(Vector2.Zero);
                             fw.Fluff.SetPosition(refPoint);
+                            break;
+
+                        case FluffMotionTypeEnum.Exploding:
+
                             break;
                     }
 

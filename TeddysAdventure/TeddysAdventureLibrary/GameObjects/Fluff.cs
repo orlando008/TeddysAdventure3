@@ -80,6 +80,11 @@ namespace TeddysAdventureLibrary
             _yVelocity = velocity.Y;
         }
 
+        public void SetApplyGravity(bool apply)
+        {
+            _applyGravity = apply;
+        }
+
         public void SetPosition(Vector2 pos)
         {
             this.Position = pos;
@@ -138,25 +143,23 @@ namespace TeddysAdventureLibrary
                     _centerLine += _xVelocity;
 
                     Position = new Vector2(Position.X + _xVelocity, Position.Y + _yVelocity);
-                    foreach (Surface surfaceRect in currentScreen.Surfaces )
+                    foreach (Surface surface in currentScreen.Surfaces )
                     {
-
-                        //todo: handle left/right surface detection.
 
                         // if we are rising, check for top surfaces
                         if (_yVelocity < 0)
                         {
-                            if (fluffRect.Intersects(surfaceRect.Rect) & (fluffRect.Top < surfaceRect.Bottom))
+                            if (fluffRect.Intersects(surface.Rect) & (fluffRect.Top < surface.Bottom))
                             {
-                                Position = new Vector2(Position.X + _xVelocity, surfaceRect.Bottom + 1);
+                                Position = new Vector2(Position.X + _xVelocity, surface.Bottom + 1);
                                 _yVelocity = 0.0f;
                             }
                         }
                         else
                         {
-                            if (fluffRect.Intersects(surfaceRect.Rect) & (fluffRect.Bottom > surfaceRect.Top))
+                            if (fluffRect.Intersects(surface.Rect) & (fluffRect.Bottom > surface.Top))
                             {
-                                Position = new Vector2(Position.X + _xVelocity, surfaceRect.Top - BoxToDraw.Height);
+                                Position = new Vector2(Position.X + _xVelocity, surface.Top - BoxToDraw.Height);
 
                                 if (_applyGravity)
                                 {
@@ -167,6 +170,25 @@ namespace TeddysAdventureLibrary
 
                             }
                         }
+
+                        if (_xVelocity < 0)
+                        {
+                            //Moving Left
+                            if (fluffRect.Intersects(surface.Rect) && fluffRect.Left < surface.Right)
+                            {
+                                this.Position = new Vector2(surface.Right + 1, this.Position.Y);
+                                _xVelocity = 0;
+                            }
+                        }
+                        else if (_xVelocity > 0)
+                        {
+                            if (fluffRect.Intersects(surface.Rect) && fluffRect.Right > surface.Left)
+                            {
+                                this.Position = new Vector2(surface.Left - fluffRect.Width, this.Position.Y);
+                                _xVelocity = 0;
+                            }
+                        }
+
                     }
                 }
 
