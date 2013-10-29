@@ -14,7 +14,7 @@
         <Sprite>SurfaceTexture1</Sprite>
       </Item>
       <Item>
-        <Rect>1500 7700 1000 100</Rect>
+        <Rect>1499 7727 1000 75</Rect>
         <Sprite>SurfaceTexture1</Sprite>
       </Item>
       <Item>
@@ -22,7 +22,7 @@
         <Sprite>SurfaceTexture1</Sprite>
       </Item>
       <Item>
-        <Rect>1650 7475 400 100</Rect>
+        <Rect>1650 7475 400 75</Rect>
         <Sprite>SurfaceTexture1</Sprite>
       </Item>
       <Item>
@@ -246,10 +246,6 @@
         <Sprite>SurfaceTexture1</Sprite>
       </Item>
       <Item>
-        <Rect>960 896 200 150</Rect>
-        <Sprite>SurfaceTexture1</Sprite>
-      </Item>
-      <Item>
         <Rect>950 875 225 150</Rect>
         <Sprite>SurfaceTexture1</Sprite>
       </Item>
@@ -276,6 +272,26 @@
       <Item>
         <Rect>2150 200 350 150</Rect>
         <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>50 7500 0 0</Rect>
+        <Sprite>SurfaceTexture5</Sprite>
+      </Item>
+      <Item>
+        <Rect>75 7550 0 25</Rect>
+        <Sprite>SurfaceTexture4</Sprite>
+      </Item>
+      <Item>
+        <Rect>200 7550 0 0</Rect>
+        <Sprite>SurfaceTexture3</Sprite>
+      </Item>
+      <Item>
+        <Rect>175 7600 0 0</Rect>
+        <Sprite>SurfaceTexture3</Sprite>
+      </Item>
+      <Item>
+        <Rect>150 7575 0 0</Rect>
+        <Sprite>SurfaceTexture2</Sprite>
       </Item>
     </Surfaces>
     <ListOfObjects>
@@ -390,6 +406,154 @@
       <Item>
         <Type>Fluff</Type>
         <Position>566 7861</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>638 7676</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>536 7688</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>716 7705</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>752 7641</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>810 7650</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>810 7722</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>852 7769</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>884 7756</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>886 7694</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>888 7643</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>936 7615</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>974 7648</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>976 7706</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>980 7742</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>1030 7751</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>1058 7705</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>1046 7641</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>1094 7627</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>1136 7678</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>1145 7749</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>1190 7674</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>1176 7633</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>1219 7750</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>1276 7733</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>1241 7670</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>1263 7623</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>1355 7649</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>1387 7724</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>1393 7777</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>1454 7754</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>1444 7669</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>1438 7626</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>1336 7631</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>1328 7710</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>1345 7758</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>1286 7668</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>1429 7668</Position>
       </Item>
     </ListOfObjects>
     <ListOfEnemies>

@@ -107,6 +107,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EditorViewModel.cs" />
+    <Resource Include="Images\SurfaceTexture4.png" />
+    <Resource Include="Images\SurfaceTexture5.png" />
+    <Resource Include="Images\SurfaceTexture6.png" />
+    <Resource Include="Images\SurfaceTexture3.png" />
+    <Resource Include="Images\SurfaceTexture2.png" />
+    <Resource Include="Images\DustBunny.png" />
+    <Resource Include="Images\Eagle.png" />
+    <Resource Include="Images\LadyBug.png" />
+    <Resource Include="Images\OrangeCrayon.png" />
+    <Resource Include="Images\MatchBoxCar.png" />
+    <Resource Include="Images\FlyingBook.png" />
+    <Resource Include="Images\Airplane.png" />
+    <Resource Include="Images\BowlingBall.png" />
     <Content Include="Images\Fluff.png" />
     <Resource Include="Images\TeddyStart.png" />
     <Resource Include="Images\Goal.png" />

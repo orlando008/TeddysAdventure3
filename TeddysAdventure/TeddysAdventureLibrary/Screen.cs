@@ -556,6 +556,7 @@ namespace TeddysAdventureLibrary
     {
         Rectangle SurfaceBounds();
          Vector2 SurfaceVelocity();
+         Enemy SurfaceOwner();
                
     }
 

@@ -311,6 +311,16 @@ namespace TeddysAdventureLibrary
                 SetFacingSprite();
             }
 
+            if (keyState.IsKeyDown(Keys.Down) && _ridingSurface != null && _ridingSurface.SurfaceOwner() != null)
+            {
+                _ridingSurface.SurfaceOwner().PlayerIsSteeringEnemyDown(2,1);
+            }
+
+            if (keyState.IsKeyDown(Keys.Up) && _ridingSurface != null && _ridingSurface.SurfaceOwner() != null)
+            {
+                _ridingSurface.SurfaceOwner().PlayerIsSteeringEnemyDown(2, -1);
+            }
+
 
             //if both right and left keys are up, teddy should be facing forward (he'll blink)
             if (keyState.IsKeyUp(Keys.Right) && keyState.IsKeyUp(Keys.Left))
@@ -404,6 +414,7 @@ namespace TeddysAdventureLibrary
                 _isJumping = true;
                 _yVelocity = -_initialJumpVelocity;
                 _spacePressedDown = true;
+                _ridingSurface = null;
             }
 
             if (keyState.IsKeyUp(Keys.Space))
@@ -507,8 +518,12 @@ namespace TeddysAdventureLibrary
                     yVelocity = 0.0f;
                     _isJumping = false;
                 }else {
-                    //Either Teddy fell off, or jumped off.  Either way, we are no longer riding.
-                    _ridingSurface = null;
+                    if (!_ridingSurface.SurfaceOwner().PlayerIsSteering)
+                    {
+                        //Either Teddy fell off, or jumped off.  Either way, we are no longer riding.
+                        _ridingSurface = null;
+                    }
+
                 }
             }
 
@@ -628,7 +643,7 @@ namespace TeddysAdventureLibrary
                 }
 
             }
-            else if (e.PlayerCanRide)
+            else if (e.PlayerCanRide || e.PlayerIsSteering)
             {
                 _ridingSurface = (ISurfaceInterface)e;
                 _position.Y = _ridingSurface.SurfaceBounds().Top - this.TeddyRectangle.Height - 1;

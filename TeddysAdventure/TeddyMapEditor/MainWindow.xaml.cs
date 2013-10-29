@@ -227,6 +227,14 @@ namespace TeddyMapEditor
                             {
                                 _gameObjects.Remove((GameObject)((Rectangle)cnvsMap.Children[i]).Tag);
                             }
+                            else if (((Rectangle)cnvsMap.Children[i]).Tag.GetType() == typeof(Enemy))
+                            {
+                                _enemies.Remove((Enemy)((Rectangle)cnvsMap.Children[i]).Tag);
+                            }
+                            else if (((Rectangle)cnvsMap.Children[i]).Tag.GetType() == typeof(Surface))
+                            {
+                                _surfaces.Remove((Surface)((Rectangle)cnvsMap.Children[i]).Tag);
+                            }
                             
 
                             cnvsMap.Children.RemoveAt(i);
@@ -310,7 +318,10 @@ namespace TeddyMapEditor
                 r.Stroke = _surfaceSelectedOutline;
                 r.StrokeThickness = .5;
 
-                Surface s = new Surface() { SurfaceTexture = "SurfaceTexture1" };
+                if (txtSurfaceTexture.Text == "")
+                    txtSurfaceTexture.Text = "SurfaceTexture1";
+
+                Surface s = new Surface() { SurfaceTexture = txtSurfaceTexture.Text };
                 s.SurfaceBounds = r;
                 r.Tag = s;
 
@@ -340,11 +351,7 @@ namespace TeddyMapEditor
 
             Point p = e.MouseDevice.GetPosition(cnvsMap);
             Rectangle r = new Rectangle();
-            int width =0;
-            int height =0;
-            GetCurrentEnemysSize(cboEnemies.Text, ref width, ref height);
-            r.Width = width;
-            r.Height = height;
+
             r.Stroke = _surfaceSelectedOutline;
             r.StrokeThickness = .5;
             r.Opacity = _selectionOpacity;
@@ -359,6 +366,8 @@ namespace TeddyMapEditor
             ib.ImageSource = new BitmapImage(new Uri("..\\..\\Images\\" + cboEnemies.Text + ".png", UriKind.Relative));
             r.Fill = ib;
 
+            r.Width = ib.ImageSource.Width;
+            r.Height = ib.ImageSource.Height;
 
             en.SomethingChanged += new EventHandler(MoveableObjectChanged);
             cnvsMap.Children.Add(r);
@@ -381,11 +390,6 @@ namespace TeddyMapEditor
 
             Point p = e.MouseDevice.GetPosition(cnvsMap);
             Rectangle r = new Rectangle();
-            int width = 0;
-            int height = 0;
-            GetCurrentObjectSize(cboObjects.Text,ref width, ref height);
-            r.Width = width;
-            r.Height = height;
             r.Stroke = _surfaceSelectedOutline;
             r.StrokeThickness = .5;
             r.Fill = Brushes.GhostWhite;
@@ -398,6 +402,8 @@ namespace TeddyMapEditor
             ImageBrush ib = new ImageBrush();
             ib.ImageSource = new BitmapImage(new Uri("..\\..\\Images\\" + cboObjects.Text + ".png", UriKind.Relative));
             r.Fill = ib;
+            r.Width = ib.ImageSource.Width;
+            r.Height = ib.ImageSource.Height;
 
             ((GameObject)r.Tag).SomethingChanged += new EventHandler(MoveableObjectChanged);
             cnvsMap.Children.Add(r);
@@ -418,53 +424,6 @@ namespace TeddyMapEditor
             ((IMovableGameItem)sender).Parent.SetValue(Canvas.TopProperty, ((IMovableGameItem)sender).Location.Y);
             _vm.OnPropertyChanges(null);
 
-        }
-
-
-        private void GetCurrentEnemysSize(string enemyType, ref int width, ref int height)
-        {
-            switch (enemyType)
-            {
-                case "BowlingBall":
-                    width = 50;
-                    height = 50;
-                    break;
-                case "FlyingBook":
-                    width = 150;
-                    height = 68;
-                    break;
-                case "MatchBoxCar":
-                    width = 67;
-                    height = 25;
-                    break;
-                case "DustBunny":
-                    width = 67;
-                    height = 50;
-                    break;
-                case "Airplane":
-                    width = 75;
-                    height = 36;
-                    break;
-            }
-        }
-
-        private void GetCurrentObjectSize( string objectName, ref int width, ref int height)
-        {
-            switch (objectName)
-            {
-                case "Fluff":
-                    width = 25;
-                    height = 25;
-                    break;
-                case "Goal":
-                    width = 58;
-                    height = 25;
-                    break;
-                case "TeddyStart":
-                    width = 50;
-                    height = 75;
-                    break;
-            }
         }
 
         private void UnselectAllElements()
@@ -716,12 +675,8 @@ namespace TeddyMapEditor
                 ib.ImageSource = new BitmapImage(new Uri("..\\..\\Images\\" + go.Name + ".png", UriKind.Relative));
                 r.Fill = ib;
 
-                int width = 0;
-                int height = 0;
-
-                GetCurrentObjectSize(go.Name,  ref width, ref height);
-                r.Width = width;
-                r.Height = height;
+                r.Width = ib.ImageSource.Width;
+                r.Height = ib.ImageSource.Height;
                 r.Stroke = _surfaceSelectedOutline;
 
 
@@ -738,12 +693,8 @@ namespace TeddyMapEditor
                 ib.ImageSource = new BitmapImage(new Uri("..\\..\\Images\\" + e.Name + ".png", UriKind.Relative));
                 r.Fill = ib;
 
-                int width = 0;
-                int height = 0;
-
-                GetCurrentEnemysSize(e.Name, ref width, ref height);
-                r.Width = width;
-                r.Height = height;
+                r.Width = ib.ImageSource.Width;
+                r.Height = ib.ImageSource.Height;
                 r.Stroke = _surfaceBrushOutline;
 
                 ((Enemy)r.Tag).SomethingChanged += new EventHandler(MoveableObjectChanged);

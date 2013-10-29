@@ -29,18 +29,22 @@ namespace TeddysAdventureLibrary
 
         }
 
-      Rectangle ISurfaceInterface.SurfaceBounds()
+        
 
+        Rectangle ISurfaceInterface.SurfaceBounds()
         {
-         //   return this.BoxToDraw; 
-             return this.CollisionRectangle;
+            return this.CollisionRectangle;
         }
 
-      Vector2 ISurfaceInterface.SurfaceVelocity()
-      {
-          return this.Velocity;
-      }
+        Vector2 ISurfaceInterface.SurfaceVelocity()
+        {
+            return this.Velocity;
+        }
 
+        Enemy ISurfaceInterface.SurfaceOwner()
+        {
+            return this;
+        }
 
         public override void DrawEnemy(GameTime gameTime, SpriteBatch sp)
         {

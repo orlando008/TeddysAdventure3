@@ -389,6 +389,15 @@
       <Time>2013-10-08T12:13:53.1121372-04:00</Time>
     </Item>
     <Item>
+      <Source>Teddy\TeddyRunGhost.png</Source>
+      <Name>Teddy\TeddyRunGhost</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Teddy\TeddyRunGhost.xnb</Output>
+      <Time>2013-10-29T11:32:42.973588-04:00</Time>
+    </Item>
+    <Item>
       <Source>Screens\NicksTest.xml</Source>
       <Name>Screens\NicksTest</Name>
       <Importer>XmlImporter</Importer>
@@ -404,7 +413,7 @@
       <Processor>PassThroughProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Screens\FrankTest.xnb</Output>
-      <Time>2013-09-25T12:07:42.8245625-04:00</Time>
+      <Time>2013-10-29T11:32:42.9695884-04:00</Time>
     </Item>
     <Item>
       <Source>Screens\Basement1.xml</Source>
@@ -431,7 +440,16 @@
       <Processor>PassThroughProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Screens\Basement3.xnb</Output>
-      <Time>2013-10-14T12:29:04.0161294-04:00</Time>
+      <Time>2013-10-29T12:01:46.0295911-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Screens\Basement2.xml</Source>
+      <Name>Screens\Basement2</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Screens\Basement2.xnb</Output>
+      <Time>2013-10-29T12:05:37.6025911-04:00</Time>
     </Item>
     <Item>
       <Source>Fonts\DeathScreenFont.spritefont</Source>
@@ -458,10 +476,10 @@
       <Processor>ManifestProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\content.xnb</Output>
-      <Time>2013-10-14T12:28:11.0081294-04:00</Time>
+      <Time>2013-10-29T12:31:54.1593117-04:00</Time>
       <Dependency>
         <Key>TeddysAdventureContent.contentproj</Key>
-        <Value>2013-10-14T11:49:02.6369857-04:00</Value>
+        <Value>2013-10-29T12:05:52.1715911-04:00</Value>
       </Dependency>
     </Item>
     <Item>
@@ -486,8 +504,8 @@
     </Settings>
     <Assemblies>
       <Assembly>
-        <Key>C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventureLibrary\bin\x86\DEBUG_COLLISIONS\TeddysAdventureLibrary.dll</Key>
-        <Value>2013-10-14T12:20:30.4331252-04:00</Value>
+        <Key>C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventureLibrary\bin\x86\Debug\TeddysAdventureLibrary.dll</Key>
+        <Value>2013-10-29T12:31:52.7641722-04:00</Value>
       </Assembly>
       <Assembly>
         <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.XImporter.dll</Key>

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<XnaContent>
+  <Asset Type="TeddysAdventureLibrary.ScreenHelper">
+    <TeddyStart>0 0</TeddyStart>
+    <BackgroundColor>FFFDF5E6</BackgroundColor>
+    <Backgrounds />
+    <Surfaces>
+      <Item>
+        <Rect>0 675 400 50</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>500 675 0 0</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>575 675 375 50</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>1150 675 450 50</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>1825 675 375 50</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>2425 675 500 50</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>3150 675 50 50</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>3500 675 50 50</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>4000 675 50 50</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+    </Surfaces>
+    <ListOfObjects />
+    <ListOfEnemies>
+      <Item>
+        <Type>MatchBoxCar</Type>
+        <Position>3144 650</Position>
+        <Velocity>0 0</Velocity>
+        <IsSpawnPoint>0</IsSpawnPoint>
+        <SpawnInterval>0</SpawnInterval>
+      </Item>
+      <Item>
+        <Type>MatchBoxCar</Type>
+        <Position>3492 649</Position>
+        <Velocity>0 0</Velocity>
+        <IsSpawnPoint>0</IsSpawnPoint>
+        <SpawnInterval>0</SpawnInterval>
+      </Item>
+      <Item>
+        <Type>MatchBoxCar</Type>
+        <Position>3990 648</Position>
+        <Velocity>0 0</Velocity>
+        <IsSpawnPoint>0</IsSpawnPoint>
+        <SpawnInterval>0</SpawnInterval>
+      </Item>
+      <Item>
+        <Type>Airplane</Type>
+        <Position>27 509</Position>
+        <Velocity>1 0</Velocity>
+        <IsSpawnPoint>0</IsSpawnPoint>
+        <SpawnInterval>0</SpawnInterval>
+      </Item>
+      <Item>
+        <Type>Airplane</Type>
+        <Position>9926 506</Position>
+        <Velocity>-2 0</Velocity>
+        <IsSpawnPoint>0</IsSpawnPoint>
+        <SpawnInterval>0</SpawnInterval>
+      </Item>
+      <Item>
+        <Type>Airplane</Type>
+        <Position>8909 512</Position>
+        <Velocity>-1 0</Velocity>
+        <IsSpawnPoint>0</IsSpawnPoint>
+        <SpawnInterval>0</SpawnInterval>
+      </Item>
+      <Item>
+        <Type>Airplane</Type>
+        <Position>8169 522</Position>
+        <Velocity>-3 0</Velocity>
+        <IsSpawnPoint>0</IsSpawnPoint>
+        <SpawnInterval>0</SpawnInterval>
+      </Item>
+      <Item>
+        <Type>Airplane</Type>
+        <Position>7442 562</Position>
+        <Velocity>-5 0</Velocity>
+        <IsSpawnPoint>0</IsSpawnPoint>
+        <SpawnInterval>0</SpawnInterval>
+      </Item>
+      <Item>
+        <Type>Airplane</Type>
+        <Position>7021 487</Position>
+        <Velocity>-1 0</Velocity>
+        <IsSpawnPoint>0</IsSpawnPoint>
+        <SpawnInterval>0</SpawnInterval>
+      </Item>
+      <Item>
+        <Type>Airplane</Type>
+        <Position>6258 450</Position>
+        <Velocity>-1 0</Velocity>
+        <IsSpawnPoint>0</IsSpawnPoint>
+        <SpawnInterval>0</SpawnInterval>
+      </Item>
+      <Item>
+        <Type>Airplane</Type>
+        <Position>5190 486</Position>
+        <Velocity>-1 0</Velocity>
+        <IsSpawnPoint>0</IsSpawnPoint>
+        <SpawnInterval>0</SpawnInterval>
+      </Item>
+      <Item>
+        <Type>Airplane</Type>
+        <Position>4401 571</Position>
+        <Velocity>-1 0</Velocity>
+        <IsSpawnPoint>0</IsSpawnPoint>
+        <SpawnInterval>0</SpawnInterval>
+      </Item>
+    </ListOfEnemies>
+    <LevelType>Normal</LevelType>
+    <LevelSize>10000 750</LevelSize>
+  </Asset>
+</XnaContent>

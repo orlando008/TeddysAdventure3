@@ -45,6 +45,11 @@ namespace TeddysAdventureLibrary
         protected bool _bounceOffSidesOfViewport = false;
         protected bool _passesThroughSurfaces = false;
 
+        private int _steeringDownFrames = 4;
+        private int _steeringDownCount = 0;
+        private bool _playerIsSteering = false;
+        private int _steeringDirectionY = 0;
+
         private List<Enemy> _childrenEnemies;
 
         // 15 by default since, only testing with plane
@@ -162,6 +167,12 @@ namespace TeddysAdventureLibrary
             set { _damage = value; }
         }
 
+        public bool PlayerIsSteering
+        {
+            get { return _playerIsSteering; }
+            set { _playerIsSteering = value; }
+        }
+
         public Enemy(Game game)
             : base(game)
         {
@@ -173,6 +184,16 @@ namespace TeddysAdventureLibrary
 #endif
         }
 
+        public void PlayerIsSteeringEnemyDown(int framesToMove, int direction)
+        {
+            if (_playerIsSteering == false)
+            {
+                _steeringDownFrames = framesToMove;
+                _steeringDownCount = 0;
+                _playerIsSteering = true;
+                _steeringDirectionY = direction;
+            }
+        }
 
         public void Kill()
         {
@@ -386,6 +407,24 @@ namespace TeddysAdventureLibrary
 
                 }
 
+            }
+
+            if (_playerIsSteering)
+            {
+                if (_steeringDownCount < _steeringDownFrames)
+                {
+                    MoveByY(_steeringDirectionY, true);
+                    _steeringDownCount++;
+                }
+                else
+                {
+                    if (_steeringDownCount > _steeringDownFrames + 1)
+                    {
+                        _playerIsSteering = false;
+                        _steeringDownCount = 0;
+                    }
+                    _steeringDownCount++;
+                }
             }
 
             applyGravity();

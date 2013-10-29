@@ -100,9 +100,20 @@ xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
                     <Button Name="btnIncreaseY" Click="btnIncreaseY_Click" Style="{StaticResource ResourceKey=SurfaceButton}">Down</Button>                   
                 </StackPanel>                
 
+                <StackPanel Orientation="Horizontal">
+                    <Label VerticalAlignment="Top" VerticalContentAlignment="Top">Surface Texture:</Label>
+                    <ComboBox Name="txtSurfaceTexture" Width="150" Height="24" VerticalAlignment="Top" Margin="3">
+                        <ComboBox.Items>
+                            <ComboBoxItem>SurfaceTexture1</ComboBoxItem>
+                            <ComboBoxItem>SurfaceTexture2</ComboBoxItem>
+                            <ComboBoxItem>SurfaceTexture3</ComboBoxItem>
+                            <ComboBoxItem>SurfaceTexture4</ComboBoxItem>
+                            <ComboBoxItem>SurfaceTexture5</ComboBoxItem>
+                            <ComboBoxItem>SurfaceTexture6</ComboBoxItem>
+                        </ComboBox.Items>
+                    </ComboBox>
+                </StackPanel>
 
-                <!--<Label VerticalAlignment="Top" VerticalContentAlignment="Top">Surface Texture</Label>-->
-                <!--<TextBox Name="txtSurfaceTexture" Width="150" Height="24" VerticalAlignment="Top" Margin="3">SurfaceTexture1</TextBox>-->
             </StackPanel>
 
             <StackPanel Name="spEnemies" Visibility="{Binding EnemySelected, Converter={StaticResource BooleanToVisibilityConverter}}">
@@ -114,6 +125,10 @@ xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
                             <ComboBoxItem>Airplane</ComboBoxItem>
                             <ComboBoxItem>MatchBoxCar</ComboBoxItem>
                             <ComboBoxItem>FlyingBook</ComboBoxItem>
+                            <ComboBoxItem>OrangeCrayon</ComboBoxItem>
+                            <ComboBoxItem>DustBunny</ComboBoxItem>
+                            <ComboBoxItem>Eagle</ComboBoxItem>
+                            <ComboBoxItem>LadyBug</ComboBoxItem>
                         </ComboBox.Items>
                     </ComboBox>
 
