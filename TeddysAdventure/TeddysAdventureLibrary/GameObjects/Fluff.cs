@@ -22,6 +22,8 @@ namespace TeddysAdventureLibrary
 
         private float _gravity = .10f;
 
+        private bool _canBeDestroyed = true;
+
         public Fluff(Game game, Vector2 position)
             : base(game,position)
         {
@@ -32,29 +34,21 @@ namespace TeddysAdventureLibrary
         }
 
         public Fluff(Game game, Vector2 position, bool applyGravity, float xVelocty, float yVelocity)
-            : base(game, position)
+            : this(game, position, applyGravity, xVelocty, yVelocity, null, true )
         {
-            StyleSheet = game.Content.Load<Texture2D>("Objects\\Fluff");
 
-            _centerLine = (int)position.X;
-            BoxToDraw = new Rectangle(0, 0, StyleSheet.Width, StyleSheet.Height);
-
-            _applyGravity = applyGravity;
-
-            _xVelocity = xVelocty;
-            _yVelocity = yVelocity;
         }
 
-        public Fluff(Game game, Vector2 position, bool applyGravity, float xVelocty, float yVelocity, Rectangle drawBox)
+        public Fluff(Game game, Vector2 position, bool applyGravity, float xVelocty, float yVelocity, Rectangle? drawBox, bool canBeDestroyed)
             : base(game, position)
         {
             StyleSheet = game.Content.Load<Texture2D>("Objects\\Fluff");
 
             _centerLine = (int)position.X;
-            BoxToDraw = drawBox;
+            BoxToDraw = (drawBox == null) ? new Rectangle(0, 0, StyleSheet.Width, StyleSheet.Height):drawBox.Value  ;
 
             _applyGravity = applyGravity;
-
+            _canBeDestroyed = canBeDestroyed;
             _xVelocity = xVelocty;
             _yVelocity = yVelocity;
         }
@@ -91,6 +85,7 @@ namespace TeddysAdventureLibrary
             _centerLine = pos.X;
         }
 
+        
         public Vector2 Velocity { get { return new Vector2(_xVelocity, _yVelocity); } }
         public Vector2 Acceleration { get { return new Vector2(_xAccelleration, _yAccelleration); } }
 
@@ -195,7 +190,8 @@ namespace TeddysAdventureLibrary
                 if (Position.Y > ((Screen)Game.Components[0]).LevelHeight)
                 {
                     _applyGravity = false;
-                    Destroyed = true;
+
+                    if (_canBeDestroyed) { Destroyed = true; }
                 }
             }
         }

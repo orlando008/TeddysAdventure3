@@ -42,7 +42,7 @@ namespace TeddysAdventureLibrary
             _fluffSprite = game.Content.Load<Texture2D>(System.IO.Path.Combine(@"Objects", "Fluff")); 
             _styleSheet = game.Content.Load<Texture2D>(System.IO.Path.Combine(@"Teddy", "TeddyRunGhost"));
             _fluffBox = new Rectangle(0, 0, _fluffSprite.Width / 2, _fluffSprite.Height / 2);
-            _currentFluff = 100;
+            _currentFluff = 30;
             CreateFluffs();
         }
 
@@ -66,6 +66,7 @@ namespace TeddysAdventureLibrary
                         if (!f.Destroyed & this.TeddyRectangle.Intersects(f.CollisionRectangle) == true)
                         {
                             _currentFluff++;
+                            ReevaluateSkeletonAndFluff();
                             f.Destroyed = true;
                         }
                    }
@@ -86,8 +87,24 @@ namespace TeddysAdventureLibrary
             }
         }
 
+        protected override void HandleEnemyInteraction(Enemy e, Screen currentScreen, GeometryMethods.RectangleF enemyHitBox)
+        {
+            if (!_isHit)
+            {
+                base.HandleEnemyInteraction(e, currentScreen, enemyHitBox);
+
+                if (_isHit)
+                {
+                    ReevaluateSkeletonAndFluff();
+                }
+            }
+                        
+        }
+
         private void SetFluffMode(FluffMotionTypeEnum t)
         {
+            _fluffMotionType = t;
+
             if (t == FluffMotionTypeEnum.Exploding)
             {
                 int fluffCount = _fluffs.Count;
@@ -99,8 +116,8 @@ namespace TeddysAdventureLibrary
 
                 foreach (FluffWrapper fw in _fluffs)
                 {
-                    int dx = (int)Math.Cos(step * i) * 1;
-                    int dy = (int)Math.Sin(step * i) * 1;
+                    int dx = (int)(Math.Cos(step * i) * 10);
+                    int dy = (int)(Math.Sin(step * i) * 10);
 
                     fw.Fluff.SetAccelleration(Vector2.Zero);
                     fw.Fluff.SetVelocity(new Vector2(dx, dy));
@@ -108,9 +125,7 @@ namespace TeddysAdventureLibrary
                     i++;
                 }
 
-            }
-
-
+            } 
         }
 
         private Keys? _keyDown;
@@ -194,19 +209,27 @@ namespace TeddysAdventureLibrary
                             {
                                fw.Fluff.SetVelocity(fw.Fluff.Velocity *.9f);
                             }
-                            fw.Fluff.SetAccelleration( -vRF);     
+
+                            if (dist == 0)
+                                fw.Fluff.SetAccelleration(Vector2.Zero);
+                            else
+                                fw.Fluff.SetAccelleration(-vRF);     
                             
                             break;
                         case FluffMotionTypeEnum.Spring:
 
 
                             Vector2 fSpring = -_k * vRF * dist;
-                            Vector2 fd = -_c * fw.Fluff.Velocity;
+                            if (dist == 0)
+                            {
+                                fSpring = Vector2.Zero;
+                            }
 
+                            
+                            Vector2 fd = -_c * fw.Fluff.Velocity;
                             Vector2 fTotal = fSpring + fd;
 
                             fw.Fluff.SetAccelleration(fTotal / _m);
-                    
 
                             break;
                         case FluffMotionTypeEnum.Stationary:
@@ -220,8 +243,6 @@ namespace TeddysAdventureLibrary
 
                             break;
                     }
-
-
              
                 }
 
@@ -252,9 +273,26 @@ namespace TeddysAdventureLibrary
             {
                 for (int i = 0; i < bone.ReferencePoints.Count; i++)
                 {
-                    _fluffs.Add(new FluffWrapper(bone.ZOrder, i, bone.ReferencePoints[i], _game, new Rectangle(0, 0, _fluffBox.Width / 2, _fluffBox.Height / 2)));
+
+                    Vector2 refPoint = bone.ReferencePoints[i];
+                    Vector2 point = _facing == Direction.Right ? refPoint : bone.GetFlippedPoint(50, refPoint);
+
+                    refPoint = _position + point;
+
+                    _fluffs.Add(new FluffWrapper(bone.ZOrder, i, refPoint , _game, new Rectangle(0, 0, _fluffBox.Width / 2, _fluffBox.Height / 2)));
                 }
             }
+        }
+
+        private void ReevaluateSkeletonAndFluff()
+        {
+
+            //Quick and dirty implementation' throw everything out and start over
+            _spriteSkeletons.Clear();
+
+            CreateFluffs();
+
+
         }
 
 
@@ -381,7 +419,7 @@ namespace TeddysAdventureLibrary
             {
                 this.BoneID = boneID;
                 this.ReferenceID = referenceID;
-                this.Fluff = new Fluff(g, startPosition, false, 0, 0, box);
+                this.Fluff = new Fluff(g, startPosition, false, 0, 0, box, false);
             }
 
         }
@@ -496,6 +534,7 @@ namespace TeddysAdventureLibrary
 
                         int pointsWithinRadius = (int)(this.Radius / pointLength) ;
                         float radiusStep = (this.Radius / Math.Max( pointsWithinRadius, 1)); //Evently space 
+                        int totalPointCount = 0;
 
                         for (int i = 0; i <= pointsWithinRadius; i++)
                         {
@@ -504,6 +543,7 @@ namespace TeddysAdventureLibrary
                             if (i == 0)
                             {
                                 this.ReferencePoints.Add(this.CenterPoint);
+                                totalPointCount++;
                             }
                             else
                             {
@@ -520,6 +560,8 @@ namespace TeddysAdventureLibrary
 
                                     Vector2 position = this.CenterPoint + new Vector2(dx, dy);
                                     this.ReferencePoints.Add(position);
+                                    totalPointCount++;
+                                    if (totalPointCount >= maxPointCount) { break; }
                                 }
 
                             }

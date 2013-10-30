@@ -67,11 +67,10 @@ namespace TeddysAdventureLibrary
 
         private int _recoverCounter = 0;
         private int _recoverWait = 100;
-        private bool _isHit = false;
-
+        protected bool _isHit = false;
+        
         protected bool _wearingGoggles = false;
         protected Texture2D _gogglesSprites;
-
         private bool _levelComplete = false;
 
         //Keystate 
