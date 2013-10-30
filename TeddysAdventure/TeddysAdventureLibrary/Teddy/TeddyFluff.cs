@@ -72,6 +72,16 @@ namespace TeddysAdventureLibrary
 
                    
                 }
+                else if (f.GetType() == typeof(Goggles))
+                {
+                    if (!f.Destroyed & this.TeddyRectangle.Intersects(f.CollisionRectangle) == true)
+                    {
+                        f.Destroyed = true;
+                        _wearingGoggles = true;
+                        _gogglesSprites = f.StyleSheet;
+                    }
+
+                }
 
             }
         }

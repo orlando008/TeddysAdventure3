@@ -120,6 +120,7 @@
     <Compile Include="GameObjects\Fluff.cs" />
     <Compile Include="GameObjects\GameObject.cs" />
     <Compile Include="GameObjects\Goal.cs" />
+    <Compile Include="GameObjects\Goggles.cs" />
     <Compile Include="GeometryMethods.cs" />
     <Compile Include="Helpers\EnemyHelper.cs" />
     <Compile Include="Helpers\GameObjectHelper.cs" />

@@ -68,7 +68,9 @@ namespace TeddysAdventureLibrary
         private int _recoverCounter = 0;
         private int _recoverWait = 100;
         private bool _isHit = false;
-        
+
+        protected bool _wearingGoggles = false;
+        protected Texture2D _gogglesSprites;
 
         private bool _levelComplete = false;
 
@@ -87,7 +89,7 @@ namespace TeddysAdventureLibrary
 
             this.StyleSheet = game.Content.Load<Texture2D>(System.IO.Path.Combine(@"Teddy", "TeddyRun"));
             _runGlow = game.Content.Load<Texture2D>(System.IO.Path.Combine(@"Teddy", "RunGlow"));
-
+            
             Game = game;
             Position = initialPosition;
             FrameSize = sizeOfFrame;
@@ -311,15 +313,19 @@ namespace TeddysAdventureLibrary
                 SetFacingSprite();
             }
 
-            if (keyState.IsKeyDown(Keys.Down) && _ridingSurface != null && _ridingSurface.SurfaceOwner() != null)
+            if (_wearingGoggles)
             {
-                _ridingSurface.SurfaceOwner().PlayerIsSteeringEnemyDown(2,1);
+                if (keyState.IsKeyDown(Keys.Down) && _ridingSurface != null && _ridingSurface.SurfaceOwner() != null)
+                {
+                    _ridingSurface.SurfaceOwner().PlayerIsSteeringEnemyDown(2, 1);
+                }
+
+                if (keyState.IsKeyDown(Keys.Up) && _ridingSurface != null && _ridingSurface.SurfaceOwner() != null)
+                {
+                    _ridingSurface.SurfaceOwner().PlayerIsSteeringEnemyDown(2, -1);
+                }
             }
 
-            if (keyState.IsKeyDown(Keys.Up) && _ridingSurface != null && _ridingSurface.SurfaceOwner() != null)
-            {
-                _ridingSurface.SurfaceOwner().PlayerIsSteeringEnemyDown(2, -1);
-            }
 
 
             //if both right and left keys are up, teddy should be facing forward (he'll blink)
@@ -577,6 +583,16 @@ namespace TeddysAdventureLibrary
                         f.Destroyed = true;
                     }
                 }
+                else if (f.GetType() == typeof(Goggles))
+                {
+                    if (!f.Destroyed & this.TeddyRectangle.Intersects(f.CollisionRectangle) == true)
+                    {
+                        f.Destroyed = true;
+                        _wearingGoggles = true;
+                        _gogglesSprites = f.StyleSheet;
+                    }
+
+                }
 
             }
         }
@@ -682,6 +698,8 @@ namespace TeddysAdventureLibrary
                         movePlayerX(playerOverallVelocity, currentScreen);
                         throwFluff(e.Damage);
                     }
+
+                    _wearingGoggles = false;
                 }
             }
         }
@@ -730,6 +748,18 @@ namespace TeddysAdventureLibrary
                 }
 
                 teddyBatch.Draw( this.StyleSheet, this.Position, boxToDraw, Color.White, 0, Vector2.Zero,1, seff, 0);
+
+                if (_wearingGoggles)
+                {
+                    if (_facing == Direction.Left || _facing == Direction.Right)
+                    {
+                        teddyBatch.Draw(_gogglesSprites, Position, new Rectangle(100, 0, 50, 53), Color.White, 0, Vector2.Zero,1, seff, 0);
+                    }
+                    else
+                    {
+                        teddyBatch.Draw(_gogglesSprites, Position, new Rectangle(0, 0, 50, 53), Color.White, 0, Vector2.Zero, 1, seff, 0);
+                    }
+                }
             }
 
         }
