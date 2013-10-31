@@ -26,6 +26,7 @@ namespace TeddysAdventureLibrary
             this._collisionDampingFactor = .3f;
             this._playerCanRide = true;
             base.Damage = _damage;
+            this._passesThroughSurfaces = true;
 
         }
 

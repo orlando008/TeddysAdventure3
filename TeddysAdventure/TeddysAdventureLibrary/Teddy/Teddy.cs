@@ -70,7 +70,10 @@ namespace TeddysAdventureLibrary
         protected bool _isHit = false;
         
         protected bool _wearingGoggles = false;
+        protected bool _wearingPulseArm = false;
+        protected bool _firingPulseArm = false;
         protected Texture2D _gogglesSprites;
+        protected Texture2D _pulseArmSprites;
         private bool _levelComplete = false;
 
         //Keystate 
@@ -88,7 +91,8 @@ namespace TeddysAdventureLibrary
 
             this.StyleSheet = game.Content.Load<Texture2D>(System.IO.Path.Combine(@"Teddy", "TeddyRun"));
             _runGlow = game.Content.Load<Texture2D>(System.IO.Path.Combine(@"Teddy", "RunGlow"));
-            
+            _pulseArmSprites = game.Content.Load<Texture2D>(System.IO.Path.Combine(@"Teddy", "TeddyPulseArm"));
+
             Game = game;
             Position = initialPosition;
             FrameSize = sizeOfFrame;
@@ -178,6 +182,11 @@ namespace TeddysAdventureLibrary
 
         protected Rectangle? GetBoxToDraw()
         {
+            if (_wearingPulseArm && _firingPulseArm)
+            {
+                _currentSprite = TeddySpriteState.Run3;
+            }
+
             switch (_currentSprite)
             {
                 case TeddySpriteState.Run1:
@@ -275,9 +284,7 @@ namespace TeddysAdventureLibrary
 
         public override void Update(GameTime gameTime)
         {
-
             Screen currentScreen = (Screen)Game.Components[0];
-
 
 
             _playerOverallVelocity = new Vector2(0,0);
@@ -287,6 +294,24 @@ namespace TeddysAdventureLibrary
             }
 
             KeyboardState keyState = Keyboard.GetState();
+
+            if (_wearingPulseArm)
+            {
+                if (keyState.IsKeyDown(Keys.Enter))
+                {
+                    _firingPulseArm = true;
+                    return;
+                }
+                else
+                {
+                    _firingPulseArm = false;
+                }
+            }
+            else
+            {
+                _firingPulseArm = false;
+            }
+
             int speed = walkSpeed;
 
             if (keyState.IsKeyDown(Keys.LeftShift))
@@ -324,8 +349,6 @@ namespace TeddysAdventureLibrary
                     _ridingSurface.SurfaceOwner().PlayerIsSteeringEnemyDown(2, -1);
                 }
             }
-
-
 
             //if both right and left keys are up, teddy should be facing forward (he'll blink)
             if (keyState.IsKeyUp(Keys.Right) && keyState.IsKeyUp(Keys.Left))
@@ -603,8 +626,9 @@ namespace TeddysAdventureLibrary
             foreach (Enemy e in currentScreen.Enemies)
             {
                 checkLandingOnEnemy(e, keyState);
-                checkTeddyEnemyInteraction(e, currentScreen, keyState);
 
+                checkTeddyEnemyInteraction(e, currentScreen, keyState);
+                
                 if (e.ChildrenEnemies != null)
                 {
                     foreach (Enemy e2 in e.ChildrenEnemies)
@@ -619,9 +643,11 @@ namespace TeddysAdventureLibrary
 
         private void checkLandingOnEnemy(Enemy e, KeyboardState keyState)
         {
-            if ((e.CanJumpOnToKill || e.PlayerCanRide) && e.CanInteractWithPlayer)
+            
+            if (_ridingSurface == null & ((e.CanJumpOnToKill || e.PlayerCanRide) && e.CanInteractWithPlayer))
             {
-                if ((this.TeddyRectangle.Intersects(e.CollisionRectangle)) & (this.TeddyRectangle.Bottom - _yVelocity <= e.CollisionRectangle.Top))
+                GeometryMethods.RectangleF rHit = null;
+                if ((e.RectangleInsersectsWithHitBoxes(this.TeddyRectangle, ref rHit)) & (this.TeddyRectangle.Bottom - _yVelocity <= e.CollisionRectangle.Top))
                 {
                     HandleLandingOnEnemy(e, keyState);
                 }
@@ -681,6 +707,8 @@ namespace TeddysAdventureLibrary
                 {
                     CurrentFluff -= e.Damage;
                     _isHit = true;
+                    return;
+
                     var playerOverallVelocity = new Vector2(-50, 0);
                     //hit on right side
                     if (this.TeddyRectangle.Left <= enemyHitBox.Left)
@@ -759,8 +787,20 @@ namespace TeddysAdventureLibrary
                         teddyBatch.Draw(_gogglesSprites, Position, new Rectangle(0, 0, 50, 53), Color.White, 0, Vector2.Zero, 1, seff, 0);
                     }
                 }
-            }
 
+
+                if (_wearingPulseArm && _firingPulseArm)
+                {
+                    if (_facing == Direction.Left || _facing == Direction.Right)
+                    {
+                        teddyBatch.Draw(_pulseArmSprites, Position, new Rectangle(0, 0, 50, 75), Color.White, 0, Vector2.Zero, 1, seff, 0);
+                    }
+                    else
+                    {
+                        teddyBatch.Draw(_pulseArmSprites, Position, new Rectangle(0, 0, 50, 75), Color.White, 0, Vector2.Zero, 1, seff, 0);
+                    }
+                }
+            }
         }
 
     }
