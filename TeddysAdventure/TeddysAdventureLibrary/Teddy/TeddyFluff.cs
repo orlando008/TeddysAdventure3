@@ -25,7 +25,7 @@ namespace TeddysAdventureLibrary
         private float _c = .3f;
 
         private FluffMotionTypeEnum _fluffMotionType = FluffMotionTypeEnum.Spring;
-        private bool _showTeddyOutline = true;
+        private bool _showTeddyOutline = false;
         
         private enum FluffMotionTypeEnum
         {
@@ -42,7 +42,7 @@ namespace TeddysAdventureLibrary
             _fluffSprite = game.Content.Load<Texture2D>(System.IO.Path.Combine(@"Objects", "Fluff")); 
             _styleSheet = game.Content.Load<Texture2D>(System.IO.Path.Combine(@"Teddy", "TeddyRunGhost"));
             _fluffBox = new Rectangle(0, 0, _fluffSprite.Width / 2, _fluffSprite.Height / 2);
-            _currentFluff = 30;
+            _currentFluff = 4;
             CreateFluffs();
         }
 
@@ -184,6 +184,9 @@ namespace TeddysAdventureLibrary
             }
 
 
+            base.Update(gameTime);
+
+
             foreach (FluffWrapper fw in _fluffs)
             {
                 int boneID = fw.BoneID;
@@ -249,7 +252,7 @@ namespace TeddysAdventureLibrary
 
                 fw.Fluff.Update(gameTime);
             }
-            base.Update(gameTime);
+
         }
         
         public override void Draw(GameTime gameTime, SpriteBatch teddyBatch)
@@ -263,7 +266,11 @@ namespace TeddysAdventureLibrary
         }
 
         private void CreateFluffs()
-        {
+       
+       {
+
+           var _oldFluffs = _fluffs;
+
             _fluffs = new List<FluffWrapper>();
 
             //All frames have teh same makeup, so we can just use whichever is current
@@ -279,7 +286,19 @@ namespace TeddysAdventureLibrary
 
                     refPoint = _position + point;
 
-                    _fluffs.Add(new FluffWrapper(bone.ZOrder, i, refPoint , _game, new Rectangle(0, 0, _fluffBox.Width / 2, _fluffBox.Height / 2)));
+                    Vector2 initialVelocity = Vector2.Zero;
+
+                    if (_oldFluffs != null)
+                    {
+                        var oldFluff = _oldFluffs.FirstOrDefault(f => f.BoneID == bone.ZOrder && f.ReferenceID == i);
+                        if (oldFluff != null)
+                        {
+                            refPoint = oldFluff.Fluff.Position;
+                            initialVelocity = oldFluff.Fluff.Velocity;
+                        }
+                    }
+
+                    _fluffs.Add(new FluffWrapper(bone.ZOrder, i, refPoint, initialVelocity , _game, new Rectangle(0, 0, _fluffBox.Width / 2, _fluffBox.Height / 2)));
                 }
             }
         }
@@ -415,11 +434,12 @@ namespace TeddysAdventureLibrary
 
             public Fluff Fluff { get; set; }
 
-            public FluffWrapper(int boneID, int referenceID, Vector2 startPosition, Game g, Rectangle box)
+            public FluffWrapper(int boneID, int referenceID, Vector2 startPosition, Vector2 initialVelocity, Game g, Rectangle box)
             {
                 this.BoneID = boneID;
                 this.ReferenceID = referenceID;
                 this.Fluff = new Fluff(g, startPosition, false, 0, 0, box, false);
+                this.Fluff.SetVelocity(initialVelocity);
             }
 
         }
@@ -504,6 +524,7 @@ namespace TeddysAdventureLibrary
                 this.ReferencePoints.Clear();
 
                 int maxPointCount = (int)(totalPoints * ((float)this.BodyPercentage / 100));
+                if (maxPointCount == 0) return;
 
                 switch (this.Type)
                 {
@@ -544,6 +565,7 @@ namespace TeddysAdventureLibrary
                             {
                                 this.ReferencePoints.Add(this.CenterPoint);
                                 totalPointCount++;
+                                if (totalPointCount >= maxPointCount) break;
                             }
                             else
                             {
@@ -565,7 +587,7 @@ namespace TeddysAdventureLibrary
                                 }
 
                             }
-
+                            if (totalPointCount >= maxPointCount) break;
                         }
                         //Want to draw inside portion of teddy last
                         this.ReferencePoints.Reverse();

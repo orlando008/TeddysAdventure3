@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <XnaContent>
 <Asset Type="TeddysAdventureLibrary.ScreenHelper">
-  <TeddyStart>250 20</TeddyStart>
+  <TeddyStart>20 500</TeddyStart>
   <BackgroundColor>FFA2A2A2</BackgroundColor>
    <!--<Item>
     <Image>Basement</Image>
@@ -82,6 +82,56 @@
 <Type>Fluff</Type>
 <Position>176 353</Position>
 </Item>
+ <Item> 
+<Type>Fluff</Type>
+<Position>400 610</Position>
+</Item>
+  <Item>
+  <Type>Fluff</Type>
+<Position>425 610</Position>
+</Item>
+   <Item> 
+  <Type>Fluff</Type>
+<Position>450 610</Position>
+</Item>
+   <Item> 
+<Type>Fluff</Type>
+<Position>400 610</Position>
+</Item>
+  <Item>
+  <Type>Fluff</Type>
+<Position>425 610</Position>
+</Item>
+   <Item> 
+  <Type>Fluff</Type>
+<Position>450 610</Position>
+</Item>
+   <Item> 
+<Type>Fluff</Type>
+<Position>400 610</Position>
+</Item>
+  <Item>
+  <Type>Fluff</Type>
+<Position>425 610</Position>
+</Item>
+   <Item> 
+  <Type>Fluff</Type>
+<Position>450 610</Position>
+</Item>
+   <Item> 
+<Type>Fluff</Type>
+<Position>400 610</Position>
+</Item>
+  <Item>
+  <Type>Fluff</Type>
+<Position>425 610</Position>
+</Item>
+   <Item> 
+  <Type>Fluff</Type>
+<Position>450 610</Position>
+</Item>
+  
+  
   <Item>
     <Type>Goal</Type>
     <Position>600 500</Position>
