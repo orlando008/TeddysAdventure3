@@ -70,7 +70,7 @@ namespace TeddysAdventureLibrary
         protected bool _isHit = false;
         
         protected bool _wearingGoggles = false;
-        protected bool _wearingPulseArm = false;
+        protected bool _wearingPulseArm = true;
         protected bool _firingPulseArm = false;
         protected Texture2D _gogglesSprites;
         protected Texture2D _pulseArmSprites;
@@ -300,6 +300,7 @@ namespace TeddysAdventureLibrary
                 if (keyState.IsKeyDown(Keys.Enter))
                 {
                     _firingPulseArm = true;
+                    ((Screen)Game.Components[0]).GameObjects.Add(new PulseProjectile(Game, Position, this, new Vector2(1,0)));
                     return;
                 }
                 else
@@ -707,7 +708,6 @@ namespace TeddysAdventureLibrary
                 {
                     CurrentFluff -= e.Damage;
                     _isHit = true;
-                    return;
 
                     var playerOverallVelocity = new Vector2(-50, 0);
                     //hit on right side

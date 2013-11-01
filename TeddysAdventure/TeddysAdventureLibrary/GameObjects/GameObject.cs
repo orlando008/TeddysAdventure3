@@ -52,6 +52,14 @@ namespace TeddysAdventureLibrary
             }
         }
 
+        public Rectangle DestinationBoxToDraw
+        {
+            get
+            {
+                return new Rectangle((int)_position.X + _boxToDraw.Width / 2, (int)_position.Y + _boxToDraw.Height / 2, (int)_boxToDraw.Width, (int)_boxToDraw.Height);
+            }
+        }
+
         public bool Destroyed
         {
             get { return _destroyed; }
@@ -73,7 +81,7 @@ namespace TeddysAdventureLibrary
             Destroyed = false;
         }
 
-        public void Draw(GameTime gameTime, SpriteBatch sp)
+        public virtual void Draw(GameTime gameTime, SpriteBatch sp)
         {
             if (!_destroyed)
             {
