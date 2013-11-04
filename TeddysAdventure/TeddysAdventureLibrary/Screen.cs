@@ -161,6 +161,9 @@ namespace TeddysAdventureLibrary
                     case "Goggles":
                         GameObjects.Add(new Goggles(game, v2.Position));
                         break;
+                    case "PulseArmPickup":
+                        GameObjects.Add(new PulseArmPickup(game, v2.Position));
+                        break;
                 }
                 
             }

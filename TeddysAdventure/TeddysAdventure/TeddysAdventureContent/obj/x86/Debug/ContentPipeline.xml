@@ -407,15 +407,6 @@
       <Time>2013-10-30T12:22:42.6522397-04:00</Time>
     </Item>
     <Item>
-      <Source>Teddy\TeddyPulseArm.png</Source>
-      <Name>Teddy\TeddyPulseArm</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-      <Options>None</Options>
-      <Output>C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Teddy\TeddyPulseArm.xnb</Output>
-      <Time>2013-10-31T12:32:46.7726505-04:00</Time>
-    </Item>
-    <Item>
       <Source>Objects\PulseProjectile.png</Source>
       <Name>Objects\PulseProjectile</Name>
       <Importer>TextureImporter</Importer>
@@ -423,6 +414,15 @@
       <Options>None</Options>
       <Output>C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Objects\PulseProjectile.xnb</Output>
       <Time>2013-11-01T12:55:27.300368-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Objects\PulseArm.png</Source>
+      <Name>Objects\PulseArm</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Objects\PulseArm.xnb</Output>
+      <Time>2013-11-04T12:45:39.8101049-05:00</Time>
     </Item>
     <Item>
       <Source>Screens\NicksTest.xml</Source>
@@ -440,7 +440,7 @@
       <Processor>PassThroughProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Screens\FrankTest.xnb</Output>
-      <Time>2013-10-31T11:48:40.3125391-04:00</Time>
+      <Time>2013-11-01T13:29:06.3221913-04:00</Time>
     </Item>
     <Item>
       <Source>Screens\Basement1.xml</Source>
@@ -467,7 +467,7 @@
       <Processor>PassThroughProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Screens\Basement3.xnb</Output>
-      <Time>2013-10-30T12:14:14.6973958-04:00</Time>
+      <Time>2013-11-04T12:18:42.8260973-05:00</Time>
     </Item>
     <Item>
       <Source>Screens\Basement2.xml</Source>
@@ -503,10 +503,10 @@
       <Processor>ManifestProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\content.xnb</Output>
-      <Time>2013-11-01T13:24:28.4901913-04:00</Time>
+      <Time>2013-11-04T12:46:58.6446049-05:00</Time>
       <Dependency>
         <Key>TeddysAdventureContent.contentproj</Key>
-        <Value>2013-11-01T13:02:20.6135703-04:00</Value>
+        <Value>2013-11-04T12:21:08.2941286-05:00</Value>
       </Dependency>
     </Item>
     <Item>
@@ -532,7 +532,7 @@
     <Assemblies>
       <Assembly>
         <Key>C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventureLibrary\bin\x86\Debug\TeddysAdventureLibrary.dll</Key>
-        <Value>2013-11-01T13:26:42.9621913-04:00</Value>
+        <Value>2013-11-04T12:47:49.5906049-05:00</Value>
       </Assembly>
       <Assembly>
         <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.XImporter.dll</Key>

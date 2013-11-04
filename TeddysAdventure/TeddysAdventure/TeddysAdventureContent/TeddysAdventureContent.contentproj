@@ -380,6 +380,7 @@
       <Name>Basement3</Name>
       <Importer>XmlImporter</Importer>
       <Processor>PassThroughProcessor</Processor>
+      <SubType>Designer</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -404,15 +405,15 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Teddy\TeddyPulseArm.png">
-      <Name>TeddyPulseArm</Name>
+    <Compile Include="Objects\PulseProjectile.png">
+      <Name>PulseProjectile</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Objects\PulseProjectile.png">
-      <Name>PulseProjectile</Name>
+    <Compile Include="Objects\PulseArm.png">
+      <Name>PulseArm</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

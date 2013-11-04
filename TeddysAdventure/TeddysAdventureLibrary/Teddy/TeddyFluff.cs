@@ -83,6 +83,15 @@ namespace TeddysAdventureLibrary
                     }
 
                 }
+                else if (f.GetType() == typeof(PulseArmPickup))
+                {
+                    if (!f.Destroyed & this.TeddyRectangle.Intersects(f.CollisionRectangle) == true)
+                    {
+                        f.Destroyed = true;
+                        _wearingPulseArm = true;
+                    }
+
+                }
 
             }
         }
@@ -197,7 +206,7 @@ namespace TeddysAdventureLibrary
                 {
 
                     Vector2 refPoint = bone.ReferencePoints[fw.ReferenceID];
-                    Vector2 point = _facing == Direction.Right ? refPoint : bone.GetFlippedPoint(50, refPoint);
+                    Vector2 point = Facing == Direction.Right ? refPoint : bone.GetFlippedPoint(50, refPoint);
 
                     refPoint = _position + point;
                     Vector2 vRF =  fw.Fluff.Position - refPoint; //Vector from ref point to fluff
@@ -282,7 +291,7 @@ namespace TeddysAdventureLibrary
                 {
 
                     Vector2 refPoint = bone.ReferencePoints[i];
-                    Vector2 point = _facing == Direction.Right ? refPoint : bone.GetFlippedPoint(50, refPoint);
+                    Vector2 point = Facing == Direction.Right ? refPoint : bone.GetFlippedPoint(50, refPoint);
 
                     refPoint = _position + point;
 
