@@ -17,6 +17,10 @@ namespace TeddysAdventureLibrary
         private Vector2 _frameSize;
         private bool _destroyed;
 
+#if COLLISIONS
+        protected Texture2D _redFill;
+#endif
+
         public Texture2D StyleSheet
         {
             get { return _styleSheet; }
@@ -44,7 +48,15 @@ namespace TeddysAdventureLibrary
             set { _boxToDraw = value; }
         }
 
-        public Rectangle CollisionRectangle
+        public GeometryMethods.RectangleF CollisionRectangle
+        {
+            get
+            {
+                return new GeometryMethods.RectangleF((int)Position.X, (int)Position.Y, BoxToDraw.Width, BoxToDraw.Height);
+            }
+        }
+
+        public Rectangle CollisionRectangleRegular
         {
             get
             {
@@ -79,6 +91,11 @@ namespace TeddysAdventureLibrary
             Position = position;
             
             Destroyed = false;
+
+#if COLLISIONS
+            _redFill = new Texture2D(game.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
+            _redFill.SetData<Color>(new Color[] { Color.Red });
+#endif
         }
 
         public virtual void Draw(GameTime gameTime, SpriteBatch sp)

@@ -52,20 +52,6 @@ namespace TeddysAdventureLibrary
         protected TeddySpriteState _currentSprite = TeddySpriteState.Run1;
         private Direction _facing = Direction.Up;
         private Direction _previousRightOrLeft = Direction.Right;
-
-        protected Direction Facing
-        {
-            get { return _facing; }
-            set 
-            {
-                _facing = value;
-                if (_facing == Direction.Left || _facing == Direction.Right)
-                {
-                    _previousRightOrLeft = _facing;
-                }
-            }
-        }
-
         private bool _dead = false;
         private bool _isRunning = false;
 
@@ -197,6 +183,31 @@ namespace TeddysAdventureLibrary
         {
             get { return _collisionBox; }
             set { _collisionBox = value; }
+        }
+
+        protected Direction Facing
+        {
+            get { return _facing; }
+            set
+            {
+                _facing = value;
+                if (_facing == Direction.Left || _facing == Direction.Right)
+                {
+                    _previousRightOrLeft = _facing;
+                }
+            }
+        }
+
+        public bool WearingPowerup
+        {
+            get 
+            {
+                if (_wearingGoggles || _wearingPulseArm)
+                    return true;
+                else
+                    return false;
+            }
+
         }
 
         protected Rectangle? GetBoxToDraw()
@@ -753,7 +764,11 @@ namespace TeddysAdventureLibrary
                 }
                 else
                 {
-                    CurrentFluff -= e.Damage;
+                    if (!WearingPowerup)
+                    {
+                        CurrentFluff -= e.Damage;
+                    }
+                    
                     _isHit = true;
 
                     var playerOverallVelocity = new Vector2(-50, 0);
@@ -762,19 +777,21 @@ namespace TeddysAdventureLibrary
                     {
                         _yVelocity = -3;
                         playerOverallVelocity.X = -50;
-                        movePlayerX(playerOverallVelocity, currentScreen);
-                        throwFluff(e.Damage);
                     }
                     else //hit on left side
                     {
                         _yVelocity = -3;
                         playerOverallVelocity.X = 50;
-                        movePlayerX(playerOverallVelocity, currentScreen);
+                    }
+
+                    movePlayerX(playerOverallVelocity, currentScreen);
+                    if (!WearingPowerup)
+                    {
                         throwFluff(e.Damage);
                     }
 
-                    _wearingGoggles = false;
                     _wearingPulseArm = false;
+                    _wearingGoggles = false;
                 }
             }
         }

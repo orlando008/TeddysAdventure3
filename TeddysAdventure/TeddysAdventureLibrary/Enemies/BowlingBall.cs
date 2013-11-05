@@ -46,6 +46,9 @@ namespace TeddysAdventureLibrary
                 else if (this._velocity.X < 0)
                     _frameCount--;
 
+#if COLLISIONS
+                sp.Draw(this._redFill, this.CollisionRectangle, null, Color.Red);
+#endif
             }
 
 
@@ -67,9 +70,6 @@ namespace TeddysAdventureLibrary
                 _idleDeathCounter = 0;
             }
         }
-
-
-
 
     }
 }

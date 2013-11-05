@@ -23,6 +23,7 @@ namespace TeddysAdventureLibrary
             _velocity = velocity;
             StyleSheet = game.Content.Load<Texture2D>("Objects\\PulseProjectile");
             BoxToDraw = new Rectangle(0, 0, StyleSheet.Width, StyleSheet.Height);
+            
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch sp)
@@ -37,14 +38,55 @@ namespace TeddysAdventureLibrary
                 sp.Draw(this.StyleSheet, this.DestinationBoxToDraw, this.BoxToDraw, Color.White, _rotationAngle, origin, SpriteEffects.None, 0);
 
                 _frameCount++;
+
+#if COLLISIONS
+                sp.Draw(this._redFill, this.CollisionRectangleRegular, null, Color.Red);
+#endif
             }
         }
 
         public override void Update(GameTime gameTime)
         {
-            base.Update(gameTime);
+            if (!Destroyed)
+            {
+                Screen currentScreen = (Screen)Game.Components[0];
+                base.Update(gameTime);
 
-            Position = new Vector2(Position.X + _velocity.X, Position.Y + _velocity.Y);
+                Position = new Vector2(Position.X + _velocity.X, Position.Y + _velocity.Y);
+
+                if (Position.X > currentScreen.LevelWidth || Position.X < 0 || Position.Y > currentScreen.LevelHeight || Position.Y < 0)
+                    this.Destroyed = true;
+                else
+                    checkForEnemyCollisions(currentScreen);
+                
+            }
         }
+
+        private void checkForEnemyCollisions(Screen currentScreen)
+        {
+            foreach (Enemy e in currentScreen.Enemies)
+            {
+                checkForEnemyCollisionRecursive(currentScreen,e);
+            }
+        }
+
+        private void checkForEnemyCollisionRecursive(Screen currentScreen, Enemy e)
+        {
+            if (!e.Destroyed & e.CollisionRectangle.Intersects(this.CollisionRectangleRegular))
+            {
+                e.Kill();
+                this.Destroyed = true;
+            }
+
+            if (e.ChildrenEnemies != null)
+            {
+                foreach (Enemy e2 in e.ChildrenEnemies)
+                {
+                    checkForEnemyCollisionRecursive(currentScreen, e2);
+                }
+            }
+
+        }
+
     }
 }
