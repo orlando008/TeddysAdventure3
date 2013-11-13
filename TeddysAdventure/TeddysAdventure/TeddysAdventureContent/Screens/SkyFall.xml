@@ -83,6 +83,10 @@
     </Surfaces>
     <ListOfObjects>
       <Item>
+        <Type>BlanketPickup</Type>
+        <Position>1100 500</Position>
+      </Item>
+      <Item>
         <Type>BadApple</Type>
         <Position>570 1545</Position>
       </Item>
@@ -111,8 +115,12 @@
         <Position>176 353</Position>
       </Item>
     </ListOfObjects>
+    
+    
+    
     <ListOfEnemies>
-      <Item>
+      
+      <!--<Item>
         <Type>Airplane</Type>
         <Position>550 393</Position>
         <Velocity>1 0</Velocity>
@@ -312,7 +320,7 @@
         <Velocity>-3 1</Velocity>
         <IsSpawnPoint>1</IsSpawnPoint>
         <SpawnInterval>4000</SpawnInterval>
-      </Item>
+      </Item>-->
     </ListOfEnemies>
     <LevelType>Falling</LevelType>
     <LevelSize>1450 9000</LevelSize>

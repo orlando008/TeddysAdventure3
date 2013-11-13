@@ -164,6 +164,9 @@ namespace TeddysAdventureLibrary
                     case "PulseArmPickup":
                         GameObjects.Add(new PulseArmPickup(game, v2.Position));
                         break;
+                    case "BlanketPickup":
+                        GameObjects.Add(new BlanketPickup(game, v2.Position));
+                        break;
                 }
                 
             }

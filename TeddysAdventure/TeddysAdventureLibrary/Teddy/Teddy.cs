@@ -17,7 +17,7 @@ namespace TeddysAdventureLibrary
             Up = 0, Down, Left, Right
         }
 
-        protected enum TeddySpriteState
+        public enum TeddySpriteState
         {
             Run1= 1,
             Run2 = 2,
@@ -42,7 +42,12 @@ namespace TeddysAdventureLibrary
         private Rectangle _boxToDraw;
         private Vector2 _frameSize;
         protected int walkSpeed = 2;
-        protected int runSpeed = 3;
+        private int runSpeed = 3;
+
+        public int RunSpeed
+        {
+            get { return runSpeed; }
+        }
 
         private int _facingCounter = 0;
         private int _poseLengthWalk = 15;
@@ -52,6 +57,8 @@ namespace TeddysAdventureLibrary
         protected TeddySpriteState _currentSprite = TeddySpriteState.Run1;
         private Direction _facing = Direction.Up;
         private Direction _previousRightOrLeft = Direction.Right;
+
+
         private bool _dead = false;
         private bool _isRunning = false;
 
@@ -69,21 +76,13 @@ namespace TeddysAdventureLibrary
         private int _recoverWait = 100;
         protected bool _isHit = false;
         
-        protected bool _wearingGoggles = false;
-        protected bool _wearingPulseArm = true;
-        protected bool _firingPulseArm = false;
-        protected bool _drawFiringSprite = false;
-        protected int _pulseCoolDownCounter = 0;
-        protected int _pulseCoolDown = 50;
-        protected Keys _pulseKey = Keys.F;
-        protected int _pulseVelocity = 4;
-        protected Texture2D _gogglesSprites;
-        protected Texture2D _pulseArmSprites;
+ 
         private bool _levelComplete = false;
 
         //Keystate 
         protected bool _spacePressedDown = false;
 
+        public Powerup _currentPowerup = null;
 
         public void Initialize()
         {
@@ -96,7 +95,6 @@ namespace TeddysAdventureLibrary
 
             this.StyleSheet = game.Content.Load<Texture2D>(System.IO.Path.Combine(@"Teddy", "TeddyRun"));
             _runGlow = game.Content.Load<Texture2D>(System.IO.Path.Combine(@"Teddy", "RunGlow"));
-            _pulseArmSprites = game.Content.Load<Texture2D>(System.IO.Path.Combine(@"Objects", "PulseArm"));
 
             Game = game;
             Position = initialPosition;
@@ -130,6 +128,12 @@ namespace TeddysAdventureLibrary
             set { _enemiesDestroyed = value; }
         }
 
+        public ISurfaceInterface RidingSurface { get { return _ridingSurface; } }
+
+        public Direction PreviousRightOrLeft
+        {
+            get { return _previousRightOrLeft; }
+        }
 
         public int X
         {
@@ -185,7 +189,7 @@ namespace TeddysAdventureLibrary
             set { _collisionBox = value; }
         }
 
-        protected Direction Facing
+        public Direction Facing
         {
             get { return _facing; }
             set
@@ -202,7 +206,7 @@ namespace TeddysAdventureLibrary
         {
             get 
             {
-                if (_wearingGoggles || _wearingPulseArm)
+                if (_currentPowerup != null )
                     return true;
                 else
                     return false;
@@ -210,12 +214,14 @@ namespace TeddysAdventureLibrary
 
         }
 
-        protected Rectangle? GetBoxToDraw()
+        public void SetSpriteState(TeddySpriteState state)
         {
-            if (_wearingPulseArm && _drawFiringSprite)
-            {
-                _currentSprite = TeddySpriteState.Run3;
-            }
+            _currentSprite = state;
+        }
+
+        public Rectangle? GetBoxToDraw()
+        {
+
 
             switch (_currentSprite)
             {
@@ -243,9 +249,21 @@ namespace TeddysAdventureLibrary
         {
             get 
             {
-                return new GeometryMethods.RectangleF(Position.X, Position.Y,  this.FrameSize.X, this.FrameSize.Y); 
+                if (_currentPowerup != null)
+                    return _currentPowerup.GetExpandedPowerupRectangle(this);
+                else
+                    return JustTeddyRectangle;
             }
         }
+
+        public GeometryMethods.RectangleF JustTeddyRectangle
+        {
+            get {
+                return new GeometryMethods.RectangleF(Position.X, Position.Y,  this.FrameSize.X, this.FrameSize.Y); 
+            }
+
+        }
+
         #endregion
 
         public void MoveLeft(int speed)
@@ -292,6 +310,25 @@ namespace TeddysAdventureLibrary
             _playerOverallVelocity.X = speed;
         }
 
+        public Vector2 Velocity
+        {
+            get
+            {
+                return new Vector2( _playerOverallVelocity.X, _yVelocity);
+            }
+        }
+
+        public void SetVelocity(Vector2 v)
+        {
+            _playerOverallVelocity.X = v.X;
+            _yVelocity = v.Y;
+        }
+
+        public void SetTerminalVelocity( int v)
+        {
+            TERMINAL_VELOCITY = v;
+        }
+
         public void SetFacingSprite()
         {
             if (_facingCounter < _poseLengthWalk)
@@ -315,6 +352,11 @@ namespace TeddysAdventureLibrary
         public override void Update(GameTime gameTime)
         {
             Screen currentScreen = (Screen)Game.Components[0];
+            KeyboardState keyState = Keyboard.GetState();
+
+            if (_currentPowerup != null)
+                if (!_currentPowerup.Update(gameTime, currentScreen,this, keyState)) { return; }
+
 
 
             _playerOverallVelocity = new Vector2(0,0);
@@ -322,45 +364,7 @@ namespace TeddysAdventureLibrary
             {
                 _playerOverallVelocity = _ridingSurface.SurfaceVelocity();
             }
-
-            KeyboardState keyState = Keyboard.GetState();
-
-            if (_wearingPulseArm)
-            {
-                if (keyState.IsKeyDown(_pulseKey) && _pulseCoolDownCounter <= 0)
-                {
-                    _firingPulseArm = true;
-                    if (_previousRightOrLeft == Direction.Left)
-                    {
-                        ((Screen)Game.Components[0]).GameObjects.Add(new PulseProjectile(Game, new Vector2(Position.X + 10, Position.Y + 39), this, new Vector2(-_pulseVelocity, 0)));
-                    }
-                    else
-                    {
-                        ((Screen)Game.Components[0]).GameObjects.Add(new PulseProjectile(Game, new Vector2(Position.X + 40, Position.Y + 39), this, new Vector2(_pulseVelocity, 0)));
-                    }
-                   
-                    _pulseCoolDownCounter = _pulseCoolDown;
-                    _drawFiringSprite = true;
-                }
-                else
-                {
-                    _firingPulseArm = false;
-                    _pulseCoolDownCounter--;
-
-                    if (_drawFiringSprite == true)
-                    {
-                        if (_pulseCoolDownCounter < _pulseCoolDown - 15)
-                        {
-                            _drawFiringSprite = false;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                _firingPulseArm = false;
-                _pulseCoolDownCounter = 0;
-            }
+            
 
             int speed = walkSpeed;
 
@@ -387,18 +391,7 @@ namespace TeddysAdventureLibrary
                 SetFacingSprite();
             }
 
-            if (_wearingGoggles)
-            {
-                if (keyState.IsKeyDown(Keys.Down) && _ridingSurface != null && _ridingSurface.SurfaceOwner() != null)
-                {
-                    _ridingSurface.SurfaceOwner().PlayerIsSteeringEnemyDown(2, 1);
-                }
 
-                if (keyState.IsKeyDown(Keys.Up) && _ridingSurface != null && _ridingSurface.SurfaceOwner() != null)
-                {
-                    _ridingSurface.SurfaceOwner().PlayerIsSteeringEnemyDown(2, -1);
-                }
-            }
 
             //if both right and left keys are up, teddy should be facing forward (he'll blink)
             if (keyState.IsKeyUp(Keys.Right) && keyState.IsKeyUp(Keys.Left))
@@ -504,7 +497,7 @@ namespace TeddysAdventureLibrary
 
         }
 
-        protected void movePlayerAndCheckState(Screen currentScreen, KeyboardState keyState)
+        public void movePlayerAndCheckState(Screen currentScreen, KeyboardState keyState)
         {
 
             movePlayerX(_playerOverallVelocity, currentScreen);
@@ -535,7 +528,7 @@ namespace TeddysAdventureLibrary
             checkEnemies(keyState, currentScreen);
         }
 
-        protected void movePlayerX(Vector2 overallVelocity, Screen currentScreen)
+        public void movePlayerX(Vector2 overallVelocity, Screen currentScreen)
         {
 
             if (overallVelocity.X != 0)
@@ -651,8 +644,7 @@ namespace TeddysAdventureLibrary
                 {
                     if (!f.Destroyed & this.TeddyRectangle.Intersects(f.CollisionRectangle) == true)
                     {
-                        _currentFluff++;
-                        f.Destroyed = true;
+                        HandleFluffGrab((Fluff)f);
                     }
                 }
                 else if (f.GetType() == typeof(Goggles))
@@ -660,8 +652,7 @@ namespace TeddysAdventureLibrary
                     if (!f.Destroyed & this.TeddyRectangle.Intersects(f.CollisionRectangle) == true)
                     {
                         f.Destroyed = true;
-                        _wearingGoggles = true;
-                        _gogglesSprites = f.StyleSheet;
+                        _currentPowerup = new GogglesPowerup(_game);
                     }
 
                 }
@@ -670,12 +661,26 @@ namespace TeddysAdventureLibrary
                     if (!f.Destroyed & this.TeddyRectangle.Intersects(f.CollisionRectangle) == true)
                     {
                         f.Destroyed = true;
-                        _wearingPulseArm = true;
+                        _currentPowerup = new PulseArmPowerup(_game);
                     }
 
                 }
+                else if (f.GetType() == typeof(BlanketPickup))
+                {
+                    if (!f.Destroyed && this.TeddyRectangle.Intersects(f.CollisionRectangle) == true)
+                    {
+                        f.Destroyed = true;
+                        _currentPowerup = new Powerups.BlanketPowerup(_game);
+                    }
+                }
 
             }
+        }
+
+        protected virtual void HandleFluffGrab(Fluff f)
+        {
+            _currentFluff++;
+            f.Destroyed = true;
         }
 
 
@@ -726,6 +731,10 @@ namespace TeddysAdventureLibrary
 
         protected virtual void HandleLandingOnEnemy(Enemy e, KeyboardState keyState)
         {
+
+            if (_currentPowerup != null)
+                if (!_currentPowerup.HandleLandingOnEnemy(e, keyState)) { return;}
+
             if (e.CanJumpOnToKill)
             {
                 _enemiesDestroyed++;
@@ -752,6 +761,9 @@ namespace TeddysAdventureLibrary
 
         protected virtual void HandleEnemyInteraction(Enemy e, Screen currentScreen, GeometryMethods.RectangleF enemyHitBox)
         {
+
+            if (_currentPowerup != null)
+                if (!_currentPowerup.HandleEnemyInteraction(e, currentScreen, enemyHitBox)) { return; }
 
             _currentSprite = TeddySpriteState.Blink4;
             // Check if Teddy has been hit
@@ -790,8 +802,7 @@ namespace TeddysAdventureLibrary
                         throwFluff(e.Damage);
                     }
 
-                    _wearingPulseArm = false;
-                    _wearingGoggles = false;
+                    _currentPowerup = null;
                 }
             }
         }
@@ -818,6 +829,11 @@ namespace TeddysAdventureLibrary
         public virtual void Draw(GameTime gameTime, SpriteBatch teddyBatch)
         {
 
+            if (_currentPowerup != null)
+            {
+                if (!_currentPowerup.BeforeDraw(gameTime, teddyBatch, this)) { return; }
+            }
+
             Rectangle? boxToDraw = GetBoxToDraw();
 
             if (boxToDraw != null)
@@ -839,50 +855,14 @@ namespace TeddysAdventureLibrary
                     teddyBatch.Draw(_runGlow, new Vector2(Position.X, Position.Y + boxToDraw.Value.Height - _runGlow.Height / 2), new Rectangle(0, 0, _runGlow.Width, _runGlow.Height), Color.White);
                 }
 
-                if (_wearingPulseArm && _drawFiringSprite)
-                {
-                    if (_facing != Direction.Left && _facing != Direction.Right)
-                    {
-                        switch (_previousRightOrLeft)
-                        {
-                            case Direction.Left:
-                                seff = SpriteEffects.FlipHorizontally;
-                                break;
-                        }
-                    }
-                }
-
                 teddyBatch.Draw(this.StyleSheet, this.Position, boxToDraw, Color.White, 0, Vector2.Zero, 1, seff, 0);
 
-                if (_wearingGoggles)
+                if (_currentPowerup != null)
                 {
-                    if (_facing == Direction.Left || _facing == Direction.Right)
-                    {
-                        teddyBatch.Draw(_gogglesSprites, Position, new Rectangle(100, 0, 50, 53), Color.White, 0, Vector2.Zero,1, seff, 0);
-                    }
-                    else
-                    {
-                        teddyBatch.Draw(_gogglesSprites, Position, new Rectangle(0, 0, 50, 53), Color.White, 0, Vector2.Zero, 1, seff, 0);
-                    }
+                    _currentPowerup.AfterDraw(gameTime, teddyBatch, this, seff);
                 }
 
 
-                if (_wearingPulseArm && _drawFiringSprite)
-                {
-                    teddyBatch.Draw(_pulseArmSprites, Position, new Rectangle(100, 0, 50, 75), Color.White, 0, Vector2.Zero, 1, seff, 0);
-                }
-                else if (_wearingPulseArm)
-                {
-                    if (_facing != Direction.Left && _facing != Direction.Right)
-                    {
-                        teddyBatch.Draw(_pulseArmSprites, Position, new Rectangle(150, 0, 50, 75), Color.White, 0, Vector2.Zero, 1, seff, 0);
-                    }
-                    else
-                    {
-                        teddyBatch.Draw(_pulseArmSprites, Position, boxToDraw, Color.White, 0, Vector2.Zero, 1, seff, 0);
-                    }
-                    
-                }
             }
         }
 

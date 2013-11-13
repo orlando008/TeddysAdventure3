@@ -42,7 +42,12 @@
         <Sprite>SurfaceTexture1</Sprite>
       </Item>
     </Surfaces>
-    <ListOfObjects />
+    <ListOfObjects>
+      <Item>
+        <Type>Goggles</Type>
+        <Position>500 600</Position>
+      </Item>
+    </ListOfObjects>
     <ListOfEnemies>
       <Item>
         <Type>MatchBoxCar</Type>

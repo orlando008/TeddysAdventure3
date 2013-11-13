@@ -47,52 +47,13 @@ namespace TeddysAdventureLibrary
         }
 
 
-        protected override  void checkForObjectInteractions(Screen currentScreen)
+        protected override void HandleFluffGrab(Fluff f)
         {
-            foreach (GameObject f in currentScreen.GameObjects)
+            if (!_fluffs.Any(fw => fw.Fluff.Equals(f)))
             {
-                if (f.GetType() == typeof(Goal))
-                {
-                    if (this.TeddyRectangle.Intersects(f.CollisionRectangle))
-                    {
-                        Position = new Vector2(-100, -100);
-                        this.LevelComplete = true;
-                    }
-                }
-               else if (f.GetType() == typeof(Fluff))
-               {
-                   if (!_fluffs.Any(fw => fw.Fluff.Equals(f)))
-                   {
-                        if (!f.Destroyed & this.TeddyRectangle.Intersects(f.CollisionRectangle) == true)
-                        {
-                            _currentFluff++;
-                            ReevaluateSkeletonAndFluff();
-                            f.Destroyed = true;
-                        }
-                   }
-
-                   
-                }
-                else if (f.GetType() == typeof(Goggles))
-                {
-                    if (!f.Destroyed & this.TeddyRectangle.Intersects(f.CollisionRectangle) == true)
-                    {
-                        f.Destroyed = true;
-                        _wearingGoggles = true;
-                        _gogglesSprites = f.StyleSheet;
-                    }
-
-                }
-                else if (f.GetType() == typeof(PulseArmPickup))
-                {
-                    if (!f.Destroyed & this.TeddyRectangle.Intersects(f.CollisionRectangle) == true)
-                    {
-                        f.Destroyed = true;
-                        _wearingPulseArm = true;
-                    }
-
-                }
-
+                    _currentFluff++;
+                    ReevaluateSkeletonAndFluff();
+                    f.Destroyed = true;
             }
         }
 
