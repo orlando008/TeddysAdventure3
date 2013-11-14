@@ -122,6 +122,7 @@
     <Compile Include="GameObjects\GameObject.cs" />
     <Compile Include="GameObjects\Goal.cs" />
     <Compile Include="GameObjects\Goggles.cs" />
+    <Compile Include="GameObjects\NightVision.cs" />
     <Compile Include="GameObjects\PulseArmPickup.cs" />
     <Compile Include="GameObjects\PulseProjectile.cs" />
     <Compile Include="GeometryMethods.cs" />
@@ -133,6 +134,7 @@
     <Compile Include="HUD.cs" />
     <Compile Include="OpeningCinematic.cs" />
     <Compile Include="Powerups\BlanketPowerup.cs" />
+    <Compile Include="Powerups\NightVisionPowerup.cs" />
     <Compile Include="Powerups\GogglesPowerup.cs" />
     <Compile Include="Powerups\Powerup.cs" />
     <Compile Include="Powerups\PulseArmPowerup.cs" />

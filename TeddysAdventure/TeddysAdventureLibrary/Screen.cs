@@ -19,11 +19,13 @@ namespace TeddysAdventureLibrary
             Jetpack = 1,
             UnderWater = 2,
             Falling = 3,
-            Fluff = 4
+            Fluff = 4,
+            Dark = 5
         }
 
         private Texture2D _deathSprite;
         private Texture2D _successSprite;
+        private Texture2D _overlaySprite;
         private Dictionary<string,Texture2D> _surfaceTextures;
         private Dictionary<string, Texture2D> _backgroundImages;
         private SpriteFont _deathFont;
@@ -114,6 +116,7 @@ namespace TeddysAdventureLibrary
 
             _deathSprite = game.Content.Load<Texture2D>("Screens\\deathScreen");
             _successSprite = game.Content.Load<Texture2D>("Screens\\successScreen");
+            _overlaySprite = game.Content.Load<Texture2D>("Screens\\tintOverlay");
             _deathFont = game.Content.Load<SpriteFont>("Fonts\\DeathScreenFont");
             _hudFont = game.Content.Load<SpriteFont>("Fonts\\HudFont");
 
@@ -166,6 +169,9 @@ namespace TeddysAdventureLibrary
                         break;
                     case "BlanketPickup":
                         GameObjects.Add(new BlanketPickup(game, v2.Position));
+                        break;
+                    case "NightVision":
+                        GameObjects.Add(new NightVision(game, v2.Position));
                         break;
                 }
                 
@@ -235,6 +241,9 @@ namespace TeddysAdventureLibrary
                     break;
                 case "Fluff":
                     _levelType = LevelType.Fluff;
+                    break;
+                case "Dark":
+                    _levelType = LevelType.Dark;
                     break;
                 default:
                     _levelType = LevelType.Normal;
@@ -405,6 +414,16 @@ namespace TeddysAdventureLibrary
                 {
                     _deathScreenCounter += 3;
                 }
+            }
+
+            if (_levelType == LevelType.Dark && _teddy._currentPowerup == null)
+            {
+                _overlayBatch.Draw(_overlaySprite, new Rectangle(0, 0, _overlaySprite.Width, _overlaySprite.Height), new Color(Color.Gray.R, Color.Gray.G, Color.Gray.B, 248));
+            }
+
+            if (_teddy._currentPowerup != null)
+            {
+                _teddy._currentPowerup.ScreenDraw(gameTime, _overlayBatch, _teddy, SpriteEffects.None);
             }
 
             _teddy.Draw(gameTime, _foregroundBatch);

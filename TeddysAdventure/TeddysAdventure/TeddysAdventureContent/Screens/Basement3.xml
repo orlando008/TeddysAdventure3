@@ -376,7 +376,7 @@
         <Position>518 7850</Position>
       </Item>
       <Item>
-        <Type>PulseArmPickup</Type>
+        <Type>NightVision</Type>
         <Position>560 7795</Position>
       </Item>
       <Item>
@@ -663,7 +663,7 @@
         <SpawnInterval>7000</SpawnInterval>
       </Item>
     </ListOfEnemies>
-    <LevelType>Normal</LevelType>
+    <LevelType>Dark</LevelType>
     <LevelSize>2500 8000</LevelSize>
   </Asset>
 </XnaContent>

@@ -673,6 +673,14 @@ namespace TeddysAdventureLibrary
                         _currentPowerup = new Powerups.BlanketPowerup(_game);
                     }
                 }
+                else if (f.GetType() == typeof(NightVision))
+                {
+                    if (!f.Destroyed && this.TeddyRectangle.Intersects(f.CollisionRectangle) == true)
+                    {
+                        f.Destroyed = true;
+                        _currentPowerup = new NightVisionPowerup(_game);
+                    }
+                }
 
             }
         }

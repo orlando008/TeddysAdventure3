@@ -7,14 +7,14 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace TeddysAdventureLibrary
 {
-    public class PulseArmPickup : GameObject
+    public class NightVision : GameObject
     {
-        public PulseArmPickup(Game game, Vector2 position)
+        public NightVision(Game game, Vector2 position)
             : base(game,position)
         {
-            StyleSheet = game.Content.Load<Texture2D>("Objects\\PulseArm");
-         
-            BoxToDraw = new Rectangle(127, 40, 22, 17);
+            StyleSheet = game.Content.Load<Texture2D>("Objects\\NightVision");
+          
+            BoxToDraw = new Rectangle(50, 0, 50, 44);
         }
     }
 }

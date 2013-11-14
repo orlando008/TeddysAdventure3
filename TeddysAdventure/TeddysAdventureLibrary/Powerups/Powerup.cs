@@ -33,6 +33,11 @@ namespace TeddysAdventureLibrary
             return;
         }
 
+        public virtual void ScreenDraw(GameTime gameTime, SpriteBatch batch, Teddy teddy, SpriteEffects seff)
+        {
+            return;
+        }
+
         public virtual GeometryMethods.RectangleF GetExpandedPowerupRectangle(Teddy teddy)
         {
             return teddy.JustTeddyRectangle;

@@ -54,3 +54,6 @@ Screens\Basement2.xml
 Objects\Goggles.png
 Objects\PulseProjectile.png
 Objects\PulseArm.png
+Screens\test.xml
+Objects\NightVision.png
+Screens\tintOverlay.png
