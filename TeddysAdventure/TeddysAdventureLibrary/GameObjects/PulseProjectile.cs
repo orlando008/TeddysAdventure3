@@ -11,18 +11,22 @@ namespace TeddysAdventureLibrary
     {
         private Teddy _teddy;
         private int _frameCount = 0 ;
-        private int _framesForCompleteRotation = 50;
+        private int _framesForCompleteRotation = 10;
         
         private float _rotationAngle;
         private Vector2 _velocity;
+        private float _powerLevelSpeed;
+        private int _powerLevelSizeBoost;
 
-        public PulseProjectile(Game game, Vector2 position, Teddy teddy, Vector2 velocity)
+        public PulseProjectile(Game game, Vector2 position, Teddy teddy, Vector2 velocity, float powerLevelSpeed, int powerLevelSize)
             : base(game, position)
         {
             _teddy = teddy;
             _velocity = velocity;
+            _powerLevelSpeed = powerLevelSpeed;
+            _powerLevelSizeBoost = powerLevelSize;
             StyleSheet = game.Content.Load<Texture2D>("Objects\\PulseProjectile");
-            BoxToDraw = new Rectangle(0, 0, StyleSheet.Width, StyleSheet.Height);
+            BoxToDraw = new Rectangle(0, 0, StyleSheet.Width + _powerLevelSizeBoost, StyleSheet.Height + _powerLevelSizeBoost);
             
         }
 
@@ -35,7 +39,7 @@ namespace TeddysAdventureLibrary
                 _rotationAngle = ((float)_frameCount / _framesForCompleteRotation) * 2 * (float)Math.PI;
                 var origin = new Vector2(this.BoxToDraw.Height / 2, this.BoxToDraw.Width / 2);
 
-                sp.Draw(this.StyleSheet, this.DestinationBoxToDraw, this.BoxToDraw, Color.White, _rotationAngle, origin, SpriteEffects.None, 0);
+                sp.Draw(this.StyleSheet, this.DestinationBoxToDraw, new Rectangle(0, 0, StyleSheet.Width, StyleSheet.Height), Color.White, _rotationAngle, origin, SpriteEffects.None, 0);
 
                 _frameCount++;
 
@@ -52,7 +56,7 @@ namespace TeddysAdventureLibrary
                 Screen currentScreen = (Screen)Game.Components[0];
                 base.Update(gameTime);
 
-                Position = new Vector2(Position.X + _velocity.X, Position.Y + _velocity.Y);
+                Position = new Vector2(Position.X + _velocity.X /* + _powerLevelSpeed */, Position.Y + _velocity.Y);
 
                 if (Position.X > currentScreen.LevelWidth || Position.X < 0 || Position.Y > currentScreen.LevelHeight || Position.Y < 0)
                     this.Destroyed = true;
