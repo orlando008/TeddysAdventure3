@@ -44,7 +44,6 @@ namespace TeddysAdventureLibrary
 
             batch.Draw(_overlaySprite, new Rectangle(0, 0, _overlaySprite.Width, _overlaySprite.Height), dc);
 
-            //base.ScreenDraw(gameTime, batch, teddy, seff);
         }
 
 

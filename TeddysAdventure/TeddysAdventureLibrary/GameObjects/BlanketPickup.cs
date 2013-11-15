@@ -12,9 +12,9 @@ namespace TeddysAdventureLibrary
         public BlanketPickup(Game game, Vector2 position)
             : base(game, position)
         {
-            StyleSheet = game.Content.Load<Texture2D>("Objects\\Goggles");
+            StyleSheet = game.Content.Load<Texture2D>("Objects\\BlanketPickup");
 
-            BoxToDraw = new Rectangle(50, 0, 50, 28);
+            BoxToDraw = new Rectangle(0, 0, 58, 33);
         }
 
 

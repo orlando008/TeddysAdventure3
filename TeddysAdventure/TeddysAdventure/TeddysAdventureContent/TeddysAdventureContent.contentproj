@@ -420,13 +420,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Screens\test.xml">
-      <Name>test</Name>
-      <Importer>XmlImporter</Importer>
-      <Processor>PassThroughProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Objects\NightVision.png">
       <Name>NightVision</Name>
       <Importer>TextureImporter</Importer>
@@ -436,6 +429,13 @@
   <ItemGroup>
     <Compile Include="Screens\tintOverlay.png">
       <Name>tintOverlay</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Objects\BlanketPickup.png">
+      <Name>BlanketPickup</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
