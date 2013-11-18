@@ -35,6 +35,7 @@ namespace TeddysAdventureLibrary
             if (_charging == true & keyState.IsKeyUp(_pulseKey))
             {
                 _firingPulseArm = true;
+
                 if (teddy.PreviousRightOrLeft == Teddy.Direction.Left)
                 {
                     screen.GameObjects.Add(new PulseProjectile(_game, new Vector2(teddy.Position.X + 10, teddy.Position.Y + 39), teddy, new Vector2(-_pulseVelocity, 0), (float)(_powerLevel / 10), (_powerLevel / 5)));
