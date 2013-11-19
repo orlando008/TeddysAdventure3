@@ -15,6 +15,7 @@ namespace TeddysAdventureLibrary.Powerups
         private Texture2D _teddySprite;
         private Texture2D _blanketParachuteSprite;
         private Texture2D _blanketFallingSprite;
+        private Texture2D _blanketHoldingSprite;
         private Rectangle _teddyBox;
         private Rectangle _blanketBox;
 
@@ -51,6 +52,7 @@ namespace TeddysAdventureLibrary.Powerups
             _teddySprite = game.Content.Load<Texture2D>(System.IO.Path.Combine(@"Teddy", "TeddyFall"));
             _blanketParachuteSprite = game.Content.Load<Texture2D>(System.IO.Path.Combine(@"Teddy", "Blanket"));
             _blanketFallingSprite = game.Content.Load<Texture2D>(System.IO.Path.Combine(@"Teddy", "BlanketFall"));
+            _blanketHoldingSprite = game.Content.Load<Texture2D>(System.IO.Path.Combine(@"Objects", "BlanketSprites"));
             _teddyBox   = new Rectangle(0, 0, _teddySprite.Width, _teddySprite.Height);
             _blanketBox = new Rectangle(0, 0, _blanketParachuteSprite.Width, _blanketParachuteSprite.Height);
         }
@@ -276,6 +278,10 @@ namespace TeddysAdventureLibrary.Powerups
             switch (_teddyMode)
             {
                 case TeddyModeEnum.Normal:
+                    DrawBlanketBefore(gameTime, teddyBatch, teddy);
+                    performTeddyUpdate = true;
+                    break;
+
                 case TeddyModeEnum.FallingToDeath:
                     performTeddyUpdate = true;
                     break;
@@ -289,6 +295,71 @@ namespace TeddysAdventureLibrary.Powerups
 
             return performTeddyUpdate;
 
+        }
+
+        private void DrawBlanketBefore(GameTime gameTime, SpriteBatch batch, Teddy teddy)
+        {
+            //Teddy holds the blanket in his right hand, If he is walking to the left, the blanket will be away from the user and must be drawn before teddy gets drawn
+            if (teddy.Facing != Teddy.Direction.Left) { return; }
+
+            Rectangle blanketRect;
+            Vector2 blanketPositionOffset = Vector2.Zero;
+
+            switch( teddy.SpriteState){
+                case Teddy.TeddySpriteState.Run1:
+                    blanketRect = new Rectangle(130, 0, 65, 28);
+                    blanketPositionOffset = new Vector2( -5, 48);
+                    break;
+                case Teddy.TeddySpriteState.Run2:
+                    blanketRect = new Rectangle(65, 0, 65, 28);
+                    blanketPositionOffset = new Vector2(-8, 41);
+                    break;
+                case Teddy.TeddySpriteState.Run3:
+                    blanketRect = new Rectangle(0, 0, 65, 28);
+                    blanketPositionOffset = new Vector2( 25, 49);
+                    break;
+                default:
+                    blanketRect = new Rectangle(195, 0, 65, 28);
+                    blanketPositionOffset = new Vector2( -50 + 8, 50);
+                    break;
+            }
+
+            SpriteEffects seff = SpriteEffects.FlipHorizontally;
+
+            batch.Draw(_blanketHoldingSprite, teddy.Position + blanketPositionOffset, blanketRect, Color.White, 0, Vector2.Zero, 1, seff, 0);
+
+        }
+
+        public override void AfterDraw(GameTime gameTime, SpriteBatch batch, Teddy teddy, SpriteEffects seff)
+        {
+
+            //Teddy holds the blanket in his right hand, If he is walking to the left, the blanket will be away from the user and must be drawn before teddy gets drawn
+            if (teddy.Facing == Teddy.Direction.Left) { return; }
+
+            Rectangle blanketRect;
+            Vector2 blanketPositionOffset = Vector2.Zero;
+
+            switch( teddy.SpriteState){
+                case Teddy.TeddySpriteState.Run1:
+                    blanketRect = new Rectangle(0, 0, 65, 28);
+                    blanketPositionOffset = new Vector2(-50 + 8, 50);
+                    break;
+                case Teddy.TeddySpriteState.Run2:
+                    blanketRect = new Rectangle(65, 0, 65, 28);
+                    blanketPositionOffset = new Vector2(-50 + 22, 49);
+                    break;
+                case Teddy.TeddySpriteState.Run3:
+                    blanketRect = new Rectangle(130, 0, 65, 28);
+                    blanketPositionOffset = new Vector2(-50 + 39, 49);
+                    break;
+                default:
+                    blanketRect = new Rectangle(195, 0, 65, 28);
+                    blanketPositionOffset = new Vector2( -50 + 8, 50);
+                    break;
+            }
+
+            batch.Draw(_blanketHoldingSprite, teddy.Position + blanketPositionOffset, blanketRect, Color.White, 0, Vector2.Zero, 1, seff, 0);
+            
         }
 
 
