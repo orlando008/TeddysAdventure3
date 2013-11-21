@@ -329,6 +329,8 @@ namespace TeddysAdventureLibrary
             TERMINAL_VELOCITY = v;
         }
 
+        public TeddySpriteState SpriteState { get { return _currentSprite; } }
+
         public void SetFacingSprite()
         {
             if (_facingCounter < _poseLengthWalk)
