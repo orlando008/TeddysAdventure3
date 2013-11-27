@@ -22,7 +22,11 @@ namespace TeddysAdventureLibrary
             return true;
         }
 
-        
+        public virtual void AfterUpdate(GameTime gameTime, Screen screen, Teddy teddy, KeyboardState keyState)
+        {
+            return;
+        }
+
         public virtual bool BeforeDraw(GameTime gameTime, SpriteBatch teddyBatch, Teddy teddy)
         {
             return true;
@@ -43,12 +47,24 @@ namespace TeddysAdventureLibrary
             return teddy.JustTeddyRectangle;
         }
 
-        public virtual bool HandleEnemyInteraction(Enemy e, Screen currentScreen, GeometryMethods.RectangleF enemyHitBox) {
+        public virtual bool HandleEnemyInteraction( Enemy e, Screen currentScreen, GeometryMethods.RectangleF enemyHitBox) {
+            return true;
+        }
+
+        //Return true if damage make you lose powerup
+        public virtual bool AfterTeddyDamage(Teddy teddy)
+        {
             return true;
         }
 
         public virtual bool HandleLandingOnEnemy(Enemy e, KeyboardState keyState) {
             return true;
         }
+
+        public virtual bool HandleFluffGrab(Teddy teddy, Fluff f)
+        {
+            return true;
+        }
+
     }
 }

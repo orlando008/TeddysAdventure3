@@ -134,6 +134,7 @@
     <Compile Include="HUD.cs" />
     <Compile Include="OpeningCinematic.cs" />
     <Compile Include="Powerups\BlanketPowerup.cs" />
+    <Compile Include="Powerups\FluffPowerup.cs" />
     <Compile Include="Powerups\NightVisionPowerup.cs" />
     <Compile Include="Powerups\GogglesPowerup.cs" />
     <Compile Include="Powerups\Powerup.cs" />

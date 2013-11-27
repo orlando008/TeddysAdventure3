@@ -74,7 +74,13 @@ namespace TeddysAdventureLibrary
 
         private int _recoverCounter = 0;
         private int _recoverWait = 100;
-        protected bool _isHit = false;
+        private bool _isHit = false;
+
+        public bool IsHit
+        {
+            get { return _isHit; }
+            set { _isHit = value; }
+        }
         
  
         private bool _levelComplete = false;
@@ -497,6 +503,9 @@ namespace TeddysAdventureLibrary
 
             movePlayerAndCheckState(currentScreen, keyState);
 
+            if (_currentPowerup != null)
+                _currentPowerup.AfterUpdate(gameTime, currentScreen, this, keyState);
+
         }
 
         public void movePlayerAndCheckState(Screen currentScreen, KeyboardState keyState)
@@ -699,8 +708,16 @@ namespace TeddysAdventureLibrary
 
         protected virtual void HandleFluffGrab(Fluff f)
         {
-            _currentFluff++;
-            f.Destroyed = true;
+            bool continueGrab = true;
+            
+            if (_currentPowerup != null)
+                continueGrab = _currentPowerup.HandleFluffGrab(this,  f);
+
+            if (continueGrab){
+                _currentFluff++;
+                f.Destroyed = true;
+            }
+
         }
 
 
@@ -783,7 +800,7 @@ namespace TeddysAdventureLibrary
         {
 
             if (_currentPowerup != null)
-                if (!_currentPowerup.HandleEnemyInteraction(e, currentScreen, enemyHitBox)) { return; }
+                if (!_currentPowerup.HandleEnemyInteraction( e, currentScreen, enemyHitBox)) { return; }
 
             _currentSprite = TeddySpriteState.Blink4;
             // Check if Teddy has been hit
@@ -796,10 +813,6 @@ namespace TeddysAdventureLibrary
                 }
                 else
                 {
-                    if (!WearingPowerup)
-                    {
-                        CurrentFluff -= e.Damage;
-                    }
                     
                     _isHit = true;
 
@@ -819,10 +832,22 @@ namespace TeddysAdventureLibrary
                     movePlayerX(playerOverallVelocity, currentScreen);
                     if (!WearingPowerup)
                     {
+                        CurrentFluff -= e.Damage;
                         throwFluff(e.Damage);
+
+                    } else {
+
+                        if (_currentPowerup.AfterTeddyDamage(this))
+                        {
+                            _currentPowerup = null;
+                        } else{
+                            CurrentFluff -= e.Damage;
+                            throwFluff(e.Damage);
+                        }
+
                     }
 
-                    _currentPowerup = null;
+                    
                 }
             }
         }

@@ -22,7 +22,7 @@ namespace TeddysAdventureLibrary
         private int _currentAnimationRectangle = 0;
         private int _currentAnimationFrameCount = 0;
 
-        private List<TeddysAdventureLibrary.TeddyFluff.FluffWrapper> _fluffs;
+        private List<TeddysAdventureLibrary.FluffPowerup.FluffWrapper> _fluffs;
 
         public ZipperPowerup(Game game)
             : base(game)
@@ -105,30 +105,30 @@ namespace TeddysAdventureLibrary
 
             Vector2 origin = new Vector2(_fluffBox.Width / 2, _fluffBox.Height / 2);
 
-            foreach (TeddysAdventureLibrary.TeddyFluff.FluffWrapper fw in _fluffs)
+            foreach (TeddysAdventureLibrary.FluffPowerup.FluffWrapper fw in _fluffs)
             {
                 teddyBatch.Draw(_fluffSprite, fw.Fluff.Position, new Rectangle(0,0,20,20), Color.White, (float)0, origin, .5f, SpriteEffects.None, (float)0.0f);
             }
 
         }
 
-        private List<TeddysAdventureLibrary.TeddyFluff.TeddySkeleton> GetCurrentTeddySkeleton(Teddy teddy)
+        private List<TeddysAdventureLibrary.FluffPowerup.TeddySkeleton> GetCurrentTeddySkeleton(Teddy teddy)
         {
-            var skeleton = new List<TeddysAdventureLibrary.TeddyFluff.TeddySkeleton>();
-            skeleton.Add(new TeddysAdventureLibrary.TeddyFluff.TeddySkeleton(TeddysAdventureLibrary.TeddyFluff.TeddySkeleton.SkeletonTypeEnum.Circle, new Vector2(24, 55), 12, 30, 3)); //Body
+            var skeleton = new List<TeddysAdventureLibrary.FluffPowerup.TeddySkeleton>();
+            skeleton.Add(new TeddysAdventureLibrary.FluffPowerup.TeddySkeleton(TeddysAdventureLibrary.FluffPowerup.TeddySkeleton.SkeletonTypeEnum.Circle, new Vector2(24, 55), 12, 30, 3)); //Body
 
-            //skeleton.Add(new TeddysAdventureLibrary.TeddyFluff.TeddySkeleton(TeddysAdventureLibrary.TeddyFluff.TeddySkeleton.SkeletonTypeEnum.Straight, new Vector2(8, 73), new Vector2(18, 64), 10, 2));//left leg
-            //skeleton.Add(new TeddysAdventureLibrary.TeddyFluff.TeddySkeleton(TeddysAdventureLibrary.TeddyFluff.TeddySkeleton.SkeletonTypeEnum.Straight, new Vector2(43, 73), new Vector2(30, 64), 10, 5)); //right leg
+            //skeleton.Add(new TeddysAdventureLibrary.FluffPowerup.TeddySkeleton(TeddysAdventureLibrary.FluffPowerup.SkeletonTypeEnum.Straight, new Vector2(8, 73), new Vector2(18, 64), 10, 2));//left leg
+            //skeleton.Add(new TeddysAdventureLibrary.FluffPowerup.TeddySkeleton(TeddysAdventureLibrary.FluffPowerup.SkeletonTypeEnum.Straight, new Vector2(43, 73), new Vector2(30, 64), 10, 5)); //right leg
 
-            //skeleton.Add(new TeddysAdventureLibrary.TeddyFluff.TeddySkeleton(TeddysAdventureLibrary.TeddyFluff.TeddySkeleton.SkeletonTypeEnum.Straight, new Vector2(43, 64), new Vector2(43, 47), 10, 1));//left arm
-            //skeleton.Add(new TeddysAdventureLibrary.TeddyFluff.TeddySkeleton(TeddysAdventureLibrary.TeddyFluff.TeddySkeleton.SkeletonTypeEnum.Straight, new Vector2(6, 64), new Vector2(6, 47), 10, 6)); //right arm
+            //skeleton.Add(new TeddysAdventureLibrary.FluffPowerup.TeddySkeleton(TeddysAdventureLibrary.FluffPowerup.SkeletonTypeEnum.Straight, new Vector2(43, 64), new Vector2(43, 47), 10, 1));//left arm
+            //skeleton.Add(new TeddysAdventureLibrary.FluffPowerup.TeddySkeleton(TeddysAdventureLibrary.FluffPowerup.SkeletonTypeEnum.Straight, new Vector2(6, 64), new Vector2(6, 47), 10, 6)); //right arm
 
-            skeleton.Add(new TeddysAdventureLibrary.TeddyFluff.TeddySkeleton(TeddysAdventureLibrary.TeddyFluff.TeddySkeleton.SkeletonTypeEnum.Circle, new Vector2(24, 25), 12, 25, 4)); //Head
+            skeleton.Add(new TeddysAdventureLibrary.FluffPowerup.TeddySkeleton(TeddysAdventureLibrary.FluffPowerup.TeddySkeleton.SkeletonTypeEnum.Circle, new Vector2(24, 25), 12, 25, 4)); //Head
 
-            skeleton.Add(new TeddysAdventureLibrary.TeddyFluff.TeddySkeleton(TeddysAdventureLibrary.TeddyFluff.TeddySkeleton.SkeletonTypeEnum.Circle, new Vector2(8, 7), 5, 5, 7)); //ear
-            skeleton.Add(new TeddysAdventureLibrary.TeddyFluff.TeddySkeleton(TeddysAdventureLibrary.TeddyFluff.TeddySkeleton.SkeletonTypeEnum.Circle, new Vector2(42, 7), 5, 5, 8)); //ear
+            skeleton.Add(new TeddysAdventureLibrary.FluffPowerup.TeddySkeleton(TeddysAdventureLibrary.FluffPowerup.TeddySkeleton.SkeletonTypeEnum.Circle, new Vector2(8, 7), 5, 5, 7)); //ear
+            skeleton.Add(new TeddysAdventureLibrary.FluffPowerup.TeddySkeleton(TeddysAdventureLibrary.FluffPowerup.TeddySkeleton.SkeletonTypeEnum.Circle, new Vector2(42, 7), 5, 5, 8)); //ear
 
-            foreach (TeddysAdventureLibrary.TeddyFluff.TeddySkeleton ts in skeleton)
+            foreach (TeddysAdventureLibrary.FluffPowerup.TeddySkeleton ts in skeleton)
             {
                 if (_fluffs == null || _fluffs.Count == 0)
                     ts.SetReferencePoints(teddy.CurrentFluff, 6, null);
@@ -146,12 +146,12 @@ namespace TeddysAdventureLibrary
 
             var _oldFluffs = _fluffs;
 
-            _fluffs = new List<TeddysAdventureLibrary.TeddyFluff.FluffWrapper>();
+            _fluffs = new List<TeddysAdventureLibrary.FluffPowerup.FluffWrapper>();
 
             //All frames have teh same makeup, so we can just use whichever is current
-            List<TeddysAdventureLibrary.TeddyFluff.TeddySkeleton> skeleton = GetCurrentTeddySkeleton(teddy);
+            List<TeddysAdventureLibrary.FluffPowerup.TeddySkeleton> skeleton = GetCurrentTeddySkeleton(teddy);
 
-            foreach (TeddysAdventureLibrary.TeddyFluff.TeddySkeleton bone in skeleton)
+            foreach (TeddysAdventureLibrary.FluffPowerup.TeddySkeleton bone in skeleton)
             {
                 for (int i = 0; i < bone.ReferencePoints.Count; i++)
                 {
@@ -173,7 +173,7 @@ namespace TeddysAdventureLibrary
                         }
                     }
 
-                    _fluffs.Add(new TeddysAdventureLibrary.TeddyFluff.FluffWrapper(bone.ZOrder, i, refPoint, initialVelocity, _game, new Rectangle(0, 0, _fluffBox.Width / 2, _fluffBox.Height / 2)));
+                    _fluffs.Add(new TeddysAdventureLibrary.FluffPowerup.FluffWrapper(bone.ZOrder, i, refPoint, initialVelocity, _game, new Rectangle(0, 0, _fluffBox.Width / 2, _fluffBox.Height / 2)));
                 }
             }
 
