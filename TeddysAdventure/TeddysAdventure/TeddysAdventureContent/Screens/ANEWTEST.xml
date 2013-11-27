@@ -1,0 +1,464 @@
+<?xml version="1.0" encoding="utf-8"?>
+<XnaContent>
+  <Asset Type="TeddysAdventureLibrary.ScreenHelper">
+    <TeddyStart>783.5 34</TeddyStart>
+    <BackgroundColor>FF483D8B</BackgroundColor>
+    <Backgrounds />
+    <Surfaces>
+      <Item>
+        <Rect>0 650 825 75</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>275 600 50 50</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>325 550 50 50</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>375 500 50 50</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>425 450 50 50</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>475 400 50 50</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>525 350 50 50</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>575 300 50 50</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>625 250 50 50</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>675 200 50 50</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>725 150 50 50</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>775 100 50 50</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>879 435 475 50</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>1375 200 700 50</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>1425 625 925 50</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>2350 500 225 50</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>2600 350 300 50</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>2950 450 75 250</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>3025 650 1000 50</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>4024 525 100 175</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>3150 325 75 50</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>3475 325 75 50</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>3775 325 75 50</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>4250 425 275 75</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>4789 424 375 75</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>5400 400 300 75</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>5900 300 400 75</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>143 268 250 200</Rect>
+        <Sprite>SurfaceTexture3</Sprite>
+      </Item>
+      <Item>
+        <Rect>803 157 200 250</Rect>
+        <Sprite>SurfaceTexture5</Sprite>
+      </Item>
+      <Item>
+        <Rect>187 76 250 150</Rect>
+        <Sprite>SurfaceTexture6</Sprite>
+      </Item>
+      <Item>
+        <Rect>519 462 175 150</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>25 575 275 75</Rect>
+        <Sprite>SurfaceTexture2</Sprite>
+      </Item>
+      <Item>
+        <Rect>400 650 300 50</Rect>
+        <Sprite>SurfaceTexture3</Sprite>
+      </Item>
+    </Surfaces>
+    <ListOfObjects>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>400 623</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>401 584</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>440 623</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>439 582</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>1403 173</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>1498 176</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>1651 174</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>1804 175</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>1906 171</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>2028 174</Position>
+      </Item>
+      <Item>
+        <Type>Goal</Type>
+        <Position>6440 12</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>486 272</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>799 510</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>753 354</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>403 318</Position>
+      </Item>
+      <Item>
+        <Type>Fluff</Type>
+        <Position>660 106</Position>
+      </Item>
+    </ListOfObjects>
+    <ListOfEnemies>
+      <Item>
+        <Type>BowlingBall</Type>
+        <Position>775 0</Position>
+        <Velocity>-1 0</Velocity>
+        <IsSpawnPoint>1</IsSpawnPoint>
+        <SpawnInterval>4000</SpawnInterval>
+      </Item>
+      <Item>
+        <Type>DustBunny</Type>
+        <Position>515 602</Position>
+        <Velocity>-1 0</Velocity>
+        <IsSpawnPoint>0</IsSpawnPoint>
+        <SpawnInterval>0</SpawnInterval>
+      </Item>
+      <Item>
+        <Type>MatchBoxCar</Type>
+        <Position>1274 403</Position>
+        <Velocity>-1 0</Velocity>
+        <IsSpawnPoint>0</IsSpawnPoint>
+        <SpawnInterval>0</SpawnInterval>
+      </Item>
+      <Item>
+        <Type>MatchBoxCar</Type>
+        <Position>976 400</Position>
+        <Velocity>1 0</Velocity>
+        <IsSpawnPoint>0</IsSpawnPoint>
+        <SpawnInterval>0</SpawnInterval>
+      </Item>
+      <Item>
+        <Type>BowlingBall</Type>
+        <Position>2132 484</Position>
+        <Velocity>-1 0</Velocity>
+        <IsSpawnPoint>0</IsSpawnPoint>
+        <SpawnInterval>0</SpawnInterval>
+      </Item>
+      <Item>
+        <Type>BowlingBall</Type>
+        <Position>2300 -100</Position>
+        <Velocity>-1 0</Velocity>
+        <IsSpawnPoint>1</IsSpawnPoint>
+        <SpawnInterval>3500</SpawnInterval>
+      </Item>
+      <Item>
+        <Type>MatchBoxCar</Type>
+        <Position>1810 584</Position>
+        <Velocity>-2 0</Velocity>
+        <IsSpawnPoint>0</IsSpawnPoint>
+        <SpawnInterval>0</SpawnInterval>
+      </Item>
+      <Item>
+        <Type>OrangeCrayon</Type>
+        <Position>3497 493</Position>
+        <Velocity>-1 0</Velocity>
+        <IsSpawnPoint>0</IsSpawnPoint>
+        <SpawnInterval>0</SpawnInterval>
+      </Item>
+      <Item>
+        <Type>MatchBoxCar</Type>
+        <Position>6108 255</Position>
+        <Velocity>-1 0</Velocity>
+        <IsSpawnPoint>0</IsSpawnPoint>
+        <SpawnInterval>0</SpawnInterval>
+      </Item>
+      <Item>
+        <Type>FlyingBook</Type>
+        <Position>540 70</Position>
+        <Velocity>0 0</Velocity>
+        <IsSpawnPoint>0</IsSpawnPoint>
+        <SpawnInterval>0</SpawnInterval>
+      </Item>
+      <Item>
+        <Type>FlyingBook</Type>
+        <Position>866 75</Position>
+        <Velocity>0 0</Velocity>
+        <IsSpawnPoint>0</IsSpawnPoint>
+        <SpawnInterval>0</SpawnInterval>
+      </Item>
+      <Item>
+        <Type>FlyingBook</Type>
+        <Position>1060 77</Position>
+        <Velocity>0 0</Velocity>
+        <IsSpawnPoint>0</IsSpawnPoint>
+        <SpawnInterval>0</SpawnInterval>
+      </Item>
+      <Item>
+        <Type>Eagle</Type>
+        <Position>624 287</Position>
+        <Velocity>0 0</Velocity>
+        <IsSpawnPoint>0</IsSpawnPoint>
+        <SpawnInterval>0</SpawnInterval>
+      </Item>
+      <Item>
+        <Type>Eagle</Type>
+        <Position>446 313</Position>
+        <Velocity>0 0</Velocity>
+        <IsSpawnPoint>0</IsSpawnPoint>
+        <SpawnInterval>0</SpawnInterval>
+      </Item>
+      <Item>
+        <Type>Eagle</Type>
+        <Position>424 437</Position>
+        <Velocity>0 0</Velocity>
+        <IsSpawnPoint>0</IsSpawnPoint>
+        <SpawnInterval>0</SpawnInterval>
+      </Item>
+      <Item>
+        <Type>LadyBug</Type>
+        <Position>246 486</Position>
+        <Velocity>0 0</Velocity>
+        <IsSpawnPoint>0</IsSpawnPoint>
+        <SpawnInterval>0</SpawnInterval>
+      </Item>
+      <Item>
+        <Type>LadyBug</Type>
+        <Position>884 488</Position>
+        <Velocity>0 0</Velocity>
+        <IsSpawnPoint>0</IsSpawnPoint>
+        <SpawnInterval>0</SpawnInterval>
+      </Item>
+      <Item>
+        <Type>LadyBug</Type>
+        <Position>1068 380</Position>
+        <Velocity>0 0</Velocity>
+        <IsSpawnPoint>0</IsSpawnPoint>
+        <SpawnInterval>0</SpawnInterval>
+      </Item>
+      <Item>
+        <Type>LadyBug</Type>
+        <Position>1108 286</Position>
+        <Velocity>0 0</Velocity>
+        <IsSpawnPoint>0</IsSpawnPoint>
+        <SpawnInterval>0</SpawnInterval>
+      </Item>
+      <Item>
+        <Type>MatchBoxCar</Type>
+        <Position>102 536</Position>
+        <Velocity>0 0</Velocity>
+        <IsSpawnPoint>0</IsSpawnPoint>
+        <SpawnInterval>0</SpawnInterval>
+      </Item>
+      <Item>
+        <Type>MatchBoxCar</Type>
+        <Position>344 557</Position>
+        <Velocity>0 0</Velocity>
+        <IsSpawnPoint>0</IsSpawnPoint>
+        <SpawnInterval>0</SpawnInterval>
+      </Item>
+      <Item>
+        <Type>MatchBoxCar</Type>
+        <Position>476 553</Position>
+        <Velocity>0 0</Velocity>
+        <IsSpawnPoint>0</IsSpawnPoint>
+        <SpawnInterval>0</SpawnInterval>
+      </Item>
+      <Item>
+        <Type>MatchBoxCar</Type>
+        <Position>800 521</Position>
+        <Velocity>0 0</Velocity>
+        <IsSpawnPoint>0</IsSpawnPoint>
+        <SpawnInterval>0</SpawnInterval>
+      </Item>
+      <Item>
+        <Type>BowlingBall</Type>
+        <Position>604 167</Position>
+        <Velocity>0 0</Velocity>
+        <IsSpawnPoint>1</IsSpawnPoint>
+        <SpawnInterval>1000</SpawnInterval>
+      </Item>
+      <Item>
+        <Type>BowlingBall</Type>
+        <Position>216 43</Position>
+        <Velocity>0 0</Velocity>
+        <IsSpawnPoint>0</IsSpawnPoint>
+        <SpawnInterval>0</SpawnInterval>
+      </Item>
+      <Item>
+        <Type>BowlingBall</Type>
+        <Position>96 54</Position>
+        <Velocity>0 0</Velocity>
+        <IsSpawnPoint>0</IsSpawnPoint>
+        <SpawnInterval>0</SpawnInterval>
+      </Item>
+      <Item>
+        <Type>BowlingBall</Type>
+        <Position>58 157</Position>
+        <Velocity>0 0</Velocity>
+        <IsSpawnPoint>0</IsSpawnPoint>
+        <SpawnInterval>0</SpawnInterval>
+      </Item>
+      <Item>
+        <Type>BowlingBall</Type>
+        <Position>30 268</Position>
+        <Velocity>0 0</Velocity>
+        <IsSpawnPoint>0</IsSpawnPoint>
+        <SpawnInterval>0</SpawnInterval>
+      </Item>
+      <Item>
+        <Type>Airplane</Type>
+        <Position>608 407</Position>
+        <Velocity>0 0</Velocity>
+        <IsSpawnPoint>0</IsSpawnPoint>
+        <SpawnInterval>0</SpawnInterval>
+      </Item>
+      <Item>
+        <Type>Airplane</Type>
+        <Position>782 408</Position>
+        <Velocity>0 0</Velocity>
+        <IsSpawnPoint>0</IsSpawnPoint>
+        <SpawnInterval>0</SpawnInterval>
+      </Item>
+      <Item>
+        <Type>Airplane</Type>
+        <Position>872 452</Position>
+        <Velocity>0 0</Velocity>
+        <IsSpawnPoint>0</IsSpawnPoint>
+        <SpawnInterval>0</SpawnInterval>
+      </Item>
+      <Item>
+        <Type>Airplane</Type>
+        <Position>1036 455</Position>
+        <Velocity>0 0</Velocity>
+        <IsSpawnPoint>0</IsSpawnPoint>
+        <SpawnInterval>0</SpawnInterval>
+      </Item>
+      <Item>
+        <Type>Airplane</Type>
+        <Position>1120 533</Position>
+        <Velocity>0 0</Velocity>
+        <IsSpawnPoint>0</IsSpawnPoint>
+        <SpawnInterval>0</SpawnInterval>
+      </Item>
+      <Item>
+        <Type>Airplane</Type>
+        <Position>1056 616</Position>
+        <Velocity>0 0</Velocity>
+        <IsSpawnPoint>0</IsSpawnPoint>
+        <SpawnInterval>0</SpawnInterval>
+      </Item>
+      <Item>
+        <Type>Airplane</Type>
+        <Position>918 607</Position>
+        <Velocity>0 0</Velocity>
+        <IsSpawnPoint>0</IsSpawnPoint>
+        <SpawnInterval>0</SpawnInterval>
+      </Item>
+      <Item>
+        <Type>Airplane</Type>
+        <Position>760 651</Position>
+        <Velocity>0 0</Velocity>
+        <IsSpawnPoint>0</IsSpawnPoint>
+        <SpawnInterval>0</SpawnInterval>
+      </Item>
+    </ListOfEnemies>
+    <LevelType>Normal</LevelType>
+    <LevelSize>6500 750</LevelSize>
+  </Asset>
+</XnaContent>

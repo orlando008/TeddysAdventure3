@@ -138,6 +138,7 @@
     <Compile Include="Powerups\GogglesPowerup.cs" />
     <Compile Include="Powerups\Powerup.cs" />
     <Compile Include="Powerups\PulseArmPowerup.cs" />
+    <Compile Include="Powerups\ZipperPowerup.cs" />
     <Compile Include="Screen.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StartMenu.cs" />
