@@ -144,7 +144,6 @@
     <Compile Include="StartMenu.cs" />
     <Compile Include="Surface.cs" />
     <Compile Include="Teddy\Teddy.cs" />
-    <Compile Include="Teddy\TeddyFalling.cs" />
     <Compile Include="Teddy\TeddyFluff.cs" />
   </ItemGroup>
   <ItemGroup />

@@ -10,6 +10,7 @@ namespace TeddysAdventureLibrary
     public class Fluff : GameObject
     {
         private int _floatCount;
+        private bool _floats = true;
         private float _centerLine;
         private int _lengthOfPose = 20;
         private bool _applyGravity = false;
@@ -33,13 +34,13 @@ namespace TeddysAdventureLibrary
             BoxToDraw = new Rectangle(0, 0, StyleSheet.Width, StyleSheet.Height);
         }
 
-        public Fluff(Game game, Vector2 position, bool applyGravity, float xVelocty, float yVelocity)
-            : this(game, position, applyGravity, xVelocty, yVelocity, null, true )
+        public Fluff(Game game, Vector2 position, bool applyGravity, float xVelocty, float yVelocity, bool floats)
+            : this(game, position, applyGravity, xVelocty, yVelocity, null, true, floats )
         {
 
         }
 
-        public Fluff(Game game, Vector2 position, bool applyGravity, float xVelocty, float yVelocity, Rectangle? drawBox, bool canBeDestroyed)
+        public Fluff(Game game, Vector2 position, bool applyGravity, float xVelocty, float yVelocity, Rectangle? drawBox, bool canBeDestroyed, bool floats)
             : base(game, position)
         {
             StyleSheet = game.Content.Load<Texture2D>("Objects\\Fluff");
@@ -51,6 +52,7 @@ namespace TeddysAdventureLibrary
             _canBeDestroyed = canBeDestroyed;
             _xVelocity = xVelocty;
             _yVelocity = yVelocity;
+            _floats = floats;
         }
 
 
@@ -96,31 +98,33 @@ namespace TeddysAdventureLibrary
 
             if (!Destroyed)
             {
-                if (_floatCount < _lengthOfPose)
+                if (_floats)
                 {
-                    Position = new Vector2(_centerLine, Position.Y);
-                    _floatCount++;
+                    if (_floatCount < _lengthOfPose)
+                    {
+                        Position = new Vector2(_centerLine, Position.Y);
+                        _floatCount++;
+                    }
+                    else if (_floatCount < _lengthOfPose * 2)
+                    {
+                        Position = new Vector2(_centerLine - 1, Position.Y);
+                        _floatCount++;
+                    }
+                    else if (_floatCount < _lengthOfPose * 3)
+                    {
+                        Position = new Vector2(_centerLine, Position.Y);
+                        _floatCount++;
+                    }
+                    else if (_floatCount < _lengthOfPose * 4)
+                    {
+                        Position = new Vector2(_centerLine + 1, Position.Y);
+                        _floatCount++;
+                    }
+                    else
+                    {
+                        _floatCount = 0;
+                    }
                 }
-                else if (_floatCount < _lengthOfPose * 2)
-                {
-                    Position = new Vector2(_centerLine - 1, Position.Y);
-                    _floatCount++;
-                }
-                else if (_floatCount < _lengthOfPose * 3)
-                {
-                    Position = new Vector2(_centerLine, Position.Y);
-                    _floatCount++;
-                }
-                else if (_floatCount < _lengthOfPose * 4)
-                {
-                    Position = new Vector2(_centerLine + 1, Position.Y);
-                    _floatCount++;
-                }
-                else
-                {
-                    _floatCount = 0;
-                }
-
 
                 if (_xAccelleration != 0)
                     _xVelocity += _xAccelleration;
@@ -160,7 +164,7 @@ namespace TeddysAdventureLibrary
                                 {
                                     _yVelocity = 0.0f;
                                     _xVelocity = 0.0f;
-                                    _applyGravity = false;
+                                  //  _applyGravity = false;
                                 } 
 
                             }

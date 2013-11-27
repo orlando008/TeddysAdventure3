@@ -28,11 +28,18 @@
   </Item>
 </Backgrounds>  
 <Surfaces>
+  <!--<Item>
+    <Rect>500 0 50 580</Rect>
+    <Sprite>SurfaceTexture1</Sprite>
+  </Item>-->
+  
+  
 <Item>
 <Rect>0 625 775 75</Rect>
 <Sprite>SurfaceTexture1</Sprite>
 </Item>
-  <Item>
+  
+  <!--<Item>
     <Rect>0 8000 1000 1000</Rect>
 <Sprite>SurfaceTexture1</Sprite>    
   </Item>
@@ -55,7 +62,7 @@
 <Item>
 <Rect>3250 275 150 50</Rect>
 <Sprite>SurfaceTexture1</Sprite>
-</Item>
+</Item>-->
 </Surfaces>
 <ListOfObjects>
 <Item>
@@ -130,7 +137,26 @@
   <Type>Fluff</Type>
 <Position>450 610</Position>
 </Item>
-  
+   <Item>
+  <Type>Fluff</Type>
+<Position>425 610</Position>
+</Item>
+   <Item> 
+  <Type>Fluff</Type>
+<Position>450 610</Position>
+</Item>
+   <Item> 
+<Type>Fluff</Type>
+<Position>400 610</Position>
+</Item>
+  <Item>
+  <Type>Fluff</Type>
+<Position>425 610</Position>
+</Item>
+   <Item> 
+  <Type>Fluff</Type>
+<Position>450 610</Position>
+</Item> 
   
   <Item>
     <Type>Goal</Type>

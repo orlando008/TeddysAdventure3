@@ -254,7 +254,7 @@ namespace TeddysAdventureLibrary
             switch (_levelType)
             {
                 case LevelType.Falling:
-                    _teddy = new TeddyFalling(game, screenHelper.TeddyStart, new Vector2(50,75));
+                    _teddy = new Teddy(game, screenHelper.TeddyStart, new Vector2(50,75));
                     break;
                 case LevelType.Fluff:
                     _teddy = new TeddyFluff(game, screenHelper.TeddyStart, new Vector2(50, 75));
@@ -544,24 +544,41 @@ namespace TeddysAdventureLibrary
             float cameraX;
             float cameraY;
             cameraY = 0;
+            cameraX = 0;
 
             int teddyTestPositionX = (int)Math.Floor( _teddy.Position.X + _teddy.TeddyRectangle.Width / 2);
             int teddyTestPositionY = (int)Math.Floor( _teddy.Position.Y + _teddy.TeddyRectangle.Height / 2);
 
-            if (teddyTestPositionX < Game.GraphicsDevice.Viewport.Width / 2)
-                cameraX = 0;
-            else if (teddyTestPositionX > _totalLevelWidth - Game.GraphicsDevice.Viewport.Width / 2)
-                cameraX = -_totalLevelWidth + (Game.GraphicsDevice.Viewport.Width);
-            else
-                cameraX = -teddyTestPositionX + (Game.GraphicsDevice.Viewport.Width / 2);
+
+            if (_cameraZoom == 1.0)
+            {
+                if (teddyTestPositionX < Game.GraphicsDevice.Viewport.Width / 2)
+                    cameraX = 0;
+                else if (teddyTestPositionX > _totalLevelWidth - Game.GraphicsDevice.Viewport.Width / 2)
+                    cameraX = -_totalLevelWidth + (Game.GraphicsDevice.Viewport.Width);
+                else
+                    cameraX = -teddyTestPositionX + (Game.GraphicsDevice.Viewport.Width / 2);
 
 
-            if (teddyTestPositionY < (Game.GraphicsDevice.Viewport.Height - 100) / 2)
-                cameraY = 0;
-            else if (teddyTestPositionY > _totalLevelHeight - (Game.GraphicsDevice.Viewport.Height - 100) / 2)
-                cameraY = -_totalLevelHeight + (Game.GraphicsDevice.Viewport.Height - 100);
+                if (teddyTestPositionY < (Game.GraphicsDevice.Viewport.Height - 100) / 2)
+                    cameraY = 0;
+                else if (teddyTestPositionY > _totalLevelHeight - (Game.GraphicsDevice.Viewport.Height - 100) / 2)
+                    cameraY = -_totalLevelHeight + (Game.GraphicsDevice.Viewport.Height - 100);
+                else
+                    cameraY = -teddyTestPositionY + ((Game.GraphicsDevice.Viewport.Height - 100) / 2);
+
+
+            }
             else
-                cameraY = -teddyTestPositionY + ((Game.GraphicsDevice.Viewport.Height - 100) / 2);
+            {
+                //Center around teddy
+                cameraX = -teddyTestPositionX + (Game.GraphicsDevice.Viewport.Width / 2) / _cameraZoom;
+                cameraY = -teddyTestPositionY + (Game.GraphicsDevice.Viewport.Height / 2) / _cameraZoom;
+
+
+            }
+
+
 
 
             _currentCamera = new Vector2(cameraX, cameraY);

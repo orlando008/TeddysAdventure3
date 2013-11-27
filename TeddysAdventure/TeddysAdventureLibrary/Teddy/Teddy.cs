@@ -518,7 +518,7 @@ namespace TeddysAdventureLibrary
             //Check if teddy has fallen down the well
             if (Position.Y > currentScreen.LevelHeight)
             {
-                this.Dead = true;
+                                       this.Dead = true;
             }
 
             if (_yVelocity > 30)
@@ -554,8 +554,13 @@ namespace TeddysAdventureLibrary
                     {
                         if (this.TeddyRectangle.Intersects(surface.Rect))
                         {
-                            Position = new Vector2(surface.Left - (int)this.TeddyRectangle.Width, Position.Y);
-                            break;
+                            if (this.TeddyRectangle.Right > surface.Left && this.TeddyRectangle.Left < surface.Left)
+                            {
+                                Position = new Vector2(surface.Left - (int)this.TeddyRectangle.Width, Position.Y);
+                                break;
+                            }
+
+
                         }
                     }
                 }
@@ -565,8 +570,13 @@ namespace TeddysAdventureLibrary
                     {
                         if (this.TeddyRectangle.Intersects(surface.Rect))
                         {
-                            Position = new Vector2(surface.Right, Position.Y);
-                            break;
+                            if (this.TeddyRectangle.Left > surface.Right && this.TeddyRectangle.Right < surface.Right)
+                            {
+                                Position = new Vector2(surface.Right, Position.Y);
+                                break;
+                            }
+
+
                         }
                     }
                 }
@@ -607,7 +617,7 @@ namespace TeddysAdventureLibrary
                 if (yVelocity < 0)
                 {
                     //Check for surfaces above (Teddy hit his head)
-                    if (this.TeddyRectangle.Intersects(surfaceRect.Rect) & (this.TeddyRectangle.Top < surfaceRect.Bottom))
+                    if (this.TeddyRectangle.Intersects(surfaceRect.Rect) & (this.TeddyRectangle.Top < surfaceRect.Bottom && this.TeddyRectangle.Bottom > surfaceRect.Bottom))
                     {
                         //todo: if teddy is really close to one of the edge (only 1 pixel is touching the above surface, then move him over.  I'm pretty sure  Mario does that.
 
@@ -831,7 +841,7 @@ namespace TeddysAdventureLibrary
                 fluffPos.Y -= r.Next(50, 100);
                 float xVelocity = (float)r.NextDouble() * r.Next(-1, 2) * 5f + 0.5f;
                 float yVelocity = (float)r.NextDouble() * -10f;
-                Fluff thrown = new Fluff(this.Game, fluffPos, true, xVelocity, yVelocity);
+                Fluff thrown = new Fluff(this.Game, fluffPos, true, xVelocity, yVelocity, true);
                 currentScreen.GameObjects.Add(thrown);
             }
         }

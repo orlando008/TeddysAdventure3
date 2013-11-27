@@ -14,6 +14,10 @@ namespace TeddysAdventureLibrary
         //Teddy Resources
         private Texture2D _fluffSprite;
 
+#if COLLISIONS
+        private Texture2D _pixelSprite;
+#endif
+
         private Dictionary<TeddySpriteState, List<TeddySkeleton>> _spriteSkeletons = new Dictionary<TeddySpriteState, List<TeddySkeleton>>();
 
         private Game _game;
@@ -24,7 +28,7 @@ namespace TeddysAdventureLibrary
         private float _k = .1f;
         private float _c = .3f;
 
-        private FluffMotionTypeEnum _fluffMotionType = FluffMotionTypeEnum.Spring;
+        private FluffMotionTypeEnum _fluffMotionType = FluffMotionTypeEnum.Stationary;
         private bool _showTeddyOutline = false;
         
         private enum FluffMotionTypeEnum
@@ -32,17 +36,23 @@ namespace TeddysAdventureLibrary
             Satellite = 0,
             Spring = 1,
             Stationary = 2,
-            Exploding =3
+            Exploding =3,
+            Collapsing = 4,
         }
 
 
         public TeddyFluff(Game game,  Vector2 initialPosition, Vector2 sizeOfFrame):base(game,  initialPosition, sizeOfFrame)
         {
 	        _game = game;
+#if COLLISIONS
+            _pixelSprite  = new Texture2D(_game.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
+#endif
+
+
             _fluffSprite = game.Content.Load<Texture2D>(System.IO.Path.Combine(@"Objects", "Fluff")); 
             _styleSheet = game.Content.Load<Texture2D>(System.IO.Path.Combine(@"Teddy", "TeddyRunGhost"));
             _fluffBox = new Rectangle(0, 0, _fluffSprite.Width / 2, _fluffSprite.Height / 2);
-            _currentFluff = 4;
+            _currentFluff = 40;
             CreateFluffs();
         }
 
@@ -75,30 +85,60 @@ namespace TeddysAdventureLibrary
         {
             _fluffMotionType = t;
 
-            if (t == FluffMotionTypeEnum.Exploding)
+            switch (t)
             {
-                int fluffCount = _fluffs.Count;
+                case FluffMotionTypeEnum.Exploding:
+                    int fluffCount = _fluffs.Count;
 
-                float step = (float)(2 * Math.PI / fluffCount);
+                    float step = (float)(2 * Math.PI / fluffCount);
 
 
-                int i = 0;
+                    int i = 0;
 
-                foreach (FluffWrapper fw in _fluffs)
-                {
-                    int dx = (int)(Math.Cos(step * i) * 10);
-                    int dy = (int)(Math.Sin(step * i) * 10);
+                    foreach (FluffWrapper fw in _fluffs)
+                    {
+                        int dx = (int)(Math.Cos(step * i) * 10);
+                        int dy = (int)(Math.Sin(step * i) * 10);
 
-                    fw.Fluff.SetAccelleration(Vector2.Zero);
-                    fw.Fluff.SetVelocity(new Vector2(dx, dy));
-                    fw.Fluff.SetApplyGravity(true);
-                    i++;
-                }
+                        fw.Fluff.SetAccelleration(Vector2.Zero);
+                        fw.Fluff.SetVelocity(new Vector2(dx, dy));
+                        fw.Fluff.SetApplyGravity(true);
+                        i++;
+                    }
+                    break;
 
-            } 
+                case FluffMotionTypeEnum.Collapsing:
+
+                    foreach (FluffWrapper fw in _fluffs)
+                    {
+                        fw.Fluff.SetAccelleration(Vector2.Zero);
+                        fw.Fluff.SetVelocity(Vector2.Zero);
+                        fw.Fluff.SetApplyGravity(true);
+                    }
+
+                    break;
+            }
+
+
         }
 
         private Keys? _keyDown;
+
+        public override GeometryMethods.RectangleF TeddyRectangle
+        {
+            get
+            {
+                //var fluffRects = new List<GeometryMethods.RectangleF>();
+                //foreach(FluffWrapper fw in _fluffs){
+                //  fluffRects.Add( fw.Fluff.CollisionRectangle);
+                //}
+
+                //return new GeometryMethods.MultiRectangleF(base.TeddyRectangle.Width, base.TeddyRectangle.Height,   fluffRects.ToArray());
+
+                return base.TeddyRectangle;
+            }
+        }
+      
 
         public override void Update(GameTime gameTime)
         {
@@ -147,12 +187,25 @@ namespace TeddysAdventureLibrary
                     _showTeddyOutline = !_showTeddyOutline;
                 }
 
+                if (keyState.IsKeyDown(Keys.Down))
+                {
+                    _keyDown = Keys.Down;
+                    SetFluffMode(FluffMotionTypeEnum.Collapsing);
+                }
+
+                if (keyState.IsKeyDown(Keys.Up))
+                {
+                    _keyDown = Keys.Up;
+                    SetFluffMode(FluffMotionTypeEnum.Spring);
+                }
+
             }else
             {
                 if (keyState.IsKeyUp(_keyDown.Value))
                     _keyDown = null;
             }
 
+            Vector2 prePosition = this.Position;
 
             base.Update(gameTime);
 
@@ -169,7 +222,10 @@ namespace TeddysAdventureLibrary
                     Vector2 refPoint = bone.ReferencePoints[fw.ReferenceID];
                     Vector2 point = Facing == Direction.Right ? refPoint : bone.GetFlippedPoint(50, refPoint);
 
-                    refPoint = _position + point;
+                    //We want the fluff to be centered around its ref point, not with its topright on the point
+                    Vector2 fluffOffset = new Vector2(_fluffBox.Width / 2, _fluffBox.Height / 2);
+
+                    refPoint = _position + point - fluffOffset;
                     Vector2 vRF =  fw.Fluff.Position - refPoint; //Vector from ref point to fluff
                     float dist = vRF.Length();
                     vRF.Normalize();
@@ -215,6 +271,20 @@ namespace TeddysAdventureLibrary
                         case FluffMotionTypeEnum.Exploding:
 
                             break;
+                        case FluffMotionTypeEnum.Collapsing:
+
+                            //How for did teddy move this frame
+                            Vector2 teddyMovement = this.Position - prePosition;
+                            fw.Fluff.SetPosition(fw.Fluff.Position + new Vector2(teddyMovement.X,0));
+
+
+
+                            _fluffRotation += teddyMovement.X / (_fluffBox.Width / 2);
+
+
+
+                            break;
+
                     }
              
                 }
@@ -227,7 +297,15 @@ namespace TeddysAdventureLibrary
         
         public override void Draw(GameTime gameTime, SpriteBatch teddyBatch)
         {
-            //_fluffRotation += .5f;
+            //todo: apply angular accel with damping to have each fluff spin down
+           // _fluffRotation += .5f;
+
+
+
+#if COLLISIONS
+            _pixelSprite.SetData<Color>(new Color[] { Color.Red });
+            teddyBatch.Draw(_pixelSprite, this.Position, this.TeddyRectangle.AsRect(), Color.Red);
+#endif
 
             DrawFluff(teddyBatch, gameTime);
 
@@ -387,17 +465,24 @@ namespace TeddysAdventureLibrary
         private void DrawFluff(SpriteBatch teddyBatch, GameTime gameTime)
         {
 
-            Vector2 origin = new Vector2(_fluffBox.Width / 2, _fluffBox.Height / 2);
+            Vector2 origin = new Vector2(_fluffBox.Width , _fluffBox.Height );
 
             foreach (FluffWrapper fw in _fluffs)
             {
-                teddyBatch.Draw(_fluffSprite, fw.Fluff.Position - origin / 2, null, Color.White, (float)_fluffRotation, origin, .5f, SpriteEffects.None, (float)0.0f);
+                teddyBatch.Draw(_fluffSprite, fw.Fluff.Position + origin/4   , null, Color.White, (float)_fluffRotation, origin  , .5f, SpriteEffects.None, (float)0.0f);
+
+#if COLLISIONS
+                _pixelSprite.SetData<Color>(new Color[] { Color.Green });
+                teddyBatch.Draw(_pixelSprite, fw.Fluff.Position, (Rectangle?)fw.Fluff.CollisionRectangle.AsRect(), Color.Green);
+#endif
+
+
             }
 
         }
 
 
-        class FluffWrapper
+       public class FluffWrapper
         {
             public int BoneID { get; set; }
             public int ReferenceID { get; set; }
@@ -408,14 +493,14 @@ namespace TeddysAdventureLibrary
             {
                 this.BoneID = boneID;
                 this.ReferenceID = referenceID;
-                this.Fluff = new Fluff(g, startPosition, false, 0, 0, box, false);
+                this.Fluff = new Fluff(g, startPosition, false, 0, 0, box, false, false);
                 this.Fluff.SetVelocity(initialVelocity);
             }
 
         }
 
 
-        class TeddySkeleton
+        public class TeddySkeleton
         {
 
             public enum SkeletonTypeEnum
