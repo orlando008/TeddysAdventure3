@@ -167,14 +167,8 @@ namespace TeddyMapEditor
                 }
             }
 
-            Point p = e.MouseDevice.GetPosition(cnvsMap);
-            int x = (int)(p.X / BASIC_UNIT);
-            int y = (int)(p.Y / BASIC_UNIT);
-
-            Point p2 = new Point(x * BASIC_UNIT, y * BASIC_UNIT);
-
-
-            _clickStart = p2;
+            // don't round the click start until we know which direction to round
+            _clickStart = e.MouseDevice.GetPosition(cnvsMap);
             _clickCaptured = true;
         }
 
@@ -300,16 +294,42 @@ namespace TeddyMapEditor
         {
             if (_clickCaptured)
             {
-                Point p = e.MouseDevice.GetPosition(cnvsMap);
-                int x = (int)(p.X / BASIC_UNIT);
-                int y = (int)(p.Y / BASIC_UNIT);
 
-                Point p2 = new Point(x * BASIC_UNIT, y * BASIC_UNIT);
-
+                // round the start and end outward from each other, to get the blocks that the mouse started and ended in filled
+                Point start = _clickStart;
+                Point end = e.MouseDevice.GetPosition(cnvsMap);
 
                 cnvsMap.Children.Remove(_surfaceAdditionRectangle);
 
-                _clickEnd = p2;
+                double xStart = start.X;
+                double yStart = start.Y;
+                double xEnd = end.X;
+                double yEnd = end.Y;
+
+                // set the top left corner (0, 0) as the start point
+                if (xStart > xEnd)
+                {
+                    double t = xStart;
+                    xStart = xEnd;
+                    xEnd = t;
+                }
+                if (yStart > yEnd)
+                {
+                    double t = yStart;
+                    yStart = yEnd;
+                    yEnd = t;
+                }
+
+                // round everything towards the top left, but add 1 unit to the side towards the bottom or right
+                xStart = Math.Floor(xStart / BASIC_UNIT);
+                xEnd = Math.Floor(xEnd / BASIC_UNIT) + 1;
+                yStart = Math.Floor(yStart / BASIC_UNIT);
+                yEnd = Math.Floor(yEnd / BASIC_UNIT) + 1;
+
+                // assign the new points, scaling back out of the basic unit
+                _clickStart = new Point(xStart * BASIC_UNIT, yStart * BASIC_UNIT);
+                _clickEnd = new Point(xEnd * BASIC_UNIT, yEnd* BASIC_UNIT);
+
                 UnselectAllElements();
 
                 Rectangle r = new Rectangle();
