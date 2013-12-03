@@ -146,9 +146,9 @@ namespace TeddysAdventureLibrary
                     {
 
                         // if we are rising, check for top surfaces
-                        if (_yVelocity < 0)
+                        if (_yVelocity <0)
                         {
-                            if (fluffRect.Intersects(surface.Rect) & (fluffRect.Top < surface.Bottom))
+                            if (fluffRect.Intersects(surface.Rect) & (fluffRect.Top < surface.Bottom  && fluffRect.Bottom > surface.Bottom))
                             {
                                 Position = new Vector2(Position.X + _xVelocity, surface.Bottom + 1);
                                 _yVelocity = 0.0f;
@@ -164,7 +164,6 @@ namespace TeddysAdventureLibrary
                                 {
                                     _yVelocity = 0.0f;
                                     _xVelocity = 0.0f;
-                                  //  _applyGravity = false;
                                 } 
 
                             }
@@ -173,7 +172,7 @@ namespace TeddysAdventureLibrary
                         if (_xVelocity < 0)
                         {
                             //Moving Left
-                            if (fluffRect.Intersects(surface.Rect) && fluffRect.Left < surface.Right)
+                            if (fluffRect.Intersects(surface.Rect) && fluffRect.Left < surface.Right && fluffRect.Right > surface.Right)
                             {
                                 this.Position = new Vector2(surface.Right + 1, this.Position.Y);
                                 _xVelocity = 0;
@@ -181,7 +180,7 @@ namespace TeddysAdventureLibrary
                         }
                         else if (_xVelocity > 0)
                         {
-                            if (fluffRect.Intersects(surface.Rect) && fluffRect.Right > surface.Left)
+                            if (fluffRect.Intersects(surface.Rect) && fluffRect.Right > surface.Left && fluffRect.Left < surface.Left)
                             {
                                 this.Position = new Vector2(surface.Left - fluffRect.Width, this.Position.Y);
                                 _xVelocity = 0;

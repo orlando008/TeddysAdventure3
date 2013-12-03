@@ -12,7 +12,7 @@ namespace TeddysAdventureLibrary
     {
         protected Texture2D _unzipAnimation;
         protected Texture2D _fluffSprite;
-        protected Keys _unzipKey = Keys.Z;
+        protected Keys _unzipKey = Keys.Down;
         protected bool _startUnzip;
         protected bool _unzipping;
         protected bool _zipping = false;

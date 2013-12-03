@@ -29,9 +29,9 @@ namespace TeddysAdventureLibrary {
         private float _k = .1f;
         private float _c = .3f;
 
-        protected Keys _unzipKey = Keys.Z;
+        protected Keys _zipKey = Keys.Up;
 
-        private FluffMotionTypeEnum _fluffMotionType = FluffMotionTypeEnum.Stationary;
+        private FluffMotionTypeEnum _fluffMotionType = FluffMotionTypeEnum.Spring;
         private bool _showTeddyOutline = false;
         
         private enum FluffMotionTypeEnum
@@ -53,7 +53,6 @@ namespace TeddysAdventureLibrary {
             _fluffSprite = game.Content.Load<Texture2D>(System.IO.Path.Combine(@"Objects", "Fluff")); 
            // _styleSheet = game.Content.Load<Texture2D>(System.IO.Path.Combine(@"Teddy", "TeddyRunGhost"));
             _fluffBox = new Rectangle(0, 0, _fluffSprite.Width / 2, _fluffSprite.Height / 2);
-      //      _currentFluff = 40;
             CreateFluffs(teddy);
         }
 
@@ -78,7 +77,6 @@ namespace TeddysAdventureLibrary {
             ReevaluateSkeletonAndFluff(teddy);
             return false; //Teddy does not lose fluff powerup after getting hit
         }
-
 
 
         private void SetFluffMode(FluffMotionTypeEnum t)
@@ -189,6 +187,17 @@ namespace TeddysAdventureLibrary {
                     _showTeddyOutline = !_showTeddyOutline;
                 }
 
+
+                if (keyState.IsKeyDown(_zipKey))
+                {
+                    if (_fluffMotionType != FluffMotionTypeEnum.Collapsing) { 
+                        _keyDown = _zipKey;
+                        teddy.SetPowerup(new ZipperPowerup(_game, teddy, true));
+                        return false;
+                    }
+                }
+
+
                 if (keyState.IsKeyDown(Keys.Down))
                 {
                     _keyDown = Keys.Down;
@@ -201,12 +210,7 @@ namespace TeddysAdventureLibrary {
                     SetFluffMode(FluffMotionTypeEnum.Spring);
                 }
 
-                if (keyState.IsKeyDown(_unzipKey))
-                {
-                    _keyDown = _unzipKey;
-                    teddy.SetPowerup(new ZipperPowerup(_game, teddy, true));
-                    return false;
-                }
+
 
             }else
             {
