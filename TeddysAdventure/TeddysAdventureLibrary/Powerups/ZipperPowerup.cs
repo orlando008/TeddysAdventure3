@@ -15,16 +15,17 @@ namespace TeddysAdventureLibrary
         protected Keys _unzipKey = Keys.Z;
         protected bool _startUnzip;
         protected bool _unzipping;
+        protected bool _zipping = false;
         private Rectangle _fluffBox;
-        
+
+        private FluffPowerup _fluffPowerup;
+
         protected List<Rectangle> _animationRectangles = new List<Rectangle>();
         protected List<int> _animationFrameCount = new List<int>();
         private int _currentAnimationRectangle = 0;
         private int _currentAnimationFrameCount = 0;
 
-        private List<TeddysAdventureLibrary.FluffPowerup.FluffWrapper> _fluffs;
-
-        public ZipperPowerup(Game game)
+        public ZipperPowerup(Game game, Teddy teddy, bool startZipping)
             : base(game)
         {
             _unzipAnimation = game.Content.Load<Texture2D>(System.IO.Path.Combine(@"Teddy", "UnzipAnimation"));
@@ -49,34 +50,53 @@ namespace TeddysAdventureLibrary
             _animationRectangles.Add(new Rectangle(317, 0, 139, 75));
             _animationFrameCount.Add(15);
 
+            _fluffPowerup = new FluffPowerup(game, teddy);
+
+            if (startZipping)
+            {
+                _zipping = true ;
+                _currentAnimationRectangle = _animationRectangles.Count - 1;
+                _currentAnimationFrameCount = _animationFrameCount.Last<int>();
+                teddy.SetSpriteState(Teddy.TeddySpriteState.BlinkNoArms);
+                _fluffPowerup.ResetFluff(teddy);
+            }
+
         }
 
         public override bool Update(GameTime gameTime, Screen screen, Teddy teddy, KeyboardState keyState)
         {
-            if (teddy.Velocity.Y == 0 && teddy.Velocity.X == 0)
+            if (!_zipping)
             {
-                if (_startUnzip == true && keyState.IsKeyUp(_unzipKey))
+                if (teddy.Velocity.Y == 0 && teddy.Velocity.X == 0)
                 {
-                    _unzipping = true;
-                    CreateFluffs(teddy);
-                }
+                    if (_startUnzip == true && _unzipping == false && keyState.IsKeyUp(_unzipKey))
+                    {
+                        _unzipping = true;
+                        teddy.SetSpriteState(Teddy.TeddySpriteState.BlinkNoArms);
+                        _fluffPowerup.ResetFluff(teddy);
+                    }
 
-                if (_startUnzip == false && keyState.IsKeyDown(_unzipKey))
-                {
-                    _startUnzip = true;
-                    _currentAnimationRectangle = 0;
-                    _currentAnimationFrameCount = 0;
+                    if (_startUnzip == false && keyState.IsKeyDown(_unzipKey))
+                    {
+                        _startUnzip = true;
+                        _currentAnimationRectangle = 0;
+                        _currentAnimationFrameCount = 0;
+                    }
                 }
             }
 
-            return base.Update(gameTime, screen, teddy, keyState);
+            //If teddy is (un)zipping, we do not want him to be able to move, so we cancel his update in that case
+            if (_zipping || _unzipping)
+                return false;
+            else
+                return base.Update(gameTime, screen, teddy, keyState);
         }
 
         public override bool BeforeDraw(GameTime gameTime, SpriteBatch teddyBatch, Teddy teddy)
         {
             if (_unzipping)
             {
-                DrawFluff(teddyBatch, gameTime);
+                _fluffPowerup.DrawFluff(teddyBatch, gameTime);
                 teddyBatch.Draw(_unzipAnimation, new Vector2(teddy.Position.X - ((_animationRectangles[_currentAnimationRectangle].Width - teddy.FrameSize.X)/2), teddy.Position.Y), _animationRectangles[_currentAnimationRectangle], Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
 
                 _currentAnimationFrameCount++;
@@ -92,92 +112,39 @@ namespace TeddysAdventureLibrary
                     _startUnzip = false;
                     _unzipping = false;
 
-                    ((Screen)_game.Components[0]).Teddy = new TeddyFluff(_game, teddy.Position, new Vector2(50, 75));
+                    teddy.SetSpriteState(Teddy.TeddySpriteState.Blink1);
+                    _fluffPowerup.ResetFluff(teddy);
+
+                    teddy.SetPowerup(_fluffPowerup);
                 }
+                return false;
+            } else if (_zipping){
+
+                _fluffPowerup.DrawFluff(teddyBatch, gameTime);
+                teddyBatch.Draw(_unzipAnimation, new Vector2(teddy.Position.X - ((_animationRectangles[_currentAnimationRectangle].Width - teddy.FrameSize.X)/2), teddy.Position.Y), _animationRectangles[_currentAnimationRectangle], Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 0);
+
+                _currentAnimationFrameCount--;
+
+                if (_currentAnimationFrameCount < 0)
+                {
+                    _currentAnimationRectangle--;
+
+                    if (_currentAnimationRectangle < 0)
+                    {
+                        _startUnzip = false;
+                        _unzipping = false;
+                        _zipping = false;
+                    }
+                    else
+                    {
+                        _currentAnimationFrameCount = _animationFrameCount[_currentAnimationRectangle];
+                    }
+                }
+
                 return false;
             }
 
             return true;
-        }
-
-        private void DrawFluff(SpriteBatch teddyBatch, GameTime gameTime)
-        {
-
-            Vector2 origin = new Vector2(_fluffBox.Width / 2, _fluffBox.Height / 2);
-
-            foreach (TeddysAdventureLibrary.FluffPowerup.FluffWrapper fw in _fluffs)
-            {
-                teddyBatch.Draw(_fluffSprite, fw.Fluff.Position, new Rectangle(0,0,20,20), Color.White, (float)0, origin, .5f, SpriteEffects.None, (float)0.0f);
-            }
-
-        }
-
-        private List<TeddysAdventureLibrary.FluffPowerup.TeddySkeleton> GetCurrentTeddySkeleton(Teddy teddy)
-        {
-            var skeleton = new List<TeddysAdventureLibrary.FluffPowerup.TeddySkeleton>();
-            skeleton.Add(new TeddysAdventureLibrary.FluffPowerup.TeddySkeleton(TeddysAdventureLibrary.FluffPowerup.TeddySkeleton.SkeletonTypeEnum.Circle, new Vector2(24, 55), 12, 30, 3)); //Body
-
-            //skeleton.Add(new TeddysAdventureLibrary.FluffPowerup.TeddySkeleton(TeddysAdventureLibrary.FluffPowerup.SkeletonTypeEnum.Straight, new Vector2(8, 73), new Vector2(18, 64), 10, 2));//left leg
-            //skeleton.Add(new TeddysAdventureLibrary.FluffPowerup.TeddySkeleton(TeddysAdventureLibrary.FluffPowerup.SkeletonTypeEnum.Straight, new Vector2(43, 73), new Vector2(30, 64), 10, 5)); //right leg
-
-            //skeleton.Add(new TeddysAdventureLibrary.FluffPowerup.TeddySkeleton(TeddysAdventureLibrary.FluffPowerup.SkeletonTypeEnum.Straight, new Vector2(43, 64), new Vector2(43, 47), 10, 1));//left arm
-            //skeleton.Add(new TeddysAdventureLibrary.FluffPowerup.TeddySkeleton(TeddysAdventureLibrary.FluffPowerup.SkeletonTypeEnum.Straight, new Vector2(6, 64), new Vector2(6, 47), 10, 6)); //right arm
-
-            skeleton.Add(new TeddysAdventureLibrary.FluffPowerup.TeddySkeleton(TeddysAdventureLibrary.FluffPowerup.TeddySkeleton.SkeletonTypeEnum.Circle, new Vector2(24, 25), 12, 25, 4)); //Head
-
-            skeleton.Add(new TeddysAdventureLibrary.FluffPowerup.TeddySkeleton(TeddysAdventureLibrary.FluffPowerup.TeddySkeleton.SkeletonTypeEnum.Circle, new Vector2(8, 7), 5, 5, 7)); //ear
-            skeleton.Add(new TeddysAdventureLibrary.FluffPowerup.TeddySkeleton(TeddysAdventureLibrary.FluffPowerup.TeddySkeleton.SkeletonTypeEnum.Circle, new Vector2(42, 7), 5, 5, 8)); //ear
-
-            foreach (TeddysAdventureLibrary.FluffPowerup.TeddySkeleton ts in skeleton)
-            {
-                if (_fluffs == null || _fluffs.Count == 0)
-                    ts.SetReferencePoints(teddy.CurrentFluff, 6, null);
-                else
-                {
-                    int actualFluffCount = _fluffs.Count(c => c.BoneID == ts.ZOrder);
-                    ts.SetReferencePoints(teddy.CurrentFluff, 6, actualFluffCount);
-                }
-            }
-            return skeleton;
-        }
-
-        private void CreateFluffs(Teddy teddy)
-        {
-
-            var _oldFluffs = _fluffs;
-
-            _fluffs = new List<TeddysAdventureLibrary.FluffPowerup.FluffWrapper>();
-
-            //All frames have teh same makeup, so we can just use whichever is current
-            List<TeddysAdventureLibrary.FluffPowerup.TeddySkeleton> skeleton = GetCurrentTeddySkeleton(teddy);
-
-            foreach (TeddysAdventureLibrary.FluffPowerup.TeddySkeleton bone in skeleton)
-            {
-                for (int i = 0; i < bone.ReferencePoints.Count; i++)
-                {
-
-                    Vector2 refPoint = bone.ReferencePoints[i];
-                    Vector2 point = bone.GetFlippedPoint(34, refPoint);
-
-                    refPoint = new Vector2(teddy.Position.X + 15, teddy.Position.Y) + point;
-
-                    Vector2 initialVelocity = Vector2.Zero;
-
-                    if (_oldFluffs != null)
-                    {
-                        var oldFluff = _oldFluffs.FirstOrDefault(f => f.BoneID == bone.ZOrder && f.ReferenceID == i);
-                        if (oldFluff != null)
-                        {
-                            refPoint = oldFluff.Fluff.Position;
-                            initialVelocity = oldFluff.Fluff.Velocity;
-                        }
-                    }
-
-                    _fluffs.Add(new TeddysAdventureLibrary.FluffPowerup.FluffWrapper(bone.ZOrder, i, refPoint, initialVelocity, _game, new Rectangle(0, 0, _fluffBox.Width / 2, _fluffBox.Height / 2)));
-                }
-            }
-
-
         }
 
     }

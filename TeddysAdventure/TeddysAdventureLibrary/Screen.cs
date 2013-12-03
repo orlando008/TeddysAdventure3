@@ -257,7 +257,8 @@ namespace TeddysAdventureLibrary
                     _teddy = new Teddy(game, screenHelper.TeddyStart, new Vector2(50,75));
                     break;
                 case LevelType.Fluff:
-                    _teddy = new TeddyFluff(game, screenHelper.TeddyStart, new Vector2(50, 75));
+                    _teddy = new Teddy(game, screenHelper.TeddyStart, new Vector2(50, 75));
+                    _teddy.SetPowerup(new ZipperPowerup(game, _teddy, false));
                     break;
                 default:
                     _teddy = new Teddy(game,    screenHelper.TeddyStart, new Vector2(50, 75));
