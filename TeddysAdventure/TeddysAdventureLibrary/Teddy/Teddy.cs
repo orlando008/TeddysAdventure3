@@ -25,7 +25,8 @@ namespace TeddysAdventureLibrary
             Blink1 = 4,
             Blink2 = 5,
             Blink3 = 6,
-            Blink4 = 7
+            Blink4 = 7,
+            BlinkNoArms = 8
         }
 
         protected int TERMINAL_VELOCITY = 10;
@@ -355,6 +356,11 @@ namespace TeddysAdventureLibrary
             {
                 _facingCounter = 0;
             }
+        }
+
+        public void SetPowerup(Powerup p)
+        {
+            _currentPowerup = p;
         }
 
         public override void Update(GameTime gameTime)

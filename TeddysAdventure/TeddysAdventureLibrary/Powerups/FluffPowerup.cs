@@ -29,6 +29,8 @@ namespace TeddysAdventureLibrary {
         private float _k = .1f;
         private float _c = .3f;
 
+        protected Keys _unzipKey = Keys.Z;
+
         private FluffMotionTypeEnum _fluffMotionType = FluffMotionTypeEnum.Stationary;
         private bool _showTeddyOutline = false;
         
@@ -199,6 +201,13 @@ namespace TeddysAdventureLibrary {
                     SetFluffMode(FluffMotionTypeEnum.Spring);
                 }
 
+                if (keyState.IsKeyDown(_unzipKey))
+                {
+                    _keyDown = _unzipKey;
+                    teddy.SetPowerup(new ZipperPowerup(_game, teddy, true));
+                    return false;
+                }
+
             }else
             {
                 if (keyState.IsKeyUp(_keyDown.Value))
@@ -356,6 +365,12 @@ namespace TeddysAdventureLibrary {
             }
         }
 
+        public void ResetFluff(Teddy teddy)
+        {
+            _fluffs = null;
+            CreateFluffs(teddy);
+        }
+
         private void ReevaluateSkeletonAndFluff(Teddy teddy)
         {
 
@@ -442,6 +457,23 @@ namespace TeddysAdventureLibrary {
                        skeleton.Add(new TeddySkeleton(TeddySkeleton.SkeletonTypeEnum.Circle, new Vector2(8, 7), 5,  5, 7)); //ear
                        skeleton.Add(new TeddySkeleton(TeddySkeleton.SkeletonTypeEnum.Circle, new Vector2(42, 7), 5,  5, 8)); //ear
                         break;
+                    case Teddy.TeddySpriteState.BlinkNoArms:
+
+                        skeleton.Add(new TeddysAdventureLibrary.FluffPowerup.TeddySkeleton(TeddysAdventureLibrary.FluffPowerup.TeddySkeleton.SkeletonTypeEnum.Circle, new Vector2(24, 55), 12, 30, 3)); //Body
+
+                        //skeleton.Add(new TeddysAdventureLibrary.FluffPowerup.TeddySkeleton(TeddysAdventureLibrary.FluffPowerup.SkeletonTypeEnum.Straight, new Vector2(8, 73), new Vector2(18, 64), 10, 2));//left leg
+                        //skeleton.Add(new TeddysAdventureLibrary.FluffPowerup.TeddySkeleton(TeddysAdventureLibrary.FluffPowerup.SkeletonTypeEnum.Straight, new Vector2(43, 73), new Vector2(30, 64), 10, 5)); //right leg
+
+                        //skeleton.Add(new TeddysAdventureLibrary.FluffPowerup.TeddySkeleton(TeddysAdventureLibrary.FluffPowerup.SkeletonTypeEnum.Straight, new Vector2(43, 64), new Vector2(43, 47), 10, 1));//left arm
+                        //skeleton.Add(new TeddysAdventureLibrary.FluffPowerup.TeddySkeleton(TeddysAdventureLibrary.FluffPowerup.SkeletonTypeEnum.Straight, new Vector2(6, 64), new Vector2(6, 47), 10, 6)); //right arm
+
+                        skeleton.Add(new TeddysAdventureLibrary.FluffPowerup.TeddySkeleton(TeddysAdventureLibrary.FluffPowerup.TeddySkeleton.SkeletonTypeEnum.Circle, new Vector2(24, 25), 12, 25, 4)); //Head
+
+                        skeleton.Add(new TeddysAdventureLibrary.FluffPowerup.TeddySkeleton(TeddysAdventureLibrary.FluffPowerup.TeddySkeleton.SkeletonTypeEnum.Circle, new Vector2(8, 7), 5, 5, 7)); //ear
+                        skeleton.Add(new TeddysAdventureLibrary.FluffPowerup.TeddySkeleton(TeddysAdventureLibrary.FluffPowerup.TeddySkeleton.SkeletonTypeEnum.Circle, new Vector2(42, 7), 5, 5, 8)); //ear
+
+                        break;
+
                 }
 
                 foreach (TeddySkeleton ts in skeleton)
@@ -467,7 +499,7 @@ namespace TeddysAdventureLibrary {
         private double _fluffRotation = 0.0f;
 
 
-        private void DrawFluff(SpriteBatch teddyBatch, GameTime gameTime)
+        public void DrawFluff(SpriteBatch teddyBatch, GameTime gameTime)
         {
 
             Vector2 origin = new Vector2(_fluffBox.Width , _fluffBox.Height );
