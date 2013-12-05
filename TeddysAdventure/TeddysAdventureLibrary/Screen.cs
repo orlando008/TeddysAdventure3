@@ -218,6 +218,9 @@ namespace TeddysAdventureLibrary
                         case "DustBunny":
                             _enemies.Add(new DustBunny(Game, eh.Position, eh.Velocity));
                             break;
+                        case "Vacuum":
+                            _enemies.Add(new Vacuum(Game, eh.Position, eh.Velocity));
+                            break;
                     }
                 }
             }
