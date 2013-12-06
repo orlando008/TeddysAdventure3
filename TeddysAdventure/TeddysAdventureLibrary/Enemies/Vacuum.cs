@@ -16,7 +16,11 @@ namespace TeddysAdventureLibrary
         private bool _isRetractingCone;
         private bool _isSucking;
         private Rectangle _coneBoxToDraw;
+        private Rectangle _stuffBoxToDraw;
+        private int _currentStuffLevel = 0;
         private double _elapsedSeconds;
+        private int _numberOfSucksPerformed = 0;
+        private int _numberOfSucksToPerform = 10;
 
         public Vacuum(Game game, Vector2 position, Vector2 velocity)
             : base(game)
@@ -47,6 +51,23 @@ namespace TeddysAdventureLibrary
 
                 sp.Draw(StyleSheet, Position, BoxToDraw, enemyColor);
 
+            }
+
+            if (_isSucking && _currentStuffLevel > 0)
+            {
+                switch (_currentStuffLevel)
+                {
+                    case 1:
+                        sp.Draw(_stuffSprites, new Vector2(Position.X - _coneBoxToDraw.Width + 8, Position.Y + 117), _stuffBoxToDraw, enemyColor);
+                        break;
+                    case 2:
+                        sp.Draw(_stuffSprites, new Vector2(Position.X - _coneBoxToDraw.Width + 15, Position.Y + 99), _stuffBoxToDraw, enemyColor);
+                        break;
+                    case 3:
+                        sp.Draw(_stuffSprites, new Vector2(Position.X - _coneBoxToDraw.Width + 24, Position.Y + 90), _stuffBoxToDraw, enemyColor);
+                        break;
+                }
+                
             }
 
             if (_isExtendingCone || _isSucking || _isRetractingCone)
@@ -107,15 +128,15 @@ namespace TeddysAdventureLibrary
 
             if (_isExtendingCone)
             {
-                if (_coneFrameCount <= 50)
+                if (_coneFrameCount <= 25)
                 {
                     _coneBoxToDraw = new Rectangle(0, 0, 57, 45);
                 }
-                else if (_coneFrameCount <= 100)
+                else if (_coneFrameCount <= 50)
                 {
                     _coneBoxToDraw = new Rectangle(58, 0, 57, 45);
                 }
-                else if (_coneFrameCount <= 150)
+                else if (_coneFrameCount <= 75)
                 {
                     _coneBoxToDraw = new Rectangle(116, 0, 57, 45);
                 }
@@ -130,19 +151,40 @@ namespace TeddysAdventureLibrary
             }
             else if (_isSucking)
             {
-                if (_coneFrameCount <= 10)
+                if (_coneFrameCount <= 4)
                 {
+                    _stuffBoxToDraw = new Rectangle(0,0, 15,12);
+                    _currentStuffLevel = 1;
+                }
+                else if (_coneFrameCount <= 8)
+                {
+                    _stuffBoxToDraw = new Rectangle(16, 0, 9, 12);
+                    _currentStuffLevel = 2;
+                }
+                else if (_coneFrameCount <= 12)
+                {
+                    _currentStuffLevel = 3;
+                    _stuffBoxToDraw = new Rectangle(25, 0, 27, 12);
+                }
+                else
+                {
+                    _numberOfSucksPerformed++;
 
-                }
-                else if (_coneFrameCount <= 100)
-                {
-                    
-                }
-                else if (_coneFrameCount <= 150)
-                {
-                    _isRetractingCone = true;
-                    _isSucking = false;
-                    _coneFrameCount = 0;
+                    if (_numberOfSucksPerformed < _numberOfSucksToPerform)
+                    {
+                        _coneFrameCount = 0;
+                        _currentStuffLevel = 0;
+                    }
+                    else
+                    {
+                        _isRetractingCone = true;
+                        _isSucking = false;
+                        _coneFrameCount = 0;
+                        _currentStuffLevel = 0;
+                        _numberOfSucksPerformed = 0;
+                        RemoveSurfaceAtLocation();
+                    }
+
                 }
 
                 _coneFrameCount++;
@@ -173,6 +215,24 @@ namespace TeddysAdventureLibrary
             }
 
             base.Update(gameTime);
+        }
+
+        private void RemoveSurfaceAtLocation()
+        {
+
+            for (int i = ((Screen)Game.Components[0]).Surfaces.Count -1; i >= 0; i--)
+			{
+                if (((Screen)Game.Components[0]).Surfaces[i].Top >= Position.Y + BoxToDraw.Height)
+                {
+                    if (((Screen)Game.Components[0]).Surfaces[i].Rect.Intersects(new Rectangle((int)Position.X - _coneBoxToDraw.Width, (int)Position.Y + BoxToDraw.Height, 25, 1000)))
+                    {
+                        ((Screen)Game.Components[0]).Surfaces.RemoveAt(i);
+                        return;
+                    }
+                    
+               
+                }
+			}
         }
     }
 }
