@@ -551,30 +551,48 @@ namespace TeddyMapEditor
          //   spSurfaces.Width = 0;
         }
 
+        private void ReDrawSurface()
+        {
+            ImageBrush ib = (ImageBrush)CurrentSurface.Fill;
+            ib.Viewport = new Rect(0, 0, ib.ImageSource.Width / CurrentSurface.Width, ib.ImageSource.Height / CurrentSurface.Height);
+            CurrentSurface.Fill = ib;
+        }
 
 
         private void btnIncreaseWidth_Click(object sender, RoutedEventArgs e)
         {
             if(CurrentSurface != null)
+            {
                 CurrentSurface.Width += BASIC_UNIT;
+                ReDrawSurface();
+            }
         }
 
         private void btnDecreaseWidth_Click(object sender, RoutedEventArgs e)
         {
             if (CurrentSurface != null)
+            {
                 CurrentSurface.Width -= BASIC_UNIT;
+                ReDrawSurface();
+            }
         }
 
         private void btnIncreaseHeight_Click(object sender, RoutedEventArgs e)
         {
             if (CurrentSurface != null)
+            {
                 CurrentSurface.Height += BASIC_UNIT;
+                ReDrawSurface();
+            }
         }
 
         private void btnDecreaseHeight_Click(object sender, RoutedEventArgs e)
         {
             if (CurrentSurface != null)
+            {
                 CurrentSurface.Height -= BASIC_UNIT;
+                ReDrawSurface();
+            }
         }
 
         private void btnIncreaseX_Click(object sender, RoutedEventArgs e)
