@@ -21,6 +21,10 @@ namespace TeddysAdventureLibrary
         private double _elapsedSeconds;
         private int _numberOfSucksPerformed = 0;
         private int _numberOfSucksToPerform = 10;
+        private Texture2D _targetAcquirerSprites;
+        private Vector2 _targetPosition = new Vector2(-999, -999);
+        private TargetAcquirer _targetAcquirer;
+        private int _widthOfCone = 61;
 
         public Vacuum(Game game, Vector2 position, Vector2 velocity)
             : base(game)
@@ -28,6 +32,7 @@ namespace TeddysAdventureLibrary
             StyleSheet = game.Content.Load<Texture2D>("Enemies\\Vacuum");
             _coneSprites = game.Content.Load<Texture2D>("Enemies\\VacuumCone");
             _stuffSprites = game.Content.Load<Texture2D>("Enemies\\VacuumStuff");
+            _targetAcquirerSprites = game.Content.Load<Texture2D>("Objects\\TargetAcquirer");
 
             Position = position;
             BoxToDraw = new Rectangle(0, 0,70, 129);
@@ -79,18 +84,28 @@ namespace TeddysAdventureLibrary
 
         public override void Update(GameTime gameTime)
         {
+            if (Destroyed)
+                return;
+
+            Screen currentScreen = (Screen)Game.Components[0];
+
             _elapsedSeconds += gameTime.ElapsedGameTime.Milliseconds;
 
-            if (_elapsedSeconds > 7000)
+            if (_elapsedSeconds > 7000 && _targetAcquirer == null && _isSucking == false && _isRetractingCone == false)
+            {
+                _targetPosition = ((Screen)Game.Components[0]).Teddy.Position;
+                _targetAcquirer = new TargetAcquirer(Game, ((Screen)Game.Components[0]).Teddy.Position);
+                currentScreen.GameObjects.Add(_targetAcquirer);
+            }
+
+
+            if (Position.X - _widthOfCone == _targetPosition.X && _isSucking == false && _isRetractingCone == false)
             {
                 _isExtendingCone = true;
                 _elapsedSeconds = 0;
             }
 
-            if (Destroyed)
-                return;
-
-            Screen currentScreen = (Screen)Game.Components[0];
+            
 
             if (_isExtendingCone || _isRetractingCone || _isSucking)
             {
@@ -98,14 +113,29 @@ namespace TeddysAdventureLibrary
             }
             else
             {
-                if (currentScreen.Teddy.Position.X < this.Position.X)
+                if (_targetAcquirer == null)
                 {
-                    Velocity = new Vector2(-1, Velocity.Y);
+                    if (((Screen)Game.Components[0]).Teddy.Position.X < this.Position.X)
+                    {
+                        Velocity = new Vector2(-1, Velocity.Y);
+                    }
+                    else if (((Screen)Game.Components[0]).Teddy.Position.X > this.Position.X)
+                    {
+                        Velocity = new Vector2(1, Velocity.Y);
+                    }
                 }
-                else if (currentScreen.Teddy.Position.X > this.Position.X)
+                else
                 {
-                    Velocity = new Vector2(1, Velocity.Y);
+                    if (_targetPosition.X < this.Position.X - _widthOfCone)
+                    {
+                        Velocity = new Vector2(-1, Velocity.Y);
+                    }
+                    else if (_targetPosition.X > this.Position.X - _widthOfCone)
+                    {
+                        Velocity = new Vector2(1, Velocity.Y);
+                    }
                 }
+
 
                 if (_frameCount <= 10)
                 {
@@ -183,6 +213,7 @@ namespace TeddysAdventureLibrary
                         _currentStuffLevel = 0;
                         _numberOfSucksPerformed = 0;
                         RemoveSurfaceAtLocation();
+                        currentScreen.GameObjects.Remove(_targetAcquirer);
                     }
 
                 }
@@ -210,6 +241,8 @@ namespace TeddysAdventureLibrary
                     _isRetractingCone = false;
                     _coneFrameCount = 0;
                     _elapsedSeconds = 0;
+                    _targetPosition = new Vector2(-999,-999);
+                    _targetAcquirer = null;
                 }
                 _coneFrameCount++;
             }

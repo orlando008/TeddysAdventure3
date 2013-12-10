@@ -126,6 +126,7 @@
     <Compile Include="GameObjects\NightVision.cs" />
     <Compile Include="GameObjects\PulseArmPickup.cs" />
     <Compile Include="GameObjects\PulseProjectile.cs" />
+    <Compile Include="GameObjects\TargetAcquirer.cs" />
     <Compile Include="GeometryMethods.cs" />
     <Compile Include="Helpers\EnemyHelper.cs" />
     <Compile Include="Helpers\GameObjectHelper.cs" />
