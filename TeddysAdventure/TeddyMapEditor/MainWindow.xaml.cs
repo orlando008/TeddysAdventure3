@@ -186,6 +186,9 @@ namespace TeddyMapEditor
                 case EditMode.objects:
                     ObjectModeMouseUp(e);
                     break;
+                case EditMode.selection:
+                    SelectionModeMouseUp(e);
+                    break;
 
             }
 
@@ -306,7 +309,7 @@ namespace TeddyMapEditor
                 double xEnd = end.X;
                 double yEnd = end.Y;
 
-                // set the top left corner (0, 0) as the start point
+                // set the top left corner (towards (0, 0)) as the start point
                 if (xStart > xEnd)
                 {
                     double t = xStart;
@@ -320,15 +323,15 @@ namespace TeddyMapEditor
                     yEnd = t;
                 }
 
-                // round everything towards the top left, but add 1 unit to the side towards the bottom or right
-                xStart = Math.Floor(xStart / BASIC_UNIT);
-                xEnd = Math.Floor(xEnd / BASIC_UNIT) + 1;
-                yStart = Math.Floor(yStart / BASIC_UNIT);
-                yEnd = Math.Floor(yEnd / BASIC_UNIT) + 1;
+                // round everything towards the top left, but add 1 basic unit to the side towards the bottom or right
+                xStart = TruncateNumberToBasicUnit(xStart);
+                xEnd = TruncateNumberToBasicUnit(xEnd + BASIC_UNIT);
+                yStart = TruncateNumberToBasicUnit(yStart);
+                yEnd = TruncateNumberToBasicUnit(yEnd + BASIC_UNIT);
 
                 // assign the new points, scaling back out of the basic unit
-                _clickStart = new Point(xStart * BASIC_UNIT, yStart * BASIC_UNIT);
-                _clickEnd = new Point(xEnd * BASIC_UNIT, yEnd* BASIC_UNIT);
+                _clickStart = new Point(xStart, yStart);
+                _clickEnd = new Point(xEnd, yEnd);
 
                 UnselectAllElements();
 
@@ -367,7 +370,7 @@ namespace TeddyMapEditor
         private void EnemyModeMouseUp(MouseEventArgs e)
         {
             if (cboEnemies.Text == "")
-                return;
+                cboEnemies.Text = "BowlingBall";
 
             Point p = e.MouseDevice.GetPosition(cnvsMap);
             Rectangle r = new Rectangle();
@@ -406,7 +409,7 @@ namespace TeddyMapEditor
         private void ObjectModeMouseUp(MouseEventArgs e)
         {
             if (cboObjects.Text == "")
-                return;
+                cboObjects.Text = "Fluff";
 
             Point p = e.MouseDevice.GetPosition(cnvsMap);
             Rectangle r = new Rectangle();
@@ -435,6 +438,15 @@ namespace TeddyMapEditor
             _vm.CurrentSelection = go;
     
              go.Location = p;
+        }
+
+        private void SelectionModeMouseUp(MouseEventArgs e)
+        {
+            double left = Convert.ToDouble(CurrentSurface.GetValue(Canvas.LeftProperty));
+            double top = Convert.ToDouble(CurrentSurface.GetValue(Canvas.TopProperty));
+
+            CurrentSurface.SetValue(Canvas.LeftProperty, RoundNumberToBasicUnit(left));
+            CurrentSurface.SetValue(Canvas.TopProperty, RoundNumberToBasicUnit(top));
         }
 
 
@@ -817,6 +829,16 @@ namespace TeddyMapEditor
         private void Window_MouseUp(object sender, MouseButtonEventArgs e)
         {
             _clickCaptured = false;
+        }
+
+        private double TruncateNumberToBasicUnit(double originalNumber)
+        {
+            return Math.Floor(originalNumber / BASIC_UNIT) * BASIC_UNIT;
+        }
+
+        private double RoundNumberToBasicUnit(double originalNumber)
+        {
+            return Math.Round(originalNumber / BASIC_UNIT) * BASIC_UNIT;
         }
 
     }
