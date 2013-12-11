@@ -91,7 +91,7 @@ namespace TeddysAdventureLibrary
 
             _elapsedSeconds += gameTime.ElapsedGameTime.Milliseconds;
 
-            if (_elapsedSeconds > 7000 && _targetAcquirer == null && _isSucking == false && _isRetractingCone == false)
+            if (_elapsedSeconds > 2000 && _targetAcquirer == null && _isSucking == false && _isRetractingCone == false)
             {
                 _targetPosition = ((Screen)Game.Components[0]).Teddy.Position;
                 _targetAcquirer = new TargetAcquirer(Game, ((Screen)Game.Components[0]).Teddy.Position);
@@ -181,6 +181,7 @@ namespace TeddysAdventureLibrary
             }
             else if (_isSucking)
             {
+                _targetAcquirer.LockedIn = true;
                 if (_coneFrameCount <= 4)
                 {
                     _stuffBoxToDraw = new Rectangle(0,0, 15,12);
