@@ -493,9 +493,16 @@ namespace TeddysAdventureLibrary
             }
 
 
+            bool canJump = true;
+            if (_currentPowerup != null)
+                canJump = !_currentPowerup.PreventsJump(this);
+
             //if teddy is not jumping, and he is not falling, and the user hits the space bar, jump
-            if (keyState.IsKeyDown(Keys.Space) && _isJumping == false && _yVelocity == 0.0f)
+            if (canJump && keyState.IsKeyDown(Keys.Space) && _isJumping == false && _yVelocity == 0.0f)
             {
+            
+
+                
                 _isJumping = true;
                 _yVelocity = -_initialJumpVelocity;
                 _spacePressedDown = true;

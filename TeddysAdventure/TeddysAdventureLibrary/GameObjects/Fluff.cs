@@ -23,7 +23,8 @@ namespace TeddysAdventureLibrary
 
         private float _gravity = .10f;
 
-        private bool _canBeDestroyed = true;
+        private bool _isTeddyFluff = false;
+
 
         public Fluff(Game game, Vector2 position)
             : base(game,position)
@@ -35,12 +36,12 @@ namespace TeddysAdventureLibrary
         }
 
         public Fluff(Game game, Vector2 position, bool applyGravity, float xVelocty, float yVelocity, bool floats)
-            : this(game, position, applyGravity, xVelocty, yVelocity, null, true, floats )
+            : this(game, position, applyGravity, xVelocty, yVelocity, null, false, floats )
         {
 
         }
 
-        public Fluff(Game game, Vector2 position, bool applyGravity, float xVelocty, float yVelocity, Rectangle? drawBox, bool canBeDestroyed, bool floats)
+        public Fluff(Game game, Vector2 position, bool applyGravity, float xVelocty, float yVelocity, Rectangle? drawBox, bool isTeddyFluff, bool floats)
             : base(game, position)
         {
             StyleSheet = game.Content.Load<Texture2D>("Objects\\Fluff");
@@ -49,7 +50,7 @@ namespace TeddysAdventureLibrary
             BoxToDraw = (drawBox == null) ? new Rectangle(0, 0, StyleSheet.Width, StyleSheet.Height):drawBox.Value  ;
 
             _applyGravity = applyGravity;
-            _canBeDestroyed = canBeDestroyed;
+            _isTeddyFluff = isTeddyFluff;
             _xVelocity = xVelocty;
             _yVelocity = yVelocity;
             _floats = floats;
@@ -163,7 +164,9 @@ namespace TeddysAdventureLibrary
                                 if (_applyGravity)
                                 {
                                     _yVelocity = 0.0f;
-                                    _xVelocity = 0.0f;
+
+                                    if (!_isTeddyFluff)
+                                        _xVelocity = 0;
                                 } 
 
                             }
@@ -190,11 +193,11 @@ namespace TeddysAdventureLibrary
                     }
                 }
 
-                if (Position.Y > ((Screen)Game.Components[0]).LevelHeight)
+                if (Position.Y > currentScreen.LevelHeight)
                 {
                     _applyGravity = false;
 
-                    if (_canBeDestroyed) { Destroyed = true; }
+                    if (!_isTeddyFluff) { Destroyed = true; }
                 }
             }
         }

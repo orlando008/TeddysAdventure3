@@ -38,6 +38,11 @@
 <Rect>0 625 775 75</Rect>
 <Sprite>SurfaceTexture1</Sprite>
 </Item>
+
+  <Item>
+    <Rect>650 0 50 600</Rect>
+    <Sprite>SurfaceTexture1</Sprite>
+  </Item>
   
   <!--<Item>
     <Rect>0 8000 1000 1000</Rect>
@@ -158,10 +163,10 @@
 <Position>450 610</Position>
 </Item> 
   
-  <Item>
+  <!--<Item>
     <Type>Goal</Type>
     <Position>600 500</Position>
-  </Item>
+  </Item>-->
 </ListOfObjects>
 <ListOfEnemies>
 <Item>

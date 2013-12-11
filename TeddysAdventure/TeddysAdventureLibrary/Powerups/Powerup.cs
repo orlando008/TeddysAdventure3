@@ -11,6 +11,7 @@ namespace TeddysAdventureLibrary
     public class Powerup
     {
         protected Game _game;
+        protected bool _preventsJump = false;
 
         public Powerup(Game game)
         {
@@ -66,5 +67,9 @@ namespace TeddysAdventureLibrary
             return true;
         }
 
+        public virtual bool PreventsJump(Teddy teddy)
+        {
+            return _preventsJump;
+        }
     }
 }
