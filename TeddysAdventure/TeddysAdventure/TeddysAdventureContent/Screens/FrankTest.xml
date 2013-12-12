@@ -43,6 +43,10 @@
     <Rect>650 0 50 600</Rect>
     <Sprite>SurfaceTexture1</Sprite>
   </Item>
+  <Item>
+    <Rect>900 300 200 50</Rect>
+    <Sprite>SurfaceTexture1</Sprite>
+  </Item>
   
   <!--<Item>
     <Rect>0 8000 1000 1000</Rect>

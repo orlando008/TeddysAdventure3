@@ -41,6 +41,7 @@ namespace TeddysAdventureLibrary {
             Stationary = 2,
             Exploding =3,
             Collapsing = 4,
+            Launching = 5
         }
 
         public FluffPowerup(Game game, Teddy teddy) :base(game)
@@ -79,23 +80,58 @@ namespace TeddysAdventureLibrary {
         }
 
 
-        private void SetFluffMode(FluffMotionTypeEnum t)
+        private void SetFluffMode(FluffMotionTypeEnum t, Teddy teddy)
         {
+            int i;
+            int fluffCount;
+            float step;
+            float startAngle;
 
             switch (t)
             {
+
                 case FluffMotionTypeEnum.Exploding:
-                    int fluffCount = _fluffs.Count;
+                     fluffCount = _fluffs.Count;
 
-                    float step = (float)( (Math.PI /8) /fluffCount);
-                    float startAngle = (float)Math.PI / 4;
+                     step = (float)( (2 *Math.PI) /fluffCount);
+                     startAngle = 0;
 
-                    int i = 0;
+                     i = 0;
 
                     foreach (FluffWrapper fw in _fluffs)
                     {
                             int dx = (int)(Math.Cos(startAngle + (step * i)) * 10  );
                         int dy =- (int)(Math.Sin(startAngle + (step * i)) * 10);
+
+                        fw.Fluff.SetAccelleration(Vector2.Zero);
+                        fw.Fluff.SetVelocity(new Vector2(dx, dy));
+                        fw.Fluff.SetApplyGravity(true);
+                        i++;
+                    }
+                    _preventsJump = false;
+                    break;
+
+
+
+                case FluffMotionTypeEnum.Launching:
+                     fluffCount = _fluffs.Count;
+
+
+                     Random r = new Random();
+
+                     float range = (float) Math.PI / 16;
+
+                     //step = (float)( (Math.PI /8) /fluffCount);
+                     startAngle = (float)Math.PI / 4;
+
+                     i = 0;
+
+                    foreach (FluffWrapper fw in _fluffs)
+                    {
+                        double fluffAngle = startAngle + (range * r.NextDouble());
+
+                        int dx = (int)(Math.Cos(fluffAngle) * 10  );
+                        int dy =- (int)(Math.Sin(fluffAngle) * 10);
 
                         fw.Fluff.SetAccelleration(Vector2.Zero);
                         fw.Fluff.SetVelocity(new Vector2(dx, dy));
@@ -126,6 +162,25 @@ namespace TeddysAdventureLibrary {
                             fw.Fluff.SetApplyGravity(false);
                         }
                         _preventsJump = false;
+                    }
+                    else if (_fluffMotionType == FluffMotionTypeEnum.Launching)
+                    {
+                        //Teddy is comming down from a launch.
+                        //Calculate the center point of all the fluffs to be his new position
+                        //Calculate the average velocity to be his new velocity
+
+                        float avgX =  _fluffs.Average<FluffWrapper>(f => f.Fluff.Position.X);
+                        float avgY =  _fluffs.Average<FluffWrapper>(f => f.Fluff.Position.Y);
+
+                        float avgVelocityX =  _fluffs.Average<FluffWrapper>(f => f.Fluff.Velocity.X);
+                        float avgVelocityY =  _fluffs.Average<FluffWrapper>(f => f.Fluff.Velocity.Y);
+
+                        teddy.SetVelocity(new Vector2(avgVelocityX, avgVelocityY));
+                        teddy.Position = new Vector2(avgX, avgY);
+
+                        foreach (FluffWrapper fw in _fluffs)
+                            fw.Fluff.SetApplyGravity(false);
+
                     }
 
                     break;
@@ -167,10 +222,10 @@ namespace TeddysAdventureLibrary {
             {
                 if (keyState.IsKeyDown(Keys.Tab))
                 {
-                    SetFluffMode(_fluffMotionType + 1);
+                    SetFluffMode(_fluffMotionType + 1, teddy);
 
                     if (_fluffMotionType > FluffMotionTypeEnum.Exploding)
-                        SetFluffMode(0);
+                        SetFluffMode(0, teddy);
 
                     _keyDown = Keys.Tab;
                 }
@@ -219,15 +274,29 @@ namespace TeddysAdventureLibrary {
                 if (keyState.IsKeyDown(Keys.Down))
                 {
                     _keyDown = Keys.Down;
-                    SetFluffMode(FluffMotionTypeEnum.Collapsing);
+                    SetFluffMode(FluffMotionTypeEnum.Collapsing, teddy);
                 }
 
                 if (keyState.IsKeyDown(Keys.Up))
                 {
                     _keyDown = Keys.Up;
-                    SetFluffMode(FluffMotionTypeEnum.Spring);
+                    SetFluffMode(FluffMotionTypeEnum.Spring, teddy);
                 }
 
+                if (keyState.IsKeyDown(Keys.D1))
+                {
+                    _keyDown = Keys.D1;
+                    SetFluffMode(FluffMotionTypeEnum.Exploding,teddy);
+
+                }
+                if (keyState.IsKeyDown(Keys.D2))
+                {
+                    _keyDown = Keys.D2;
+                    if (_fluffMotionType == FluffMotionTypeEnum.Launching)
+                        SetFluffMode(FluffMotionTypeEnum.Spring, teddy);                   
+                    else
+                        SetFluffMode(FluffMotionTypeEnum.Launching, teddy);                   
+                }
 
 
             }else
