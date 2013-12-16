@@ -52,10 +52,10 @@ namespace TeddysAdventureLibrary
         {
             _targetPositionOfBottomRight = new Vector2(Position.X + 26, Position.Y + 38);
             _positionUpperLeft = new Vector2(((Screen)Game.Components[0]).CameraBounds.X, 0);
-            _positionUpperRight = new Vector2(((Screen)Game.Components[0]).CameraBounds.Width, 0);
-            _positionBottomLeft = new Vector2(((Screen)Game.Components[0]).CameraBounds.X, ((Screen)Game.Components[0]).CameraBounds.Height);
-            _positionBottomRight = new Vector2(((Screen)Game.Components[0]).CameraBounds.Width, ((Screen)Game.Components[0]).CameraBounds.Height);
-            _positionCenterCross = new Vector2(((Screen)Game.Components[0]).CameraBounds.Width / 2, ((Screen)Game.Components[0]).CameraBounds.Height / 2);
+            _positionUpperRight = new Vector2(((Screen)Game.Components[0]).CameraBounds.X + ((Screen)Game.Components[0]).CameraBounds.Width, 0);
+            _positionBottomLeft = new Vector2(((Screen)Game.Components[0]).CameraBounds.X, ((Screen)Game.Components[0]).CameraBounds.Y + ((Screen)Game.Components[0]).CameraBounds.Height);
+            _positionBottomRight = new Vector2(((Screen)Game.Components[0]).CameraBounds.X + ((Screen)Game.Components[0]).CameraBounds.Width, ((Screen)Game.Components[0]).CameraBounds.Y + ((Screen)Game.Components[0]).CameraBounds.Height);
+            _positionCenterCross = new Vector2(Position.X, (((Screen)Game.Components[0]).CameraBounds.Y + ((Screen)Game.Components[0]).CameraBounds.Height) / 2);
         }
 
         public override void Update(GameTime gameTime)
