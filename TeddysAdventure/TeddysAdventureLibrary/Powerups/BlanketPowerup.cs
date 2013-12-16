@@ -255,7 +255,7 @@ namespace TeddysAdventureLibrary.Powerups
             return performBaseAction;
         }
 
-        public override bool HandleEnemyInteraction(Enemy e, Screen currentScreen, GeometryMethods.RectangleF enemyHitBox)
+        public override bool HandleEnemyInteraction(Teddy teddy, Enemy e, Screen currentScreen, GeometryMethods.RectangleF enemyHitBox)
         {
             bool performBaseAction = false;
              switch (_teddyMode)

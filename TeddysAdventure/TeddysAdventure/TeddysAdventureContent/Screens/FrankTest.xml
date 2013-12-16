@@ -173,6 +173,13 @@
   </Item>-->
 </ListOfObjects>
 <ListOfEnemies>
+  <Item>
+<Type>BowlingBall</Type>
+<Position>500 393</Position>
+<Velocity>-1 0</Velocity>
+  <IsSpawnPoint>0</IsSpawnPoint>
+  <SpawnInterval>1</SpawnInterval>
+</Item>
 <Item>
 <Type>Airplane</Type>
 <Position>50 393</Position>

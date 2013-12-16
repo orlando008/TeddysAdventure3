@@ -64,6 +64,12 @@ namespace TeddysAdventureLibrary
         private bool _isRunning = false;
 
         private bool _isJumping = false;
+
+        public bool IsJumping
+        {
+            get { return _isJumping; }
+            set { _isJumping = value; }
+        }
         private float _initialJumpVelocity = 10;
         protected float _gravity = .25f;
         protected float _yVelocity = 0.0f;
@@ -111,6 +117,8 @@ namespace TeddysAdventureLibrary
         }
 
         #region " Properties "
+        public bool SpacePressed { get { return _spacePressedDown; } }
+
         public bool Dead
         {
             get { return _dead; }
@@ -476,46 +484,47 @@ namespace TeddysAdventureLibrary
                 {
                     Position = new Vector2(Position.X, Position.Y + 3);
                 }
-                return;
-            }
 
-            if (_isHit)
+            }
+            else
             {
-                if (_recoverCounter < _recoverWait)
+
+                if (_isHit)
                 {
-                    _recoverCounter++;
+                    if (_recoverCounter < _recoverWait)
+                    {
+                        _recoverCounter++;
+                    }
+                    else
+                    {
+                        _isHit = false;
+                        _recoverCounter = 0;
+                    }
                 }
-                else
+
+                bool canJump = true;
+                if (_currentPowerup != null)
+                    canJump = !_currentPowerup.PreventsJump(this);
+
+                //if teddy is not jumping, and he is not falling, and the user hits the space bar, jump
+                if (canJump && keyState.IsKeyDown(Keys.Space) && _isJumping == false && _yVelocity == 0.0f)
                 {
-                    _isHit = false;
-                    _recoverCounter = 0;
+                    _isJumping = true;
+                    _yVelocity = -_initialJumpVelocity;
+                    _spacePressedDown = true;
+                    _ridingSurface = null;
                 }
+
+                if (keyState.IsKeyUp(Keys.Space))
+                {
+                    _spacePressedDown = false;
+                }
+
+                movePlayerAndCheckState(currentScreen, keyState);
+
             }
 
-
-            bool canJump = true;
-            if (_currentPowerup != null)
-                canJump = !_currentPowerup.PreventsJump(this);
-
-            //if teddy is not jumping, and he is not falling, and the user hits the space bar, jump
-            if (canJump && keyState.IsKeyDown(Keys.Space) && _isJumping == false && _yVelocity == 0.0f)
-            {
-            
-
-                
-                _isJumping = true;
-                _yVelocity = -_initialJumpVelocity;
-                _spacePressedDown = true;
-                _ridingSurface = null;
-            }
-
-            if (keyState.IsKeyUp(Keys.Space))
-            {
-                _spacePressedDown = false;
-            }
-
-            movePlayerAndCheckState(currentScreen, keyState);
-
+            //If teddy is dead, we still want to update powerups 
             if (_currentPowerup != null)
                 _currentPowerup.AfterUpdate(gameTime, currentScreen, this, keyState);
 
@@ -813,7 +822,7 @@ namespace TeddysAdventureLibrary
         {
 
             if (_currentPowerup != null)
-                if (!_currentPowerup.HandleEnemyInteraction( e, currentScreen, enemyHitBox)) { return; }
+                if (!_currentPowerup.HandleEnemyInteraction( this,e, currentScreen, enemyHitBox)) { return; }
 
             _currentSprite = TeddySpriteState.Blink4;
             // Check if Teddy has been hit

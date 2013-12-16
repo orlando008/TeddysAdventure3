@@ -58,7 +58,15 @@ namespace TeddysAdventureLibrary {
         }
 
 
+        public override bool HandleEnemyInteraction(Teddy teddy, Enemy e, Screen currentScreen, GeometryMethods.RectangleF enemyHitBox)
+        {
+            //If teddy is in fluff mode and gets hit, he will explode and die
 
+            SetFluffMode(FluffMotionTypeEnum.Exploding, teddy);
+            teddy.Dead = true;
+
+            return false; //Teddy is dead, no need to keep evaluating anything
+        }
 
         public override bool HandleFluffGrab(Teddy teddy, Fluff f)
         {
@@ -116,13 +124,23 @@ namespace TeddysAdventureLibrary {
                 case FluffMotionTypeEnum.Launching:
                      fluffCount = _fluffs.Count;
 
+                                       //Base fluff throwing direction on teddy's current movement direction
+                     Vector2 current = teddy.Velocity;
+                     Vector2 xAxis = new Vector2(1, 0);
+                     current.Normalize();
+                    
+                    startAngle =  (float) Math.Acos( (double)Vector2.Dot(xAxis, current));
+                    
+                    if (double.IsNaN( startAngle) )
+                        return;
+
+                    if (teddy.Velocity.Y > 0)
+                        startAngle *= -1f;
 
                      Random r = new Random();
 
                      float range = (float) Math.PI / 16;
 
-                     //step = (float)( (Math.PI /8) /fluffCount);
-                     startAngle = (float)Math.PI / 4;
 
                      i = 0;
 
@@ -289,9 +307,9 @@ namespace TeddysAdventureLibrary {
                     SetFluffMode(FluffMotionTypeEnum.Exploding,teddy);
 
                 }
-                if (keyState.IsKeyDown(Keys.D2))
+                if (keyState.IsKeyDown(Keys.Space)  &&  teddy.SpacePressed == false && (teddy.IsJumping || teddy.Velocity.Y > 0 ) )
                 {
-                    _keyDown = Keys.D2;
+                    _keyDown = Keys.Space;
                     if (_fluffMotionType == FluffMotionTypeEnum.Launching)
                         SetFluffMode(FluffMotionTypeEnum.Spring, teddy);                   
                     else
