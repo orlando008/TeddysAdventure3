@@ -1,5 +1,7 @@
 Teddy's Adventure 3 Source
 
 Nick Orlando
-Dan Pramik (termination pending)
+Dan Pramik (temporarily re-instated)
 Developer #3
+Brian Klinect
+
