@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<XnaContent>
+  <Asset Type="TeddysAdventureLibrary.ScreenHelper">
+    <TeddyStart>48 588</TeddyStart>
+    <BackgroundColor>FFF5F5DC</BackgroundColor>
+    <Backgrounds />
+    <Surfaces>
+      <Item>
+        <Rect>0 675 50 50</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>75 675 50 50</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>150 675 50 50</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>225 675 50 50</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>300 675 50 50</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>375 675 50 50</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>450 675 50 50</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>525 675 50 50</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>600 675 50 50</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>675 675 50 50</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>750 675 50 50</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>825 675 50 50</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>900 675 50 50</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>975 675 50 50</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>1050 675 50 50</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>1125 675 50 50</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+      <Item>
+        <Rect>1200 675 50 50</Rect>
+        <Sprite>SurfaceTexture1</Sprite>
+      </Item>
+    </Surfaces>
+    <ListOfObjects />
+    <ListOfEnemies>
+      <Item>
+        <Type>Vacuum</Type>
+        <Position>822 645</Position>
+        <Velocity>-1 0</Velocity>
+        <IsSpawnPoint>0</IsSpawnPoint>
+        <SpawnInterval>0</SpawnInterval>
+      </Item>
+    </ListOfEnemies>
+    <LevelType>Normal</LevelType>
+    <LevelSize>1250 750</LevelSize>
+  </Asset>
+</XnaContent>

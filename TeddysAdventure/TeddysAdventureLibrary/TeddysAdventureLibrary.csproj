@@ -112,6 +112,7 @@
     <Compile Include="Enemies\EnemySpawnPoint.cs" />
     <Compile Include="Enemies\FlyingBook.cs" />
     <Compile Include="Enemies\LadyBug.cs" />
+    <Compile Include="Enemies\LintMissile.cs" />
     <Compile Include="Enemies\MatchBoxCar.cs" />
     <Compile Include="Enemies\OrangeBomb.cs" />
     <Compile Include="Enemies\OrangeCrayon.cs" />

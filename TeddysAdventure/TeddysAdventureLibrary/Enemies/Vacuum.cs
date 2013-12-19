@@ -11,6 +11,7 @@ namespace TeddysAdventureLibrary
     {
         private Texture2D _coneSprites;
         private Texture2D _stuffSprites;
+        
         private int _coneFrameCount;
         private bool _isExtendingCone;
         private bool _isRetractingCone;
@@ -80,6 +81,13 @@ namespace TeddysAdventureLibrary
                 sp.Draw(_coneSprites, new Vector2(Position.X - _coneBoxToDraw.Width + 5, Position.Y + 85), _coneBoxToDraw, enemyColor);
             }
 
+            if (ChildrenEnemies != null)
+            {
+                foreach (Enemy childEnemy in ChildrenEnemies)
+                {
+                    childEnemy.DrawEnemy(gameTime, sp);
+                }
+            }
         }
 
         public override void Update(GameTime gameTime)
@@ -96,6 +104,13 @@ namespace TeddysAdventureLibrary
                 _targetPosition = ((Screen)Game.Components[0]).Teddy.Position;
                 _targetAcquirer = new TargetAcquirer(Game, ((Screen)Game.Components[0]).Teddy.Position);
                 currentScreen.GameObjects.Add(_targetAcquirer);
+
+                if (this.ChildrenEnemies == null)
+                {
+                    this.ChildrenEnemies = new List<Enemy>();
+                }
+                
+                this.ChildrenEnemies.Add(new LintMissile(Game, this.Position, new Vector2(this.Velocity.X * 3, this.Velocity.Y)));
             }
 
 
@@ -246,6 +261,14 @@ namespace TeddysAdventureLibrary
                     _targetAcquirer = null;
                 }
                 _coneFrameCount++;
+            }
+
+            if (ChildrenEnemies != null)
+            {
+                foreach (Enemy childEnemy in ChildrenEnemies)
+                {
+                    childEnemy.Update(gameTime);
+                }
             }
 
             base.Update(gameTime);

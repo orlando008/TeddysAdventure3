@@ -64,3 +64,6 @@ Enemies\Vacuum.png
 Enemies\VacuumCone.png
 Enemies\VacuumStuff.png
 Objects\TargetAcquirer.png
+Screens\VaccuumLevel.xml
+Enemies\VacuumLintMissile.png
+Enemies\VacuumLintMissileOverlay.png
