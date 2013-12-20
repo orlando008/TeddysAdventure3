@@ -17,6 +17,7 @@ namespace TeddysAdventureLibrary
         private Vector2 _velocity;
         private float _powerLevelSpeed;
         private int _powerLevelSizeBoost;
+        private int _damage = 1;
 
         public PulseProjectile(Game game, Vector2 position, Teddy teddy, Vector2 velocity, float powerLevelSpeed, int powerLevelSize)
             : base(game, position)
@@ -93,7 +94,7 @@ namespace TeddysAdventureLibrary
         {
             if (!e.Destroyed & e.CollisionRectangle.Intersects(this.CollisionRectangleRegular))
             {
-                e.Kill();
+                e.DoDamage(_damage);
                 this.Destroyed = true;
             }
 

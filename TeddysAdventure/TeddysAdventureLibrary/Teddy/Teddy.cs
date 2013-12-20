@@ -44,6 +44,7 @@ namespace TeddysAdventureLibrary
         private Vector2 _frameSize;
         protected int walkSpeed = 2;
         private int runSpeed = 3;
+        private int _damage = 1;
 
         public int RunSpeed
         {
@@ -769,7 +770,7 @@ namespace TeddysAdventureLibrary
             
             if (_ridingSurface == null & ((e.CanJumpOnToKill || e.PlayerCanRide) && e.CanInteractWithPlayer))
             {
-                GeometryMethods.RectangleF rHit = null;
+                 GeometryMethods.RectangleF rHit = null;
                 if ((e.RectangleInsersectsWithHitBoxes(this.TeddyRectangle, ref rHit)) & (this.TeddyRectangle.Bottom - _yVelocity <= e.CollisionRectangle.Top))
                 {
                     HandleLandingOnEnemy(e, keyState);
@@ -797,7 +798,7 @@ namespace TeddysAdventureLibrary
             if (e.CanJumpOnToKill)
             {
                 _enemiesDestroyed++;
-                e.Kill();
+                e.DoDamage(_damage);
                 if (keyState.IsKeyDown(Keys.Space))
                 {
                     //Can get extra boost jumping off of enemy
@@ -826,12 +827,12 @@ namespace TeddysAdventureLibrary
 
             _currentSprite = TeddySpriteState.Blink4;
             // Check if Teddy has been hit
-            if (!_isHit)
+            if (!_isHit && e.BeingDamaged == false)
             {
                 if (e.Damage > CurrentFluff)
                 {
                     Dead = true;
-                    e.Kill();
+                    e.DoDamage(_damage);
                 }
                 else
                 {

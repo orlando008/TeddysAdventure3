@@ -26,6 +26,7 @@ namespace TeddysAdventureLibrary
         private Vector2 _targetPosition = new Vector2(-999, -999);
         private TargetAcquirer _targetAcquirer;
         private int _widthOfCone = 61;
+        private SpriteFont _font;
 
         public Vacuum(Game game, Vector2 position, Vector2 velocity)
             : base(game)
@@ -34,6 +35,8 @@ namespace TeddysAdventureLibrary
             _coneSprites = game.Content.Load<Texture2D>("Enemies\\VacuumCone");
             _stuffSprites = game.Content.Load<Texture2D>("Enemies\\VacuumStuff");
             _targetAcquirerSprites = game.Content.Load<Texture2D>("Objects\\TargetAcquirer");
+            
+            Health = 10;
 
             Position = position;
             BoxToDraw = new Rectangle(0, 0,70, 129);
@@ -51,13 +54,12 @@ namespace TeddysAdventureLibrary
                 enemyColor.A = (byte)((1 - ((float)_deathFrameCount / _deathFrames)) * 255);
             }
 
-
             if (!Destroyed)
             {
-
                 sp.Draw(StyleSheet, Position, BoxToDraw, enemyColor);
-
             }
+
+            base.DrawDamage(gameTime, sp);
 
             if (_isSucking && _currentStuffLevel > 0)
             {
@@ -110,7 +112,7 @@ namespace TeddysAdventureLibrary
                     this.ChildrenEnemies = new List<Enemy>();
                 }
                 
-                this.ChildrenEnemies.Add(new LintMissile(Game, this.Position, new Vector2(this.Velocity.X * 3, this.Velocity.Y)));
+                this.ChildrenEnemies.Add(new LintMissile(Game, new Vector2(this.Position.X + 4, this.Position.Y + 85), new Vector2(this.Velocity.X * 3, this.Velocity.Y)));
             }
 
 
@@ -120,7 +122,7 @@ namespace TeddysAdventureLibrary
                 _elapsedSeconds = 0;
             }
 
-            
+            CanJumpOnToKill = _isExtendingCone || _isRetractingCone || _isSucking;
 
             if (_isExtendingCone || _isRetractingCone || _isSucking)
             {
@@ -263,6 +265,12 @@ namespace TeddysAdventureLibrary
                 _coneFrameCount++;
             }
 
+            if (BeingDamaged)
+            {
+                CanJumpOnToKill = false;
+                BoxToDraw = new Rectangle(142, 0, 71, 129);
+            }
+
             if (ChildrenEnemies != null)
             {
                 foreach (Enemy childEnemy in ChildrenEnemies)
@@ -272,6 +280,11 @@ namespace TeddysAdventureLibrary
             }
 
             base.Update(gameTime);
+        }
+
+        public override void DoDamage(int damage)
+        {
+            base.DoDamage(damage);
         }
 
         private void RemoveSurfaceAtLocation()

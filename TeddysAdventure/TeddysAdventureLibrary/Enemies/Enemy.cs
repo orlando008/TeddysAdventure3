@@ -27,8 +27,11 @@ namespace TeddysAdventureLibrary
         protected int _deathFrameCount = 0;
         protected int _deathFrames = 12;
         protected float _layerDepth = 0;   //0 = front of screen, 1 = back  
+        protected int _beingDamagedFrameCount = 0;
+        protected int _beingDamagedFrames = 150;
                 
         //Enemy State
+        private bool _beingDamaged = false;
         private bool _dying = false;
         private bool _destroyed = false;
         protected Vector2 _velocity = new Vector2(1, -3);     
@@ -44,16 +47,27 @@ namespace TeddysAdventureLibrary
         protected bool _changeDirectionUponSurfaceHit = false;
         protected bool _bounceOffSidesOfViewport = false;
         protected bool _passesThroughSurfaces = false;
+        protected int _damageCurrentlyBeingTaken = 0;
 
         private int _steeringDownFrames = 4;
         private int _steeringDownCount = 0;
         private bool _playerIsSteering = false;
         private int _steeringDirectionY = 0;
 
+        private SpriteFont _damageFont;
+
         private List<Enemy> _childrenEnemies;
 
         // 15 by default since, only testing with plane
         private int _damage = 15;
+
+        private int _health = 1;
+
+        public int Health
+        {
+            get { return _health; }
+            set { _health = value; }
+        }
 
         public Texture2D StyleSheet
         {
@@ -120,6 +134,27 @@ namespace TeddysAdventureLibrary
             }
         }
 
+        public bool BeingDamaged
+        {
+            get { return _beingDamaged; }
+            set
+            {
+                _beingDamaged = value;
+
+                if (_beingDamaged == false)
+                {
+                    _damageCurrentlyBeingTaken = 0;
+                    _canJumpOnToKill = true;
+                    _playerCanPassThrough = !_playerCanPassThrough;
+                }
+                else
+                {
+                    _canJumpOnToKill = false;
+                    _playerCanPassThrough = !_playerCanPassThrough;
+                }
+            }
+        }
+
         public  bool Dying
         {
             get { return _dying; }
@@ -132,7 +167,7 @@ namespace TeddysAdventureLibrary
 
         public  bool CanInteractWithPlayer
         {
-            get { return !(_destroyed || _dying || _playerCanPassThrough); }
+            get { return !(_destroyed || _dying || _playerCanPassThrough || _beingDamaged); }
         }
 
         public bool PlayerCanRide
@@ -177,6 +212,7 @@ namespace TeddysAdventureLibrary
             : base(game)
         {
             _game = game;
+            _damageFont = game.Content.Load<SpriteFont>("Fonts\\HudFont");
 
  #if COLLISIONS
             _redFill = new Texture2D(_game.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
@@ -195,11 +231,26 @@ namespace TeddysAdventureLibrary
             }
         }
 
-        public void Kill()
+        public virtual void DoDamage(int damage)
         {
-            _destroyed = false;
-            _dying = true;
-            _deathFrameCount = 0;
+            if (!_beingDamaged)
+            {
+                Health -= damage;
+                _damageCurrentlyBeingTaken = damage;
+
+                if (_health <= 0)
+                {
+                    _destroyed = false;
+                    _dying = true;
+                    _deathFrameCount = 0;
+                }
+                else
+                {
+                    BeingDamaged = true;
+                    _beingDamagedFrameCount = 0;
+                }
+            }
+
         }
 
         public void HardKill()
@@ -259,6 +310,14 @@ namespace TeddysAdventureLibrary
         {
         }
 
+        public virtual void DrawDamage(GameTime gameTime, SpriteBatch sp)
+        {
+            if (BeingDamaged)
+            {
+                sp.DrawString(_damageFont, _damageCurrentlyBeingTaken.ToString(), new Vector2(Position.X - 20, Position.Y - 20), Color.Red);
+            }
+        }
+
         public virtual bool RectangleInsersectsWithHitBoxes(GeometryMethods.RectangleF r, ref GeometryMethods.RectangleF rHit)
         {
 
@@ -293,6 +352,16 @@ namespace TeddysAdventureLibrary
             }else if (_destroyed)
             {
                 return;
+            }
+            else if (_beingDamaged)
+            {
+                _beingDamagedFrameCount += 1;
+
+                if (_beingDamagedFrameCount > _beingDamagedFrames)
+                {
+                    BeingDamaged = false;
+                    _beingDamagedFrameCount = 0;
+                }
             }
 
 

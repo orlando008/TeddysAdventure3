@@ -21,7 +21,7 @@ namespace TeddysAdventureLibrary
             BoxToDraw = new Rectangle(0, 0, StyleSheet.Width, StyleSheet.Height);
             base.Velocity = velocity;
             CanJumpOnToKill = false;
-            Kill();
+            DoDamage(Damage);
         }
 
         public override void DrawEnemy(GameTime gameTime, SpriteBatch sp)
