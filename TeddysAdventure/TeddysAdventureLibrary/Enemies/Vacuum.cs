@@ -35,8 +35,14 @@ namespace TeddysAdventureLibrary
             _coneSprites = game.Content.Load<Texture2D>("Enemies\\VacuumCone");
             _stuffSprites = game.Content.Load<Texture2D>("Enemies\\VacuumStuff");
             _targetAcquirerSprites = game.Content.Load<Texture2D>("Objects\\TargetAcquirer");
-            
+
+            HudIcon = game.Content.Load<Texture2D>("Enemies\\VacuumIcon");
+
+            SpecialNamedEnemy = true;
+            Name = "Victor The Vacuum";
+
             Health = 10;
+            MaxHealth = 10;
 
             Position = position;
             BoxToDraw = new Rectangle(0, 0,70, 129);

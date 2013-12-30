@@ -104,6 +104,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Background.cs" />
+    <Compile Include="BossIcon.cs" />
     <Compile Include="Enemies\ABomb.cs" />
     <Compile Include="Enemies\BowlingBall.cs" />
     <Compile Include="Enemies\DustBunny.cs" />

@@ -15,6 +15,7 @@ namespace TeddysAdventureLibrary
     public class HUD : DrawableGameComponent
     {
         private SpriteFont _hudFont;
+        private SpriteFont _statsFont;
         private Color _fontColor = Color.Black;
         private Color _backgroundColor = Color.Black;
         private Vector2 _globalPosition;
@@ -28,6 +29,7 @@ namespace TeddysAdventureLibrary
             : base(game)
         {
             _hudFont = game.Content.Load<SpriteFont>("Fonts\\HudFont");
+            _statsFont = game.Content.Load<SpriteFont>("Fonts\\StatsFont");
             _levelName = levelName;
 
             _hudTexture = game.Content.Load<Texture2D>("Screens\\Backgrounds\\HUDCloud");
@@ -43,9 +45,24 @@ namespace TeddysAdventureLibrary
 
             spriteBatch.Draw(_hudTexture, new Vector2(0, 750), Color.White);
 
+
+
+            foreach (Enemy e in ((Screen)Game.Components[0]).Enemies)
+	        {
+                if (e.HudIcon != null && e.BossIconObject == null)
+                {
+                    e.BossIconObject = new BossIcon(Game, e, new Vector2(800, _globalPosition.Y + 5), _statsFont, _statsFont);
+                }
+
+                if(e.BossIconObject != null && !e.Destroyed)
+                    e.BossIconObject.Draw(gameTime, spriteBatch);
+	        }
+
             spriteBatch.DrawString(_hudFont, "Fluff Count: " + ((Screen)Game.Components[0]).Teddy.CurrentFluff.ToString(), new Vector2(25, 775), _fontColor);
             spriteBatch.DrawString(_hudFont, "Enemies Destroyed: " + ((Screen)Game.Components[0]).Teddy.EnemiesDestroyed.ToString(), new Vector2(25, 800), _fontColor);
             spriteBatch.DrawString(_hudFont, "Level: " + _levelName, new Vector2(500, 775), _fontColor);
+
+            
             spriteBatch.End();
         }
     }

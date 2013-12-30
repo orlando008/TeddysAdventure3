@@ -413,7 +413,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Objects\PulseProjectile.xnb</Output>
-      <Time>2013-11-01T12:55:27.300368-04:00</Time>
+      <Time>2013-11-18T12:17:52.4182249-05:00</Time>
     </Item>
     <Item>
       <Source>Objects\PulseArm.png</Source>
@@ -422,7 +422,169 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Objects\PulseArm.xnb</Output>
-      <Time>2013-11-04T12:45:39.8101049-05:00</Time>
+      <Time>2013-11-07T12:10:12.7234111-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Objects\NightVision.png</Source>
+      <Name>Objects\NightVision</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Objects\NightVision.xnb</Output>
+      <Time>2013-11-12T12:39:33.9123643-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Screens\tintOverlay.png</Source>
+      <Name>Screens\tintOverlay</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Screens\tintOverlay.xnb</Output>
+      <Time>2013-11-13T11:54:47.1464033-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Objects\BlanketPickup.png</Source>
+      <Name>Objects\BlanketPickup</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Objects\BlanketPickup.xnb</Output>
+      <Time>2013-11-15T12:43:18.1589478-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Objects\BlanketSprites.png</Source>
+      <Name>Objects\BlanketSprites</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Objects\BlanketSprites.xnb</Output>
+      <Time>2013-11-18T12:17:09.8412249-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Teddy\UnzipAnimation.png</Source>
+      <Name>Teddy\UnzipAnimation</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Teddy\UnzipAnimation.xnb</Output>
+      <Time>2013-11-26T17:15:04.7220665-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Enemies\Vacuum.png</Source>
+      <Name>Enemies\Vacuum</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Enemies\Vacuum.xnb</Output>
+      <Time>2013-12-03T12:39:19.9855733-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Enemies\VacuumCone.png</Source>
+      <Name>Enemies\VacuumCone</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Enemies\VacuumCone.xnb</Output>
+      <Time>2013-12-03T12:46:54.7009562-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Enemies\VacuumStuff.png</Source>
+      <Name>Enemies\VacuumStuff</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Enemies\VacuumStuff.xnb</Output>
+      <Time>2013-12-03T12:43:14.245916-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Objects\TargetAcquirer.png</Source>
+      <Name>Objects\TargetAcquirer</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Objects\TargetAcquirer.xnb</Output>
+      <Time>2013-12-10T11:49:06.2044047-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Enemies\VacuumLintMissile.png</Source>
+      <Name>Enemies\VacuumLintMissile</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Enemies\VacuumLintMissile.xnb</Output>
+      <Time>2013-12-19T12:17:57.8911434-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Enemies\VacuumLintMissileOverlay.png</Source>
+      <Name>Enemies\VacuumLintMissileOverlay</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Enemies\VacuumLintMissileOverlay.xnb</Output>
+      <Time>2013-12-19T12:23:09.8181309-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Enemies\VacuumIcon.png</Source>
+      <Name>Enemies\VacuumIcon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Enemies\VacuumIcon.xnb</Output>
+      <Time>2013-12-30T12:25:59.6975843-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Icons\BasementIcon.png</Source>
+      <Name>Icons\BasementIcon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Icons\BasementIcon.xnb</Output>
+      <Time>2013-08-14T13:07:10.5342873-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Icons\HealthBar.png</Source>
+      <Name>Icons\HealthBar</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Icons\HealthBar.xnb</Output>
+      <Time>2013-12-30T12:33:09.4015843-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Icons\HealthUnit.png</Source>
+      <Name>Icons\HealthUnit</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Icons\HealthUnit.xnb</Output>
+      <Time>2013-12-30T12:33:47.9465843-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Icons\KitchenIcon.png</Source>
+      <Name>Icons\KitchenIcon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Icons\KitchenIcon.xnb</Output>
+      <Time>2013-08-14T13:07:10.5472899-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Icons\KitchenIcon2.png</Source>
+      <Name>Icons\KitchenIcon2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Icons\KitchenIcon2.xnb</Output>
+      <Time>2013-08-14T13:07:10.5502905-04:00</Time>
+    </Item>
+    <Item>
+      <Source>Icons\TeddyHead.png</Source>
+      <Name>Icons\TeddyHead</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Icons\TeddyHead.xnb</Output>
+      <Time>2013-08-14T13:07:10.5522909-04:00</Time>
     </Item>
     <Item>
       <Source>Screens\NicksTest.xml</Source>
@@ -431,7 +593,7 @@
       <Processor>PassThroughProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Screens\NicksTest.xnb</Output>
-      <Time>2013-09-25T12:07:42.8265627-04:00</Time>
+      <Time>2013-12-19T12:09:46.577503-05:00</Time>
     </Item>
     <Item>
       <Source>Screens\FrankTest.xml</Source>
@@ -440,7 +602,7 @@
       <Processor>PassThroughProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Screens\FrankTest.xnb</Output>
-      <Time>2013-11-01T13:29:06.3221913-04:00</Time>
+      <Time>2013-12-16T15:12:15.3346258-05:00</Time>
     </Item>
     <Item>
       <Source>Screens\Basement1.xml</Source>
@@ -458,7 +620,7 @@
       <Processor>PassThroughProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Screens\SkyFall.xnb</Output>
-      <Time>2013-10-07T13:29:19.4903539-04:00</Time>
+      <Time>2013-11-15T12:50:08.9044411-05:00</Time>
     </Item>
     <Item>
       <Source>Screens\Basement3.xml</Source>
@@ -467,7 +629,7 @@
       <Processor>PassThroughProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Screens\Basement3.xnb</Output>
-      <Time>2013-11-04T12:18:42.8260973-05:00</Time>
+      <Time>2013-11-14T12:36:53.0964751-05:00</Time>
     </Item>
     <Item>
       <Source>Screens\Basement2.xml</Source>
@@ -476,7 +638,25 @@
       <Processor>PassThroughProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Screens\Basement2.xnb</Output>
-      <Time>2013-10-29T12:05:37.6025911-04:00</Time>
+      <Time>2013-11-26T18:53:10.3274471-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Screens\ANEWTEST.xml</Source>
+      <Name>Screens\ANEWTEST</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Screens\ANEWTEST.xnb</Output>
+      <Time>2013-11-26T18:56:30.6894089-05:00</Time>
+    </Item>
+    <Item>
+      <Source>Screens\VaccuumLevel.xml</Source>
+      <Name>Screens\VaccuumLevel</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Screens\VaccuumLevel.xnb</Output>
+      <Time>2013-12-19T12:12:51.4660123-05:00</Time>
     </Item>
     <Item>
       <Source>Fonts\DeathScreenFont.spritefont</Source>
@@ -497,16 +677,25 @@
       <Time>2013-08-09T11:53:31.9350584-04:00</Time>
     </Item>
     <Item>
+      <Source>Fonts\StatsFont.spritefont</Source>
+      <Name>Fonts\StatsFont</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
+      <Options>None</Options>
+      <Output>C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\Fonts\StatsFont.xnb</Output>
+      <Time>2013-12-30T12:23:14.7685843-05:00</Time>
+    </Item>
+    <Item>
       <Source>content.manifest</Source>
       <Name>content</Name>
       <Importer>ManifestImporter</Importer>
       <Processor>ManifestProcessor</Processor>
       <Options>None</Options>
       <Output>C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventure\TeddysAdventure\bin\x86\Debug\Content\content.xnb</Output>
-      <Time>2013-11-04T12:46:58.6446049-05:00</Time>
+      <Time>2013-12-30T12:39:10.3115843-05:00</Time>
       <Dependency>
         <Key>TeddysAdventureContent.contentproj</Key>
-        <Value>2013-11-04T12:21:08.2941286-05:00</Value>
+        <Value>2013-12-30T12:32:24.3635843-05:00</Value>
       </Dependency>
     </Item>
     <Item>
@@ -532,7 +721,7 @@
     <Assemblies>
       <Assembly>
         <Key>C:\Users\orlando\Documents\GitHub\TeddysAdventure3\TeddysAdventure\TeddysAdventureLibrary\bin\x86\Debug\TeddysAdventureLibrary.dll</Key>
-        <Value>2013-11-04T12:47:49.5906049-05:00</Value>
+        <Value>2013-12-30T12:39:23.8435843-05:00</Value>
       </Assembly>
       <Assembly>
         <Key>C:\Program Files (x86)\Microsoft XNA\XNA Game Studio\v4.0\References\Windows\x86\Microsoft.Xna.Framework.Content.Pipeline.XImporter.dll</Key>

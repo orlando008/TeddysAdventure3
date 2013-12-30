@@ -48,11 +48,16 @@ namespace TeddysAdventureLibrary
         protected bool _bounceOffSidesOfViewport = false;
         protected bool _passesThroughSurfaces = false;
         protected int _damageCurrentlyBeingTaken = 0;
+        private bool _specialNamedEnemy = false;
+        private string _name = "";
+        private Texture2D _hudIcon;
 
         private int _steeringDownFrames = 4;
         private int _steeringDownCount = 0;
         private bool _playerIsSteering = false;
         private int _steeringDirectionY = 0;
+
+        private BossIcon _bossIcon;
 
         private SpriteFont _damageFont;
 
@@ -62,6 +67,37 @@ namespace TeddysAdventureLibrary
         private int _damage = 15;
 
         private int _health = 1;
+        private int _maxHealth = 1;
+
+        public int MaxHealth
+        {
+            get { return _maxHealth; }
+            set { _maxHealth = value; }
+        }
+
+        public bool SpecialNamedEnemy
+        {
+            get { return _specialNamedEnemy; }
+            set { _specialNamedEnemy = value; }
+        }
+
+        public Texture2D HudIcon
+        {
+            get { return _hudIcon; }
+            set { _hudIcon = value; }
+        }
+
+        public BossIcon BossIconObject
+        {
+            get { return _bossIcon; }
+            set { _bossIcon = value; }
+        }
+
+        public string Name
+        {
+            get { return _name; }
+            set { _name = value; }
+        }
 
         public int Health
         {

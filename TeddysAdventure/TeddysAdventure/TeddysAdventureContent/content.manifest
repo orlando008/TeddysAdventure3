@@ -67,3 +67,11 @@ Objects\TargetAcquirer.png
 Screens\VaccuumLevel.xml
 Enemies\VacuumLintMissile.png
 Enemies\VacuumLintMissileOverlay.png
+Enemies\VacuumIcon.png
+Fonts\StatsFont.spritefont
+Icons\BasementIcon.png
+Icons\HealthBar.png
+Icons\HealthUnit.png
+Icons\KitchenIcon.png
+Icons\KitchenIcon2.png
+Icons\TeddyHead.png
