@@ -10,6 +10,8 @@
         <RepeatY>0</RepeatY>
         <Scrolls>0</Scrolls>
         <Offset>555 0</Offset>
+        <Foreground>0</Foreground>
+        <Motion></Motion>
       </Item>
       <Item>
         <Image>Cloud2</Image>
@@ -17,6 +19,8 @@
         <RepeatY>0</RepeatY>
         <Scrolls>0</Scrolls>
         <Offset>700 0</Offset>
+        <Foreground>0</Foreground>
+        <Motion></Motion>
       </Item>
       <Item>
         <Image>Cloud3</Image>
@@ -24,6 +28,8 @@
         <RepeatY>0</RepeatY>
         <Scrolls>0</Scrolls>
         <Offset>299 0</Offset>
+        <Foreground>0</Foreground>
+        <Motion></Motion>
       </Item>
       <Item>
         <Image>HouseTop</Image>
@@ -31,13 +37,17 @@
         <RepeatY>0</RepeatY>
         <Scrolls>1</Scrolls>
         <Offset>1200 0</Offset>
+        <Foreground>0</Foreground>
+        <Motion></Motion>
       </Item>
       <Item>
         <Image>TreeTop</Image>
         <RepeatX>0</RepeatX>
         <RepeatY>0</RepeatY>
         <Scrolls>1</Scrolls>
-        <Offset>0 0</Offset>        
+        <Offset>0 0</Offset>
+        <Foreground>0</Foreground>
+        <Motion></Motion>
       </Item>
       <Item>
         <Image>Branch</Image>
@@ -45,6 +55,8 @@
         <RepeatY>0</RepeatY>
         <Scrolls>1</Scrolls>
         <Offset>0 500</Offset>
+        <Foreground>0</Foreground>
+        <Motion></Motion>
       </Item>
       <Item>
         <Image>Branch</Image>
@@ -52,6 +64,8 @@
         <RepeatY>0</RepeatY>
         <Scrolls>1</Scrolls>
         <Offset>0 1500</Offset>
+        <Foreground>0</Foreground>
+        <Motion></Motion>
       </Item>
       <Item>
         <Image>Branch</Image>
@@ -59,6 +73,8 @@
         <RepeatY>0</RepeatY>
         <Scrolls>1</Scrolls>
         <Offset>0 2500</Offset>
+        <Foreground>0</Foreground>
+        <Motion></Motion>
       </Item>
     </Backgrounds>
     <Surfaces>

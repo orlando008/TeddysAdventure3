@@ -51,6 +51,7 @@ namespace TeddysAdventureLibrary
         private Color _backgroundColor;
 
         public static SpriteBatch _backgroundBatch;
+        public static SpriteBatch _playerBatch;
         public static SpriteBatch _foregroundBatch;
         private static SpriteBatch _overlayBatch;
 
@@ -140,8 +141,13 @@ namespace TeddysAdventureLibrary
             foreach (SurfaceHelper sh in screenHelper.Surfaces)
             {
                 if(!_surfaceTextures.ContainsKey(sh.Sprite) && sh.Sprite != string.Empty)
-                    _surfaceTextures.Add( sh.Sprite, game.Content.Load<Texture2D>(System.IO.Path.Combine(@"Objects", sh.Sprite)));
-
+                    try {                    
+                        _surfaceTextures.Add( sh.Sprite, game.Content.Load<Texture2D>(System.IO.Path.Combine(@"Objects", sh.Sprite))); 
+                    }
+                    catch (ContentLoadException cle)
+                    {
+                        Console.WriteLine("Could not load sprite " + sh.Sprite);
+                    }
                 _surfaces.Add(  new Surface(sh));
 
             }
@@ -268,7 +274,8 @@ namespace TeddysAdventureLibrary
                     break;
             }
 
-            _foregroundBatch = new SpriteBatch(Game.GraphicsDevice);
+            _playerBatch = new SpriteBatch(Game.GraphicsDevice);
+            _foregroundBatch = new SpriteBatch(game.GraphicsDevice);
             _overlayBatch = new SpriteBatch(Game.GraphicsDevice);
             _backgroundBatch = new SpriteBatch(game.GraphicsDevice);
         }
@@ -352,8 +359,8 @@ namespace TeddysAdventureLibrary
             //Begin all sprite batches
             _overlayBatch.Begin();
             _backgroundBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, cameraView);
-            _foregroundBatch.Begin( SpriteSortMode.Deferred, null, null,null,null, null, cameraView   );
-
+            _playerBatch.Begin( SpriteSortMode.Deferred, null, null,null,null, null, cameraView   );
+            _foregroundBatch.Begin(SpriteSortMode.Deferred, null, null, null, null, null, cameraView);
             
             //Draw Background images
             foreach (Background b in this.Backgrounds)
@@ -361,7 +368,7 @@ namespace TeddysAdventureLibrary
                 Texture2D backgroundTexture;
                 if (_backgroundImages.TryGetValue(b.BackgroundName, out backgroundTexture))
                 {
-                    DrawBackground(b, backgroundTexture, _backgroundBatch);
+                    DrawBackground(gameTime, b, backgroundTexture, _backgroundBatch, _foregroundBatch);
                 }
             }
 
@@ -371,7 +378,7 @@ namespace TeddysAdventureLibrary
               //  if ( _cameraBounds.Intersects( sur.Rect )){
                     Texture2D surfaceTexture;
                     if (_surfaceTextures.TryGetValue( sur.Sprite, out surfaceTexture)) {
-                        DrawSurface(sur.Rect.X, sur.Rect.Y, sur.Rect.Width, sur.Rect.Height, surfaceTexture, _foregroundBatch )  ;
+                        DrawSurface(sur.Rect.X, sur.Rect.Y, sur.Rect.Width, sur.Rect.Height, surfaceTexture, _playerBatch )  ;
                     }
               //  }
             }
@@ -379,14 +386,14 @@ namespace TeddysAdventureLibrary
             foreach (GameObject f in GameObjects)
             {
               //  if (_cameraBounds.Intersects( f.CollisionRectangle ) )
-                    f.Draw(gameTime, _foregroundBatch);
+                    f.Draw(gameTime, _playerBatch);
             }
 
             foreach (Enemy bb in _enemies)
             {
                 //todo: figure out why bowling ball collision doesn't work with this
               //  if ( _cameraBounds.Intersects( bb.CollisionRectangle ) )
-                    bb.DrawEnemy(gameTime, _foregroundBatch);
+                    bb.DrawEnemy(gameTime, _playerBatch);
             }
 
 
@@ -430,10 +437,12 @@ namespace TeddysAdventureLibrary
                 _teddy._currentPowerup.ScreenDraw(gameTime, _overlayBatch, _teddy, SpriteEffects.None);
             }
 
-            _teddy.Draw(gameTime, _foregroundBatch);
+            _teddy.Draw(gameTime, _playerBatch);
 
 
             _backgroundBatch.End();
+            _playerBatch.End();
+
             _foregroundBatch.End();
             _overlayBatch.End();
 
@@ -457,10 +466,13 @@ namespace TeddysAdventureLibrary
             }
         }
 
-        private void DrawBackground(Background b, Texture2D backgroundTexture, SpriteBatch backgroundBatch)
+        private void DrawBackground(GameTime gameTime, Background b, Texture2D backgroundTexture, SpriteBatch backgroundBatch, SpriteBatch foregroundBatch)
         {
             int numViewsX = 1;
             int numViewsY = 1;
+
+
+            Vector2 hoverOffset = b.GetHoverOffset(gameTime, backgroundTexture);
 
             Rectangle paddedBackground = new Rectangle(0, 0, backgroundTexture.Width + (int)b.Offset.X, backgroundTexture.Height + (int)b.Offset.Y);
             Rectangle r;
@@ -474,7 +486,7 @@ namespace TeddysAdventureLibrary
             //Scrolling doesn't make sense without repeat?
             if (b.Scrolls)
             {
-                if (b.RepeatY || b.RepeatY)
+                if (b.RepeatX || b.RepeatY)
                 {
                     //Repeat this texture to fill the screen.  It scrolls with the level
 
@@ -488,18 +500,20 @@ namespace TeddysAdventureLibrary
                     if (!b.RepeatX)
                         backgroundOffsetX = 0;
 
-                    for (int i = 0; i <= numViewsX; i++)
+                    for (int i = -1; i <= numViewsX; i++)
                     {
                         for (int j = 0; j < numViewsY; j++)
                         {
-                            int startX =  _cameraBounds.X + i * paddedBackground.Width + backgroundOffsetX + (int)b.Offset.X;
-                            int startY = - _cameraBounds.Y + (j-2) * paddedBackground.Height + backgroundOffsetY + (int)b.Offset.Y ;
+                            int startX =  _cameraBounds.X + i * paddedBackground.Width + backgroundOffsetX + (int)b.Offset.X + (int)hoverOffset.X;
+                            int startY =  _cameraBounds.Y + (j) * paddedBackground.Height + backgroundOffsetY + (int)b.Offset.Y + (int)hoverOffset.Y;
 
                             r = new Rectangle(startX, startY , backgroundTexture.Width, backgroundTexture.Height);
-                            backgroundBatch.Draw(backgroundTexture, r, Color.White);
+                            if ( b.Foreground) 
+                                foregroundBatch.Draw(backgroundTexture, r, Color.White);
+                            else
+                                backgroundBatch.Draw(backgroundTexture, r, Color.White);
                         }
                     }
-
                 }
                 else
                 {
@@ -508,16 +522,17 @@ namespace TeddysAdventureLibrary
                     {
                         for (int j = 0; j < numViewsY; j++)
                         {
-                            r = new Rectangle( (int)b.Offset.X , j * paddedBackground.Height + (int)b.Offset.Y , backgroundTexture.Width, backgroundTexture.Height);
-                            backgroundBatch.Draw(backgroundTexture, r, Color.White);
+                            int startX = (int)b.Offset.X + (int)hoverOffset.X;
+                            int startY = j * paddedBackground.Height + (int)b.Offset.Y + (int)hoverOffset.Y;
+
+                            r = new Rectangle(startX, startY, backgroundTexture.Width, backgroundTexture.Height);
+                            if ( b.Foreground) 
+                                foregroundBatch.Draw(backgroundTexture, r, Color.White);
+                            else
+                                backgroundBatch.Draw(backgroundTexture, r, Color.White);
                         }
-
                     }
-
-
                 }
-
-
             }
             else
             {
@@ -526,12 +541,18 @@ namespace TeddysAdventureLibrary
                 {
                     for (int j = 0; j < numViewsY; j++)
                     {
-                        r = new Rectangle(i * paddedBackground.Width + (int)b.Offset.X, j * paddedBackground.Height + (int)b.Offset.Y, backgroundTexture.Width, backgroundTexture.Height);
-                        backgroundBatch.Draw(backgroundTexture, r, Color.White);
+
+                        int startX =  _cameraBounds.X + i * paddedBackground.Width + (int)b.Offset.X + (int)hoverOffset.X;
+                        int startY =  _cameraBounds.Y + j * paddedBackground.Height + (int)b.Offset.Y + (int)hoverOffset.Y;
+
+                        r = new Rectangle(startX,startY, backgroundTexture.Width, backgroundTexture.Height);
+                        if ( b.Foreground) 
+                            foregroundBatch.Draw(backgroundTexture, r, Color.White);
+                        else
+                            backgroundBatch.Draw(backgroundTexture, r, Color.White);
                     }
                 }
             }
-
         }
 
 

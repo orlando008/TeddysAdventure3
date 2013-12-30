@@ -18,6 +18,8 @@
     <RepeatY>0</RepeatY>
     <Scrolls>1</Scrolls>
     <Offset>250 50</Offset>
+    <Foreground>0</Foreground>
+    <Motion></Motion>
   </Item>
   <Item>
     <Image>Basement_dryer</Image>
@@ -25,6 +27,8 @@
     <RepeatY>0</RepeatY>
     <Scrolls>1</Scrolls>
     <Offset>0 450</Offset>
+    <Foreground>0</Foreground>
+    <Motion></Motion>
   </Item>
 </Backgrounds>  
 <Surfaces>

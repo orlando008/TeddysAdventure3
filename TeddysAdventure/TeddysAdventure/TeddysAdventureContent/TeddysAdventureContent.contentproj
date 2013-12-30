@@ -122,11 +122,111 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
+    <Compile Include="Screens\Backgrounds\basement.png">
+      <Name>basement</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Screens\Backgrounds\Basement_dryer.png">
+      <Name>Basement_dryer</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Screens\Backgrounds\Basement_window.png">
+      <Name>Basement_window</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Screens\Backgrounds\Branch.png">
+      <Name>Branch</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Screens\Backgrounds\Cloud1.png">
+      <Name>Cloud1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Screens\Backgrounds\Cloud2.png">
+      <Name>Cloud2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Screens\Backgrounds\Cloud3.png">
+      <Name>Cloud3</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Screens\Backgrounds\HouseTop.png">
+      <Name>HouseTop</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Screens\Backgrounds\HudCloud.png">
+      <Name>HudCloud</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Screens\Backgrounds\TreeTop.png">
+      <Name>TreeTop</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Screens\Basement1.xml">
+      <SubType>Designer</SubType>
+      <Name>Basement1</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+    </Compile>
+    <Compile Include="Screens\Basement2.xml">
+      <SubType>Designer</SubType>
+      <Name>Basement2</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+    </Compile>
+    <Compile Include="Screens\Basement3.xml">
+      <SubType>Designer</SubType>
+      <Name>Basement3</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+    </Compile>
+    <Compile Include="Screens\deathScreen.png">
+      <Name>deathScreen</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Screens\FrankTest.xml">
+      <SubType>Designer</SubType>
+      <Name>FrankTest</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+    </Compile>
     <Compile Include="Screens\NicksTest.xml">
       <SubType>Designer</SubType>
       <Name>NicksTest</Name>
       <Importer>XmlImporter</Importer>
       <Processor>PassThroughProcessor</Processor>
+    </Compile>
+    <Compile Include="Screens\SkyFall.xml">
+      <SubType>Designer</SubType>
+      <Name>SkyFall</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+    </Compile>
+    <Compile Include="Screens\startMenuTest.png">
+      <Name>startMenuTest</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Screens\successScreen.png">
+      <Name>successScreen</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Screens\tintOverlay.png">
+      <Name>tintOverlay</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
     </Compile>
     <Compile Include="Teddy\TeddyRun.png">
       <Name>TeddyRun</Name>
@@ -137,20 +237,6 @@
   <ItemGroup>
     <Compile Include="Teddy\TeddyJetpack.png">
       <Name>TeddyJetpack</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Screens\deathScreen.png">
-      <Name>deathScreen</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Screens\startMenuTest.png">
-      <Name>startMenuTest</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -175,14 +261,6 @@
       <Name>content</Name>
       <Importer>ManifestImporter</Importer>
       <Processor>ManifestProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Screens\FrankTest.xml">
-      <Name>FrankTest</Name>
-      <Importer>XmlImporter</Importer>
-      <Processor>PassThroughProcessor</Processor>
-      <SubType>Designer</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -219,59 +297,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Screens\Backgrounds\basement.png">
-      <Name>basement</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Screens\Backgrounds\Basement_window.png">
-      <Name>Basement_window</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Screens\Backgrounds\Basement_dryer.png">
-      <Name>Basement_dryer</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Objects\Goal.png">
       <Name>Goal</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Screens\successScreen.png">
-      <Name>successScreen</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Screens\Basement1.xml">
-      <Name>Basement1</Name>
-      <Importer>XmlImporter</Importer>
-      <Processor>PassThroughProcessor</Processor>
-      <SubType>Designer</SubType>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Screens\SkyFall.xml">
-      <Name>SkyFall</Name>
-      <Importer>XmlImporter</Importer>
-      <Processor>PassThroughProcessor</Processor>
-      <SubType>Designer</SubType>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Screens\Backgrounds\HouseTop.png">
-      <Name>HouseTop</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -286,13 +313,6 @@
   <ItemGroup>
     <Compile Include="Objects\TreeRepeat.png">
       <Name>TreeRepeat</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Screens\Backgrounds\TreeTop.png">
-      <Name>TreeTop</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -338,37 +358,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Screens\Backgrounds\Branch.png">
-      <Name>Branch</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Screens\Backgrounds\HudCloud.png">
-      <Name>HudCloud</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Screens\Backgrounds\Cloud1.png">
-      <Name>Cloud1</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Screens\Backgrounds\Cloud2.png">
-      <Name>Cloud2</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Screens\Backgrounds\Cloud3.png">
-      <Name>Cloud3</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Enemies\DustBunny.png">
       <Name>DustBunny</Name>
       <Importer>TextureImporter</Importer>
@@ -376,26 +365,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Screens\Basement3.xml">
-      <Name>Basement3</Name>
-      <Importer>XmlImporter</Importer>
-      <Processor>PassThroughProcessor</Processor>
-      <SubType>Designer</SubType>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Teddy\TeddyRunGhost.png">
       <Name>TeddyRunGhost</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Screens\Basement2.xml">
-      <Name>Basement2</Name>
-      <Importer>XmlImporter</Importer>
-      <Processor>PassThroughProcessor</Processor>
-      <SubType>Designer</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -427,13 +400,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Screens\tintOverlay.png">
-      <Name>tintOverlay</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Objects\BlanketPickup.png">
       <Name>BlanketPickup</Name>
       <Importer>TextureImporter</Importer>
@@ -452,13 +418,6 @@
       <Name>UnzipAnimation</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Screens\ANEWTEST.xml">
-      <Name>ANEWTEST</Name>
-      <Importer>XmlImporter</Importer>
-      <Processor>PassThroughProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -505,6 +464,49 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Screens\Nightmare.xml">
+      <Name>Nightmare</Name>
+      <Importer>XmlImporter</Importer>
+      <Processor>PassThroughProcessor</Processor>
+      <SubType>Designer</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Screens\Backgrounds\nightmare_sky.png">
+      <Name>nightmare_sky</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Screens\Backgrounds\nightmare_path.png">
+      <Name>nightmare_path</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Screens\Backgrounds\nightmare_grass.png">
+      <Name>nightmare_grass</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Screens\Backgrounds\nightmare_tree1.png">
+      <Name>nightmare_tree1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Screens\Backgrounds\nightmare_tree2.png">
+      <Name>nightmare_tree2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="Enemies\VacuumIcon.png">
       <Name>VacuumIcon</Name>
       <Importer>TextureImporter</Importer>
@@ -546,6 +548,20 @@
     </Compile>
     <Compile Include="Icons\TeddyHead.png">
       <Name>TeddyHead</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Screens\Backgrounds\nightmare_trees.png">
+      <Name>nightmare_trees</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Screens\Backgrounds\nightmare_fog.png">
+      <Name>nightmare_fog</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

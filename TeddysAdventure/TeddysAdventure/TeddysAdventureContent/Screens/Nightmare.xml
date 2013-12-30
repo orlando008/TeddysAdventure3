@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<XnaContent>
+<Asset Type="TeddysAdventureLibrary.ScreenHelper">
+  <TeddyStart>20 500</TeddyStart>
+  <BackgroundColor>FF480085</BackgroundColor>
+
+<Backgrounds>
+   <Item>
+    <Image>nightmare_sky</Image>
+    <RepeatX>1</RepeatX>
+    <RepeatY>0</RepeatY>
+    <Scrolls>0</Scrolls>
+    <Offset>0 0</Offset>
+     <Foreground>0</Foreground>
+     <Motion></Motion>
+     
+   </Item>  
+  
+    <Item>
+    <Image>nightmare_grass</Image>
+    <RepeatX>1</RepeatX>
+    <RepeatY>0</RepeatY>
+    <Scrolls>1</Scrolls>
+    <Offset>0 450</Offset>
+      <Foreground>0</Foreground>
+      <Motion></Motion>
+  </Item>    
+    
+    
+      <Item>
+    <Image>nightmare_trees</Image>
+    <RepeatX>1</RepeatX>
+    <RepeatY>0</RepeatY>
+    <Scrolls>1</Scrolls>
+    <Offset>0 100</Offset>
+        <Foreground>0</Foreground>
+        <Motion></Motion>
+  </Item>
+
+
+    
+    <Item>
+    <Image>nightmare_path</Image>
+    <RepeatX>1</RepeatX>
+    <RepeatY>0</RepeatY>
+    <Scrolls>1</Scrolls>
+    <Offset>0 650</Offset>
+      <Foreground>0</Foreground>
+      <Motion></Motion>
+  </Item>  
+  
+      <Item>
+    <Image>nightmare_fog</Image>
+    <RepeatX>1</RepeatX>
+    <RepeatY>0</RepeatY>
+    <Scrolls>1</Scrolls>
+    <Offset>0 620</Offset>
+    <Foreground>1</Foreground>
+    <Motion>20 C 10 O</Motion>
+  </Item>  
+  
+</Backgrounds>  
+<Surfaces>
+  
+  
+  <Item>
+  <Rect>0 675 15000 50</Rect>
+  <Sprite>Gravel</Sprite>
+  </Item>
+
+
+</Surfaces>
+<ListOfObjects>
+</ListOfObjects>
+<ListOfEnemies>
+</ListOfEnemies>
+<LevelType>
+1</LevelType>
+<LevelSize>
+15000 750
+</LevelSize>
+</Asset>
+</XnaContent>
