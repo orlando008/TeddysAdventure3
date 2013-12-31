@@ -115,6 +115,7 @@
     <Compile Include="Enemies\LadyBug.cs" />
     <Compile Include="Enemies\LintMissile.cs" />
     <Compile Include="Enemies\MatchBoxCar.cs" />
+    <Compile Include="Enemies\NightmareToaster.cs" />
     <Compile Include="Enemies\OrangeBomb.cs" />
     <Compile Include="Enemies\OrangeCrayon.cs" />
     <Compile Include="Enemies\Plane.cs" />

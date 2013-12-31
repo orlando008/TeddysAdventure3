@@ -69,6 +69,9 @@ Enemies\VacuumLintMissileOverlay.png
 Screens\Nightmare.xml
 Screens\Backgrounds\nightmare_sky.png
 Screens\Backgrounds\nightmare_path.png
+Screens\Backgrounds\nightmare_grass.png
+Screens\Backgrounds\nightmare_tree1.png
+Screens\Backgrounds\nightmare_tree2.png
 Enemies\VacuumIcon.png
 Fonts\StatsFont.spritefont
 Icons\BasementIcon.png
@@ -77,8 +80,6 @@ Icons\HealthUnit.png
 Icons\KitchenIcon.png
 Icons\KitchenIcon2.png
 Icons\TeddyHead.png
-Screens\Backgrounds\nightmare_grass.png
-Screens\Backgrounds\nightmare_tree1.png
-Screens\Backgrounds\nightmare_tree2.png
 Screens\Backgrounds\nightmare_trees.png
 Screens\Backgrounds\nightmare_fog.png
+Enemies\toaster.png
