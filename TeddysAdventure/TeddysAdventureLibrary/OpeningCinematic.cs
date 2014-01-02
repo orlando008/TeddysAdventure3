@@ -36,7 +36,7 @@ namespace TeddysAdventureLibrary
             _teddy = new Teddy(game, new Vector2((Game.GraphicsDevice.Viewport.Width / 2) - 254, (Game.GraphicsDevice.Viewport.Height / 2) - _boxToDraw.Height), new Vector2(50, 75));
             _spriteBatch = new SpriteBatch(Game.GraphicsDevice);
             _boxToDraw = new Rectangle(0, 0, 254, _textureForAnimation.Height);
-            _hudFont = game.Content.Load<SpriteFont>("Fonts\\HudFont");
+            _hudFont = game.Content.Load<SpriteFont>("Fonts\\Arial12");
         }
 
 

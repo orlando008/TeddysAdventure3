@@ -248,7 +248,7 @@ namespace TeddysAdventureLibrary
             : base(game)
         {
             _game = game;
-            _damageFont = game.Content.Load<SpriteFont>("Fonts\\HudFont");
+            _damageFont = game.Content.Load<SpriteFont>("Fonts\\Arial12");
 
  #if COLLISIONS
             _redFill = new Texture2D(_game.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);

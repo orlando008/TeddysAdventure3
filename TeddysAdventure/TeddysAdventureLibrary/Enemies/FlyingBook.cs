@@ -21,7 +21,7 @@ namespace TeddysAdventureLibrary
             : base(game)
         {
             StyleSheet = game.Content.Load<Texture2D>("Enemies\\FlyingBook");
-            _hudFont = game.Content.Load<SpriteFont>("Fonts\\HudFont");
+            _hudFont = game.Content.Load<SpriteFont>("Fonts\\Arial12");
             Position = position;
             BoxToDraw = new Rectangle(0, 0, 103, StyleSheet.Height);
             base.Velocity = velocity;

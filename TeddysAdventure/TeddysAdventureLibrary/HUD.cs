@@ -28,8 +28,8 @@ namespace TeddysAdventureLibrary
         public HUD(Game game, string levelName)
             : base(game)
         {
-            _hudFont = game.Content.Load<SpriteFont>("Fonts\\HudFont");
-            _statsFont = game.Content.Load<SpriteFont>("Fonts\\StatsFont");
+            _hudFont = game.Content.Load<SpriteFont>("Fonts\\Arial12");
+            _statsFont = game.Content.Load<SpriteFont>("Fonts\\Arial10");
             _levelName = levelName;
 
             _hudTexture = game.Content.Load<Texture2D>("Screens\\Backgrounds\\HUDCloud");

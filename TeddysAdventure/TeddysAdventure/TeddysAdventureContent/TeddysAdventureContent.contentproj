@@ -242,16 +242,16 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Fonts\DeathScreenFont.spritefont">
-      <Name>DeathScreenFont</Name>
+    <Compile Include="Fonts\Arial14.spritefont">
+      <Name>Arial14</Name>
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
       <SubType>Designer</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Fonts\HudFont.spritefont">
-      <Name>HudFont</Name>
+    <Compile Include="Fonts\Arial12.spritefont">
+      <Name>Arial12</Name>
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
     </Compile>
@@ -514,8 +514,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Fonts\StatsFont.spritefont">
-      <Name>StatsFont</Name>
+    <Compile Include="Fonts\Arial10.spritefont">
+      <Name>Arial10</Name>
       <Importer>FontDescriptionImporter</Importer>
       <Processor>FontDescriptionProcessor</Processor>
     </Compile>
@@ -571,6 +571,13 @@
       <Name>toaster</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Fonts\Arial16.spritefont">
+      <Name>Arial16</Name>
+      <Importer>FontDescriptionImporter</Importer>
+      <Processor>FontDescriptionProcessor</Processor>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />

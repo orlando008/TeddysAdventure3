@@ -118,8 +118,8 @@ namespace TeddysAdventureLibrary
             _deathSprite = game.Content.Load<Texture2D>("Screens\\deathScreen");
             _successSprite = game.Content.Load<Texture2D>("Screens\\successScreen");
             _overlaySprite = game.Content.Load<Texture2D>("Screens\\tintOverlay");
-            _deathFont = game.Content.Load<SpriteFont>("Fonts\\DeathScreenFont");
-            _hudFont = game.Content.Load<SpriteFont>("Fonts\\HudFont");
+            _deathFont = game.Content.Load<SpriteFont>("Fonts\\Arial16");
+            _hudFont = game.Content.Load<SpriteFont>("Fonts\\Arial12");
 
             _surfaceTextures = new Dictionary<string, Texture2D>();
             _backgroundImages = new Dictionary<string, Texture2D>();

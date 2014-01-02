@@ -34,8 +34,8 @@ Screens\successScreen.png
 Screens\tintOverlay.png
 Teddy\TeddyRun.png
 Teddy\TeddyJetpack.png
-Fonts\DeathScreenFont.spritefont
-Fonts\HudFont.spritefont
+Fonts\Arial14.spritefont
+Fonts\Arial12.spritefont
 Cinematics\Dryer.png
 Cinematics\PlainDryer.png
 Sounds\GoodScan.wav
@@ -73,7 +73,7 @@ Screens\Backgrounds\nightmare_grass.png
 Screens\Backgrounds\nightmare_tree1.png
 Screens\Backgrounds\nightmare_tree2.png
 Enemies\VacuumIcon.png
-Fonts\StatsFont.spritefont
+Fonts\Arial10.spritefont
 Icons\BasementIcon.png
 Icons\HealthBar.png
 Icons\HealthUnit.png
@@ -83,3 +83,4 @@ Icons\TeddyHead.png
 Screens\Backgrounds\nightmare_trees.png
 Screens\Backgrounds\nightmare_fog.png
 Enemies\toaster.png
+Fonts\Arial16.spritefont

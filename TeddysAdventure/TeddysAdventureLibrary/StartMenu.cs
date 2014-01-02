@@ -68,7 +68,7 @@ namespace TeddysAdventureLibrary
             Sprite = myStyleSheet;
             spriteBatch = new SpriteBatch(Game.GraphicsDevice);
             _levelsList = LoadLevelList(game);
-            _hudFont = game.Content.Load<SpriteFont>("Fonts\\HudFont");
+            _hudFont = game.Content.Load<SpriteFont>("Fonts\\Arial12");
         }
 
         public override void Draw(GameTime gameTime)
