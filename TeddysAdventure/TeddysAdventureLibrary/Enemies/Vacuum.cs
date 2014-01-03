@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using TeddysAdventureLibrary.Helpers;
 
 namespace TeddysAdventureLibrary
 {
@@ -35,6 +36,7 @@ namespace TeddysAdventureLibrary
             _coneSprites = game.Content.Load<Texture2D>("Enemies\\VacuumCone");
             _stuffSprites = game.Content.Load<Texture2D>("Enemies\\VacuumStuff");
             _targetAcquirerSprites = game.Content.Load<Texture2D>("Objects\\TargetAcquirer");
+            _font = game.Content.Load<SpriteFont>("Fonts\\Arial12");
 
             HudIcon = game.Content.Load<Texture2D>("Enemies\\VacuumIcon");
 
@@ -96,6 +98,15 @@ namespace TeddysAdventureLibrary
                     childEnemy.DrawEnemy(gameTime, sp);
                 }
             }
+
+
+            DialogHelper.ShowDialogBubble(Game, GetTaunt(), _font, new Vector2(Position.X + BoxToDraw.Width, Position.Y), sp);
+
+        }
+
+        private string GetTaunt()
+        {
+            return "When I'm through with you there'll be nothing left.";
         }
 
         public override void Update(GameTime gameTime)
