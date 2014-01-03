@@ -77,6 +77,8 @@ namespace TeddysAdventureLibrary
         protected Vector2 _playerOverallVelocity;
 
         protected int _currentFluff = 100;
+        private int _currentLives = 10;
+
         private int _enemiesDestroyed = 0;
         private ISurfaceInterface _ridingSurface = null;
 
@@ -136,6 +138,12 @@ namespace TeddysAdventureLibrary
         {
             get { return _currentFluff; }
             set { _currentFluff = value; }
+        }
+
+        public int CurrentLives
+        {
+            get { return _currentLives; }
+            set { _currentLives = value; }
         }
 
         public int EnemiesDestroyed
