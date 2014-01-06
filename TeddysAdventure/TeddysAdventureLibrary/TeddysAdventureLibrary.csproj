@@ -131,6 +131,7 @@
     <Compile Include="GameObjects\PulseProjectile.cs" />
     <Compile Include="GameObjects\TargetAcquirer.cs" />
     <Compile Include="GeometryMethods.cs" />
+    <Compile Include="Helpers\DialogHelper.cs" />
     <Compile Include="Helpers\EnemyHelper.cs" />
     <Compile Include="Helpers\GameObjectHelper.cs" />
     <Compile Include="Helpers\ScreenHelper.cs" />
