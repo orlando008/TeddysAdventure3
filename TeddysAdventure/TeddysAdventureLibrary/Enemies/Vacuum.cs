@@ -28,6 +28,13 @@ namespace TeddysAdventureLibrary
         private TargetAcquirer _targetAcquirer;
         private int _widthOfCone = 61;
         private SpriteFont _font;
+        private int _totalTauntMilliseconds = 4000;
+        private int _currentTauntMillseconds = 0;
+        private bool _startNewTaunt = false;
+        private string _taunt;
+        private List<int> _tauntsUsed = new List<int>();
+
+        Random _random;
 
         public Vacuum(Game game, Vector2 position, Vector2 velocity)
             : base(game)
@@ -99,20 +106,54 @@ namespace TeddysAdventureLibrary
                 }
             }
 
-
-            DialogHelper.ShowDialogBubble(Game, GetTaunt(), _font, new Vector2(Position.X + BoxToDraw.Width, Position.Y), sp);
-
+            if (_startNewTaunt)
+            {
+                if (_taunt != "")
+                    DialogHelper.ShowDialogBubble(Game, _taunt, _font, sp, CollisionRectangle, true, true);
+            }
         }
 
-        private string GetTaunt()
+        private string GetTaunt(GameTime gametime)
         {
-            return "When I'm through with you there'll be nothing left.";
+            int randomNumber = _random.Next(0, 10);
+
+
+            if (_tauntsUsed.Contains(randomNumber))
+            {
+                return "";
+            }
+            else
+            {
+                _tauntsUsed.Add(randomNumber);
+            }
+
+            switch (randomNumber)
+            {
+                case 0:
+                    return "I'll get you!";
+                case 1:
+                    return "I'm no sucker!";
+                case 2:
+                    return "Prepare for annihilation!";
+                case 3:
+                    return "Looks like you need to be erased.";
+                case 4:
+                    return "When I'm done with you, " + System.Environment.NewLine + "there will be nothing left.";
+                default:
+                    return "";
+
+            }
         }
 
         public override void Update(GameTime gameTime)
         {
             if (Destroyed)
                 return;
+
+            if (_random == null)
+            {
+                _random = new Random(gameTime.TotalGameTime.Milliseconds);
+            }
 
             Screen currentScreen = (Screen)Game.Components[0];
 
@@ -295,6 +336,20 @@ namespace TeddysAdventureLibrary
                     childEnemy.Update(gameTime);
                 }
             }
+
+            _currentTauntMillseconds += gameTime.ElapsedGameTime.Milliseconds;
+
+            if (_currentTauntMillseconds > _totalTauntMilliseconds && _startNewTaunt == false)
+            {
+                _startNewTaunt = true;
+                _taunt = GetTaunt(gameTime);
+            }
+            else if (_currentTauntMillseconds > _totalTauntMilliseconds * 2)
+            {
+                _currentTauntMillseconds = 0;
+                _startNewTaunt = false;
+            }
+
 
             base.Update(gameTime);
         }
