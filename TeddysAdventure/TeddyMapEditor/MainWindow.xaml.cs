@@ -442,11 +442,15 @@ namespace TeddyMapEditor
 
         private void SelectionModeMouseUp(MouseEventArgs e)
         {
-            double left = Convert.ToDouble(CurrentSurface.GetValue(Canvas.LeftProperty));
-            double top = Convert.ToDouble(CurrentSurface.GetValue(Canvas.TopProperty));
+            if (CurrentEditMode == EditMode.surfaces)
+            {
+                double left = Convert.ToDouble(CurrentSurface.GetValue(Canvas.LeftProperty));
+                double top = Convert.ToDouble(CurrentSurface.GetValue(Canvas.TopProperty));
 
-            CurrentSurface.SetValue(Canvas.LeftProperty, RoundNumberToBasicUnit(left));
-            CurrentSurface.SetValue(Canvas.TopProperty, RoundNumberToBasicUnit(top));
+                CurrentSurface.SetValue(Canvas.LeftProperty, RoundNumberToBasicUnit(left));
+                CurrentSurface.SetValue(Canvas.TopProperty, RoundNumberToBasicUnit(top));
+            }
+
         }
 
 
