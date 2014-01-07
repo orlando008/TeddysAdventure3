@@ -25,9 +25,13 @@ namespace TeddysAdventureLibrary
         private Texture2D _hudTexture;
         private Texture2D _teddyLife;
         private Texture2D _fluffIcon;
+        private Texture2D _basementIcon;
 
-        private Vector2 _positionOfLives = new Vector2(25, 760);
-        private Vector2 _positionOfFluffs = new Vector2(25, 800);
+
+        private Vector2 _positionOfLives = new Vector2(125, 760);
+        private Vector2 _positionOfFluffs = new Vector2(125, 800);
+        private Vector2 _positionOfLevelIcon = new Vector2(25, 760);
+        private Vector2 _positionOfLevelText = new Vector2(25, 835);
 
         //icon
 
@@ -45,6 +49,7 @@ namespace TeddysAdventureLibrary
             _hudTexture = game.Content.Load<Texture2D>("Screens\\Backgrounds\\HUDCloud");
             _teddyLife = game.Content.Load<Texture2D>("Icons\\TeddyLife");
             _fluffIcon = game.Content.Load<Texture2D>("Icons\\FluffIcon");
+            _basementIcon = game.Content.Load<Texture2D>("Icons\\BasementIcon2"); 
 
             _globalPosition = new Vector2(0, 750); // Starts at 750 down
             spriteBatch = new SpriteBatch(Game.GraphicsDevice);
@@ -56,8 +61,6 @@ namespace TeddysAdventureLibrary
 
 
             spriteBatch.Draw(_hudTexture, new Vector2(0, 750), Color.White);
-
-
 
             foreach (Enemy e in ((Screen)Game.Components[0]).Enemies)
 	        {
@@ -78,10 +81,11 @@ namespace TeddysAdventureLibrary
             spriteBatch.Draw(_fluffIcon, _positionOfFluffs, Color.White);
             spriteBatch.DrawString(_font14, " x " + ((Screen)Game.Components[0]).Teddy.CurrentFluff.ToString(), new Vector2(_positionOfFluffs.X + _fluffIcon.Width, _positionOfFluffs.Y), _fontColor);
 
+            spriteBatch.Draw(_basementIcon, _positionOfLevelIcon, Color.White);
             //spriteBatch.DrawString(_hudFont, "Fluff Count: " + ((Screen)Game.Components[0]).Teddy.CurrentFluff.ToString(), new Vector2(25, 775), _fontColor);
             //spriteBatch.DrawString(_hudFont, "Enemies Destroyed: " + ((Screen)Game.Components[0]).Teddy.EnemiesDestroyed.ToString(), new Vector2(25, 800), _fontColor);
             //spriteBatch.DrawString(_hudFont, "Level: " + _levelName, new Vector2(500, 775), _fontColor);
-
+            spriteBatch.DrawString(_font10, "Basement", _positionOfLevelText, Color.Black);
             
             spriteBatch.End();
         }
