@@ -594,7 +594,7 @@ namespace TeddysAdventureLibrary
                     {
                         if (this.TeddyRectangle.Intersects(surface.Rect))
                         {
-                            if (this.TeddyRectangle.Right > surface.Left && this.TeddyRectangle.Left < surface.Left)
+                            if (this.TeddyRectangle.Right > surface.Left || this.TeddyRectangle.Left < surface.Left)
                             {
                                 Position = new Vector2(surface.Left - (int)this.TeddyRectangle.Width, Position.Y);
                                 break;
@@ -610,7 +610,7 @@ namespace TeddysAdventureLibrary
                     {
                         if (this.TeddyRectangle.Intersects(surface.Rect))
                         {
-                            if (this.TeddyRectangle.Left > surface.Right && this.TeddyRectangle.Right < surface.Right)
+                            if (this.TeddyRectangle.Left < surface.Right || this.TeddyRectangle.Right < surface.Right)
                             {
                                 Position = new Vector2(surface.Right, Position.Y);
                                 break;

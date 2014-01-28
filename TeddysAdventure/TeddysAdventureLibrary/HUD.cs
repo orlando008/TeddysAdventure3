@@ -26,13 +26,15 @@ namespace TeddysAdventureLibrary
         private Texture2D _teddyLife;
         private Texture2D _fluffIcon;
         private Texture2D _basementIcon;
+        private long _milliSecondsElapsed = 0;
+        private bool _timerStarted = false;
 
 
-        private Vector2 _positionOfLives = new Vector2(125, 760);
-        private Vector2 _positionOfFluffs = new Vector2(125, 800);
-        private Vector2 _positionOfLevelIcon = new Vector2(25, 760);
-        private Vector2 _positionOfLevelText = new Vector2(25, 835);
-
+        private Vector2 _positionOfLives = new Vector2(127, 755);
+        private Vector2 _positionOfFluffs = new Vector2(127, 795);
+        private Vector2 _positionOfLevelIcon = new Vector2(25, 755);
+        private Vector2 _positionOfLevelText = new Vector2(25, 830);
+        private Vector2 _positionOfTime = new Vector2(127, 830);
         //icon
 
         public static SpriteBatch spriteBatch;
@@ -86,8 +88,15 @@ namespace TeddysAdventureLibrary
             //spriteBatch.DrawString(_hudFont, "Enemies Destroyed: " + ((Screen)Game.Components[0]).Teddy.EnemiesDestroyed.ToString(), new Vector2(25, 800), _fontColor);
             //spriteBatch.DrawString(_hudFont, "Level: " + _levelName, new Vector2(500, 775), _fontColor);
             spriteBatch.DrawString(_font10, "Basement", _positionOfLevelText, Color.Black);
-            
+
+            spriteBatch.DrawString(_font10, "Time Elapsed: " + (((Screen)Game.Components[0]).MilliSecondsElapsed / 1000).ToString(), _positionOfTime, Color.Black);
+
             spriteBatch.End();
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
         }
     }
 }

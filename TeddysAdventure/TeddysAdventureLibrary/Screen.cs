@@ -43,6 +43,8 @@ namespace TeddysAdventureLibrary
         private int _totalLevelWidth;
         private int _totalLevelHeight;
         private LevelType _levelType = LevelType.Normal;
+        private long _milliSecondsElapsed = 0;
+        private bool _timerStarted = false;
 
         private int _deathScreenCounter = 0;
         private bool _goBackToStartScreen = false;
@@ -106,6 +108,18 @@ namespace TeddysAdventureLibrary
         {
             get { return _goBackToStartScreen; }
             set { _goBackToStartScreen = value; }
+        }
+
+        public long MilliSecondsElapsed
+        {
+            get { return _milliSecondsElapsed; }
+            set { _milliSecondsElapsed = value; }
+        }
+
+        public long SecondsElapsed
+        {
+            get { return _milliSecondsElapsed / 1000; }
+            set { _milliSecondsElapsed = value * 1000; }
         }
 
         public Screen(Game game, string levelName)
@@ -286,7 +300,8 @@ namespace TeddysAdventureLibrary
 
         public override void Update(GameTime gameTime)
         {
-
+            if (_timerStarted)
+                _milliSecondsElapsed += gameTime.ElapsedGameTime.Milliseconds;
 
              KeyboardState keyState = Keyboard.GetState();
 
@@ -304,7 +319,7 @@ namespace TeddysAdventureLibrary
 
             if (_teddy.Dead)
             {
-
+                _timerStarted = false;
 
                 if (keyState.IsKeyDown(Keys.Enter))
                 {
@@ -321,6 +336,7 @@ namespace TeddysAdventureLibrary
             }
             else if (_teddy.LevelComplete)
             {
+                _timerStarted = false;
 
                 if (keyState.IsKeyDown(Keys.Enter))
                 {
@@ -335,7 +351,12 @@ namespace TeddysAdventureLibrary
                     }
                 }
             }
+            else
+            {
+                _timerStarted = true;
+            }
 
+         
 
             foreach (GameObject f in GameObjects)
             {
@@ -423,6 +444,7 @@ namespace TeddysAdventureLibrary
                 r = new Rectangle(0, 0, _successSprite.Width, _successSprite.Height);
                 _overlayBatch.Draw(_successSprite, r, c);
                 _overlayBatch.DrawString(_deathFont, "Press Enter To Continue", new Vector2(625, 500), Color.White);
+                _overlayBatch.DrawString(_deathFont, "You completed this level in " + MilliSecondsElapsed.ToString() + " seconds!", new Vector2(625, 525), Color.White);
 
                 if (_deathScreenCounter < 255)
                 {

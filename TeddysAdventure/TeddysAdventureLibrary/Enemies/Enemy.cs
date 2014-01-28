@@ -60,6 +60,13 @@ namespace TeddysAdventureLibrary
         private BossIcon _bossIcon;
 
         private SpriteFont _damageFont;
+        private Texture2D _pixelImage;
+
+        public Texture2D PixelImage
+        {
+            get { return _pixelImage; }
+            set { _pixelImage = value; }
+        }
 
         private List<Enemy> _childrenEnemies;
 
@@ -249,6 +256,7 @@ namespace TeddysAdventureLibrary
         {
             _game = game;
             _damageFont = game.Content.Load<SpriteFont>("Fonts\\Arial12");
+            _pixelImage = game.Content.Load<Texture2D>("Icons\\HealthUnit");
 
  #if COLLISIONS
             _redFill = new Texture2D(_game.GraphicsDevice, 1, 1, false, SurfaceFormat.Color);
