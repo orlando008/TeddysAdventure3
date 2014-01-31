@@ -120,8 +120,10 @@
     <Compile Include="Enemies\OrangeCrayon.cs" />
     <Compile Include="Enemies\Plane.cs" />
     <Compile Include="Enemies\Vacuum.cs" />
+    <Compile Include="Enumerations.cs" />
     <Compile Include="GameObjects\BadApple.cs" />
     <Compile Include="GameObjects\BlanketPickup.cs" />
+    <Compile Include="GameObjects\Fan.cs" />
     <Compile Include="GameObjects\Fluff.cs" />
     <Compile Include="GameObjects\GameObject.cs" />
     <Compile Include="GameObjects\Goal.cs" />

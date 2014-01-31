@@ -159,6 +159,10 @@
         <Type>Goal</Type>
         <Position>6440 12</Position>
       </Item>
+      <Item>
+        <Type>Fan</Type>
+        <Position>0 0</Position>
+      </Item>
     </ListOfObjects>
     <ListOfEnemies>
       <Item>
