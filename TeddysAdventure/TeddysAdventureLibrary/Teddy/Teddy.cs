@@ -42,11 +42,18 @@ namespace TeddysAdventureLibrary
         private Rectangle _collisionBox;
         private Rectangle _boxToDraw;
         private Vector2 _frameSize;
-        protected int walkSpeed = 2;
-        private int runSpeed = 3;
+        protected float walkSpeed = 2;
+        private float runSpeed = 3;
         private int _damage = 1;
+        private float _speedModifier = 1;
 
-        public int RunSpeed
+        public float SpeedModifier
+        {
+            get { return _speedModifier; }
+            set { _speedModifier = value; }
+        }
+
+        public float RunSpeed
         {
             get { return runSpeed; }
         }
@@ -290,7 +297,7 @@ namespace TeddysAdventureLibrary
 
         #endregion
 
-        public void MoveLeft(int speed)
+        public void MoveLeft(float speed)
         {
             if (_facing == Direction.Left)
             {
@@ -312,7 +319,7 @@ namespace TeddysAdventureLibrary
             _playerOverallVelocity.X = -speed;
         }
 
-        public void MoveRight(int speed)
+        public void MoveRight(float speed)
         {
             if (_facing == Direction.Right)
             {
@@ -397,11 +404,11 @@ namespace TeddysAdventureLibrary
             }
             
 
-            int speed = walkSpeed;
+            float speed = walkSpeed * _speedModifier;
 
             if (keyState.IsKeyDown(Keys.LeftShift))
             {
-                speed = runSpeed;
+                speed = runSpeed * _speedModifier;
                 _isRunning = true;
             }
             else

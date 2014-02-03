@@ -194,7 +194,7 @@ namespace TeddysAdventureLibrary
                         GameObjects.Add(new NightVision(game, v2.Position));
                         break;
                     case "Fan":
-                        GameObjects.Add(new Fan(game, v2.Position, Enumerations.Direction.Left));
+                        GameObjects.Add(new Fan(game, v2.Position, Enumerations.Direction.Right));
                         break;
                 }
                 
