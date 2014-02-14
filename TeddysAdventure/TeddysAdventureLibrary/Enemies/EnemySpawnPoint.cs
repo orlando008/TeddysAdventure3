@@ -79,7 +79,7 @@ namespace TeddysAdventureLibrary
                         newEnemy = new FlyingBook(Game, Position, Velocity);
                         break;
                     case "Airplane":
-                        newEnemy = new PlaneEnemy(Game, Position, Velocity);
+                        newEnemy = new Airplane(Game, Position, Velocity);
                         break;
                     case "NightmareToaster":
                         newEnemy = new NightmareToaster(Game, Position, Velocity);

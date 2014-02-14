@@ -129,6 +129,9 @@ namespace TeddysAdventureLibrary
 
             ScreenHelper screenHelper = game.Content.Load<ScreenHelper>("Screens\\" + levelName);
 
+            System.Reflection.Assembly currentAssembly = System.Reflection.Assembly.GetExecutingAssembly();
+
+
             _deathSprite = game.Content.Load<Texture2D>("Screens\\deathScreen");
             _successSprite = game.Content.Load<Texture2D>("Screens\\successScreen");
             _overlaySprite = game.Content.Load<Texture2D>("Screens\\tintOverlay");
@@ -166,36 +169,26 @@ namespace TeddysAdventureLibrary
 
             }
 
-
-            GameObjects = new List<GameObject>();
+ 
+            _gameObjects = new List<GameObject>();
             foreach (GameObjectHelper v2 in screenHelper.ListOfObjects)
             {
                 switch (v2.Type)
                 {
-                    case "Fluff":
-                        GameObjects.Add(new Fluff(game, v2.Position));
-                        break;
-                    case "Goal":
-                        GameObjects.Add(new Goal(game, v2.Position));
-                        break;
-                    case "BadApple":
-                        GameObjects.Add(new BadApple(game, v2.Position));
-                        break;
-                    case "Goggles":
-                        GameObjects.Add(new Goggles(game, v2.Position));
-                        break;
-                    case "PulseArmPickup":
-                        GameObjects.Add(new PulseArmPickup(game, v2.Position));
-                        break;
-                    case "BlanketPickup":
-                        GameObjects.Add(new BlanketPickup(game, v2.Position));
-                        break;
-                    case "NightVision":
-                        GameObjects.Add(new NightVision(game, v2.Position));
-                        break;
                     case "Fan":
                         GameObjects.Add(new Fan(game, v2.Position, Enumerations.Direction.Right));
                         break;
+                    default:
+                	Type objectType = currentAssembly.GetType("TeddysAdventureLibrary." +  v2.Type);
+
+                	GameObject e = (GameObject)Activator.CreateInstance(objectType, game, v2.Position);
+
+                	if (e == null)
+                    		throw new Exception(string.Format("Game Object Type '{0}' not found.", v2.Type));
+                	else
+                    		_gameObjects.Add(e);
+
+			break;
                 }
                 
             }
@@ -212,46 +205,17 @@ namespace TeddysAdventureLibrary
                 }
                 else
                 {
-                    switch (eh.Type)
-                    {
-                        case "BowlingBall":
-                            _enemies.Add(new BowlingBall(game, eh.Position, eh.Velocity));
-                            break;
-                        case "MatchBoxCar":
-                            _enemies.Add(new MatchBoxCar(game, eh.Position, eh.Velocity));
-                            break;
-                        case "FlyingBook":
-                            _enemies.Add(new FlyingBook(game, eh.Position, eh.Velocity));
-                            break;
-                        case "Airplane":
-                            _enemies.Add(new PlaneEnemy(game, eh.Position, eh.Velocity));
-                            break;
-                        case "NightmareToaster":
-                            _enemies.Add( new NightmareToaster(game, eh.Position, eh.Velocity));
-                            break;
-                        case "LadyBug":
-                            _enemies.Add(new LadyBug(game, eh.Position, eh.Velocity));
-                            break;
-                        case "OrangeBomb":
-                            _enemies.Add(new OrangeBomb(Game, eh.Position, eh.Velocity));
-                            break;
-                        case "OrangeCrayon":
-                            _enemies.Add(new OrangeCrayon(Game, eh.Position, eh.Velocity));
-                            break;
-                        case "Eagle":
-                            _enemies.Add(new Eagle(Game, eh.Position, eh.Velocity));
-                            break;
-                        case "DustBunny":
-                            _enemies.Add(new DustBunny(Game, eh.Position, eh.Velocity));
-                            break;
-                        case "Vacuum":
-                            _enemies.Add(new Vacuum(Game, eh.Position, eh.Velocity));
-                            break;
-                    }
+
+                    Type enemyType = currentAssembly.GetType("TeddysAdventureLibrary." + eh.Type);
+                    Enemy e = (Enemy) Activator.CreateInstance(enemyType, game, eh.Position, eh.Velocity);
+
+                    if (e == null)
+                        throw new Exception(string.Format("Enemy Type '{0}' not found.", eh.Type));
+                    else
+                        _enemies.Add(e);
+                    
                 }
             }
-
-
 
             
             switch (screenHelper.LevelType)

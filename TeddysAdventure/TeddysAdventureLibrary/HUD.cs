@@ -51,7 +51,7 @@ namespace TeddysAdventureLibrary
             _hudTexture = game.Content.Load<Texture2D>("Screens\\Backgrounds\\HUDCloud");
             _teddyLife = game.Content.Load<Texture2D>("Icons\\TeddyLife");
             _fluffIcon = game.Content.Load<Texture2D>("Icons\\FluffIcon");
-            _basementIcon = game.Content.Load<Texture2D>("Icons\\BasementIcon2"); 
+            _basementIcon = game.Content.Load<Texture2D>("Icons\\BasementIcon"); 
 
             _globalPosition = new Vector2(0, 750); // Starts at 750 down
             spriteBatch = new SpriteBatch(Game.GraphicsDevice);

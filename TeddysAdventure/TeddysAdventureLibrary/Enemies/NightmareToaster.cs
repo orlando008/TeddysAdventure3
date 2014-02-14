@@ -24,7 +24,7 @@ namespace TeddysAdventureLibrary
             this._canJumpOnToKill = false;
             this._gravity = 0f;
             this._collisionDampingFactor = .3f;
-            this._playerCanRide = true;
+            this._playerCanRide = false;
             base.Damage = _damage;
             this._passesThroughSurfaces = true;
 
@@ -61,7 +61,7 @@ namespace TeddysAdventureLibrary
                 }
                 else if (_frameCount < _lengthOfPose * 2)
                 {
-                    BoxToDraw = new Rectangle(75, 0, 80, BoxToDraw.Height);
+                    BoxToDraw = new Rectangle(80, 0, 80, BoxToDraw.Height);
                 }
                 else
                 {

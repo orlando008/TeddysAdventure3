@@ -7,13 +7,13 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace TeddysAdventureLibrary
 {
-    public class PlaneEnemy : Enemy, ISurfaceInterface
+    public class Airplane : Enemy, ISurfaceInterface
     {
 
         private int _lengthOfPose = 5;
         private int _damage = 10;
 
-        public PlaneEnemy(Game game, Vector2 position, Vector2 velocity)
+        public Airplane(Game game, Vector2 position, Vector2 velocity)
             : base(game) 
         {
             StyleSheet = game.Content.Load<Texture2D>("Enemies\\AirPlane");

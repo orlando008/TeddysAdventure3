@@ -80,6 +80,16 @@
         <IsSpawnPoint>0</IsSpawnPoint>
         <SpawnInterval>1</SpawnInterval>
       </Item>
+  
+  
+    <Item>
+        <Type>NightmareToaster</Type>
+        <Position>750 700</Position>
+        <Velocity>2 -.125</Velocity>
+        <IsSpawnPoint>0</IsSpawnPoint>
+        <SpawnInterval>1</SpawnInterval>
+      </Item>
+  
 </ListOfEnemies>
 <LevelType>
 1</LevelType>

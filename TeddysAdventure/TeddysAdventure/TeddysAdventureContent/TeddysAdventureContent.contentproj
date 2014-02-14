@@ -595,13 +595,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Icons\BasementIcon2.png">
-      <Name>BasementIcon2</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Objects\Fan.png">
       <Name>Fan</Name>
       <Importer>TextureImporter</Importer>
